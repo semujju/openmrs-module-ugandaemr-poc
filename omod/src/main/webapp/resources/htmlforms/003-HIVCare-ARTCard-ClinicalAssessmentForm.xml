@@ -1,0 +1,1378 @@
+<htmlform formName="HMIS 003 HIV Care ART Card - Clinical Assessment"
+          formDescription="A visit for a client for clinical assessment "
+          formEncounterType="8d5b2be0-c2cc-11de-8d13-0010c6dffd0f"
+          formUuid="12de5bc5-352e-4faf-9961-a2125085a75c"
+          formVersion="3.0"
+          formAddMetadata="yes"
+          formUILocation="patientDashboard.visitActions"
+          formOrder="2"
+          formIcon="icon-medkit"
+          formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; sessionLocation.uuid=='86863db4-6101-4ecf-9a86-5e716d6504e4'"
+          formDisplayStyle="Standard">
+    <ifMode mode="ENTER,EDIT" include="false">
+        <includeIf velocityTest="$fn.allEncounters('8d5b27bc-c2cc-11de-8d13-0010c6dffd0f').size() == 0">
+            <script>
+                jq(function () {
+                    jq().toastmessage('showErrorToast', "This patient has no Summary page");
+                    alert('This patient has no Summary page, you will now be forwarded to the patient dashboard');
+
+                    /*
+                     * queryParameters -> handles the query string parameters
+                     * queryString -> the query string without the fist '?' character
+                     * re -> the regular expression
+                     * m -> holds the string matching the regular expression
+                     */
+                    var queryParameters = {}, queryString = location.search.substring(1),
+                        re = /([^&amp;=]+)=([^&amp;]*)/g, m;
+
+                    // Creates a map with the query string parameters
+                    while (m = re.exec(queryString)) {
+                        queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+                    }
+
+                    /*
+                     * Replace the query portion of the URL.
+                     * jQuery.param() -> create a serialized representation of an array or
+                     *     object, suitable for use in a URL query string or Ajax request.
+                     */
+                    location.href = window.location.protocol + "//" + window.location.host +
+                        '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='
+                        + queryParameters['patientId']; // Causes page to reload
+                });
+            </script>
+        </includeIf>
+    </ifMode>
+    <style type="text/css">
+
+        form#htmlform div.ai-page-frame table tbody td {
+            background: #B6D6E6;
+            color: #404040;
+            padding: 0px 5px;
+        }
+
+        form select, .form select {
+            min-width: 0px;
+        }
+
+        form input, form select, form textarea, form ul.select, .form input, .form select, .form textarea, .form
+        ul.select {
+            min-width: 20%;
+            background-color: #FBFBFB;
+            border: 1px solid #404040;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+
+        .stability {
+            display: none;
+        }
+
+    </style>
+    <!-- jquery loaded for nonessential purposes. -->
+    <script type="text/javascript">
+        function enable_disable(field, class_name_prefix, conditions, input_type) {
+
+            var class_name = jq(field).attr("class");
+
+            var length = class_name.length;
+
+            var class_id = parseInt(class_name.substring(length - 1, length));
+            var childClass = "Child" + class_id;
+
+            var disable = true;
+            var requires = true;
+
+            var row = '[class^="' + class_name_prefix + '"][class*="' + childClass + '"]';
+
+            var selected_value = null;
+
+            if (input_type == "select") {
+                selected_value = jq(field).find(":selected").text().trim().toLowerCase();
+            }
+            else if (input_type == "hidden") {
+                selected_value = jq(field).find("input[type=hidden]").val().trim().toLowerCase();
+            }
+
+
+            if (eval(conditions)) {
+                disable = false;
+            }
+
+
+            jq(row).each(function () {
+                var group = jq(this);
+
+                if (class_name.indexOf('Child') == -1) {
+                    /*group.find("input").attr("value", ""); */
+                    group.find("input").attr("required", requires);
+                    /* group.find('select').prop("selectedIndex", 0);*/
+                    group.find("input").attr("disabled", disable);
+                    group.find('select').attr("disabled", disable);
+
+                    if (disable) {
+                        /* fade out the fields that are disabled */
+                        group.find("input").fadeTo(250, 0.25);
+                        group.find("select").fadeTo(250, 0.25);
+                    } else {
+                        /* remove the fade on the fields */
+                        group.find("input").fadeTo(250, 1);
+                        group.find("select").fadeTo(250, 1);
+                    }
+                }
+            });
+        }
+
+
+        function enable_disable_district_tb_reg(selected_option) {
+
+            var class_name = jq(selected_option).attr("class");
+
+            var length = class_name.length;
+
+            var class_id = parseInt(class_name.substring(length - 1, length))
+
+            var row_id = class_id;
+
+            var disable = true;
+            var requires = false;
+
+            var row_1 = '[class^="DistrictTbReg"][class*="Child1"]';
+
+            var xx = row_1;
+            var selected_value = jq(selected_option).find(":selected").attr("value");
+
+            if (selected_value == "90071") {
+                disable = false;
+                requires = true;
+            }
+
+            switch (row_id) {
+                case 1:
+                    xx = row_1;
+                    break;
+            }
+
+
+            jq(xx).each(function () {
+                var group = jq(this);
+
+                if (class_name.indexOf('Child') == -1) {
+                    /* group.find("input").attr("value", ""); */
+                    group.find("input").attr("required", requires);
+                    /* group.find('select').prop("selectedIndex", 0); */
+                    group.find("input").attr("disabled", disable);
+                    group.find('select').attr("disabled", disable);
+                    if (requires == false) {
+                        group.find('.required').show();
+                    }
+                    else if (requires == true) {
+                        group.find('.required').hide();
+                    }
+
+                    if (disable) {
+                        /* fade out the fields that are disabled */
+                        group.find("input").fadeTo(250, 0.25);
+                        group.find("select").fadeTo(250, 0.25);
+                    } else {
+                        /* remove the fade on the fields */
+                        group.find("input").fadeTo(250, 1);
+                        group.find("select").fadeTo(250, 1);
+                    }
+
+                }
+            });
+        }
+
+
+        if (jQuery) {
+
+            var instabilityCause = "";
+
+            function diff_months(dt2, dt1) {
+                var diff = (dt2.getTime() - dt1.getTime()) / 1000;
+                diff /= (60 * 60 * 24 * 7 * 4);
+                return Math.abs(Math.round(diff));
+            }
+
+
+            jq(document).ready(function () {
+                if (jq.browser.msie) {
+                    jq(":checkbox").click(function () {
+                        jq(this).change();
+                    });
+                }
+
+                //Block Multiple encounter entry on same date
+                blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
+
+                var stableArray = [];
+
+                var previousVl = jq("#vl").text().trim();
+                var currentRegimen = jq("#regimen").text().trim();
+                var regimenBeforeDTG = jq("#regimen_before_dtg").text().trim();
+                var onThirdLine = jq("#on_third_line").text().trim();
+                var adherence = jq("#adherence").text().trim();
+                var clinicStaging = jq("#clinic_staging").text().trim();
+                var regimenStartedDate = jq("#regimen_started_date").text().trim();
+                var regimenBeforeDTGStartedDate = jq("#regimen_started_date_before_dtg").text().trim();
+                var sputumDate = jq("#sputum_date").text().trim();
+                var artStartDate = jq("#art_start_date").text().trim();
+                var teatmentStartDate = jq("#teatment_start_date").text().trim();
+                var sputumValue = jq("#sputum_value").text().trim();
+                var currentRegimenStartDate = jq("#current_regimen_start_date").text().trim();
+
+                if (regimenBeforeDTG &amp;&amp; regimenBeforeDTG !== "") {
+                    regimenStartedDate = regimenBeforeDTGStartedDate;
+                }
+
+                var durationOnART;
+                var durationOnCurrentRegimen;
+
+                if (artStartDate !== "") {
+                    durationOnART = diff_months(new Date(artStartDate), new Date(jq("#encounterDate").find("input[type=hidden]").val()));
+                    jq("#99024 input").val(durationOnART);
+                }
+
+                if (currentRegimenStartDate !== "") {
+                    durationOnCurrentRegimen = diff_months(new Date(currentRegimenStartDate), new Date(jq("#encounterDate").find("input[type=hidden]").val()));
+                    jq("#99025 input").val(durationOnCurrentRegimen);
+                }
+
+                fieldHelper.makeReadonly(jq("#99025 input"));
+                fieldHelper.makeReadonly(jq("#99024 input"));
+
+
+                disableContainer("#165144");
+
+                stabilityCheck();
+
+
+                /* Validation of the ART regimen Selected */
+                jq("#90315").change(function () {
+                    var regimen_encounter_page_value = jq("#90315").find("select").find(":selected").val();
+                    var regimen_encounter_page_text = jq("#90315").find("select").find(":selected").text();
+                    var art_transfer_regimen = jq("#artTransferRegimen").html();
+                    var other_art_transfer_regimen = jq("#otherArtTransferRegimen").html();
+                    var art_start_regimen = jq("#artStartRegimen").html();
+                    var other_art_start_regimen = jq("#otherArtStartRegimen").html();
+                    var first_second_regimen = jq("#firstSecondLineRegimen").html();
+                    var other_first_second_regimen = jq("#otherFirstSecondLineRegimen").html();
+                    var third_second_regimen = jq("#thirdLineRegimen").html();
+                    var other_third_regimen = jq("#otherThirdLineRegimen").html();
+                    var patient_regimen = other_third_regimen + third_second_regimen + other_first_second_regimen + other_first_second_regimen + first_second_regimen + other_art_start_regimen + art_start_regimen + other_art_transfer_regimen + art_transfer_regimen;
+
+                    /* Check if  Patient has art start or tranfer regimen selected on ART Summary Page*/
+                    if (art_start_regimen == "null" &amp;&amp; art_transfer_regimen == "null") {
+                        jq().toastmessage('showNoticeToast', "Patient Doesn't have any either ART Start or Transfer regimen on ART Summary selected");
+                    }
+
+                    if (!patient_regimen.includes(regimen_encounter_page_value)) {
+                        jq().toastmessage('showNoticeToast', "The regimen" + regimen_encounter_page_text + "you have selected is different from the current regimen in the Summary page. Please update the summary page with a switch/substitution to the selected regimen");
+                    }
+
+                    if (currentRegimen !== jq("#90315").find("select").find(":selected").val()) {
+                        jq("#99025 input").val(0);
+                    }else {
+                        jq("#99025 input").val(durationOnCurrentRegimen);
+                    }
+                    stabilityCheck();
+                });
+                /* End of Validation */
+
+
+                /* Handle viral load results */
+                jq("#viral-load-results-copies").attr("disabled", true);
+                jq("#viral-load-results-qualitative").change(function () {
+                    var viral_load_status = getValue('viral-load-results-qualitative.value');
+                    if (viral_load_status == 1301) {
+                        /* Detected */
+                        jq("#viral-load-results-copies").attr("disabled", false).attr("readonly", false).fadeTo(250, 1);
+                        <ifMode mode="ENTER">
+                                setValue('viral-load-results-copies.value', '');
+                        </ifMode>
+
+                        var viral_load_copies = getValue('viral-load-results-copies.value');
+                        if(viral_load_copies == 1){
+                            setValue('viral-load-results-copies.value', '');
+                        }
+                    }
+                    if (viral_load_status == 1306) {
+                        /* Not Detected */
+                        jq("#viral-load-results-copies").attr("disabled", false).attr("readonly", true).fadeTo(250, 0.25);
+                        setValue('viral-load-results-copies.value', 1);
+                    }
+                    if (viral_load_status == "" || viral_load_status == 1304) {
+                        /* Sample Rejected and no data */
+                        jq("#viral-load-results-copies").attr("disabled", true).attr("readonly", true).fadeTo(250, 0.25);
+                        setValue('viral-load-results-copies.value', '');
+                    }
+                });
+
+                jq("#viral-load-results-copies").change(function () {
+                    previousVl = jq("#viral-load-results-copies").find("input").val();
+                    stabilityCheck();
+                });
+
+
+                // trigger a change when the form loads
+                jq("#viral-load-results-qualitative").change();
+
+
+                jq('[class^="ARTYesNoEnableDisable"]').change(function () {
+                    enable_disable(jq(this), "ARTYesNo", 'selected_value == "yes" &amp;&amp; selected_value!=""', "select");
+                });
+
+                jq('[class^="ARTYesNoEnableDisable"]').each(function () {
+                    enable_disable(jq(this), "ARTYesNo", 'selected_value == "yes" &amp;&amp; selected_value!=""', "select");
+                });
+
+                jq('[class^="RegimenEnableDisable"]').change(function () {
+                    enable_disable(jq(this), "Regimen", 'selected_value == "other"', "select");
+                });
+
+                jq('[class^="RegimenEnableDisable"]').each(function () {
+                    enable_disable(jq(this), "Regimen", 'selected_value == "other"', "select");
+                });
+
+                jq('[class^="OtherAppointmentReasonEnableDisable"]').change(function () {
+                    enable_disable(jq(this), "OtherAppointmentReason", 'selected_value == "14. other specify"', "select");
+                });
+
+                jq('[class^="OtherAppointmentReasonEnableDisable"]').each(function () {
+                    enable_disable(jq(this), "OtherAppointmentReason", 'selected_value == "14. other specify"', "select");
+                });
+
+                jq('[class^="DistrictTbRegEnableDisable"]').change(function () {
+                    enable_disable_district_tb_reg(jq(this));
+                });
+
+                jq('[class^="DistrictTbRegEnableDisable"]').each(function () {
+                    enable_disable_district_tb_reg(jq(this));
+                });
+
+
+                jq('[class^="AdherenceEnableDisable"]').change(function () {
+                    enable_disable(jq(this), "Adherence", 'selected_value == "poor" || selected_value=="fair"', "select");
+                });
+
+                jq('[class^="AdherenceEnableDisable"]').each(function () {
+                    enable_disable(jq(this), "Adherence", 'selected_value == "poor" || selected_value=="fair"', "select");
+                });
+
+
+                jq("#90203").change(function () {
+                    clinicStaging = jq(this).find(":selected").val();
+                    stabilityCheck();
+                })
+
+                jq("#returndate").each(function () {
+                    if (jq("#returndate").find("input[type=hidden]").val() != "") {
+                        enableContainer("#reason_for_appointment");
+                    } else {
+                        disableContainer("#reason_for_appointment");
+                    }
+                });
+
+                jq("#returndate").change(function () {
+                    if (jq("#returndate").find("input[type=hidden]").val() != "") {
+                        enableContainer("#reason_for_appointment");
+                    } else {
+                        disableContainer("#reason_for_appointment");
+                    }
+                });
+
+
+                jq(".enableDisable").each(function () {
+                    var group = jq(this);
+
+                    function disableFn() {
+                        group.children("#disabled").fadeTo(250, 0.25);
+                        /*  group.children("#disabled").find(":checkbox").attr("checked", false); uncheck */
+                        group.children("#disabled").find("input").attr("disabled", true);
+                        /* disable */
+                        group.children("#disabled").find("select").attr("disabled", true);
+                    }
+
+                    function enableFn() {
+                        group.children("#disabled").fadeTo(250, 1);
+                        group.children("#disabled").find("input").attr("disabled", false);
+                        group.children("#disabled").find("select").attr("disabled", false);
+
+                    }
+
+                    if (jq(this).children("#trigger").find(":checkbox:first").attr("checked") != "checked") {
+                        disableFn();
+                    }
+
+                    jq(this).children("#trigger").find(":checkbox:first").change(function () {
+                        var checked = jq(this).attr("checked");
+                        if (checked == "checked") {
+                            enableFn();
+                        } else {
+                            disableFn();
+                        }
+                    });
+                });
+
+
+                function stabilityCheck() {
+                    /*Viral Load Check*/
+
+                    stableArray = [];
+                    instabilityCause = "";
+
+                    if (previousVl !== "" &amp;&amp; previousVl &lt;= 1000) {
+                        stableArray.push(true);
+                    } else {
+                        stableArray.push(false);
+                        instabilityCause = instabilityCause + "Viral Load is Not Suppressed \n ";
+                    }
+
+                    /* Third Line*/
+
+                    if (onThirdLine !== "true") {
+                        stableArray.push(true);
+                    } else {
+                        stableArray.push(false);
+                        instabilityCause += "Current regimen is a third line regimen \n "
+                    }
+
+                    /* Adherence Check*/
+
+                    if (adherence.length &lt;= 0 || adherence.trim().includes("POOR")) {
+                        stableArray.push(false);
+                        instabilityCause += "Adherence is not Good \n "
+                    } else {
+                        stableArray.push(true);
+                    }
+
+                    /* Clinic staging */
+                    if (clinicStaging === "90033" || clinicStaging === "90034" || clinicStaging === "90293" || clinicStaging === "90294") {
+                        stableArray.push(true);
+                    } else {
+                        stableArray.push(false);
+                        instabilityCause += "Clinic stage is neither 1 or 2 \n";
+                    }
+                    var pageCurrentRegimen = jq("#90315").find("select").find(":selected").val();
+                    var pageEncounterDate = jq("#encounterDate").find("input[type=hidden]").val();
+
+                    if (currentRegimen !== "" &amp;&amp; (currentRegimen === pageCurrentRegimen) &amp;&amp; diff_months(new Date(pageEncounterDate), new Date(regimenStartedDate)) &gt; 12) {
+                        stableArray.push(true);
+                    } else {
+                        stableArray.push(false);
+                        instabilityCause += "Patient has not spent more than 12 moths on current Regiment \n "
+                    }
+
+                    if (sputumValue !== "" &amp;&amp; sputumValue !== "664" &amp;&amp; diff_months(new Date(jq("#encounterDate").find("input[type=hidden]").val()), new Date(teatmentStartDate)) &lt; 2) {
+                        stableArray.push(false);
+                        instabilityCause += "Patient has not been on treatment for TB for at least 2 months"
+                    } else {
+                        stableArray.push(true);
+                    }
+                    instabilityCause.trim().replace()
+
+                    if (stableArray.indexOf(false) != -1) {
+                        jq("#165144 select").val("90004");
+                    } else {
+                        jq("#165144 select").val("90003");
+                    }
+
+                }
+            });
+
+
+            <!-- Validation rules -->
+            beforeSubmit.push(function () {
+                <!-- clear the previous errors -->
+                setValue('returndate.error', '');
+                setValue('viral-load-results-copies.error', '');
+                setValue('date-viral-load-taken.error', '');
+
+                var encounterDate = new Date((getValue('encounterDate.value')));
+                var returnDate = new Date((getValue('returndate.value')));
+
+                if (encounterDate &gt;= returnDate) {
+                    getField('returndate.error').html('The return date must be after the date of this visit ' +
+                        formatDateForDisplay(encounterDate)).show();
+                    return false;
+                }
+
+                <!-- Check that the return date is before the transfer out date only if there is a transfer out date -->
+                if (jq('#transfer_out_date_id').html().replace(/\s+/, "").length > 0) {
+                    var transfer_out_date_id = new Date(jq('#transfer_out_date_id').html());
+                    if (returnDate &gt;= transfer_out_date_id) {
+                        getField('returndate.error').html('The return date must be before the transfer out date of ' +
+                            formatDateForDisplay(transfer_out_date_id)).show();
+                        return false;
+                    }
+                    return false;
+                }
+
+                var viral_load_qualitative = getValue('viral-load-results-qualitative.value');
+                var date_viral_load_taken = getValue('date-viral-load-taken.value');
+                /* The date that the viral load was taken is required if a qualitative result is selected */
+                if (viral_load_qualitative != "") {
+                    if (date_viral_load_taken == "") {
+                        getField('date-viral-load-taken.error').html('Please enter the date when the viral load sample was taken').show();
+                        return false;
+                    }
+                }
+
+                /** The date the viral load was taken cannot be after the encounter date */
+                if (date_viral_load_taken != "") {
+                    if (encounterDate &lt; date_viral_load_taken) {
+                        getField('date-viral-load-taken.error').html('The date the viral load sample was taken cannot be after the date of this visit ' + encounterDate).show();
+                        return false;
+                    }
+                }
+
+                /* If the viral load is detected, the number of copies must be greater than 20 which is the lowest detectable level for a machine */
+                if ((viral_load_qualitative == 1301) &amp;&amp; (getValue('viral-load-results-copies.value') &lt; 20)) {
+                    getField('viral-load-results-copies.error').html('Please enter the number of virus copies per ml. the minimum number of copies is 20').show();
+                    return false;
+                }
+
+                /* if DSDM is not FBIM or FTR or Empty and patient is not stable should not save.*/
+                if (jq("#165144").find("select").find(":selected").val() !== "90003" &amp;&amp; (jq("#165143").find("select").find(":selected").val() !== "165138" &amp;&amp; jq("#165143").find("select").find(":selected").val() !== "165140" &amp;&amp; jq("#165143").find("select").find(":selected").val() !== "")) {
+                    getField('165143.error').html('Patient Not Stable due to ' + instabilityCause + '. \n Only Stable Patients can be enrolled in ' + jq("#165143").find("select").find(":selected").text()).show();
+
+                    jq().toastmessage('showErrorToast', " Patient Not Stable " + instabilityCause + ". \n Only Stable Patients can be enrolled in " + jq("#165143").find("select").find(":selected").text());
+                    return false;
+                }
+
+                return true;
+            });
+
+            jq(document).ready(function () {
+            jq("#tabs").tabs();
+            })
+        }
+    </script>
+
+    <!-- This section contains lookup tags that pick data from other forms-->
+
+    <lookup complexExpression="#set($art_start_regimen='null') #set($other_art_start_regimen='null') #set($art_transfer_regimen='null') #set($other_art_transfer_regimen='null')"/>
+
+    <lookup complexExpression="#set($first_second_line_regimen='null') #set($other_first_second_line_regimen='null')"/>
+
+    <lookup complexExpression="#set($third_line_regimen='null') #set($other_third_line_regimen='null')"/>
+
+    <span style="display: none" id="artStartRegimen"><lookup
+            complexExpression="#set($art_start_regimen=($fn.latestObs('99061').valueCoded))$art_start_regimen"/></span>
+
+    <span style="display: none" id="otherArtStartRegimen"><lookup
+            complexExpression="#set($other_art_start_regimen=($fn.latestObs('99268').valueText))$other_art_start_regimen"/></span>
+
+    <span style="display: none" id="artTransferRegimen"><lookup
+            complexExpression="#set($art_transfer_regimen=$fn.latestObs('99064').valueCoded)$art_transfer_regimen"/></span>
+
+    <span style="display: none" id="otherArtTransferRegimen"><lookup
+            complexExpression="#set($other_art_transfer_regimen=$fn.latestObs('99269').valueText)$other_art_transfer_regimen"/></span>
+
+    <span style="display: none" id="firstSecondLineRegimen"><lookup
+            complexExpression="#foreach($first_second_line_regimen in $fn.allObs(90315)) $first_second_line_regimen.valueCoded #end"/></span>
+
+    <span style="display: none" id="otherFirstSecondLineRegimen"><lookup
+            complexExpression="#foreach($other_first_second_line_regimen in $fn.allObs(99146)) $other_first_second_line_regimen.valueText #end"/></span>
+
+
+    <span style="display: none" id="thirdLineRegimen"><lookup
+            complexExpression="#foreach($third_line_regimen in $fn.allObs(162990)) $first_second_line_regimen.valueCoded #end"/></span>
+
+    <span style="display: none" id="otherThirdLineRegimen"><lookup
+            complexExpression="#foreach($other_third_line_regimen in $fn.allObs(162989)) $other_first_second_line_regimen.valueText #end"/></span>
+
+    <!--End of Lookup section-->
+    <!-- <div class="card"> -->
+       <!-- 
+        <span style="display: none;">
+            <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117"
+                               order="629d78e9-93e5-43b0-ad8a-48313fd99117"/>
+        </span> -->
+    <div class="container-fluid">
+
+    <h1>003 HIV Care/ART CARD - Clinical Assessment Form</h1>
+    
+    <div class="card">
+        <div class="card-header">
+
+                <ul class="nav nav-tabs card-header-tabs nav-fill">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#appointment"> Appointment </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#vitals"> Vitals </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#pregnancy-fp"> Pregnancy/Family Planning </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#diagnosis"> Diagnosis </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#medication"> Medication</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#investigations"> Investigations </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#reference"> Reference </a>
+                    </li>
+                </ul>
+        </div>
+            <div class="card-body">   
+                <div class="tab-content">
+
+                    <div class="tab-pane container p-5 active" id="appointment" >
+                        <div class="row">
+                            <div class="col">
+                                <label>Visit Date</label>
+                                <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
+                            </div>
+                            <div class="col">
+
+                                <excludeIf velocityTest="$patient.person.dead ==true">
+                                    <lookup complexExpression="#set($transfer_out_date = '')"/>
+                                    <ifMode mode="ENTER">
+                                        <span id="transfer_out_date_id" style="display: none"><lookup
+                                                complexExpression="#set($transfer_out_date=($fn.latestObs('99165').valueDatetime)) #set($lost_to_follow_date=$fn.latestObs('99165').valueDatetime) #set($transfer_out=$fn.latestObs('90306').valueCoded.name) $transfer_out_date"/>
+                                        </span>
+                                        <includeIf velocityTest="$transfer_out=='YES'">
+                                            <label>Return date</label>
+                                            <obs id="returndate" conceptId="5096" allowFutureDates="true" />
+                                        </includeIf>
+
+                                        <includeIf velocityTest="$transfer_out!='YES'">
+                                            <label>Return date</label>
+                                            <obs id="returndate" conceptId="5096" required="required" allowFutureDates="true" />
+                                        </includeIf>
+                                    </ifMode>
+
+                                    <ifMode mode="EDIT">
+                                        <span id="transfer_out_date_id" style="display: none"><lookup
+                                                complexExpression="#set($transfer_out_date=($fn.latestObs('99165').valueDatetime)) #set($lost_to_follow_date=$fn.latestObs('99165').valueDatetime) #set($transfer_out=$fn.latestObs('90306').valueCoded.name) $transfer_out_date"/>
+                                        </span>
+                                        <includeIf velocityTest="$transfer_out=='YES'">
+                                            <label>Return date</label>
+                                            <obs id="returndate" conceptId="5096" allowFutureDates="true" />
+                                        </includeIf>
+
+
+                                        <includeIf velocityTest="$transfer_out!='YES'">
+                                            <label>Return date</label>
+                                            <obs id="returndate" conceptId="5096" required="required" allowFutureDates="true" />
+                                        </includeIf>
+                                    </ifMode>
+
+                                </excludeIf>
+                            </div>
+                            <div class="col">
+                                <span class="OtherAppointmentReasonEnableDisable1">
+                                    <label>Reasons for next appointment</label>
+                                        <obs id="reason_for_appointment" conceptId="160288"
+                                             answerConceptIds="164968,164972,164970,856,5497,163153,164971,164973,99324,164974,90012,903,5484,90002"
+                                             answerLabels="1. ART Initiation, 2. ART Refill, 3. ART Regimen Switch/ Substitution, 4. Viral Load, 5. CD4, 6. IAC, 7. T.B Drug Refill,8. T.B Follow up, 9. ANC,10. EID,11. PMTCT, 12. Hypertension/ Diabetes, 13. Nutrition,14. Other Specify"/>
+                                </span>
+                            </div>
+                            <div class="col">
+                                <span class="OtherAppointmentReasonEnableDisableChild1">
+                                    <label>Other Reason for next appointment</label>
+                                    <obs conceptId="164975" />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"> 
+                                <obs conceptId="90069" labelText="Is Visit on Schedule?" style="checkbox"/>
+                            </div>
+                        </div>     
+                    </div>
+
+                    <div class="tab-pane container p-5 fade" id="vitals">
+                       
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <label>Weight</label>
+                                            <obs class="horizontal" conceptId="90236"
+                                                 showUnits="uicommons.units.kilograms" unitsCssClass="append-to-value"/>
+                                        </div>
+                                        <div class="col-3">  
+                                            <label>Height</label>
+                                            <obs class="horizontal" conceptId="5090" 
+                                                 showUnits="uicommons.units.centimeters" unitsCssClass="append-to-value"/>
+                                        </div>
+                                        <div class="col-3">  
+                                            <label>Temperature</label>
+                                            <obs class="horizontal" conceptId="CIEL:5088" id="temperature"
+                                                 showUnits="uicommons.units.degreesCelsius" unitsCssClass="append-to-value" />
+                                        </div>
+
+                                        <div class="col-3">   
+                                            <label>Heart Rate</label>                    
+                                            <obs class="horizontal" conceptId="CIEL:5087" id="heart_rate"
+                                                 showUnits="uicommons.units.perMinute" unitsCssClass="append-to-value" />
+                                        </div>
+                                        
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col"> 
+                                            <label>Respiratory Rate</label>
+                                            <obs class="horizontal" conceptId="CIEL:5242" id="respiratory_rate"
+                                                 showUnits="uicommons.units.perMinute" unitsCssClass="append-to-value" />
+                                        </div>
+                                        <div class="col">
+                                           <label>Oedema</label>
+                                            <obs conceptId="460" answerConceptIds="90003,90004"
+                                                 answerLabels="Oedema +,-" style="dropdown"/>
+                                        </div>
+                                        <div class="col">  
+                                            <includeIf velocityTest="$patient.age &lt; 5">
+                                                <label>MUAC</label>
+                                                <obs conceptId="99030" answerConceptIds="99028,99029,99027"
+                                                     answerLabels="Red &lt; 11.5cm, Yellow 11.5cm - &lt;12.5cm,Green &gt;= 12.5cm"/>
+                                            </includeIf>
+                                            <includeIf velocityTest="$patient.age &lt; 10 &amp;&amp; $patient.age &gt;=5">
+                                                <label>MUAC</label>
+                                                <obs conceptId="99030" answerConceptIds="99028,99029,99027"
+                                                     answerLabels="Red &lt; 13.5cm,Yellow 13.5cm - &lt;14.5cm,Green &gt;=14.5cm" />
+                                            </includeIf>
+                                            <includeIf velocityTest="$patient.age &lt; 18 &amp;&amp; $patient.age &gt;=10">
+                                                <label>MUAC</label>
+                                                <obs conceptId="99030" answerConceptIds="99028,99029,99027"
+                                                     answerLabels="Red &lt; 16.5cm, Yellow 16.5cm - &lt;19.0cm,Green &gt;=19.0cm" />
+                                            </includeIf>
+
+                                            <includeIf velocityTest="$patient.age &gt;=18">
+                                                <label>MUAC</label>
+                                                <obs conceptId="99030" answerConceptIds="99028,99029,99027"
+                                                     answerLabels="Red &lt;19.0cm , Yellow 19.0cm - &lt;22.0cm,Green &gt;=22.0cm" />
+                                            </includeIf>
+                                        </div> 
+                                        <div class="col">  
+                                            <label>Blood Pressure</label>
+                                                <obs conceptId="CIEL:5085" id="bp_systolic"/>
+                                                <small>Systolic</small>
+                                          
+                                                <obs conceptId="CIEL:5086" id="bp_diastolic" />
+                                                <small>Diastolic</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <excludeIf velocityTest="$patient.age &gt; 11">
+                                    <li class="list-group-item">                                    
+                                        <div class="row">
+                                            <div class="col">
+                                                    <obs labelText="Z-Scores" conceptId="99800" answerConceptIds="99803,99804,99805,99806,99807"
+                                                         answerLabels="&#60;-3,-3_&#60;-1,-1_1,&#62;1_3,&#62;3"/>
+                                            </div>                               
+                                        </div>
+                                    </li>
+                                </excludeIf>
+                            </ul>
+                        
+                    </div>
+
+                    <div class="tab-pane container fade p-5" id="pregnancy-fp">
+                       
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <excludeIf velocityTest="$patient.gender =='M' || $patient.age &lt; 9">
+                                            <div class="col">
+                                                <label>Pregnant</label>
+                                                <span class="ARTYesNoEnableDisable2">
+                                                    <obs conceptId="90041" style="checkbox" answerConceptIds="1065,1066"
+                                                         answerLabels="Yes,No" />
+                                                </span>
+                                            </div>
+                                            <div class="col">
+                                                <label>EDD</label>
+                                                <span class="ARTYesNoEnableDisableChild2">
+                                                        <obs conceptId="5596" allowFutureDates="true"/>    
+                                                </span>
+                                            </div>
+                                            <div class="col">
+                                            <span class="ARTYesNoEnableDisable3">
+                                                <label>EMTCT</label>
+                                                <obs conceptId="90012" answerConceptIds="90003,90004"
+                                                     answerLabels="Yes,No"/>
+                                            </span>
+                                            </div>
+                                        </excludeIf>
+                                        <excludeIf velocityTest="$patient.age &lt; 9">
+                                            <excludeIf velocityTest="$patient.gender =='M'">
+                                               <div class="col">
+                                                    <lable>Gestation in Weeks</lable>
+                                                    <span class="ARTYesNoEnableDisableChild2">
+                                                        <obs conceptId="162983"/>
+                                                    </span>
+                                                </div>
+                                                <div class="col">
+                                                    <span class="ARTYesNoEnableDisableChild3">
+                                                        <label>Age in months</label>
+                                                        <obs conceptId="99270" />
+                                                    </span>
+                                                </div>
+                                                <div class="col">
+                                                <span class="ARTYesNoEnableDisableChild2">
+                                                   
+                                                    <label>ANC #</label>
+                                                    <patient field="identifier" identifierTypeId="b0cc255e-ef57-4266-839e-0df7f5099eb9"
+                                                             required="false"/>
+                                                </span>
+                                                </div>
+                                            </excludeIf>
+                                        </excludeIf>
+                                    </div>
+                                </li>
+
+                                <excludeIf velocityTest="$patient.age &lt; 9">
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col">
+                                            <span id="checkboxRadio">
+                                                <span class="ARTYesNoEnableDisable1">
+                                                    <label>Family Planning? </label>
+                                                    <obs conceptId="90238" answerConceptIds="90082,90081" answerLabels="Yes,No" />
+                                                </span>
+                                            </span>
+                                            </div>
+                                        </div>
+                                        <h4>Family Planning Method:</h4>
+                                        <div class="row">
+                                            
+                                            <div class="col">                           
+                                            <span class="ARTYesNoEnableDisableChild1">
+                                               
+                                                <obs conceptId="374" answerConceptId="190" answerLabel="1 - Condoms"/>
+                                                <excludeIf velocityTest="$patient.gender =='M' ">
+                                                    <span class="lablex2">
+                                                        <obs conceptId="374" answerConceptId="780"
+                                                             answerLabel="2 - Oral Contraceptive pills"/>
+                                                        <obs conceptId="374" answerConceptId="5279"
+                                                             answerLabel="3 - Injectable/Implantable hormonies"/>
+                                                        <obs conceptId="374" answerConceptId="5278"
+                                                             answerLabel="4 - Diaphram/Cervical Cap"/>
+                                                        <obs conceptId="374" answerConceptId="5275"
+                                                             answerLabel="5 - Intra uterine device (IUD)"/>
+                                                    </span>
+                                                </excludeIf>
+                                                <obs conceptId="374" answerConceptId="99265"
+                                                     answerLabel="6 - Vasectomy/Tubal ligation"/>
+                                            </span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </excludeIf>
+                               
+                            </ul>
+                        
+                    </div>
+
+                    <div class="tab-pane container p-5 fade" id="diagnosis">
+                       
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col">
+                                            <label>Tb Status</label>
+                                            <span class="DistrictTbRegEnableDisable1">
+                                                <obs conceptId="90216"
+                                                     answerConceptIds="90079,90073,90078,90071"
+                                                     answerLabels="1. No signs,2. Suspect,3. Diagnosed with Tb,4. Tb Rx"/>
+                                            </span>
+                                        </div>
+                                        <div class="col">
+                                            <label>TB Start Date</label>
+                                            <span class="DistrictTbRegEnableDisableChild1">
+                                                <obs conceptId="90217"/>
+                                            </span>
+                                        </div>
+                                        <div class="col">
+                                            <label>TB Stop Date</label>
+                                            <span class="DistrictTbRegEnableDisableChild1">
+                                                <obs conceptId="90310" allowFutureDates="true"/>
+
+                                            </span>
+                                        </div>
+                                        <div class="col">
+                                            <label>District TB No.</label>
+                                            <span class="DistrictTbRegEnableDisableChild1">
+                                                <patient field="identifier" identifierTypeId="8110f2d2-1f98-4c38-aef3-11b19bb0a589"
+                                                         required="false"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">                                
+                                        <h4 class="card-title">Potential side effects</h4>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <obs conceptId="90227" answerConceptId="90100" answerLabel="AB"/>
+                                            <obs conceptId="90227" answerConceptId="90099" answerLabel="Anaemia"/>
+                                            <obs conceptId="90227" answerConceptId="90095" answerLabel="BN"/>
+                                            <obs conceptId="90227" answerConceptId="90117" answerLabel="CNS"/>
+                                            <obs conceptId="90227" answerConceptId="90092" answerLabel="Diarrhoea"/>
+                                            <obs conceptId="90227" answerConceptId="90116" answerLabel="FAT"/>
+                                            <obs conceptId="90227" answerConceptId="90093" answerLabel="Fatigue"/>
+                                        </div>
+                                        <div class="col-3">
+                                            <obs conceptId="90227" answerConceptId="90094" answerLabel="Headache"/>
+                                            <obs conceptId="90227" answerConceptId="90115" answerLabel="Jaundice"/>
+                                            <obs conceptId="90227" answerConceptId="90091" answerLabel="Nausea"/>
+                                            <obs conceptId="90227" answerConceptId="90098" answerLabel="Rash"/>
+                                            <span class="enableDisable">
+                                                    <span id="trigger">
+                                                        <obs conceptId="90227" answerConceptId="90002"
+                                                             answerLabel="Other specify:"/>
+                                                    </span>
+                                                    <span id="disabled">
+                                                        <obs conceptId="99113" size="17" labelText=""/>
+                                                    </span>
+                                                </span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <h4 class="card-title">New OI / Problems</h4>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <obs conceptId="90251" answerConceptId="90132" answerLabel="Cough"/>
+                                            <obs conceptId="90251" answerConceptId="90133"
+                                                 answerLabel="DB"/>
+                                            <obs conceptId="90251" answerConceptId="90128"
+                                                 answerLabel="Dementia"/>
+                                            <obs conceptId="90251" answerConceptId="90129"
+                                                 answerLabel="Enceph"/>
+                                            <obs conceptId="90251" answerConceptId="90131"
+                                                 answerLabel="Fever"/>
+                                            <obs conceptId="90251" answerConceptId="90138"
+                                                 answerLabel="GUD"/>
+                                            <obs conceptId="90251" answerConceptId="90094"
+                                                 answerLabel="Headache"/>
+                                            <obs conceptId="90251" answerConceptId="90134"
+                                                 answerLabel="IRIS"/>
+
+                                        </div>
+                                        <div class="col-3">
+                                            <obs conceptId="90251" answerConceptId="123"
+                                                 answerLabel="Malaria"/>
+                                            <obs conceptId="90251" answerConceptId="90127"
+                                                 answerLabel="Pneumonia"/>
+                                            <obs conceptId="90251" answerConceptId="90137"
+                                                 answerLabel="PID"/>
+                                            <obs conceptId="90251" answerConceptId="999"
+                                                 answerLabel="RTI"/>
+                                            <obs conceptId="90251" answerConceptId="90130"
+                                                 answerLabel="Thrush"/>
+                                            <obs conceptId="90251" answerConceptId="90136"
+                                                 answerLabel="UD"/>
+                                            <obs conceptId="90251" answerConceptId="90139"
+                                                 answerLabel="Ulcers"/>
+                                            <obs conceptId="90251" answerConceptId="106"
+                                                 answerLabel="URTI"/>
+                                        </div>
+                                        <div class="col-3">
+                                            <obs conceptId="90251" answerConceptId="90135"
+                                                 answerLabel="Weight loss"/>
+                                            <obs conceptId="90251" answerConceptId="90126"
+                                                 answerLabel="Zoster"/>
+                                            <obs conceptId="90251" answerConceptId="507"
+                                                 answerLabel="KS"/>
+                                            <obs conceptId="90251" answerConceptId="1294"
+                                                 answerLabel="CCM"/>
+                                            <span class="enableDisable">
+                                                    <span id="trigger">
+                                                        <obs conceptId="90251" answerConceptId="90002" answerLabel="Other specify:"/>
+                                                    </span>
+                                                    <span id="disabled">
+                                                        <obs conceptId="99032" size="17" answerClasses="Diagnosis"
+                                                             style="autocomplete"/>
+                                                    </span>
+                                                </span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3">
+                                                <obs conceptId="68" answerConceptIds="99271,99272,99273,99274"
+                                                 answerLabels="MAM, SAM, SAMO, PWG/PA" labelText="Nutritional Problems:"/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                <div class="row">
+                                        <div class="col-3">
+                                            <lable>Functional Status</lable>
+                                            <obs conceptId="90235" answerConceptIds="90037,90038,90039"
+                                                 answerLabels="Amb,Work, Bed" labelText=""/>
+                                        </div>
+                                        <div class="col-3">
+                                            <lable>WHO Clinical stage</lable>
+                                            <obs id="90203" conceptId="90203"
+                                                 answerConceptIds="90033,90034,90035,90036,90293,90294,90295,90296"
+                                                 answerLabels="1,2,3,4,T1,T2,T3,T4" labelText=""/>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        
+                    </div>
+
+                    <div class="tab-pane container p-5 fade" id="medication">
+                       
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <h4 class="card-title">CPT/Dapsone</h4>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <obs conceptId="90220" answerConceptIds="90156,90157,90158"
+                                                 answerLabels=" Good, Fair, Poor" labelText="Adherence:"/>
+                                        </div>
+                                        <div class="col-3"> 
+                                            <obs conceptId="99037" labelText="# Pills:"/>
+                                        </div>
+                                        <div class="col-3">
+                                            <obs conceptId="99033" labelText="Days:"/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <h4 class="card-title">INH</h4>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <label># Pills</label>
+                                            <obs conceptId="99604" />
+                                        </div>
+                                        <div class="col-3">
+                                            <label>Days</label>
+                                            <obs conceptId="99605"/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <h4 class="card-title">Other Meds dispensed</h4>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <obs conceptId="1193" answerConceptId="931"
+                                                 answerLabels="Amitriptilline"/>
+                                            <obs conceptId="1193" answerConceptId="265"
+                                                 answerLabel="Amoxicillin"/>
+                                            <obs conceptId="1193" answerConceptId="779"
+                                                 answerLabel="Cetrizine"/>
+                                            <obs conceptId="1193" answerConceptId="740"
+                                                 answerLabel="Ciprofloxacine"/>
+                                            <obs conceptId="1193" answerConceptId="922"
+                                                 answerLabel="Cloxacillin"/>
+                                            <obs conceptId="1193" answerConceptId="99266"
+                                                 answerLabel="Coartem"/>
+                                            <obs conceptId="1193" answerConceptId="90171"
+                                                 answerLabel="Dapsone"/>
+                                            <obs conceptId="1193" answerConceptId="95"
+                                                 answerLabel="Doxycycline"/>
+                                        </div>
+                                        <div class="col-3">
+                                            <obs conceptId="1193" answerConceptId="1108" answerLabel="EH"/>
+                                            <obs conceptId="1193" answerConceptId="272"
+                                                 answerLabel="Erythromycin"/>
+                                            <obs conceptId="1193" answerConceptId="747"
+                                                 answerLabel="Fluconazole"/>
+                                            <obs conceptId="1193" answerConceptId="912"
+                                                 answerLabel="Ibuprofen"/>
+                                            <obs conceptId="1193" answerConceptId="926"
+                                                 answerLabel="Ketoconazole"/>
+                                            <obs conceptId="1193" answerConceptId="244"
+                                                 answerLabel="Mebendazole"/>
+                                            <obs conceptId="1193" answerConceptId="237"
+                                                 answerLabel="Metronidazole"/>
+                                            <obs conceptId="1193" answerConceptId="461"
+                                                 answerLabel="Multivitamins"/>
+                                            <obs conceptId="1193" answerConceptId="99054"
+                                                 answerLabel="Nutrition Support"/>
+                                            <obs conceptId="1193" answerConceptId="919"
+                                                 answerLabel="Nystatin"/>
+                                        </div>
+                                        <div class="col-3">
+                                            <obs conceptId="1193" answerConceptId="89"
+                                                 answerLabel="Paracetamol"/>
+                                            <obs conceptId="1193" answerConceptId="1194" answerLabel="RH"/>
+                                            <obs conceptId="1193" answerConceptId="99127" answerLabel="RHE"/>
+                                            <obs conceptId="1193" answerConceptId="768" answerLabel="RHZ"/>
+                                            <obs conceptId="1193" answerConceptId="1131"
+                                                 answerLabel="RHZE"/>
+                                            <obs conceptId="1193" answerConceptId="99128" answerLabel="RHZES"/>
+                                            <obs conceptId="1193" answerConceptId="916"
+                                                 answerLabel="Septrin"/>
+                                            <obs conceptId="1193" answerConceptId="329"
+                                                 answerLabel="Vit B Complex"/>
+                                            <span class="enableDisable">
+                                                    <span id="trigger">
+                                                        <obs id="othermed" conceptId="1193" answerConceptId="90002"
+                                                             answerLabel="Other specify:"/>
+                                                    </span>
+                                                    <span id="disabled">
+                                                        <obs id="othermedtxt" conceptId="99035" answerClasses="Drug"
+                                                             style="autocomplete"/>
+                                                    </span>
+                                                </span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <h4 class="card-title">ARV Drugs</h4>
+                                    <div class="row">
+                                        
+                                            <div class="EnableDisableAdherenceReason checkboxGroup lablex3">
+                                                <span class="disableARTAdherence">
+                                                <div class="col-3">
+                                                <span class="AdherenceEnableDisable1">
+                                                    <obs conceptId="90221" answerConceptIds="90156,90157,90158"
+                                                         answerLabels=" Good, Fair, Poor" labelText="Adhererence:"/>
+                                                </span>
+                                                </div>
+                                                <span class="AdherenceEnableDisableChild1">
+                                                <div class="col-3">
+                                                    Why Poor/Fair:
+                                                   
+                                                    <obs conceptId="90223" answerConceptId="90040"
+                                                         answerLabel="1 - Toxicity"/>
+                                                    <obs conceptId="90223" answerConceptId="90146"
+                                                         answerLabel="2 - Share with others"/>
+                                                    <obs conceptId="90223" answerConceptId="90147"
+                                                         answerLabel="3 - Forgot"/>
+                                                    <obs conceptId="90223" answerConceptId="90148"
+                                                         answerLabel="4 - Felt better"/>
+                                                    <obs conceptId="90223" answerConceptId="90149"
+                                                         answerLabel="5 - Too ill"/>
+                                                    <obs conceptId="90223" answerConceptId="90150"
+                                                         answerLabel="6 - Stigma"/>
+                                                    <obs conceptId="90223" answerConceptId="90045"
+                                                         answerLabel="7 - Drug Stock out"/>
+                                                    <obs conceptId="90223" answerConceptId="90151"
+                                                         answerLabel="8 - Lost pills"/>
+                                                    <obs conceptId="90223" answerConceptId="90152"
+                                                         answerLabel="9 - Travel problems"/>
+                                                </div>
+                                                <div class="col-3">
+                                                    <obs conceptId="90223" answerConceptId="90051"
+                                                         answerLabel="10 - Inability to pay"/>
+                                                    <obs conceptId="90223" answerConceptId="90153"
+                                                         answerLabel="11 - Alcohol"/>
+                                                    <obs conceptId="90223" answerConceptId="90154"
+                                                         answerLabel="12 - Depression"/>
+                                                    <obs conceptId="90223" answerConceptId="90155"
+                                                         answerLabel="13 - Pill burden"/>
+                                                    <obs conceptId="90223" answerConceptId="99049"
+                                                         answerLabel="14 - Lack of food"/>
+                                                    <span id="trigger">
+                                                        <obs conceptId="90223" answerConceptId="90002"
+                                                             answerLabel="15 - Other Specify:"/>
+                                                    </span>
+                                                    <span id="disabled">
+                                                        <obs conceptId="99125" labelText="" size="21"/>
+                                                    </span>
+                                                </div>
+                                                </span>
+                                            </span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                        <div class="col-3">
+                                            <div class="RegimenEnableDisable1">
+                                            <span class="disableARTRegimen">
+                                                <obs id="90315" conceptId="90315" labelText="Regimen:"
+                                                     answerConceptIds="99015,99016,99005,99006,164979,99039,99040,164977,99041,99042,99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99884,99885,164978,99888,163017,99887,90002"
+                                                     answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-3TC-DTG,TDF-FTC-NVP,TDF-FTC-EFV,ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,ZDV-ddI(250)-LPV/r,ZDV-ddI(400)-LPV/r,AZT-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,ZDV-ddI-LPV/r,AZT-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,ABC-3TC-NVP,ABC-3TC-EFV,ABC-3TC-DTG,ABC-3TC-ATV/r,ABC-3TC-LPV/r,TDF-3TC-ATV/r,Other"/>
+
+                                                <span class="RegimenEnableDisableChild1">
+                                                    <obs conceptId="99126" size="18" labelText="Specify"/>
+                                                   
+                                                </span>
+                                                <obs conceptId="165118" labelText="Pill Balance:"/>
+                                                <obs conceptId="99038" labelText="# Pills:"/>
+                                                <obs conceptId="99036" size="5" labelText="Days:"/>
+                                            </span>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <obs id="99024" conceptId="99024" labelText="Duration(Months since baseline):"/>
+                                               
+                                                <obs id="99025" conceptId="99025" labelText="Duration:(Months on current regimen)"/>
+                                            </div>
+                                        </div>
+                                </li>
+                            </ul>
+                        
+                    </div>
+
+                    <div class="tab-pane container p-5 fade" id="investigations">
+                       
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                   <!--  <h4 class="card-title">DSMD Model</h4> -->
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <obs conceptId="5497" dateLabel="Date:" labelText="CD4:"/>
+                                        </div>
+                                        <div class="col-3">                       
+                                            <obs conceptId="730" dateLabel="Date:" labelText="CD4%:"/>
+                                        </div>
+                                        <div class="col-3">
+                                           Severe
+                                            if CD4 less than 15% write minus(-) if CD4 >15 write plus (+)
+                                           
+                                            <obs conceptId="99151" answerConceptIds="90125,99150"
+                                                 answerLabels="+,-"/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <h4 class="card-title">Viral Load</h4>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            Date Viral Load Taken
+                                            <obs id="date-viral-load-taken" conceptId="163023" allowFutureDates="false"/>
+                                        </div>
+                                        <div class="col-3">                       
+                                            Viral Load Results
+                                           
+                                            <obs id="viral-load-results-qualitative" conceptId="1305" answerConceptIds="1301,1306,1304"
+                                                 answerLabels="Detected,Not Detected, Sample Rejected"/>
+                                        </div>
+                                        <div class="col-3">                       
+                                            Viral Load (copies/ml)
+
+                                            <obs id="viral-load-results-copies" conceptId="856"/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <h4 class="card-title">Tests ordered:</h4>                       
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <obs conceptId="1271" answerConceptId="1019"
+                                                 answerLabel="CBC"/>
+                                            <obs conceptId="1271" answerConceptId="99152"
+                                                 answerLabel="RPR"/>
+                                            <obs conceptId="1271" answerConceptId="12"
+                                                 answerLabel="CXR"/>
+                                            <obs conceptId="1271" answerConceptId="21"
+                                                 answerLabel="Hgb"/>
+                                            <obs conceptId="1271" answerConceptId="657"
+                                                 answerLabel="Cd4"/>
+                                            <obs conceptId="1271" answerConceptId="856"
+                                                 answerLabel="VL"/>
+                                            <obs conceptId="1271" answerConceptId="307"
+                                                 answerLabel="Sputums"/>
+                                            <obs conceptId="1271" answerConceptId="99149"
+                                                 answerLabel="Infant Ab/PCR"/>
+                                            <span class="enableDisable">
+                                                <span id="trigger">
+                                                    <obs conceptId="1271" answerConceptId="90002"
+                                                         answerLabel="Other specify:"/>
+                                                </span>
+                                                <span id="disabled">
+                                                    <obs conceptId="99114" size="16" labelText=""/>
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <h4 class="card-title">Test results:</h4>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <obs conceptId="21" labelText="Hb:" dateLabel="HB Date:"/>
+                                        </div>
+                                        <div class="col-3">
+                                            <obsgroup groupingConceptId="99292">
+                                                <obs conceptId="99290" answerConceptIds="1019,99152,12,307,99149"
+                                                     answerLabels="CBC,RPR,CXR,Sputums,PCR" labelText="Other Results:"
+                                                     dateLabel="Date:"/>
+                                                <obs conceptId="99291" size="16" labelText=""/>
+                                            </obsgroup>
+                                        </div>
+                                        <div class="col-3">
+                                                <uiInclude provider="aijar" fragment="patientStability"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <obs id="165144" conceptId="165144" answerConceptIds="90003,90004" answerLabels="Yes,No"
+                                                 defaultValue="90004" labelText="Stable"/>
+                                        </div>
+                                        <div class="col-3">
+                                            <obs id="165143" conceptId="165143" answerConceptIds="165138,165140,165139,165142,165141"
+                                                 answerLabels="FBIM,FBG,FTR,CDDP,CCLAD" required="required" labelText="DSDM Model"/>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                    </div>
+
+                    <div class="tab-pane container p-5 fade" id="reference">
+                       
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <h4 class="card-title">Referred for</h4>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <obs conceptId="99054" answerConceptId="99053"
+                                                 answerLabel="TF - Theraputic Feeding"/>
+                                            <obs conceptId="99054" answerConceptId="99051"
+                                                 answerLabel="IFC - Infant Feeding Counselling  &lt; 2 years"/>
+                                            <obs conceptId="99054" answerConceptId="99052"
+                                                 answerLabel="NC - Nutrition Counselling if &gt; 2 years"/>
+                                            <obs conceptId="99054" answerConceptId="99050"
+                                                 answerLabel="FC - Food Support"/>
+                                            <obs size="15" conceptId="99267" labelText="Other referral:  "/>
+                                        </div>
+                                    </div>
+                                </li>
+                                 <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-3">                      
+                                            <obs conceptId="1151" answerConceptIds="5526,99089,6046"
+                                                 answerLabels="EBF - Exclusive Breast Feeding,RF - Replacement Feeding,MF - Mixed Feeding" labelText="Infant feeding"/>
+                                        </div>
+                                        <div class="col-3"> 
+                                            <obs conceptId="90224" labelText="# Hospitalized days:" />
+                                        </div>
+                                    </div>
+                                </li>
+                                 <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-3"> 
+                                            <label><span class="required">*</span>Attending Clinician
+                                            </label>
+                                            <encounterProvider role="Provider" style="autocomplete"/>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                    </div>
+                </div>
+
+            <div class="row">
+                <div class="col"> 
+                <postSubmissionAction class="org.openmrs.module.aijar.htmlformentry.DSDSProgramSubmissionAction"/>
+                <section>
+                    <submit/>
+                </section>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</htmlform>
