@@ -1,0 +1,95 @@
+[
+  {
+    "id": "aijar.referenceapplication.legacyAdmin",
+    "extensions": [
+      {
+        "id": "aijar.referenceapplication.legacyAdmin.homepageLink",
+        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+        "type": "link",
+        "label": "aijar.app.legacy.admin.label",
+        "url": "admin/index.htm",
+        "icon": "icon-cogs",
+        "order": 99,
+        "requiredPrivilege": "App: referenceapplication.legacyAdmin"
+      }
+    ]
+  },
+  {
+    "id": "aijar.referenceapplication.backupDatabase",
+    "extensions": [
+      {
+        "id": "aijar.referenceapplication.backupDatabase.homepageLink",
+        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+        "type": "link",
+        "label": "aijar.app.backupdatabase.list.label",
+        "url": "module/databasebackup/backup.form",
+        "icon": "icon-cloud-download",
+        "order": 115
+      }
+    ]
+  },
+  {
+    "id": "aijar.referenceapplication.support",
+    "extensions": [
+      {
+        "id": "aijar.referenceapplication.support.homepageLink",
+        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+        "type": "link",
+        "label": "aijar.app.support.list.label",
+        "url": "aijar/support.page",
+        "icon": "icon-question-sign",
+        "order": 120
+      }
+    ]
+  },
+  {
+    "id": "aijar.cohortbuilder.link",
+    "extensions": [
+      {
+        "id": "aijar.cohortbuilder.homepageLink",
+        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+        "type": "link",
+        "label": "aijar.app.cohortbuilder.label",
+        "url": "cohortBuilder.list",
+        "icon": "icon-building",
+        "order": 105,
+        "requiredPrivilege": "Manage Reports"
+      }
+    ]
+  },
+  {
+    "id": "ugandaemr.findPatient",
+    "instanceOf": "coreapps.template.findPatient",
+    "description": "Basic patient search that goes to the patient dashboard",
+    "order": 2,
+    "extensions": [
+      {
+        "id": "ugandaemr.findPatientLink",
+        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+        "type": "link",
+        "label": "coreapps.findPatient.app.label",
+        "url": "coreapps/findpatient/findPatient.page?app=ugandaemr.findPatient",
+        "icon": "icon-search",
+        "requiredPrivilege": "App: coreapps.findPatient"
+      }
+    ],
+    "config": {
+      "registrationAppLink": "registrationapp/registerPatient.page?appId=aijar.registrationapp.registerPatient"
+    }
+  },{
+  "id": "aijar.configs",
+  "description": "Configurations for Health Center",
+  "order": 5,
+  "extensions": [
+    {
+      "id": "coreapps.activeVisitsHomepageLink",
+      "extensionPointId": "systemAdministration.apps",
+      "type": "link",
+      "label": "Health Center Configurations",
+      "url": "admin/maintenance/settings.list?show=Aijar",
+      "icon": " icon-cog",
+      "requiredPrivilege": "App: coreapps.systemAdministration"
+    }
+  ]
+}
+]

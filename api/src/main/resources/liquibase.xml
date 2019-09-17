@@ -1,8 +1,239 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+    <!--
+        See http://www.liquibase.org/manual/home#available_database_refactorings
+        for a list of supported elements and attributes
+    -->
+	<changeSet id="ugandaemr-05092018-1043" author="ssmusoke">
+		<comment>Fix bad data for the ART care section which is causing an error when saving the summary page</comment>
+		<sql>
+			UPDATE obs SET value_numeric = NULL WHERE concept_id = 99162 AND value_numeric IS NOT NULL;
+		</sql>
+	</changeSet>
+	<changeSet id="ugandaemr-19072018-1002" author="ssmusoke">
+		<comment>Correct the sticky note concept</comment>
+		<sql>
+			UPDATE global_property SET property_value = 'CIEL:162169' WHERE property = 'coreapps.conceptStickyNote';
+		</sql>
+	</changeSet>
 
+	<changeSet id="ugandaemr-07052017-1505" author="ssmusoke">
+		<comment>Move the death information from the obs table to the person table</comment>
+		<sql>
+			UPDATE person INNER JOIN obs ON obs.person_id = person.person_id AND concept_id = 99112 AND value_coded = 90003 SET dead = 1;
+			UPDATE person INNER JOIN obs ON obs.person_id = person.person_id AND concept_id = 90272 SET death_date = value_datetime;
+		</sql>
+	</changeSet>
+	<changeSet id="ugandaemr-09262017-2245" author="ssmusoke">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="1">
+				SELECT count(form_id) FROM form WHERE form_id = 14
+			</sqlCheck>
+		</preConditions>
+		<comment>Move all summary pages from form_id 34 to 14</comment>
+		<sql>UPDATE encounter SET form_id = 14 WHERE form_id = 34</sql>
+	</changeSet>
+	<changeSet id="ugandaemr-07112017-1757" author="ssmusoke">
+		<comment>Delete obs without concepts from previous migrations</comment>
+		<sql>
+			DELETE FROM obs WHERE concept_id IN (SELECT c.concept_id FROM concept c WHERE c.datatype_id = 2) AND value_coded IS NULL
+		</sql>
+	</changeSet>
+	<changeSet id="ugandaemr-06272017-2053" author="ssmusoke">
+		<comment>Delete corrupted metadata mapping terms from xstream 2.07 and lower for Encounter Types</comment>
+		<sql>
+			UPDATE metadatamapping_metadata_term_mapping SET metadata_class = 'org.openmrs.EncounterType' WHERE metadata_class = 'org.openmrs.EncounterType_$$_jvstbd5_23'
+		</sql>
+	</changeSet>
+	<changeSet id="ugandaemr-06232017-1639" author="ssmusoke">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">
+				SELECT COUNT(*) FROM scheduler_task_config
+				WHERE schedulable_class = 'org.openmrs.module.aijar.tasks.LinkExposedInfantToMotherTask'
+			</sqlCheck>
+		</preConditions>
+		<comment>Inserting Exposed Infant Link to Mother Task into 'schedule_task_config' table</comment>
+		<insert tableName="scheduler_task_config">
+			<column name="name" value="Link infants to mothers via ART Number" />
+			<column name="description" value="Links exposed infants to mothers through their ART numbers" />
+			<column name="schedulable_class" value="org.openmrs.module.aijar.tasks.LinkExposedInfantToMotherTask" />
+			<column name="start_time_pattern" value="MM/dd/yyyy HH:mm:ss" />
+			<column name="start_time" valueDate="2017-06-01T11:59:59" />
+			<column name="repeat_interval" value="86400" />
+			<column name="date_created" valueDate="CURRENT_TIMESTAMP" />
+			<column name="created_by" value="1" />
+			<column name="start_on_startup" value="1"/>
+			<column name="started" value="1"/>
+			<column name="uuid" value="29584cdf-37c0-46ec-b942-3b98274e30d8" />
+		</insert>
+
+	</changeSet>
+	<changeSet id="ugandaemr-06232017-1638" author="ssmusoke">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">
+				SELECT COUNT(*) FROM scheduler_task_config
+				WHERE schedulable_class = 'org.openmrs.module.aijar.tasks.ExitTBProgramASLostToFollowUpTask'
+			</sqlCheck>
+		</preConditions>
+		<comment>Inserting TB Lost to Followup Exit Task into 'schedule_task_config' table</comment>
+		<insert tableName="scheduler_task_config">
+			<column name="name" value="TB Lost to Followup Exit Task" />
+			<column name="description" value="Exits patients from the TB program who have not come for 90 days" />
+			<column name="schedulable_class" value="org.openmrs.module.aijar.tasks.ExitTBProgramASLostToFollowUpTask" />
+			<column name="start_time_pattern" value="MM/dd/yyyy HH:mm:ss" />
+			<column name="start_time" valueDate="2017-06-01T11:59:59" />
+			<column name="repeat_interval" value="86400" />
+			<column name="date_created" valueDate="CURRENT_TIMESTAMP" />
+			<column name="created_by" value="1" />
+			<column name="start_on_startup" value="1"/>
+			<column name="started" value="1"/>
+			<column name="uuid" value="415b8d70-6b45-41d8-a0ba-41b1a6b8aa1f" />
+		</insert>
+
+	</changeSet>
+	<changeSet id="ugandaemr-06232017-1637" author="ssmusoke">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">
+				SELECT COUNT(*) FROM scheduler_task_config
+				WHERE schedulable_class = 'org.openmrs.module.aijar.tasks.ExitMCHProgramASLostToFollowUpTask'
+			</sqlCheck>
+		</preConditions>
+		<comment>Inserting MCH Lost to Followup Exit Task into 'schedule_task_config' table</comment>
+		<insert tableName="scheduler_task_config">
+			<column name="name" value="MCH Lost to Followup Exit Task" />
+			<column name="description" value="Exits mothers from the MCH program who have not come for 90 days" />
+			<column name="schedulable_class" value="org.openmrs.module.aijar.tasks.ExitMCHProgramASLostToFollowUpTask" />
+			<column name="start_time_pattern" value="MM/dd/yyyy HH:mm:ss" />
+			<column name="start_time" valueDate="2017-06-01T11:59:59" />
+			<column name="repeat_interval" value="86400" />
+			<column name="date_created" valueDate="CURRENT_TIMESTAMP" />
+			<column name="created_by" value="1" />
+			<column name="start_on_startup" value="1"/>
+			<column name="started" value="1"/>
+			<column name="uuid" value="d1147982-1fd3-4d03-8b6c-6345a8187b28" />
+		</insert>
+
+	</changeSet>
+    <changeSet id="ugandaemr-12162016-1052" author="ssmusoke">
+		<comment>Stop scheduled tasks that are not used from starting up</comment>
+		<sql>
+			UPDATE scheduler_task_config SET start_on_startup = 0 WHERE schedulable_class IN ('org.openmrs.module.formentry.ProcessFormEntryQueueTask', 'org.openmrs.scheduler.tasks.ProcessHL7InQueueTask')
+		</sql>
+	</changeSet>
+
+	<changeSet id="ugandaemr-111032017-1130" author="slubwama">
+		<comment>Change concept 162394 datatype to coded concept</comment>
+		<sql>
+			UPDATE concept SET datatype_id = 2 WHERE concept_id = 162394
+		</sql>
+	</changeSet>
+	<changeSet id="ugandaemr-08012017-1056" author="paleu256">
+		<comment>Change birth weight concept 5916 attribute allow decimals to yes</comment>
+		<sql>
+			UPDATE concept_numeric SET precise = 1 WHERE concept_id = 5916
+		</sql>
+	</changeSet>
+	<changeSet id="ugandaemr-190920178-0923" author="carapai">
+		<comment>Migrate obs date time to viral load date concept</comment>
+		<sql>
+			INSERT INTO obs (person_id, concept_id, encounter_id, order_id, obs_datetime, location_id, obs_group_id, accession_number, value_group_id, value_coded, value_coded_name_id, value_drug, value_datetime, value_numeric, value_modifier, value_text, value_complex, comments, creator, date_created, voided, voided_by, date_voided, void_reason, uuid, previous_version, form_namespace_and_path)
+			SELECT
+			person_id,
+			163023,
+			encounter_id,
+			order_id,
+			obs_datetime,
+			location_id,
+			obs_group_id,
+			accession_number,
+			value_group_id,
+			value_coded,
+			value_coded_name_id,
+			value_drug,
+			obs_datetime,
+			value_numeric,
+			value_modifier,
+			value_text,
+			value_complex,
+			comments,
+			creator,
+			date_created,
+			voided,
+			voided_by,
+			date_voided,
+			void_reason,
+			uuid(),
+			previous_version,
+			form_namespace_and_path
+			FROM obs
+			WHERE concept_id = 856 AND obs_id NOT IN (SELECT A.obs_id
+			FROM
+			(SELECT *
+			FROM obs
+			WHERE concept_id = 856) A INNER JOIN (SELECT *
+			FROM obs
+			WHERE concept_id = 163023) B
+			ON (A.encounter_id = B.encounter_id));
+		</sql>
+	</changeSet>
+    <changeSet id="uganademr-10202017-2138" author="ssmusoke">
+		<preConditions onFail="MARK_RAN">
+		<sqlCheck expectedResult="0">
+			SELECT COUNT(*) FROM scheduler_task_config
+			WHERE schedulable_class = 'org.openmrs.module.aijar.tasks.ExitMCHProgramASLostToFollowUpTask'
+		</sqlCheck>
+		</preConditions>
+        <comment>Change column to utf8 to enable saving of multi-byte characters</comment>
+        <sql>
+            ALTER TABLE `serialized_object` MODIFY `serialized_data` MEDIUMTEXT CHARACTER SET utf8 NOT NULL;
+        </sql>
+    </changeSet>
+	<changeSet id="ugandaemr-28022018-1624" author="ssmusoke">
+		<comment>Delete any blank person attribute values from previous upgrades which prevents editing of patient</comment>
+		<sql>
+			DELETE FROM person_attribute WHERE value IS NULL OR value = '';
+		</sql>
+	</changeSet>
+	<changeSet id="ugandaemr-01-10-2018-1200" author="slubwama">
+        <preConditions onFail="CONTINUE">
+            <sqlCheck expectedResult="1">
+                SELECT COUNT(program_id) FROM program  WHERE program.uuid = 'de5d54ae-c304-11e8-9ad0-529269fb1459';
+            </sqlCheck>
+        </preConditions>
+		<comment>Move all Patients Ever enrolled in Facility Based Individual Management DSDM </comment>
+		<sql>
+			INSERT INTO patient_program (patient_id, program_id, date_enrolled, location_id, creator, date_created, voided, uuid)
+			SELECT patient_id,(SELECT program.program_id FROM program WHERE program.uuid='de5d54ae-c304-11e8-9ad0-529269fb1459') AS program,encounter_datetime AS date_enrolled,location_id,encounter.creator,NOW(),0,UUID() AS uuid FROM encounter INNER JOIN encounter_type ON(encounter_type.encounter_type_id=encounter.encounter_type) WHERE  encounter_type.uuid='8d5b27bc-c2cc-11de-8d13-0010c6dffd0f' GROUP BY patient_id;
+		</sql>
+	</changeSet>
+
+	<changeSet id="ugandaemr-01042019-2012" author="dbaluku">
+		<comment>Setting  modules to FHIR,Data Entry Statistics to be started manually</comment>
+		<sql>
+			UPDATE global_property SET property_value = 'false' WHERE property IN ('fhir.started', 'dataentrystatistics.started');
+		</sql>
+	</changeSet>
+
+    <changeSet id="ugandaemr-25072019-2019" author="slubwama">
+        <comment>Setting  modules for Data Entry Statistics to be started automatically</comment>
+        <sql>
+            UPDATE global_property SET property_value = 'true' WHERE property ='dataentrystatistics.started';
+        </sql>
+    </changeSet>
+
+    <changeSet id="ugandaemr-25072019-1409" author="slubwama">
+        <comment>
+			Changing Concept Name for concept 99610 from SMS care entry to SMC care entry
+			Changing Concept Description to change SMS word to SMC Word
+		</comment>
+        <sql>
+			UPDATE concept SET short_name = 'SMC' WHERE concept_id =99610;
+            UPDATE concept_name SET name = 'SMC care entry' WHERE concept_id =99610;
+            UPDATE concept_description SET description = 'SMC as HIV care entry point - This concept added to support MOH ART card functionality' WHERE concept_id =99610;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

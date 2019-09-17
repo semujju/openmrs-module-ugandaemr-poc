@@ -1,55 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <module configVersion="1.2">
-	
-	<!-- Base Module Properties -->
-	<id>ugandaemrpoc</id>
-	<name>UgandaEMRPOC</name>
-	<version>1.0.0-SNAPSHOT</version>
-	<package>org.openmrs.module.ugandaemrpoc</package>
-	<author>lubwamasamuel</author>
+
+	<!-- Module Properties -->
+	<id>${project.parent.artifactId}</id>
+	<name>${project.parent.name}</name>
+	<version>${project.parent.version}</version>
+	<package>${project.parent.groupId}.${project.parent.artifactId}</package>
+    <author>METS Program</author>
 	<description>
-			This module introduces point of care to UgandaEMR
+		${project.parent.description}
 	</description>
-
-	<activator>org.openmrs.module.ugandaemrpoc.UgandaEMRPOCActivator</activator>
-
+	<updateURL>https://modules.openmrs.org/modules/download/${project.parent.artifactId}/update.rdf</updateURL>
 	<require_version>${openMRSVersion}</require_version>
+	<!-- / Module Properties -->
 
-	<require_modules>
-		<require_module>
-			org.openmrs.module.appframework
-		</require_module>
-		<require_module>
-			org.openmrs.module.coreapps
-		</require_module>
-		<require_module>
-			org.openmrs.module.formentryapp
-		</require_module>
-		<require_module>
-			org.openmrs.module.htmlformentry
-		</require_module>
-		<require_module>
-			org.openmrs.module.htmlformentryui
-		</require_module>
-		<require_module>
-			org.openmrs.module.uiframework
-		</require_module>
-		<require_module>
-			org.openmrs.module.uicommons
-		</require_module>
-		<require_module>
-			org.openmrs.module.appui
-		</require_module>
-		<require_module>
-			org.openmrs.module.aijar
-		</require_module>
-	</require_modules>
+	
+	<!-- Module Activator -->
+	<activator>${project.parent.groupId}.${project.parent.artifactId}.AijarActivator</activator>
+	
+	<!-- Adds link to admin page -->
+	
+	<!-- Maps hibernate file's, if present -->
 
-	<aware_of_modules>
-		<aware_of_module>org.openmrs.module.legacyui</aware_of_module>
-	</aware_of_modules>
-
+	<!-- Internationalization -->
+	<!-- All message codes should start with ${project.parent.artifactId}. -->
 	<messages>
 		<lang>en</lang>
 		<file>messages.properties</file>
@@ -64,6 +39,135 @@
 	</messages>
 	<!-- /Internationalization -->
 
+	<!-- Required Modules -->
+
+	<require_modules>
+        <require_module>
+            org.openmrs.module.appframework
+        </require_module>
+        <require_module>
+            org.openmrs.module.dataexchange
+        </require_module>
+		<require_module>
+			org.openmrs.module.dataintegrity
+		</require_module>
+        <require_module>
+            org.openmrs.module.emrapi
+        </require_module>
+        <require_module>
+            org.openmrs.module.formentryapp
+        </require_module>
+        <require_module>
+            org.openmrs.module.htmlformentry
+        </require_module>
+        <require_module>
+            org.openmrs.module.htmlformentryui
+        </require_module>
+        <require_module>
+            org.openmrs.module.idgen
+        </require_module>
+        <require_module>
+            org.openmrs.module.metadatadeploy
+        </require_module>
+        <require_module>
+            org.openmrs.module.patientflags
+        </require_module>
+		<require_module>
+			org.openmrs.module.referenceapplication
+		</require_module>
+        <require_module>
+            org.openmrs.module.registrationapp
+        </require_module>
+        <require_module>
+            org.openmrs.module.registrationcore
+        </require_module>
+        <require_module>
+            org.openmrs.module.uiframework
+        </require_module>
+	</require_modules>
+	
+	<aware_of_modules>
+	    <aware_of_module>org.openmrs.module.legacyui</aware_of_module>
+	</aware_of_modules>
+
 	<!-- Global Properties -->
+	<globalProperty>
+		<property>aijar.healthCenterName</property>
+		<defaultValue>Health Center Name</defaultValue>
+		<description>
+			Allows one to set the name of the health center for this installation
+		</description>
+    </globalProperty>
+    <globalProperty>
+        <property>aijar.nhpi</property>
+        <defaultValue>HFT2ZBPE8</defaultValue>
+        <description>
+            Allows one to set the National Health Provider Identifier
+        </description>
+    </globalProperty>
+    <globalProperty>
+		<property>ugandaemr.showARTPatientNumberIdentifier</property>
+		<defaultValue>false</defaultValue>
+		<description>
+			Whether or not to show the ART patient number identifier
+		</description>
+	</globalProperty>
+    <globalProperty>
+        <property>ugandaemr.showResearchPatientIdentifier</property>
+        <defaultValue>false</defaultValue>
+        <description>
+            Whether or not to show the research identifier
+        </description>
+    </globalProperty>
+	<globalProperty>
+		<property>ugandaemr.showRefugeeIdentifier</property>
+		<defaultValue>false</defaultValue>
+		<description>
+			Whether or not to show the refugee identifier
+		</description>
+	</globalProperty>
+    <globalProperty>
+        <property>ugandaemr.lostToFollowUpDaysTB</property>
+        <defaultValue>60</defaultValue>
+        <description>
+            Number of days when a TB patient is considered lost to follow up
+        </description>
+    </globalProperty>
+    <globalProperty>
+        <property>ugandaemr.lostToFollowUpDaysMCH</property>
+        <defaultValue>315</defaultValue>
+        <description>
+            Number of days when an MCH mother is considered lost to follow up
+        </description>
+    </globalProperty>
+    <globalProperty>
+        <property>ugandaemr.dhis2.organizationuuid</property>
+        <description>The organization code in DHIS2</description>
+        <defaultValue></defaultValue>
+    </globalProperty>
+
+    <globalProperty>
+        <property>ugandaemr.dsdm.programsuuid</property>
+        <description>A comma delimited list of Program UUIDS in DSDM</description>
+        <defaultValue>de5d54ae-c304-11e8-9ad0-529269fb1459,de5d5b34-c304-11e8-9ad0-529269fb1459,de5d5896-c304-11e8-9ad0-529269fb1459,de5d5da0-c304-11e8-9ad0-529269fb1459,de5d6034-c304-11e8-9ad0-529269fb1459</defaultValue>
+    </globalProperty>
+
+    <globalProperty>
+        <property>ugandaemr.dsdm.conceptId</property>
+        <description>A Coded concept with all DSDM Concept</description>
+        <defaultValue>165143</defaultValue>
+    </globalProperty>
+
+    <globalProperty>
+        <property>ugandaemr.hts.recency</property>
+        <description>This feature flag turns on/off the recency question</description>
+        <defaultValue>false</defaultValue>
+    </globalProperty>
+
+    <globalProperty>
+        <property>ugandaemr.patientflags.disabledFlags</property>
+        <description>Separate Names of flags you want to disable with , example Transfered Out Patient,Un-supressed Viral Load</description>
+        <defaultValue></defaultValue>
+    </globalProperty>
 </module>
 
