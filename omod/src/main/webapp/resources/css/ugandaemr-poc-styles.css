@@ -16,16 +16,6 @@
     min-width: 0px;
 }
 
-.htmlformform form input, form select, form textarea, form ul.select, .form input, .form select, .form textarea, .form
-ul.select {
-    background-color: #FBFBFB;
-    border: 1px solid #CEC9C9;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    padding: 10px;
-    min-width: 20%;
-}
-
 .row {
     width: 100%;
     float: left;
@@ -40,4 +30,38 @@ ul.select {
 
 table th, table td {
     border: 1px solid #AFAFAF;
+}
+
+
+form#htmlform div.ai-page-frame table tbody td {
+    background: #B6D6E6;
+    color: #404040;
+    padding: 0px 5px;
+}
+
+form select, .form select {
+    min-width: 0px;
+}
+
+form input, form select, form textarea, form ul.select, .form input, .form select, .form textarea, .form
+ul.select {
+    min-width: 20%;
+    background-color: #FBFBFB;
+    border: 1px solid #404040;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.stability {
+    display: none;
+}
+
+form input, form select, form textarea, form ul.select, .form input, .form select, .form textarea, .form ul.select {
+    min-width: 85%;
+    background-color: #FBFBFB;
+    border: 1px solid #404040;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
 }
