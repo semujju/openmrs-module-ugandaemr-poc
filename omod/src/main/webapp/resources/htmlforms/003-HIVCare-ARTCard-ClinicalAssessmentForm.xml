@@ -528,7 +528,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#pregnancy-fp"> Pregnancy/Family Planning </a>
+                            <a class="nav-link" data-toggle="tab" href="#pregnancy-fp"> Pregnancy/ Family Planning </a>
                         </li>
 
                         <li class="nav-item">
@@ -696,13 +696,14 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-4"> 
-                                    <label>Nutrition Status (/min)</label>
-                                    <obs conceptId="CIEL:5242" id="respiratory_rate" />
+                                    <label>Nutrition Status </label>
+                                    <obs conceptId="165050" answerConceptIds="1115,99271,99272,99273" 
+                                        answerLabels="Normal, Moderate Acute Malnutrition, Severe Acute Malnutrition, Severe Acute Malnutrition with Oedema"/>
                                 </div>
                                 <div class="col-md-4">
                                    <label>Nutrition Support</label>
-                                    <obs conceptId="460" answerConceptIds="90003,90004"
-                                         answerLabels="Oedema +,-" style="dropdown"/>
+                                   <obs conceptId="99054" answerConceptIds="99053,99052" 
+                                        answerLabels="Therapeutic Feeding (F75 F100 RUTF), Nutrition Counselling only (if &gt; 2yrs)"/>
                                 </div>
                             <excludeIf velocityTest="$patient.age &gt; 11">
                                 <div class="col-md-4">
@@ -716,155 +717,154 @@
 
                         <div class="tab-pane" id="pregnancy-fp">
                             <section>
-                             <div class="row">
-                                 <div class="col-md-6">
-
-                                    <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" />
-                                    <label class="form-check-label" for="inlineCheckbox1">Pregnant</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                      <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
-                                      <label class="form-check-label" for="inlineCheckbox2">Breast Feeding</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                      <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" />
-                                      <label class="form-check-label" for="inlineCheckbox3">Not pregnant/Not Breast feeding</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                      <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" />
-                                      <label class="form-check-label" for="inlineCheckbox3">NA</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <br/>
-                            <div class="row">
-
-                                <excludeIf velocityTest="$patient.gender =='M' || $patient.age &lt; 9">
-                                    <!-- <div class="col-md-3">
-                                        <label>Pregnant</label>
-                                        <span class="ARTYesNoEnableDisable2">
-                                            <obs conceptId="90041" style="checkbox" answerConceptIds="1065,1066"
-                                                 answerLabels="Yes,No" />
-                                        </span>
-                                    </div> -->
-                                    <div class="col-md-4">
-                                        <label>EDD</label>
-                                        <span class="ARTYesNoEnableDisableChild2">
-                                                <obs conceptId="5596" allowFutureDates="true"/>    
-                                        </span>
-                                    </div>
-                                    <div class="col-md-4">
-                                    <span class="ARTYesNoEnableDisable3">
-                                        <label>EMTCT</label>
-                                        <obs conceptId="90012" answerConceptIds="90003,90004"
-                                             answerLabels="Yes,No"/>
-                                    </span>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <lable>Gestation in Weeks</lable>
-                                        <span class="ARTYesNoEnableDisableChild2">
-                                            <obs conceptId="162983"/>
-                                        </span>
-                                    </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">                                   
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <h4 class="card-title">Pregnancy</h4>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" />
+                                                        <label class="form-check-label" for="inlineCheckbox1">Pregnant</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                          <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
+                                                          <label class="form-check-label" for="inlineCheckbox2">Breast Feeding</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                          <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" />
+                                                          <label class="form-check-label" for="inlineCheckbox3">Not pregnant/Not Breast feeding</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                          <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" />
+                                                          <label class="form-check-label" for="inlineCheckbox3">NA</label>
+                                                    </div>
+                                                </div>
+                                            </div>
                                     
-                                </excludeIf>
-                            </div>
-                            <div class="row">
-                                <excludeIf velocityTest="$patient.age &lt; 9">
-                                    <excludeIf velocityTest="$patient.gender =='M'">
-                                       <div class="col-md-4">
-                                            <span class="ARTYesNoEnableDisableChild3">
-                                                <label>Age in months</label>
-                                                <obs conceptId="99270" />
-                                            </span>
-                                        </div>
-                                        
-                                        <div class="col-md-4">
-                                        <span class="ARTYesNoEnableDisableChild2">
-                                           
-                                            <label>ANC #</label>
-                                            <patient field="identifier" identifierTypeId="b0cc255e-ef57-4266-839e-0df7f5099eb9"
-                                                     required="false"/>
-                                        </span>
-                                        </div>
-                                    </excludeIf>
-                                </excludeIf>
-                            </div>
-                                    
+                                            <br/>
+                                            <div class="row">
+                                                <excludeIf velocityTest="$patient.gender =='M' || $patient.age &lt; 9">
+                                                    <!-- <div class="col-md-3">
+                                                        <label>Pregnant</label>
+                                                        <span class="ARTYesNoEnableDisable2">
+                                                            <obs conceptId="90041" style="checkbox" answerConceptIds="1065,1066"
+                                                                 answerLabels="Yes,No" />
+                                                        </span>
+                                                    </div> -->
+                                                    <div class="col-md-4">
+                                                        <label>EDD</label>
+                                                        <span class="ARTYesNoEnableDisableChild2">
+                                                                <obs conceptId="5596" allowFutureDates="true"/>    
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                    <span class="ARTYesNoEnableDisable3">
+                                                        <label>EMTCT</label>
+                                                        <obs conceptId="90012" answerConceptIds="90003,90004"
+                                                             answerLabels="Yes,No"/>
+                                                    </span>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <lable>Gestation in Weeks</lable>
+                                                        <span class="ARTYesNoEnableDisableChild2">
+                                                            <obs conceptId="162983"/>
+                                                        </span>
+                                                    </div>
+                                                </excludeIf>
+                                            </div>
 
-                            <excludeIf velocityTest="$patient.age &lt; 9">
-                               
-                                    <!-- <div class="row">
-                                        <div class="col-md-3">
-                                        <span id="checkboxRadio">
-                                            <span class="ARTYesNoEnableDisable1">
-                                                <label>Family Planning? </label>
-                                                <obs conceptId="90238" answerConceptIds="90082,90081" answerLabels="Yes,No" />
-                                            </span>
-                                        </span>
-                                        </div>
-                                    </div> -->
-                                 <br/>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Is on family Planning?</label>
-                                    <div class="form-check form-check-inline">
-                                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                                      <label class="form-check-label" for="inlineRadio1">No</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
-                                      <label class="form-check-label" for="inlineRadio2">Yes</label>
-                                    </div>
-                                    </div>
-                                </div>
-                                 <br/>    
-                                <div class="row">
-                                    <div class="col-md-3">    
-                                    <label>Family Planning Method:</label>                       
-                                    <span class="ARTYesNoEnableDisableChild1">
-                                       
-                                        <obs conceptId="374" answerConceptId="190" answerLabel="1 - Condoms"/>
-                                        <excludeIf velocityTest="$patient.gender =='M' ">
-                                            <span class="lablex2">
-                                                <obs conceptId="374" answerConceptId="780"
-                                                     answerLabel="2 - Oral Contraceptive pills"/>
-                                                <obs conceptId="374" answerConceptId="5279"
-                                                     answerLabel="3 - Injectable/Implantable hormonies"/>
-                                                <obs conceptId="374" answerConceptId="5278"
-                                                     answerLabel="4 - Diaphram/Cervical Cap"/>
-                                                <obs conceptId="374" answerConceptId="5275"
-                                                     answerLabel="5 - Intra uterine device (IUD)"/>
-                                            </span>
-                                        </excludeIf>
-                                        <obs conceptId="374" answerConceptId="99265"
-                                             answerLabel="6 - Vasectomy/Tubal ligation"/>
-                                    </span>
-                                    </div>
-                                </div>
-                            </excludeIf>
-                             <br/>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Intention to concieve in the next three months</label>
-                                <div class="form-check form-check-inline">
-                                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                                  <label class="form-check-label" for="inlineRadio1">No</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
-                                  <label class="form-check-label" for="inlineRadio2">Yes</label>
-                                </div>
-                                </div>
-                            </div>
-                            <br/>
-                            <div class="row">
-                                <div class="col-md-4"> 
-                                    <label>CaCx Status</label>
-                                    <obs conceptId="CIEL:5242" id="respiratory_rate" />
-                                </div>
-                            </div>
+                                            <div class="row">
+                                                <excludeIf velocityTest="$patient.age &lt; 9">
+                                                    <excludeIf velocityTest="$patient.gender =='M'">
+                                                        <div class="col-md-4">
+                                                            <span class="ARTYesNoEnableDisableChild3">
+                                                                <label>Age in months</label>
+                                                                <obs conceptId="99270" />
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                        <span class="ARTYesNoEnableDisableChild2">
+                                                           
+                                                            <label>ANC No.</label>
+                                                            <patient field="identifier" identifierTypeId="b0cc255e-ef57-4266-839e-0df7f5099eb9"
+                                                                     required="false"/>
+                                                        </span>
+                                                        </div>
+                                                    </excludeIf>
+                                                </excludeIf>
+                                            </div>
+                                            </li>
+                                             <li class="list-group-item"> 
+                                                <excludeIf velocityTest="$patient.age &lt; 9">
+                                                        <!-- <div class="row">
+                                                            <div class="col-md-3">
+                                                            <span id="checkboxRadio">
+                                                                <span class="ARTYesNoEnableDisable1">
+                                                                    <label>Family Planning? </label>
+                                                                    <obs conceptId="90238" answerConceptIds="90082,90081" answerLabels="Yes,No" />
+                                                                </span>
+                                                            </span>
+                                                            </div>
+                                                        </div> -->
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                        <h4 class="card-title">Family Planning</h4>
+                                                            <label>Is on family Planning?</label>
+                                                        <div class="form-check form-check-inline">
+                                                          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
+                                                          <label class="form-check-label" for="inlineRadio1">No</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
+                                                          <label class="form-check-label" for="inlineRadio2">Yes</label>
+                                                        </div>
+                                                        </div>
+                                                   
+                                                        <div class="col-md-4">    
+                                                        <label>Family Planning Method:</label>                       
+                                                        <span class="ARTYesNoEnableDisableChild1">
+                                                           
+                                                            <obs conceptId="374" answerConceptId="190" answerLabel="1 - Condoms"/>
+                                                            <excludeIf velocityTest="$patient.gender =='M' ">
+                                                                <span class="lablex2">
+                                                                    <obs conceptId="374" answerConceptId="780"
+                                                                         answerLabel="2 - Oral Contraceptive pills"/>
+                                                                    <obs conceptId="374" answerConceptId="5279"
+                                                                         answerLabel="3 - Injectable/Implantable hormonies"/>
+                                                                    <obs conceptId="374" answerConceptId="5278"
+                                                                         answerLabel="4 - Diaphram/Cervical Cap"/>
+                                                                    <obs conceptId="374" answerConceptId="5275"
+                                                                         answerLabel="5 - Intra uterine device (IUD)"/>
+                                                                </span>
+                                                            </excludeIf>
+                                                            <obs conceptId="374" answerConceptId="99265"
+                                                                 answerLabel="6 - Vasectomy/Tubal ligation"/>
+                                                        </span>
+                                                        </div>
+                                                    </div>
+                                                </excludeIf>
+                                            </li>
+                                <li class="list-group-item"> 
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>Intention to concieve in the next three months</label>
+                                                <div class="form-check form-check-inline">
+                                                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
+                                                  <label class="form-check-label" for="inlineRadio1">No</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
+                                                  <label class="form-check-label" for="inlineRadio2">Yes</label>
+                                                </div>
+                                                </div>
+
+                                                <div class="col-md-4"> 
+                                                    <label>CaCx Status</label>
+                                                    <obs conceptId="CIEL:5242" id="respiratory_rate" />
+                                                </div>
+                                            </div>  
+                                        </li>
+                        </ul>
                             </section>
                         </div>
 
@@ -930,146 +930,131 @@
                         <div class="tab-pane fade" id="clinical-assessment">
                             <section>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">                                
-                                            <h4 class="card-title">Presenting Signs and Symptoms</h4>
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <obs conceptId="90227" answerConceptId="90100" answerLabel="AB"/>
-                                                <obs conceptId="90227" answerConceptId="90099" answerLabel="Anaemia"/>
-                                                <obs conceptId="90227" answerConceptId="90095" answerLabel="BN"/>
-                                                <obs conceptId="90227" answerConceptId="90117" answerLabel="CNS"/>
-                                                <obs conceptId="90227" answerConceptId="90092" answerLabel="Diarrhoea"/>
-                                                <obs conceptId="90227" answerConceptId="90116" answerLabel="FAT"/>
-                                                <obs conceptId="90227" answerConceptId="90093" answerLabel="Fatigue"/>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <obs conceptId="90227" answerConceptId="90094" answerLabel="Headache"/>
-                                                <obs conceptId="90227" answerConceptId="90115" answerLabel="Jaundice"/>
-                                                <obs conceptId="90227" answerConceptId="90091" answerLabel="Nausea"/>
-                                                <obs conceptId="90227" answerConceptId="90098" answerLabel="Rash"/>
-                                                <span class="enableDisable">
-                                                        <span id="trigger">
-                                                            <obs conceptId="90227" answerConceptId="90002"
-                                                                 answerLabel="Other specify:"/>
-                                                        </span>
-                                                        <span id="disabled">
-                                                            <obs conceptId="99113" size="17" labelText=""/>
-                                                        </span>
+                                    <li class="list-group-item"> 
+                                        <h4 class="card-title">Presenting Signs and Symptoms</h4>
+                                    <div class ="row">
+                                        <div class="col-md-6">
+                                            <obs conceptId="90227" answerConceptId="90100" answerLabel="AB"/>
+                                            <obs conceptId="90227" answerConceptId="90099" answerLabel="Anaemia"/>
+                                            <obs conceptId="90227" answerConceptId="90095" answerLabel="BN"/>
+                                            <obs conceptId="90227" answerConceptId="90117" answerLabel="CNS"/>
+                                            <obs conceptId="90227" answerConceptId="90092" answerLabel="Diarrhoea"/>
+                                            <obs conceptId="90227" answerConceptId="90116" answerLabel="FAT"/>
+                                            <obs conceptId="90227" answerConceptId="90093" answerLabel="Fatigue"/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <obs conceptId="90227" answerConceptId="90094" answerLabel="Headache"/>
+                                            <obs conceptId="90227" answerConceptId="90115" answerLabel="Jaundice"/>
+                                            <obs conceptId="90227" answerConceptId="90091" answerLabel="Nausea"/>
+                                            <obs conceptId="90227" answerConceptId="90098" answerLabel="Rash"/>
+                                            <span class="enableDisable">
+                                                    <span id="trigger">
+                                                        <obs conceptId="90227" answerConceptId="90002"
+                                                             answerLabel="Other specify:"/>
                                                     </span>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li class="list-group-item">                                
-                                            <h4 class="card-title">Diagnosis</h4>
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <obs conceptId="90227" answerConceptId="90100" answerLabel="AB"/>
-                                                <obs conceptId="90227" answerConceptId="90099" answerLabel="Anaemia"/>
-                                                <obs conceptId="90227" answerConceptId="90095" answerLabel="BN"/>
-                                                <obs conceptId="90227" answerConceptId="90117" answerLabel="CNS"/>
-                                                <obs conceptId="90227" answerConceptId="90092" answerLabel="Diarrhoea"/>
-                                                <obs conceptId="90227" answerConceptId="90116" answerLabel="FAT"/>
-                                                <obs conceptId="90227" answerConceptId="90093" answerLabel="Fatigue"/>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <obs conceptId="90227" answerConceptId="90094" answerLabel="Headache"/>
-                                                <obs conceptId="90227" answerConceptId="90115" answerLabel="Jaundice"/>
-                                                <obs conceptId="90227" answerConceptId="90091" answerLabel="Nausea"/>
-                                                <obs conceptId="90227" answerConceptId="90098" answerLabel="Rash"/>
-                                                <span class="enableDisable">
-                                                        <span id="trigger">
-                                                            <obs conceptId="90227" answerConceptId="90002"
-                                                                 answerLabel="Other specify:"/>
-                                                        </span>
-                                                        <span id="disabled">
-                                                            <obs conceptId="99113" size="17" labelText=""/>
-                                                        </span>
+                                                    <span id="disabled">
+                                                        <obs conceptId="99113" size="17" labelText=""/>
                                                     </span>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <lable>Advanced Disease Status</lable>
-                                            <obs conceptId="90235" answerConceptIds="90037,90038,90039"
-                                                 answerLabels="Amb,Work, Bed" labelText=""/>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <lable>WHO Clinical stage</lable>
-                                            <obs id="90203" conceptId="90203"
-                                                 answerConceptIds="90033,90034,90035,90036,90293,90294,90295,90296"
-                                                 answerLabels="1,2,3,4,T1,T2,T3,T4" labelText=""/>
+                                                </span>
                                         </div>
                                     </div>
                                     </li>
-
-                                    <li class="list-group-item">                                
-                                            <h4 class="card-title">Side effects of ART</h4>
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <obs conceptId="90227" answerConceptId="90100" answerLabel="AB"/>
-                                                <obs conceptId="90227" answerConceptId="90099" answerLabel="Anaemia"/>
-                                                <obs conceptId="90227" answerConceptId="90095" answerLabel="BN"/>
-                                                <obs conceptId="90227" answerConceptId="90117" answerLabel="CNS"/>
-                                                <obs conceptId="90227" answerConceptId="90092" answerLabel="Diarrhoea"/>
-                                                <obs conceptId="90227" answerConceptId="90116" answerLabel="FAT"/>
-                                                <obs conceptId="90227" answerConceptId="90093" answerLabel="Fatigue"/>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <obs conceptId="90227" answerConceptId="90094" answerLabel="Headache"/>
-                                                <obs conceptId="90227" answerConceptId="90115" answerLabel="Jaundice"/>
-                                                <obs conceptId="90227" answerConceptId="90091" answerLabel="Nausea"/>
-                                                <obs conceptId="90227" answerConceptId="90098" answerLabel="Rash"/>
-                                                <span class="enableDisable">
-                                                        <span id="trigger">
-                                                            <obs conceptId="90227" answerConceptId="90002"
-                                                                 answerLabel="Other specify:"/>
+                                    <li class="list-group-item">     
+                                   
+                                        <h4 class="card-title">Side effects of ART</h4>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <obs conceptId="90227" answerConceptId="90100" answerLabel="AB"/>
+                                                    <obs conceptId="90227" answerConceptId="90099" answerLabel="Anaemia"/>
+                                                    <obs conceptId="90227" answerConceptId="90095" answerLabel="BN"/>
+                                                    <obs conceptId="90227" answerConceptId="90117" answerLabel="CNS"/>
+                                                    <obs conceptId="90227" answerConceptId="90092" answerLabel="Diarrhoea"/>
+                                                    <obs conceptId="90227" answerConceptId="90116" answerLabel="FAT"/>
+                                                    <obs conceptId="90227" answerConceptId="90093" answerLabel="Fatigue"/>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <obs conceptId="90227" answerConceptId="90094" answerLabel="Headache"/>
+                                                    <obs conceptId="90227" answerConceptId="90115" answerLabel="Jaundice"/>
+                                                    <obs conceptId="90227" answerConceptId="90091" answerLabel="Nausea"/>
+                                                    <obs conceptId="90227" answerConceptId="90098" answerLabel="Rash"/>
+                                                    <span class="enableDisable">
+                                                            <span id="trigger">
+                                                                <obs conceptId="90227" answerConceptId="90002"
+                                                                     answerLabel="Other specify:"/>
+                                                            </span>
+                                                            <span id="disabled">
+                                                                <obs conceptId="99113" size="17" labelText=""/>
+                                                            </span>
                                                         </span>
-                                                        <span id="disabled">
-                                                            <obs conceptId="99113" size="17" labelText=""/>
-                                                        </span>
-                                                    </span>
+                                                </div>
                                             </div>
-                                        </div>
                                     </li>
                                     <li class="list-group-item">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Hep B Status</label>
-                                            <div class="form-check form-check-inline">
-                                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                                              <label class="form-check-label" for="inlineRadio1">Tested</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
-                                              <label class="form-check-label" for="inlineRadio2">Not Tested</label>
-                                            </div>
+                                        <div class ="row">
+                                            <div class ="col-md-6">
+                                                <div class ="row">
+                                                    <div class ="col-md-12">
+                                                    <h4 class="card-title">Diagnosis</h4>
+                                                            <encounterDiagnoses required="true" selectedDiagnosesTarget="" preferredCodingSource="ICD-10-WHO"/>
+                                                       
+                                                    </div>
+                                                </div>
                                             </div>
 
-                                            <div class="col-md-6">
-                                                <label>Hep B Results (if tested)</label>
-                                            <div class="form-check form-check-inline">
-                                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                                              <label class="form-check-label" for="inlineRadio1">Negative</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
-                                              <label class="form-check-label" for="inlineRadio2">Positive</label>
-                                            </div>
+                                            <div class ="col-md-6">
+                                                <div class ="row">
+                                                    <div class ="col-md-12">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <lable>Advanced Disease Status</lable>
+                                                                    <obs conceptId="90235" answerConceptIds="90037,90038,90039"
+                                                                         answerLabels="Amb,Work, Bed" labelText=""/>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <lable>WHO Clinical stage</lable>
+                                                                    <obs id="90203" conceptId="90203"
+                                                                         answerConceptIds="90033,90034,90035,90036,90293,90294,90295,90296"
+                                                                         answerLabels="1,2,3,4,T1,T2,T3,T4" labelText=""/>
+                                                                </div>
+                                                            </div>
+                                                            <br/>
+                                                            <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <label>Hep B Status</label>
+                                                                    <div class="form-check form-check-inline">
+                                                                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
+                                                                      <label class="form-check-label" for="inlineRadio1">Tested</label>
+                                                                    </div>
+                                                                    <div class="form-check form-check-inline">
+                                                                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
+                                                                      <label class="form-check-label" for="inlineRadio2">Not Tested</label>
+                                                                    </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <label>Hep B Results (if tested)</label>
+                                                                    <div class="form-check form-check-inline">
+                                                                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
+                                                                      <label class="form-check-label" for="inlineRadio1">Negative</label>
+                                                                    </div>
+                                                                    <div class="form-check form-check-inline">
+                                                                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
+                                                                      <label class="form-check-label" for="inlineRadio2">Positive</label>
+                                                                    </div>
+                                                                    </div>
+                                                            </div>
+                                                            <br/>
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <lable>Syphilis Status</lable>
+                                                                    <obs conceptId="90235" answerConceptIds="90037,90038,90039"
+                                                                         answerLabels="Amb,Work, Bed" labelText=""/>
+                                                                </div>
+                                                            </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <lable>Syphilis Status</lable>
-                                            <obs conceptId="90235" answerConceptIds="90037,90038,90039"
-                                                 answerLabels="Amb,Work, Bed" labelText=""/>
-                                        </div>
-                                    </div>
                                     </li>
                                 </ul>
                                 </section>
@@ -1133,6 +1118,23 @@
                                         </div>
                                     </li>
                                     <li class="list-group-item">
+                                        <h4 class="card-title">Fluconazole</h4>
+                                        <div class="row">
+                                            <div class="col-md-3"> 
+                                                <obs conceptId="99037" labelText="Start Date"/>
+                                            </div>
+                                            <div class="col-md-3"> 
+                                                <obs conceptId="99037" labelText="Stop Date"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <obs conceptId="99033" labelText="No. of Pills"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <obs conceptId="99033" labelText="No. of Days"/>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
                                         <h4 class="card-title">Other Meds dispensed</h4>
                                         <div class="row">
                                             <div class="col-md-3"> 
@@ -1147,23 +1149,6 @@
                                             <div class="col-md-3">
                                                 <br/>
                                                 + Add
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <h4 class="card-title">Fluconazole</h4>
-                                        <div class="row">
-                                            <div class="col-md-3"> 
-                                                <obs conceptId="99037" labelText="Start Date"/>
-                                            </div>
-                                            <div class="col-md-3"> 
-                                                <obs conceptId="99037" labelText="Stop Date"/>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <obs conceptId="99033" labelText="No. of Pills"/>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <obs conceptId="99033" labelText="No. of Days"/>
                                             </div>
                                         </div>
                                     </li>
@@ -1189,13 +1174,13 @@
                                         </div>
                                             <br/>
                                             <div class="row">
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                 <label>why Poor/Fair Adherence</label>
                                                 </div>
                                             </div>
                                                 <div class="EnableDisableAdherenceReason checkboxGroup lablex3">
                                                     <div class="row">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                    <!--  <span class="AdherenceEnableDisable1">
                                                         <obs conceptId="90221" answerConceptIds="90156,90157,90158"
                                                              answerLabels=" Good, Fair, Poor" labelText="Adhererence:"/>
@@ -1219,7 +1204,7 @@
                                                     </div>
 
 
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                     <span class="disableARTAdherence">
                                                     <span class="AdherenceEnableDisableChild1">
                                                         <obs conceptId="90223" answerConceptId="90045"
@@ -1239,7 +1224,7 @@
                                                     </div>
 
                                                     
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <span class="disableARTAdherence">
                                                         <span class="AdherenceEnableDisableChild1">
                                                         <obs conceptId="90223" answerConceptId="90155"
@@ -1499,8 +1484,8 @@
                                         </div>
                                     </li>
                                     <li class="list-group-item">
+                                        <h4>Queue to next attendant</h4>
                                         <div class="row">
-                                            <h4>Queue to next attendant</h4>
                                             <div class="col-md-4"> 
                                                 <label>Location</label>
                                                 <obs conceptId="99037" />
