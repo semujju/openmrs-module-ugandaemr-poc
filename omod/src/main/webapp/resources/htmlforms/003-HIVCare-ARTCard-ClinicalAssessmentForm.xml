@@ -44,6 +44,57 @@
     </ifMode>
     <!-- jquery loaded for nonessential purposes. -->
     <script type="text/javascript">
+        function enable_disable(field, class_name_prefix, conditions, input_type) {
+
+            var class_name = jq(field).attr("class");
+
+            var length = class_name.length;
+
+            var class_id = parseInt(class_name.substring(length - 1, length));
+            var childClass = "Child" + class_id;
+
+            var disable = true;
+            var requires = true;
+
+            var row = '[class^="' + class_name_prefix + '"][class*="' + childClass + '"]';
+
+            var selected_value = null;
+
+            if (input_type == "select") {
+                selected_value = jq(field).find(":selected").text().trim().toLowerCase();
+            } else if (input_type == "hidden") {
+                selected_value = jq(field).find("input[type=hidden]").val().trim().toLowerCase();
+            }
+
+
+            if (eval(conditions)) {
+                disable = false;
+            }
+
+
+            jq(row).each(function () {
+                var group = jq(this);
+
+                if (class_name.indexOf('Child') == -1) {
+                    /*group.find("input").attr("value", ""); */
+                    group.find("input").attr("required", requires);
+                    /* group.find('select').prop("selectedIndex", 0);*/
+                    group.find("input").attr("disabled", disable);
+                    group.find('select').attr("disabled", disable);
+
+                    if (disable) {
+                        /* fade out the fields that are disabled */
+                        group.find("input").fadeTo(250, 0.25);
+                        group.find("select").fadeTo(250, 0.25);
+                    } else {
+                        /* remove the fade on the fields */
+                        group.find("input").fadeTo(250, 1);
+                        group.find("select").fadeTo(250, 1);
+                    }
+                }
+            });
+        }
+
 
         function enable_disable_district_tb_reg(selected_option) {
 
@@ -86,8 +137,7 @@
                     group.find('select').attr("disabled", disable);
                     if (requires == false) {
                         group.find('.required').show();
-                    }
-                    else if (requires == true) {
+                    } else if (requires == true) {
                         group.find('.required').hide();
                     }
 
@@ -108,7 +158,65 @@
 
         if (jQuery) {
 
-            var instabilityCause = "";
+            <!-- Validation rules -->
+            beforeSubmit.push(function () {
+                <!-- clear the previous errors -->
+                setValue('returndate.error', '');
+                setValue('viral-load-results-copies.error', '');
+                setValue('date-viral-load-taken.error', '');
+
+                var encounterDate = new Date((getValue('encounterDate.value')));
+                var returnDate = new Date((getValue('returndate.value')));
+
+                if (encounterDate &gt;= returnDate) {
+                    getField('returndate.error').html('The return date must be after the date of this visit ' +
+                        formatDateForDisplay(encounterDate)).show();
+                    return false;
+                }
+
+                <!-- Check that the return date is before the transfer out date only if there is a transfer out date -->
+                if (jq('#transfer_out_date_id').html().replace(/\s+/, "").length > 0) {
+                    var transfer_out_date_id = new Date(jq('#transfer_out_date_id').html());
+                    if (returnDate &gt;= transfer_out_date_id) {
+                        getField('returndate.error').html('The return date must be before the transfer out date of ' +
+                            formatDateForDisplay(transfer_out_date_id)).show();
+                        return false;
+                    }
+                    return false;
+                }
+
+                var viral_load_qualitative = getValue('viral-load-results-qualitative.value');
+                var date_viral_load_taken = getValue('date-viral-load-taken.value');
+                /* The date that the viral load was taken is required if a qualitative result is selected */
+                if (viral_load_qualitative != "") {
+                    if (date_viral_load_taken == "") {
+                        getField('date-viral-load-taken.error').html('Please enter the date when the viral load sample was taken').show();
+                        return false;
+                    }
+                }
+
+                /** The date the viral load was taken cannot be after the encounter date */
+                if (date_viral_load_taken != "") {
+                    if (encounterDate &lt; date_viral_load_taken) {
+                        getField('date-viral-load-taken.error').html('The date the viral load sample was taken cannot be after the date of this visit ' + encounterDate).show();
+                        return false;
+                    }
+                }
+
+                /* If the viral load is detected, the number of copies must be greater than 20 which is the lowest detectable level for a machine */
+                if ((viral_load_qualitative == 1301) &amp;&amp; (getValue('viral-load-results-copies.value') &lt; 20)) {
+                    getField('viral-load-results-copies.error').html('Please enter the number of virus copies per ml. the minimum number of copies is 20').show();
+                    return false;
+                }
+
+                if (jq("#165144").find("select").find(":selected").val() !== "90003" &amp;&amp; jq("#165143").find("select").find(":selected").val() !== "165138") {
+                    getField('165143.error').html('Patient Not Stable. Only Stable Patients can be enrolled in ' + jq("#165143").find("select").find(":selected").text()).show();
+                    jq().toastmessage('showErrorToast', " Patient Not Stable. Only Stable Patients can be enrolled in " + jq("#165143").find("select").find(":selected").text());
+                    return false;
+                }
+
+                return true;
+            });
 
             function diff_months(dt2, dt1) {
                 var diff = (dt2.getTime() - dt1.getTime()) / 1000;
@@ -124,44 +232,17 @@
                     });
                 }
 
-                //Block Multiple encounter entry on same date
-                blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
-
                 var stableArray = [];
 
                 var previousVl = jq("#vl").text().trim();
                 var currentRegimen = jq("#regimen").text().trim();
-                var regimenBeforeDTG = jq("#regimen_before_dtg").text().trim();
                 var onThirdLine = jq("#on_third_line").text().trim();
                 var adherence = jq("#adherence").text().trim();
                 var clinicStaging = jq("#clinic_staging").text().trim();
                 var regimenStartedDate = jq("#regimen_started_date").text().trim();
-                var regimenBeforeDTGStartedDate = jq("#regimen_started_date_before_dtg").text().trim();
                 var sputumDate = jq("#sputum_date").text().trim();
-                var artStartDate = jq("#art_start_date").text().trim();
                 var teatmentStartDate = jq("#teatment_start_date").text().trim();
                 var sputumValue = jq("#sputum_value").text().trim();
-                var currentRegimenStartDate = jq("#current_regimen_start_date").text().trim();
-
-                if (regimenBeforeDTG &amp;&amp; regimenBeforeDTG !== "") {
-                    regimenStartedDate = regimenBeforeDTGStartedDate;
-                }
-
-                var durationOnART;
-                var durationOnCurrentRegimen;
-
-                if (artStartDate !== "") {
-                    durationOnART = diff_months(new Date(artStartDate), new Date(jq("#encounterDate").find("input[type=hidden]").val()));
-                    jq("#99024 input").val(durationOnART);
-                }
-
-                if (currentRegimenStartDate !== "") {
-                    durationOnCurrentRegimen = diff_months(new Date(currentRegimenStartDate), new Date(jq("#encounterDate").find("input[type=hidden]").val()));
-                    jq("#99025 input").val(durationOnCurrentRegimen);
-                }
-
-                fieldHelper.makeReadonly(jq("#99025 input"));
-                fieldHelper.makeReadonly(jq("#99024 input"));
 
 
                 disableContainer("#165144");
@@ -191,12 +272,6 @@
                     if (!patient_regimen.includes(regimen_encounter_page_value)) {
                         jq().toastmessage('showNoticeToast', "The regimen" + regimen_encounter_page_text + "you have selected is different from the current regimen in the Summary page. Please update the summary page with a switch/substitution to the selected regimen");
                     }
-
-                    if (currentRegimen !== jq("#90315").find("select").find(":selected").val()) {
-                        jq("#99025 input").val(0);
-                    }else {
-                        jq("#99025 input").val(durationOnCurrentRegimen);
-                    }
                     stabilityCheck();
                 });
                 /* End of Validation */
@@ -209,14 +284,7 @@
                     if (viral_load_status == 1301) {
                         /* Detected */
                         jq("#viral-load-results-copies").attr("disabled", false).attr("readonly", false).fadeTo(250, 1);
-                        <ifMode mode="ENTER">
-                                setValue('viral-load-results-copies.value', '');
-                        </ifMode>
-
-                        var viral_load_copies = getValue('viral-load-results-copies.value');
-                        if(viral_load_copies == 1){
-                            setValue('viral-load-results-copies.value', '');
-                        }
+                        setValue('viral-load-results-copies.value', '');
                     }
                     if (viral_load_status == 1306) {
                         /* Not Detected */
@@ -228,14 +296,9 @@
                         jq("#viral-load-results-copies").attr("disabled", true).attr("readonly", true).fadeTo(250, 0.25);
                         setValue('viral-load-results-copies.value', '');
                     }
-                });
-
-                jq("#viral-load-results-copies").change(function () {
-                    previousVl = jq("#viral-load-results-copies").find("input").val();
+                    previousVl = viral_load_status;
                     stabilityCheck();
                 });
-
-
                 // trigger a change when the form loads
                 jq("#viral-load-results-qualitative").change();
 
@@ -341,13 +404,11 @@
                     /*Viral Load Check*/
 
                     stableArray = [];
-                    instabilityCause = "";
 
-                    if (previousVl !== "" &amp;&amp; previousVl &lt;= 1000) {
+                    if (previousVl === "1306") {
                         stableArray.push(true);
                     } else {
                         stableArray.push(false);
-                        instabilityCause = instabilityCause + "Viral Load is Not Suppressed \n ";
                     }
 
                     /* Third Line*/
@@ -356,14 +417,12 @@
                         stableArray.push(true);
                     } else {
                         stableArray.push(false);
-                        instabilityCause += "Current regimen is a third line regimen \n "
                     }
 
                     /* Adherence Check*/
 
                     if (adherence.length &lt;= 0 || adherence.trim().includes("POOR")) {
                         stableArray.push(false);
-                        instabilityCause += "Adherence is not Good \n "
                     } else {
                         stableArray.push(true);
                     }
@@ -373,25 +432,19 @@
                         stableArray.push(true);
                     } else {
                         stableArray.push(false);
-                        instabilityCause += "Clinic stage is neither 1 or 2 \n";
                     }
-                    var pageCurrentRegimen = jq("#90315").find("select").find(":selected").val();
-                    var pageEncounterDate = jq("#encounterDate").find("input[type=hidden]").val();
 
-                    if (currentRegimen !== "" &amp;&amp; (currentRegimen === pageCurrentRegimen) &amp;&amp; diff_months(new Date(pageEncounterDate), new Date(regimenStartedDate)) &gt; 12) {
+                    if (currentRegimen !== "" &amp;&amp; (currentRegimen === jq("#90315").find("select").find(":selected").val()) &amp;&amp; diff_months(new Date(jq("#encounter_date").find("input[type=hidden]").val()), new Date(regimenStartedDate)) &gt; 12) {
                         stableArray.push(true);
                     } else {
                         stableArray.push(false);
-                        instabilityCause += "Patient has not spent more than 12 moths on current Regiment \n "
                     }
 
-                    if (sputumValue !== "" &amp;&amp; sputumValue !== "664" &amp;&amp; diff_months(new Date(jq("#encounterDate").find("input[type=hidden]").val()), new Date(teatmentStartDate)) &lt; 2) {
+                    if (sputumValue !== "" &amp;&amp; sputumValue !== "664" &amp;&amp; diff_months(new Date(jq("#encounter_date").find("input[type=hidden]").val()), new Date(teatmentStartDate)) &lt; 2) {
                         stableArray.push(false);
-                        instabilityCause += "Patient has not been on treatment for TB for at least 2 months"
                     } else {
                         stableArray.push(true);
                     }
-                    instabilityCause.trim().replace()
 
                     if (stableArray.indexOf(false) != -1) {
                         jq("#165144 select").val("90004");
@@ -402,70 +455,8 @@
                 }
             });
 
-
-            <!-- Validation rules -->
-            beforeSubmit.push(function () {
-                <!-- clear the previous errors -->
-                setValue('returndate.error', '');
-                setValue('viral-load-results-copies.error', '');
-                setValue('date-viral-load-taken.error', '');
-
-                var encounterDate = new Date((getValue('encounterDate.value')));
-                var returnDate = new Date((getValue('returndate.value')));
-
-                if (encounterDate &gt;= returnDate) {
-                    getField('returndate.error').html('The return date must be after the date of this visit ' +
-                        formatDateForDisplay(encounterDate)).show();
-                    return false;
-                }
-
-                <!-- Check that the return date is before the transfer out date only if there is a transfer out date -->
-                if (jq('#transfer_out_date_id').html().replace(/\s+/, "").length > 0) {
-                    var transfer_out_date_id = new Date(jq('#transfer_out_date_id').html());
-                    if (returnDate &gt;= transfer_out_date_id) {
-                        getField('returndate.error').html('The return date must be before the transfer out date of ' +
-                            formatDateForDisplay(transfer_out_date_id)).show();
-                        return false;
-                    }
-                    return false;
-                }
-
-                var viral_load_qualitative = getValue('viral-load-results-qualitative.value');
-                var date_viral_load_taken = getValue('date-viral-load-taken.value');
-                /* The date that the viral load was taken is required if a qualitative result is selected */
-                if (viral_load_qualitative != "") {
-                    if (date_viral_load_taken == "") {
-                        getField('date-viral-load-taken.error').html('Please enter the date when the viral load sample was taken').show();
-                        return false;
-                    }
-                }
-
-                /** The date the viral load was taken cannot be after the encounter date */
-                if (date_viral_load_taken != "") {
-                    if (encounterDate &lt; date_viral_load_taken) {
-                        getField('date-viral-load-taken.error').html('The date the viral load sample was taken cannot be after the date of this visit ' + encounterDate).show();
-                        return false;
-                    }
-                }
-
-                /* If the viral load is detected, the number of copies must be greater than 20 which is the lowest detectable level for a machine */
-                if ((viral_load_qualitative == 1301) &amp;&amp; (getValue('viral-load-results-copies.value') &lt; 20)) {
-                    getField('viral-load-results-copies.error').html('Please enter the number of virus copies per ml. the minimum number of copies is 20').show();
-                    return false;
-                }
-
-                /* if DSDM is not FBIM or FTR or Empty and patient is not stable should not save.*/
-                if (jq("#165144").find("select").find(":selected").val() !== "90003" &amp;&amp; (jq("#165143").find("select").find(":selected").val() !== "165138" &amp;&amp; jq("#165143").find("select").find(":selected").val() !== "165140" &amp;&amp; jq("#165143").find("select").find(":selected").val() !== "")) {
-                    getField('165143.error').html('Patient Not Stable due to ' + instabilityCause + '. \n Only Stable Patients can be enrolled in ' + jq("#165143").find("select").find(":selected").text()).show();
-
-                    jq().toastmessage('showErrorToast', " Patient Not Stable " + instabilityCause + ". \n Only Stable Patients can be enrolled in " + jq("#165143").find("select").find(":selected").text());
-                    return false;
-                }
-
-                return true;
-            });
-
         }
+
     </script>
 
     <!-- This section contains lookup tags that pick data from other forms-->
@@ -503,17 +494,22 @@
 
     <div class="container-fluid">
         <div class="row">
+
+
             <div class="col-md-6">
                 <h1>003 HIV Care/ART CARD - Clinical Assessment Form</h1>
             </div>
-            <div class="col-md-6 float-right">
-                <!-- <postSubmissionAction class="org.openmrs.module.poc.htmlformentry.DSDSProgramSubmissionAction" />
-                <submit class="btn btn-success"/> -->
-                <input type="button" class="btn btn-primary" value="Submit" onclick="submitHtmlForm()" />
+            <div class="col-md-6">
+                <span class="float-right">
+                    <postSubmissionAction class="org.openmrs.module.poc.htmlformentry.DSDSProgramSubmissionAction" />
+                    <submit/>
+                </span>                
             </div>
         </div>
     
     <div class="row">
+
+
         <div class="col-md-12">
         <div class="card">
             <div class="card-header header-success">
@@ -591,7 +587,6 @@
                                                 <obs id="returndate" conceptId="5096" allowFutureDates="true" />
                                             </includeIf>
 
-
                                             <includeIf velocityTest="$transfer_out!='YES'">
                                                 <label>Return date</label>
                                                 <obs id="returndate" conceptId="5096" required="required" allowFutureDates="true" />
@@ -627,42 +622,39 @@
                             
                         <div class="tab-pane fade" id="vitals">
                             <section>
+                            <ul class="list-group list-group-flush">
+                            <li class="list-group-item"> 
                             <div class="row">
-                                <div class="col-md-4">  
+                                <div class="col-md-3">  
                                     <label>Height (cm)</label>
                                     <obs conceptId="5090"  />
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label>Weight (kg)</label>
                                     <obs conceptId="90236" />
                                 </div>
-                                <div class="col-md-4">  
+                                <div class="col-md-3">  
                                     <label>Temperature (c)</label>
                                     <obs conceptId="CIEL:5088" id="temperature" />
                                 </div>
-
-                            </div>
-
-                            <div class="row">
-
-                                <div class="col-md-4">   
+                                <div class="col-md-3">   
                                     <label>Heart Rate (/min)</label>                    
                                     <obs conceptId="CIEL:5087" id="heart_rate" />
                                 </div>
-                                <div class="col-md-4"> 
+                            </div>
+                            </li>
+                            <li class="list-group-item"> 
+                            <div class="row">
+                                <div class="col-md-3"> 
                                     <label>Respiratory Rate (/min)</label>
                                     <obs conceptId="CIEL:5242" id="respiratory_rate" />
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                    <label>Oedema</label>
                                     <obs conceptId="460" answerConceptIds="90003,90004"
                                          answerLabels="Oedema +,-" style="dropdown"/>
                                 </div>
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-md-4">  
+                                <div class="col-md-3">  
                                     <includeIf velocityTest="$patient.age &lt; 5">
                                         <label>MUAC</label>
                                         <obs conceptId="99030" answerConceptIds="99028,99029,99027"
@@ -684,34 +676,44 @@
                                         <obs conceptId="99030" answerConceptIds="99028,99029,99027"
                                              answerLabels="Red &lt;19.0cm , Yellow 19.0cm - &lt;22.0cm,Green &gt;=22.0cm" />
                                     </includeIf>
-                                </div> 
-                                <div class="col-md-4">  
+                                </div>
+                            </div>
+                            </li>
+                        <li class="list-group-item"> 
+                            <h4 class="card-title">Blood Pressure</h4>
+                            <div class="row">
+                              <div class="col-md-3">  
                                     <label>Systolic Blood Pressure</label>
                                         <obs conceptId="CIEL:5085" id="bp_systolic"/>
                                 </div>
-                                <div class="col-md-4">  
+                                <div class="col-md-3">  
                                     <label>Systolic Blood Pressure</label> 
                                         <obs conceptId="CIEL:5086" id="bp_diastolic" />
                                 </div>
                             </div>
+                        </li>
+                        <li class="list-group-item"> 
+                                <h4 class="card-title">Nutrition Assessment</h4>
                             <div class="row">
-                                <div class="col-md-4"> 
+                                <div class="col-md-3"> 
                                     <label>Nutrition Status </label>
-                                    <obs conceptId="165050" answerConceptIds="1115,99271,99272,99273" 
-                                        answerLabels="Normal, Moderate Acute Malnutrition, Severe Acute Malnutrition, Severe Acute Malnutrition with Oedema"/>
+                                    <obs conceptId="165050" answerConceptIds="1115,99271,99272,99273,5277,165301" 
+                                        answerLabels="Normal, Moderate Acute Malnutrition, Severe Acute Malnutrition, Severe Acute Malnutrition with Oedema, Overweight/Obese"/>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                    <label>Nutrition Support</label>
-                                   <obs conceptId="99054" answerConceptIds="99053,99052" 
-                                        answerLabels="Therapeutic Feeding (F75 F100 RUTF), Nutrition Counselling only (if &gt; 2yrs)"/>
+                                   <obs conceptId="99054" answerConceptIds="99053,99050,99051,99052" 
+                                        answerLabels="Therapeutic Feeding (F75 F100 RUTF), Supplementary Feeding (Flour, oil, sugar, etc), Infant and Young Child Feeding Counselling ( &gt; 2yrs), Nutrition Counselling only (if &gt; 2yrs)"/> 
                                 </div>
                             <excludeIf velocityTest="$patient.age &gt; 11">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                         <obs labelText="Z-Scores" conceptId="99800" answerConceptIds="99803,99804,99805,99806,99807"
                                              answerLabels="&#60;-3,-3_&#60;-1,-1_1,&#62;1_3,&#62;3"/>
                                 </div>                               
                             </excludeIf>
                             </div>
+                        </li>
+                        </ul>
                             </section>
                         </div>
 
@@ -719,28 +721,20 @@
                             <section>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">                                   
+                                        <h4 class="card-title">Pregnancy</h4>
                                             <div class="row">
-                                                <div class="col-md-12">
-                                                    <h4 class="card-title">Pregnancy</h4>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" />
-                                                        <label class="form-check-label" for="inlineCheckbox1">Pregnant</label>
+                                                    <div class="col-md-12 horizontal">
+                                                        <obs conceptId="90041" answerConceptId="1065"
+                                                             answerLabel="Pregnant"/>
+                                                        <obs conceptId="90041" answerConceptId="99601"
+                                                             answerLabel="Breast Feeding"/>
+                                                        <obs conceptId="90041" answerConceptId="1066"
+                                                             answerLabel="Not pregnant or not breast feeding"/>
+                                                        <obs conceptId="90041" answerConceptId="1175"
+                                                             answerLabel="Unknown"/>
                                                     </div>
-                                                    <div class="form-check form-check-inline">
-                                                          <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
-                                                          <label class="form-check-label" for="inlineCheckbox2">Breast Feeding</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                          <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" />
-                                                          <label class="form-check-label" for="inlineCheckbox3">Not pregnant/Not Breast feeding</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                          <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" />
-                                                          <label class="form-check-label" for="inlineCheckbox3">NA</label>
-                                                    </div>
-                                                </div>
                                             </div>
-                                    
+
                                             <br/>
                                             <div class="row">
                                                 <excludeIf velocityTest="$patient.gender =='M' || $patient.age &lt; 9">
@@ -751,75 +745,58 @@
                                                                  answerLabels="Yes,No" />
                                                         </span>
                                                     </div> -->
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <label>EDD</label>
                                                         <span class="ARTYesNoEnableDisableChild2">
                                                                 <obs conceptId="5596" allowFutureDates="true"/>    
                                                         </span>
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-2">
                                                     <span class="ARTYesNoEnableDisable3">
                                                         <label>EMTCT</label>
                                                         <obs conceptId="90012" answerConceptIds="90003,90004"
                                                              answerLabels="Yes,No"/>
                                                     </span>
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-2                                                                                                    ">
                                                         <lable>Gestation in Weeks</lable>
                                                         <span class="ARTYesNoEnableDisableChild2">
                                                             <obs conceptId="162983"/>
                                                         </span>
                                                     </div>
+                                                    <div class="col-md-2">
+                                                        <span class="ARTYesNoEnableDisableChild3">
+                                                            <label>Age in months</label>
+                                                            <obs conceptId="99270" />
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                    <span class="ARTYesNoEnableDisableChild2">
+                                                       
+                                                        <label>ANC No.</label>
+                                                        <patient field="identifier" identifierTypeId="b0cc255e-ef57-4266-839e-0df7f5099eb9"
+                                                                 required="false"/>
+                                                    </span>
+                                                    </div>
                                                 </excludeIf>
                                             </div>
 
-                                            <div class="row">
-                                                <excludeIf velocityTest="$patient.age &lt; 9">
-                                                    <excludeIf velocityTest="$patient.gender =='M'">
-                                                        <div class="col-md-4">
-                                                            <span class="ARTYesNoEnableDisableChild3">
-                                                                <label>Age in months</label>
-                                                                <obs conceptId="99270" />
-                                                            </span>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                        <span class="ARTYesNoEnableDisableChild2">
-                                                           
-                                                            <label>ANC No.</label>
-                                                            <patient field="identifier" identifierTypeId="b0cc255e-ef57-4266-839e-0df7f5099eb9"
-                                                                     required="false"/>
-                                                        </span>
-                                                        </div>
-                                                    </excludeIf>
-                                                </excludeIf>
-                                            </div>
                                             </li>
                                              <li class="list-group-item"> 
                                                 <excludeIf velocityTest="$patient.age &lt; 9">
-                                                        <!-- <div class="row">
-                                                            <div class="col-md-3">
+                                                        <h4 class="card-title">Family Planning</h4>
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                                <label>Is on Family Planning ? </label>
                                                             <span id="checkboxRadio">
-                                                                <span class="ARTYesNoEnableDisable1">
-                                                                    <label>Family Planning? </label>
-                                                                    <obs conceptId="90238" answerConceptIds="90082,90081" answerLabels="Yes,No" />
+                                                                <span class="ARTYesNoEnableDisable1 horizontal">
+                                                                    <obs conceptId="90238" answerConceptIds="90082,90081" answerLabels="Yes,No" style="radio" />
                                                                 </span>
                                                             </span>
-                                                            </div>
-                                                        </div> -->
+                                                        </div>
+                                                    </div>
+                                                    <br/>
                                                     <div class="row">
-                                                        <div class="col-md-4">
-                                                        <h4 class="card-title">Family Planning</h4>
-                                                            <label>Is on family Planning?</label>
-                                                        <div class="form-check form-check-inline">
-                                                          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                                                          <label class="form-check-label" for="inlineRadio1">No</label>
-                                                        </div>
-                                                        <div class="form-check form-check-inline">
-                                                          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
-                                                          <label class="form-check-label" for="inlineRadio2">Yes</label>
-                                                        </div>
-                                                        </div>
-                                                   
                                                         <div class="col-md-4">    
                                                         <label>Family Planning Method:</label>                       
                                                         <span class="ARTYesNoEnableDisableChild1">
@@ -831,44 +808,47 @@
                                                                          answerLabel="2 - Oral Contraceptive pills"/>
                                                                     <obs conceptId="374" answerConceptId="5279"
                                                                          answerLabel="3 - Injectable/Implantable hormonies"/>
+                                                                    <obs conceptId="374" answerConceptId="162961"
+                                                                         answerLabel="4 - Implants"/>
                                                                     <obs conceptId="374" answerConceptId="5278"
-                                                                         answerLabel="4 - Diaphram/Cervical Cap"/>
+                                                                         answerLabel="5 - Diaphram/Cervical Cap"/>
                                                                     <obs conceptId="374" answerConceptId="5275"
-                                                                         answerLabel="5 - Intra uterine device (IUD)"/>
+                                                                         answerLabel="6 - Intra uterine device (IUD)"/>
+                                                                    <obs conceptId="374" answerConceptId="5277"
+                                                                         answerLabel="8 - Fertility Awareness Methods"/>
                                                                 </span>
                                                             </excludeIf>
                                                             <obs conceptId="374" answerConceptId="99265"
-                                                                 answerLabel="6 - Vasectomy/Tubal ligation"/>
+                                                                 answerLabel="7 - Vasectomy/Tubal ligation"/>
                                                         </span>
                                                         </div>
                                                     </div>
                                                 </excludeIf>
                                             </li>
-                                <li class="list-group-item"> 
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <label>Intention to concieve in the next three months</label>
-                                                <div class="form-check form-check-inline">
-                                                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                                                  <label class="form-check-label" for="inlineRadio1">No</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
-                                                  <label class="form-check-label" for="inlineRadio2">Yes</label>
-                                                </div>
-                                                </div>
-
-                                                <div class="col-md-4"> 
-                                                    <label>CaCx Status</label>
-                                                    <obs conceptId="CIEL:5242" id="respiratory_rate" />
-                                                </div>
-                                            </div>  
-                                        </li>
+                                            <li class="list-group-item"> 
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label>Intention to concieve in the next three months</label>
+                                                    <div class="form-check form-check-inline">
+                                                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
+                                                      <label class="form-check-label" for="inlineRadio1">No</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
+                                                      <label class="form-check-label" for="inlineRadio2">Yes</label>
+                                                    </div>
+                                                    </div>
+                                                    <div class="col-md-3"> 
+                                                        <label>CaCx Status</label>
+                                                        <obs conceptId="CIEL:5242" id="respiratory_rate" />
+                                                    </div>
+                                                </div>  
+                                            </li>
                         </ul>
                             </section>
                         </div>
 
-                        <div class="tab-pane fade" id="tb-treatment">
+                        <div class="tab-pane fade" id="tb-treatment">  
                             <section>
                             <div class="row">
                                 <div class="col-md-3">
@@ -900,28 +880,20 @@
                                     </span>
                                 </div>
                             </div>
-
                             <div class="row">
                                 <div class="col-md-3">
                                     <label>TPT Status</label>
-                                    <span class="DistrictTbRegEnableDisable1">
                                         <obs conceptId="90216"
-                                             answerConceptIds="90079,90073,90078,90071"
-                                             answerLabels="1. No signs,2. Suspect,3. Diagnosed with Tb,4. Tb Rx"/>
-                                    </span>
+                                             answerConceptIds="1090,90072,99133,90040,160035"
+                                             answerLabels="H0: Never Initiated,H1: On INH,H2: Defaulted,H3: Taken off due to side effects,H4: Completed"/>
                                 </div>
                                 <div class="col-md-3">
                                     <label>No. TPT Pills</label>
-                                    <span class="DistrictTbRegEnableDisableChild1">
-                                        <obs conceptId="90217"/>
-                                    </span>
+                                        <obs conceptId="165278"/>
                                 </div>
                                 <div class="col-md-3">
                                     <label>No. B6 Pills</label>
-                                    <span class="DistrictTbRegEnableDisableChild1">
-                                        <obs conceptId="90310" allowFutureDates="true"/>
-
-                                    </span>
+                                        <obs conceptId="165279"/>
                                 </div>
                             </div>
                         </section>
@@ -933,29 +905,37 @@
                                     <li class="list-group-item"> 
                                         <h4 class="card-title">Presenting Signs and Symptoms</h4>
                                     <div class ="row">
-                                        <div class="col-md-6">
-                                            <obs conceptId="90227" answerConceptId="90100" answerLabel="AB"/>
-                                            <obs conceptId="90227" answerConceptId="90099" answerLabel="Anaemia"/>
-                                            <obs conceptId="90227" answerConceptId="90095" answerLabel="BN"/>
-                                            <obs conceptId="90227" answerConceptId="90117" answerLabel="CNS"/>
-                                            <obs conceptId="90227" answerConceptId="90092" answerLabel="Diarrhoea"/>
-                                            <obs conceptId="90227" answerConceptId="90116" answerLabel="FAT"/>
-                                            <obs conceptId="90227" answerConceptId="90093" answerLabel="Fatigue"/>
+                                        <div class="col-md-4">
+                                            <obs conceptId="90251" answerConceptId="90139" answerLabel="Oral or anal ulcers"/>
+                                            <obs conceptId="90251" answerConceptId="90094" answerLabel="Headache"/>
+                                            <obs conceptId="90251" answerConceptId="90135" answerLabel="Weight loss in last month"/>
+                                            <obs conceptId="90251" answerConceptId="90130" answerLabel="Whites spots/thrush in mouth"/>
+                                            <obs conceptId="90251" answerConceptId="90132" answerLabel="Cough or shortness of breath > 1 week"/>
+                                            <obs conceptId="90251" answerConceptId="90116" answerLabel="Fever, chills or night sweats > 1 week"/>
                                         </div>
-                                        <div class="col-md-6">
-                                            <obs conceptId="90227" answerConceptId="90094" answerLabel="Headache"/>
-                                            <obs conceptId="90227" answerConceptId="90115" answerLabel="Jaundice"/>
-                                            <obs conceptId="90227" answerConceptId="90091" answerLabel="Nausea"/>
-                                            <obs conceptId="90227" answerConceptId="90098" answerLabel="Rash"/>
+                                        <div class="col-md-3">
+                                            <obs conceptId="90251" answerConceptId="206" answerLabel="New seizure"/>
+                                            <obs conceptId="90251" answerConceptId="165285" answerLabel="Weak arms/legs"/>
+                                            <obs conceptId="90251" answerConceptId="16" answerLabel="Diarrhea > 1 week"/>
+                                            <obs conceptId="90251" answerConceptId="165286" answerLabel="Acting unusual"/>
+                                            <obs conceptId="90251" answerConceptId="165287" answerLabel="Difficulty walking"/>
+                                            <obs conceptId="90251" answerConceptId="5953" answerLabel="Double or Blurry vision"/>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <obs conceptId="90251" answerConceptId="861" answerLabel="Decreased hearing"/>
+                                            <obs conceptId="90251" answerConceptId="118789" answerLabel="Difficulty or painful swallowing"/>
+                                            <obs conceptId="90251" answerConceptId="79" answerLabel="Red/purple or dark spots on skin"/>
+                                            <obs conceptId="90251" answerConceptId="122936" answerLabel="Unable to walk without assisstance"/>
+
                                             <span class="enableDisable">
-                                                    <span id="trigger">
-                                                        <obs conceptId="90227" answerConceptId="90002"
-                                                             answerLabel="Other specify:"/>
-                                                    </span>
-                                                    <span id="disabled">
-                                                        <obs conceptId="99113" size="17" labelText=""/>
-                                                    </span>
+                                                <span id="trigger">
+                                                    <obs conceptId="90251" answerConceptId="90002"
+                                                         answerLabel="Other specify:"/>
                                                 </span>
+                                                <!-- <span id="disabled">
+                                                    <obs conceptId="99113" size="17" labelText=""/>
+                                                </span> -->
+                                            </span>
                                         </div>
                                     </div>
                                     </li>
@@ -963,7 +943,7 @@
                                    
                                         <h4 class="card-title">Side effects of ART</h4>
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <obs conceptId="90227" answerConceptId="90100" answerLabel="AB"/>
                                                     <obs conceptId="90227" answerConceptId="90099" answerLabel="Anaemia"/>
                                                     <obs conceptId="90227" answerConceptId="90095" answerLabel="BN"/>
@@ -972,11 +952,12 @@
                                                     <obs conceptId="90227" answerConceptId="90116" answerLabel="FAT"/>
                                                     <obs conceptId="90227" answerConceptId="90093" answerLabel="Fatigue"/>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-3">
                                                     <obs conceptId="90227" answerConceptId="90094" answerLabel="Headache"/>
                                                     <obs conceptId="90227" answerConceptId="90115" answerLabel="Jaundice"/>
                                                     <obs conceptId="90227" answerConceptId="90091" answerLabel="Nausea"/>
                                                     <obs conceptId="90227" answerConceptId="90098" answerLabel="Rash"/>
+                                                    <obs conceptId="90227" answerConceptId="122983" answerLabel="Vomiting"/>
                                                     <span class="enableDisable">
                                                             <span id="trigger">
                                                                 <obs conceptId="90227" answerConceptId="90002"
@@ -991,7 +972,7 @@
                                     </li>
                                     <li class="list-group-item">
                                         <div class ="row">
-                                            <div class ="col-md-6">
+                                            <div class ="col-md-4">
                                                 <div class ="row">
                                                     <div class ="col-md-12">
                                                     <h4 class="card-title">Diagnosis</h4>
@@ -1018,45 +999,38 @@
                                                                 </div>
                                                             </div>
                                                             <br/>
-                                                            <div class="row">
-                                                                    <div class="col-md-6">
-                                                                        <label>Hep B Status</label>
-                                                                    <div class="form-check form-check-inline">
-                                                                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                                                                      <label class="form-check-label" for="inlineRadio1">Tested</label>
-                                                                    </div>
-                                                                    <div class="form-check form-check-inline">
-                                                                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
-                                                                      <label class="form-check-label" for="inlineRadio2">Not Tested</label>
-                                                                    </div>
-                                                                    </div>
 
-                                                                    <div class="col-md-6">
-                                                                        <label>Hep B Results (if tested)</label>
-                                                                    <div class="form-check form-check-inline">
-                                                                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                                                                      <label class="form-check-label" for="inlineRadio1">Negative</label>
-                                                                    </div>
-                                                                    <div class="form-check form-check-inline">
-                                                                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
-                                                                      <label class="form-check-label" for="inlineRadio2">Positive</label>
-                                                                    </div>
-                                                                    </div>
-                                                            </div>
-                                                            <br/>
                                                             <div class="row">
-                                                                <div class="col-md-4">
-                                                                    <lable>Syphilis Status</lable>
-                                                                    <obs conceptId="90235" answerConceptIds="90037,90038,90039"
-                                                                         answerLabels="Amb,Work, Bed" labelText=""/>
+                                                                <div class="col-md-6">
+                                                                    <label>Hep B Status</label>
+                                                                <span class="horizontal">
+                                                                <obs conceptId="1322" answerConceptIds="159971,90001"
+                                                                     answerLabels="Tested,Not Tested" style="radio"/>
+                                                                </span>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <label>Hep B Results (if tested)</label>
+                                                                <span class="horizontal">
+                                                                <obs conceptId="1322" answerConceptIds="703,664"
+                                                                     answerLabels="Negative,Positive" style="radio"/>
+                                                                </span>
                                                                 </div>
                                                             </div>
                                                     </div>
                                                 </div>
+                                                    <br/>
+                                                <div class ="row">
+                                                    <div class="col-md-4">
+                                                        <lable>Syphilis Status</lable>
+                                                        <obs conceptId="99753" answerConceptIds="162848,99756,99755,99754"
+                                                             answerLabels=" No symptoms,Symptomatic Non-Reactive,Symptomatic Reactive,Symptomatic Reactive and treated" />
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </section>
                         </div>
 
@@ -1064,73 +1038,50 @@
                             <section>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
-
+                                            <h4 class="card-title">CTX/Dapsone</h4>
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-
-                                                            <h4 class="card-title">CTX/Dapsone</h4>
-                                                            <div class="row">
-                                                            <div class="col-md-4">
-                                                                <br/>
-                                                                <div class="form-check form-check-inline">
-                                                                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                                                                  <label class="form-check-label" for="inlineRadio1">Yes</label>
-                                                                </div>
-                                                                <div class="form-check form-check-inline">
-                                                                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
-                                                                  <label class="form-check-label" for="inlineRadio2">No</label>
-                                                                </div>
-                                                                <div class="form-check form-check-inline">
-                                                                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
-                                                                  <label class="form-check-label" for="inlineRadio2">NE</label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4"> 
-                                                                <obs conceptId="99037" labelText="# Pills:"/>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <obs conceptId="99033" labelText="Days:"/>
-                                                            </div>
-                                                            </div>
-                                                    </div>
-                                                </div>
+                                            <div class="col-md-3">
+                                                <label>Is given CTX/Dapsone?</label>
+                                                <span class="horizontal">
+                                                <obs conceptId="160434" answerConceptIds="1065,1066,1067"
+                                                         answerLabels="Yes,No,NE" style="radio"/>
+                                                </span>
                                             </div>
-
-                                            <div class="col-md-6">
-                                                    <div class="row">
-                                                    <div class="col-md-12">
-                                                        <h4 class="card-title">INH</h4>
-                                                        <div class="row">
-                                                        <div class="col-md-4">
-                                                            <label># Pills</label>
-                                                            <obs conceptId="99604" />
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <label>Days</label>
-                                                            <obs conceptId="99605"/>
-                                                        </div>
-                                                    </div>
-                                                    </div>
-                                                    </div>
+                                            <div class="col-md-3"> 
+                                                <obs conceptId="99034" labelText="# Pills:"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <obs conceptId="99033" labelText="Days:"/>
                                             </div>
                                         </div>
                                     </li>
                                     <li class="list-group-item">
+                                            <h4 class="card-title">INH</h4>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>No. of Pills</label>
+                                                <obs conceptId="99604" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Days</label>
+                                                <obs conceptId="99605"/>
+                                            </div>
+                                        </div>
+                                   </li>
+                                    <li class="list-group-item">
                                         <h4 class="card-title">Fluconazole</h4>
                                         <div class="row">
                                             <div class="col-md-3"> 
-                                                <obs conceptId="99037" labelText="Start Date"/>
+                                                <obs conceptId="165280" labelText="Start Date"/>
                                             </div>
                                             <div class="col-md-3"> 
-                                                <obs conceptId="99037" labelText="Stop Date"/>
+                                                <obs conceptId="165281" labelText="Stop Date"/>
                                             </div>
                                             <div class="col-md-3">
-                                                <obs conceptId="99033" labelText="No. of Pills"/>
+                                                <obs conceptId="165282" labelText="No. of Pills"/>
                                             </div>
                                             <div class="col-md-3">
-                                                <obs conceptId="99033" labelText="No. of Days"/>
+                                                <obs conceptId="165283" labelText="No. of Days"/>
                                             </div>
                                         </div>
                                     </li>
@@ -1158,18 +1109,10 @@
 
                                             <div class="col-md-6">
                                                 <label>Adherence:</label>
-                                            <div class="form-check form-check-inline">
-                                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                                              <label class="form-check-label" for="inlineRadio1">Good</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                                              <label class="form-check-label" for="inlineRadio1">Fair</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
-                                              <label class="form-check-label" for="inlineRadio2">Poor</label>
-                                            </div>
+                                            <span class="horizontal">
+                                            <obs conceptId="90221" answerConceptIds="90156,90157,90158"
+                                             answerLabels=" Good, Fair, Poor" style="radio"/>
+                                            </span>
                                             </div>
                                         </div>
                                             <br/>
@@ -1456,7 +1399,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Duration on ART</label>
-                                                <obs conceptId="99033" />
+                                                <obs conceptId="99024" />
                                             </div>
                                             <div class="col-md-4"> 
                                                 <label>DSDM Patient Categorization</label>
@@ -1469,8 +1412,8 @@
                                                 <obs conceptId="99033" />
                                             </div>
                                             <div class="col-md-4"> 
-                                                <label>Visit Type</label>
-                                                <obs conceptId="99037" />
+                                                <label>Visit Type</label>          
+                                                <obs conceptId="160288" answerConceptIds="164969,165284" answerLabels="Drug Refill Only, Clinical Assessment" />
                                             </div>
                                         </div>
                                     </li>
@@ -1488,21 +1431,11 @@
                                         <div class="row">
                                             <div class="col-md-4"> 
                                                 <label>Location</label>
-                                                <obs conceptId="99037" />
+                                                <obs conceptId="90211" />
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Attendant</label>
                                                 <obs conceptId="99033" />
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                             <div class="col-md-4">
-                                                <label>DSDM Approach</label>
-                                                <obs conceptId="99033" />
-                                            </div>
-                                            <div class="col-md-4"> 
-                                                <label>Visit Type</label>
-                                                <obs conceptId="99037" />
                                             </div>
                                         </div>
                                     </li>
