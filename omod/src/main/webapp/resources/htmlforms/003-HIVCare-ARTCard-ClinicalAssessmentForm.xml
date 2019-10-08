@@ -43,8 +43,22 @@
         </includeIf>
     </ifMode>
     
+    <script type="text/css">
+        .EnableDisabletbstatuschild {
+        display: none;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .stability {
+            display: none;
+        }
+    </script>
     <!-- jquery loaded for nonessential purposes. -->
     <script type="text/javascript">
+
         function enable_disable(field, class_name_prefix, conditions, input_type) {
 
             var class_name = jq(field).attr("class");
@@ -96,7 +110,6 @@
                 }
             });
         }
-
 
         function enable_disable_district_tb_reg(selected_option) {
 
@@ -171,6 +184,78 @@
 
 
             jq(document).ready(function () {
+
+                jq("#muac_code").find("select").attr('disabled', 'true')
+
+                jq("#muac_score").find("input[type$='text']").change(function() {
+
+                var age      = <lookup complexExpression="$patient.age"/>;
+                
+                var muacScore = jq(this).val();
+
+                if(age &lt; 5) {
+
+                    if(muacScore &lt; 11.5) {
+                        jq("#muac_code").find("select").val(99028).attr('selected', 'selected')
+                    }
+
+                    if(muacScore &gt;= 11.5 &amp;&amp; muacScore &lt; 12.5) {
+                        jq("#muac_code").find("select").val(99029).attr('selected', 'selected')
+                    }
+
+                    if(muacScore &gt;=12.5) {
+                        jq("#muac_code").find("select").val(99027).attr('selected', 'selected')
+                    }
+                }
+
+                if(age &gt;= 5 &amp;&amp; age &lt; 10) {
+
+                    if(muacScore &lt; 13.5) {
+                        jq("#muac_code").find("select").val(99028).attr('selected', 'selected')
+                    }
+
+                    if(muacScore &gt;=13.5 &amp;&amp; muacScore &lt; 14.5) {
+                        jq("#muac_code").find("select").val(99029).attr('selected', 'selected')
+                    }
+                       
+                    if(muacScore &gt;=14.5) {
+                        jq("#muac_code").find("select").val(99027).attr('selected', 'selected')
+                    }
+
+                }
+
+                if(age &gt;=10 &amp;&amp; age &lt; 18) {
+
+                    if(muacScore &lt; 16.5) {
+                       jq("#muac_code").find("select").val(99028).attr('selected', 'selected')
+                    }
+               
+                    if(muacScore &gt;=16.5 &amp;&amp; muacScore &lt; 19) {
+                        jq("#muac_code").find("select").val(99029).attr('selected', 'selected')
+                    }
+                  
+                    if(muacScore &gt;=19) {
+                        jq("#muac_code").find("select").val(99027).attr('selected', 'selected')
+                    }
+                 
+                }
+
+                if(age &gt;=18) {
+
+                     if(muacScore &lt; 19) {
+                        jq("#muac_code").find("select").val(99028).attr('selected', 'selected')
+                    }
+           
+                    if(muacScore &gt;=19 &amp;&amp; muacScore &lt; 22) {
+                        jq("#muac_code").find("select").val(99029).attr('selected', 'selected')
+                    }
+                     
+                    if(muacScore &gt;=22) {
+                        jq("#muac_code").find("select").val(99027).attr('selected', 'selected')
+                    }   
+                }
+
+            });
 
                 //Block Multiple encounter entry on same date
                 blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
@@ -440,6 +525,7 @@
                     }
                 });
 
+                jq("#bmi").find("input[type$='text']").attr('disabled', true);
                 
 
                 jq(".enableDisable").each(function () {
@@ -607,6 +693,138 @@
         }
     </script>
 
+    <script type="text/javascript">
+        if(jQuery){
+            jq(document).ready(function(){
+                $allRows = jq(this).find('.multi-drug');
+                $allRows.hide();
+                jq('#1-removeEntry').remove();
+                jq('#10-addEntry').remove();
+                jq('#1-toggleContainer').show();
+
+                jq('#11-removeEntry').remove();
+                jq('#20-addEntry').remove();
+                jq('#11-toggleContainer').show();
+            });
+
+            jq(document).ready(function(){
+                jq('.addEntry').on("click", function(){
+                    var correctedAddButtonId = parseFloat(this.id) + 1;
+                    var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
+                    jq(contentAddId).toggle(true);
+                    jq('#' + this.id).toggle(false); jq('#' + parseFloat(this.id) + '-removeEntry').toggle(true);
+                    return false;});
+            });
+
+            jq(document).ready(function(){
+                jq('.removeEntry').on("click", function(){
+                    var correctedRemoveButtonId = parseFloat(this.id) - 1;
+                    var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
+                    jq(contentAddId).toggle(false);
+                    jq( ':input:not(:button)', contentAddId).val([]);
+                    jq('#' + correctedRemoveButtonId + '-addEntry').toggle(true); jq('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
+
+                    return false;});
+
+            });
+        }
+    </script>
+
+    <!-- only show BMI if patient is more than 5 years old (on the encounterDate) -->
+    <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) > 5">
+
+        <script type="text/javascript">
+            var calculateBmi = function(wt, ht) {
+            var bmi = null
+            if (wt &amp;&amp; ht) {
+                bmi = wt / ((ht/100) * (ht/100));
+            }
+            return bmi ;
+            }
+
+        </script>
+
+        <ifMode mode="ENTER">
+            <script type="text/javascript">
+
+                // functions to handle updating the bmi when in ENTER mode
+                var updateBmi = function() {
+                var wt = htmlForm.getValueIfLegal('weight.value');
+                var ht = htmlForm.getValueIfLegal('height.value');
+
+                var bmi = calculateBmi(wt, ht);
+
+                if (bmi == null || isNaN(bmi)) {
+                    jq('#calculated-bmi-wrapper').hide();
+                } else {
+                    jq('#no-calculated-bmi').hide();
+                    jq('#calculated-bmi-wrapper').show();
+                    jq('#calculated-bmi').html(bmi.toFixed(1));
+                    jq('#hidden-calculated-bmi').val(bmi.toFixed(1));
+                }
+                };
+
+                jq(function() {
+                    jq('#calculated-bmi-wrapper').hide();
+
+                    getField('weight.value').change(updateBmi)
+                    getField('height.value').change(updateBmi);
+
+                    updateBmi();
+                });
+
+                jq(function() {
+                    jq('#bp_systolic input[type=text]').attr('min', '50');
+                });
+
+                jq(function() {
+                    jq('#bp_diastolic input[type=text]').attr('min', '30');
+                });
+
+            </script>
+        </ifMode>
+
+        <script>
+            // set the blood pressure fields as "expected"
+            jq(function() {
+                jq('#bp_systolic > input').addClass('expected');
+                jq('#bp_diastolic > input').addClass('expected');
+            });
+
+        </script>
+
+        <ifMode mode="VIEW">
+            <script type="text/javascript">
+
+                // handle displaying the bmi when in VIEW mode
+                jq(function() {
+
+                    // we have to iterate through in case there are multiple vitals forms
+                    // displayed on a single page
+
+                    jq('htmlform').each(function(index, form) {
+                        jq(form).find('#calculated-bmi-continue').hide();
+                        jq(form).find('#no-calculated-bmi').hide();
+
+                        var wt = jq(form).find('#weight').find('.value').text();
+                        var ht = jq(form).find('#height').find('.value').text();
+
+                        var bmi = calculateBmi(wt, ht);
+
+                        if (bmi != null &amp;&amp; !isNaN(bmi)) {
+                            jq(form).find('#calculated-bmi-wrapper').show();
+                            jq(form).find('#calculated-bmi').html(bmi.toFixed(1));
+                            jq(form).find('#hidden-calculated-bmi').val(bmi.toFixed(1));
+                        }
+                    });
+
+                });
+
+            </script>
+        </ifMode>
+
+    </includeIf>       
+
     <!-- This section contains lookup tags that pick data from other forms-->
 
     <lookup complexExpression="#set($art_start_regimen='null') #set($other_art_start_regimen='null') #set($art_transfer_regimen='null') #set($other_art_transfer_regimen='null')"/>
@@ -660,7 +878,7 @@
                         <br/>
                         <span class="submitButton float-right">
                             <postSubmissionAction class="org.openmrs.module.aijar.htmlformentry.DSDSProgramSubmissionAction" />
-                            <submit class="btn btn-success"/>
+                            <submit submitStyle="customSubmit" class="confirm" submitLabel="Save"/>
                         </span> 
                     </div>
                 </div>               
@@ -783,14 +1001,37 @@
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item"> 
                                         <div class="row">
-                                            <div class="col-md-3">  
-                                                <label>Height (cm)</label>
-                                                <obs conceptId="5090"  />
-                                            </div>
                                             <div class="col-md-3">
                                                 <label>Weight (kg)</label>
-                                                <obs conceptId="90236" />
+                                                <obs conceptId="CIEL:5089" id="weight"/>
                                             </div>
+                                            <div class="col-md-3">  
+                                                <label>Height (cm)</label>
+                                                <obs conceptId="CIEL:5090" id="height"/>
+                                            </div>
+                                            <div class="col-md-4">   
+                                                <!-- only show BMI if patient is more than 5 years old (on the encounterDate) -->
+                                                <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) > 5">
+
+                                                        <label>
+                                                            <uimessage code="referenceapplication.vitals.bmi.title"/>
+                                                        </label>
+                                                        <span id="calculated-bmi-wrapper">
+                                                            <ifMode mode="VIEW" include="false">
+                                                                <uimessage code="referenceapplication.vitals.bmi.display"/>
+                                                            </ifMode>
+                                                            <span id='calculated-bmi'></span>
+                                                        </span>
+                                                        <p id="calculated-bmi-continue">
+                                                            <input type="hidden" name="focus-in-bmi-question" id="hidden-calculated-bmi"/>
+                                                        </p>
+
+                                                </includeIf>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item"> 
+                                        <div class="row">
                                             <div class="col-md-3">  
                                                 <label>Temperature (c)</label>
                                                 <obs conceptId="CIEL:5088" id="temperature" />
@@ -799,41 +1040,42 @@
                                                 <label>Heart Rate (/min)</label>                    
                                                 <obs conceptId="CIEL:5087" id="heart_rate" />
                                             </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item"> 
-                                        <div class="row">
                                             <div class="col-md-3"> 
                                                 <label>Respiratory Rate (/min)</label>
                                                 <obs conceptId="CIEL:5242" id="respiratory_rate" />
                                             </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item"> 
+                                        <div class="row">
                                             <div class="col-md-3">  
-                                                <includeIf velocityTest="$patient.age &lt; 5">
-                                                    <label>MUAC</label>
-                                                    <obs conceptId="99030" answerConceptIds="99028,99029,99027"
-                                                         answerLabels="Red &lt; 11.5cm, Yellow 11.5cm - &lt;12.5cm,Green &gt;= 12.5cm"/>
-                                                </includeIf>
-                                                <includeIf velocityTest="$patient.age &lt; 10 &amp;&amp; $patient.age &gt;=5">
-                                                    <label>MUAC</label>
-                                                    <obs conceptId="99030" answerConceptIds="99028,99029,99027"
-                                                         answerLabels="Red &lt; 13.5cm,Yellow 13.5cm - &lt;14.5cm,Green &gt;=14.5cm" />
-                                                </includeIf>
-                                                <includeIf velocityTest="$patient.age &lt; 18 &amp;&amp; $patient.age &gt;=10">
-                                                    <label>MUAC</label>
-                                                    <obs conceptId="99030" answerConceptIds="99028,99029,99027"
-                                                         answerLabels="Red &lt; 16.5cm, Yellow 16.5cm - &lt;19.0cm,Green &gt;=19.0cm" />
-                                                </includeIf>
-
-                                                <includeIf velocityTest="$patient.age &gt;=18">
-                                                    <label>MUAC</label>
-                                                    <obs conceptId="99030" answerConceptIds="99028,99029,99027"
-                                                         answerLabels="Red &lt;19.0cm , Yellow 19.0cm - &lt;22.0cm,Green &gt;=22.0cm" />
-                                                </includeIf>
+                                                <label>MUAC Score</label>
+                                                <obs conceptId="CIEL:1343" id="muac_score" />
                                             </div>
                                             <div class="col-md-3">
-                                               <label>Oedema</label>
-                                                <obs conceptId="460" answerConceptIds="90003,90004"
-                                                     answerLabels="Oedema +,-" style="dropdown"/>
+                                                <span class="muac">  
+                                                    <includeIf velocityTest="$patient.age &lt; 5">
+                                                        <label>MUAC Code</label>
+                                                        <obs id="muac_code" conceptId="99030" answerConceptIds="99028,99029,99027"
+                                                             answerLabels="Red &lt; 11.5cm, Yellow 11.5cm - &lt;12.5cm,Green &gt;= 12.5cm"/>
+                                                    </includeIf>
+                                                    <includeIf velocityTest="$patient.age &lt; 10 &amp;&amp; $patient.age &gt;=5">
+                                                        <label>MUAC</label>
+                                                        <obs id= "muac_code" conceptId="99030" answerConceptIds="99028,99029,99027"
+                                                             answerLabels="Red &lt; 13.5cm,Yellow 13.5cm - &lt;14.5cm,Green &gt;=14.5cm" />
+                                                    </includeIf>
+                                                    <includeIf velocityTest="$patient.age &lt; 18 &amp;&amp; $patient.age &gt;=10">
+                                                        <label>MUAC</label>
+                                                        <obs id= "muac_code" conceptId="99030" answerConceptIds="99028,99029,99027"
+                                                             answerLabels="Red &lt; 16.5cm, Yellow 16.5cm - &lt;19.0cm,Green &gt;=19.0cm" />
+                                                    </includeIf>
+
+                                                    <includeIf velocityTest="$patient.age &gt;=18">
+                                                        <label>MUAC</label>
+                                                        <obs id= "muac_code" conceptId="99030" answerConceptIds="99028,99029,99027"
+                                                             answerLabels="Red &lt;19.0cm , Yellow 19.0cm - &lt;22.0cm,Green &gt;=22.0cm" />
+                                                    </includeIf>
+                                                </span>
                                             </div>
                                             <excludeIf velocityTest="$patient.age &gt; 11">
                                                 <div class="col-md-3"> 
@@ -978,20 +1220,9 @@
                                     <excludeIf velocityTest="$patient.gender =='M' ">
                                         <li class="list-group-item"> 
                                             <div class="row">
-                                                <div class="col-md-3">
-                                                    <label>Intention to concieve in the next three months</label>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                                                        <label class="form-check-label" for="inlineRadio1">No</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
-                                                        <label class="form-check-label" for="inlineRadio2">Yes</label>
-                                                    </div>
-                                                </div>
                                                 <div class="col-md-3"> 
                                                     <label>CaCx Status</label>
-                                                    <obs conceptId="CIEL:5242" id="respiratory_rate" />
+                                                    <obs conceptId="165315" id="cacxStatus" answerConceptIds="165313, 1175, 165314, 1364" answerLabels="No evidence of Malignancy, Not Applicable, Suspicious of Malignancy, Not eligible"/>
                                                 </div>
                                             </div>  
                                         </li>
@@ -1142,8 +1373,8 @@
                                                         <div class="row">
                                                             <div class="col-md-8">
                                                                 <lable>Advanced Disease Status</lable>
-                                                                <obs conceptId="165272" answerConceptIds="165266,165267,165268,165270,165271"
-                                                                     answerLabels="Suspected Advanced Disease,Confirmed Advanced Disease CD4 &lt; 200,Confirmed Advanced Disease-Pos CrAg,Confirmed Advanced Disease - WHO Stage 3/4,Confirmed Advanced Disease - Child &lt; 5 Yrs" labelText=""/>
+                                                            <obs conceptId="165272" answerConceptIds="165309, 165266, 165267, 165268, 165269, 165270, 165271"
+                                                                     answerLabels="No Advanced Disease, Suspected Advanced Disease, Confirmed Advanced Disease CD4 &lt; 200, Confirmed Advanced Disease-Pos CrAg, Confirmed Advanced Disease-Pos TB, Confirmed Advanced Disease - WHO Stage 3/4, Confirmed Advanced Disease - Child &lt; 5 Yrs"/>
                                                             </div>
                                                             <div class="col-md-4">
                                                                 <lable>WHO Clinical stage</lable>
@@ -1153,7 +1384,6 @@
                                                             </div>
                                                         </div>
                                                         <br/>
-
                                                         <div class="row">
                                                             <div class="col-md-8">
                                                                 <label>Hep B Status</label>
@@ -1201,10 +1431,10 @@
                                                 </span>
                                             </div>
                                             <div class="col-md-3 EnableDisableDapsone"> 
-                                                <obs conceptId="99034" labelText="# Pills:"/>
+                                                <obs conceptId="99034" labelText="No. of Pills"/>
                                             </div>
                                             <div class="col-md-3 EnableDisableDapsone">
-                                                <obs conceptId="99033" labelText="Days:"/>
+                                                <obs conceptId="99033" labelText="No. of Days"/>
                                             </div>
                                         </div>
                                     </li>
@@ -1227,21 +1457,45 @@
                                     </li>
                                     <li class="list-group-item">
                                         <h4 class="card-title">Other Meds dispensed</h4>
-                                        <div class="row">
-                                            <div class="col-md-3"> 
-                                                <obs conceptId="99037" labelText="Drugs"/>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <obs conceptId="99033" labelText="No. of Pills"/>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <obs conceptId="99033" labelText="No. of Days"/>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <br/>
-                                                + Add
-                                            </div>
-                                        </div>
+                                            <repeat>
+                                                <template>
+                                                    <obsgroup groupingConceptId="160741">
+                                                        <div class="row multi-drug" id="{id}-toggleContainer">
+                                                            <div class="col-md-2">
+                                                                <obs labelText="Drug" conceptId="1282" answerConceptSetIds="1157,1158,1159,1195,1197,5279,5839" style="autocomplete"/>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <obs labelText="Units per dose" conceptId="160856"/>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <obs labelText="Doses per day" conceptId="160855"/>
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                                <obs labelText="Duration" conceptId="159368"/>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <br/>
+                                                                <obs conceptId="1732"/>
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                                <div style="font-size: 25px;margin-top: 26px;">
+                                                                    <a href="#" id="{id}-addEntry" class="addEntry add-more-link"><i class="icon-plus-sign"></i></a>  <a href="#" class="removeEntry remove-more-link" id="{id}-removeEntry"> <i class="icon-minus">  </i></a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </obsgroup>
+                                                </template>
+                                                <render id="1"/>
+                                                <render id="2"/>
+                                                <render id="3"/>
+                                                <render id="4"/>
+                                                <render id="5"/>
+                                                <render id="6"/>
+                                                <render id="7"/>
+                                                <render id="8"/>
+                                                <render id="9"/>
+                                                <render id="10"/>
+                                            </repeat>
                                     </li>
                                     <li class="list-group-item">
                                         <h4 class="card-title">ARV Drugs</h4>
