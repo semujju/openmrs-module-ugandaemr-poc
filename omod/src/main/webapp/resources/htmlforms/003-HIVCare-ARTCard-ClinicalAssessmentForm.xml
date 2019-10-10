@@ -185,7 +185,7 @@
 
             jq(document).ready(function () {
 
-                jq("#muac_code").find("select").attr('disabled', 'true')
+                jq("#muac_code").find("select").attr("style", "pointer-events: none;");
 
                 jq("#muac_score").find("input[type$='text']").change(function() {
 
@@ -1220,6 +1220,10 @@
                                     <excludeIf velocityTest="$patient.gender =='M' ">
                                         <li class="list-group-item"> 
                                             <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Intention to conceive in the next three months</label>
+                                                    <obs conceptId="165316" answerConceptIds="1065,1066" answerLabels="Yes,No" style="radio" class="horizontal"/>
+                                                </div>
                                                 <div class="col-md-3"> 
                                                     <label>CaCx Status</label>
                                                     <obs conceptId="165315" id="cacxStatus" answerConceptIds="165313, 1175, 165314, 1364" answerLabels="No evidence of Malignancy, Not Applicable, Suspicious of Malignancy, Not eligible"/>
