@@ -25,6 +25,15 @@
             #end"/>
     </ifMode>
 
+    <style type="text/css">
+
+        input, label {
+            display:block;
+        }
+
+    </style>
+
+
     <script type="text/javascript">
         function enable_disable_pcr_test_result(selected_option) {
 
@@ -155,12 +164,7 @@
 
         if (jQuery) {
             jq(document).ready(function () {
-                if (jq.browser.msie) {
-                    jq(":checkbox").click(function () {
-                        jq(this).change();
-                    });
-                }
-
+               
                 /* add JQuery validator classes and rules*/
                 jq("#162889 input, #162870 input").addClass("ugphone");
 
@@ -333,7 +337,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#care-giver-followup"> Mother/Caregiver Follow-up Information </a>
+                            <a class="nav-link" data-toggle="tab" href="#mother-care-giver-followup"> Mother/Caregiver Follow-up Information </a>
                         </li>
 
                         <li class="nav-item">
@@ -352,99 +356,96 @@
                             <a class="nav-link" data-toggle="tab" href="#follow-up"> Follow-Up Sectionn</a>
                         </li>
                     </ul>
+
                 </div>
                 <div class="card-body">
 
                     <div class="tab-content">
 
                         <div class="tab-pane active" id="care-entry" >
-                            <setion>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label>EI Number:</label>
-                                        <patient field="identifier" identifierTypeId="2c5b695d-4bf3-452f-8a7c-fe3ee3432ffe"
-                                                 required="true" placeholder="EXP"/>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>Date Chart Opened:</label>
-                                        <encounterDate default="today" id="encounterDate" disallowMultipleEncountersOnDate="block"/>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>Entry Point (Clinic/Ward):</label>
-                                        <obs conceptId="90200"
-                                             answerConceptIds="90012,90016,99593,90019,90013,90015,90018,90002"
-                                             answerLabels="eMTCT,TB,YCC,Outreach,Out Patient,STI,Inpatient,Other"
-                                             required="true"/>
-                                    </div>
+                            <section>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label><span class="required">*</span>EI Number</label>
+                                    <patient field="identifier" identifierTypeId="2c5b695d-4bf3-452f-8a7c-fe3ee3432ffe"
+                                             required="false"/>
                                 </div>
-
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <lookup expression="fn.patientAgeInDays()" class="patientAgeInDays"/>
-                                        <lookup expression="fn.patientAgeInMonths()" class="patientAgeInMonths"/>
-                                        <label>Date of NVP Start:</label>
-                                        <obs conceptId="99771" id="nvpDate"/>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>Date of CTX Start:</label>
-                                        <obs conceptId="99773" id="ctxDate"/>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label><span class="required">*</span> Clinical Team Leader:</label>
-                                        <encounterProvider role="Provider" style="autocomplete"/>
-                                    </div>
+                                <div class="col-md-3">
+                                    <label>Date Chart Opened</label>
+                                    <encounterDate default="today" id="encounterDate" disallowMultipleEncountersOnDate="block"/>
                                 </div>
+                                <div class="col-md-2">
+                                    <label><span class="required">*</span>Entry Point (Clinic/Ward)</label>
+                                    <obs conceptId="90200"
+                                         answerConceptIds="90012,90016,99593,90019,90013,90015,90018,90002"
+                                         answerLabels="eMTCT,TB,YCC,Outreach,Out Patient,STI,Inpatient,Other"
+                                         required="false"/>
+                                </div>
+                            </div>
 
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <lookup expression="fn.patientAgeInDays()" class="patientAgeInDays"/>
+                                    <lookup expression="fn.patientAgeInMonths()" class="patientAgeInMonths"/>
+                                    <label>Date of NVP Start</label>
+                                    <obs conceptId="99771" id="nvpDate"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Date of CTX Start</label>
+                                    <obs conceptId="99773" id="ctxDate"/>
+                                </div>
+                                <!-- <div class="col-md-4">
+                                    <label><span class="required">*</span> Clinical Team Leader:</label>
+                                    <encounterProvider role="Provider" style="autocomplete"/>
+                                </div> -->
+                            </div>
                             </section>
                         </div>
 
-                        <div class="tab-pane active" id="mother-care-giver-followup" >
+                        <div class="tab-pane" id="mother-care-giver-followup" >
                             <section>
 
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <label>Mother`s Name</label>
                                         <obs conceptId="99776"/>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <label>Common Name</label>
                                         <obs conceptId="99775"/>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-32">
                                         <label>Telephone No.</label>
                                         <obs conceptId="162889" id="162889"/>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <label>District</label>
                                         <obs conceptId="162884"/>
                                     </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <label>County</label>
                                         <obs conceptId="162885"/>
                                     </div>
-                                    <div class="col-md-3">
-                                        <label>Sub County</label>
-                                        <obs conceptId="162886"/>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label>Village</label>
-                                        <obs conceptId="162887"/>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label>Parish</label>
-                                        <obs conceptId="162888"/>
-                                    </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
+                                        <label>Sub County</label>
+                                        <obs conceptId="162886"/>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Village</label>
+                                        <obs conceptId="162887"/>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Parish</label>
+                                        <obs conceptId="162888"/>
+                                    </div>
+                                    <div class="col-md-2">
                                         <label>LC1 Zone</label>
                                         <obs conceptId="99137"/>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                         <label>LC1 Chairman</label>
                                         <obs conceptId="162866"/>
                                     </div>
@@ -455,26 +456,22 @@
                                         <label>Directions to caregiver's home address</label>
                                         <obs conceptId="162868" style="textarea"/>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label>LC1 Zone</label>
-                                        <obs conceptId="99137"/>
+                                    <div class="col-md-2">
+                                        <label>Alternate Contact Person</label>
+                                        <obs conceptId="162869"/>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Relationship</label>
+                                        <obs conceptId="90269"/>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Telephone No.</label>
+                                        <obs conceptId="162870"/>
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-3">
-                                        <label>Alternate Contact Person</label>
-                                        <obs conceptId="162869"/>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label>Relationship</label>
-                                        <obs conceptId="90269"/>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label>Telephone No.</label>
-                                        <obs conceptId="162870"/>
-                                    </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-6">
                                         <label>Has this person been disclosed to?</label>
                                         <obs conceptId="162871"/>
                                     </div>
@@ -483,7 +480,7 @@
                             </section>
                         </div>
 
-                        <div class="tab-pane active" id="mothers-history" >
+                        <div class="tab-pane" id="mothers-history" >
                             <section>
                                 <div class="row">
                                     <div class="col-md-4">
@@ -550,7 +547,7 @@
                             </section>
                         </div>
 
-                        <div class="tab-pane active" id="testing-information" >
+                        <div class="tab-pane" id="testing-information" >
                             <section>
                                 <ul class="list-group list-group-flush">
 
@@ -694,7 +691,7 @@
                             </section>
                         </div>
 
-                        <div class="tab-pane active" id="clinical-assessment" >
+                        <div class="tab-pane" id="clinical-assessment" >
                             <section>
 
                                 <ul class="list-group list-group-flush">
@@ -754,7 +751,7 @@
                             </section>
                         </div>
 
-                        <div class="tab-pane active" id="follow-up" >
+                        <div class="tab-pane" id="follow-up" >
                             <section>
                                 <ul class="list-group list-group-flush">
 
@@ -815,7 +812,7 @@
                                     <li class="list-group-item">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <label>Final Outcome<</label>
+                                                <label>Final Outcome</label>
                                                 <obs conceptId="99428" answerConceptIds="99427,99430,5240,90306,99112"
                                                     answerLabels="Discharged Negative,Referred to ART Clinic,Lost (>6 Months),Transferred,Died"/>
                                             </div>
@@ -837,3 +834,4 @@
         </div>
     </div>
 </div>
+</htmlform>
