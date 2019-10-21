@@ -364,7 +364,9 @@
 
                         <div class="tab-pane active" id="care-entry" >
                             <section>
-                            <div class="row">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                <div class="row">
                                 <div class="col-md-3">
                                     <label><span class="required">*</span>EI Number</label>
                                     <patient field="identifier" identifierTypeId="2c5b695d-4bf3-452f-8a7c-fe3ee3432ffe"
@@ -381,8 +383,9 @@
                                          answerLabels="eMTCT,TB,YCC,Outreach,Out Patient,STI,Inpatient,Other"
                                          required="false"/>
                                 </div>
-                            </div>
-
+                                </div>
+                                    </li>
+                                    <li class="list-group-item">
                             <div class="row">
                                 <div class="col-md-3">
                                     <lookup expression="fn.patientAgeInDays()" class="patientAgeInDays"/>
@@ -399,12 +402,15 @@
                                     <encounterProvider role="Provider" style="autocomplete"/>
                                 </div> -->
                             </div>
+                                    </li>
+                                </ul>
                             </section>
                         </div>
 
                         <div class="tab-pane" id="mother-care-giver-followup" >
                             <section>
-
+                                <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-2">
                                         <label>Mother`s Name</label>
@@ -427,7 +433,8 @@
                                         <obs conceptId="162885"/>
                                     </div>
                                 </div>
-
+                                </li>
+                                <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-2">
                                         <label>Sub County</label>
@@ -450,7 +457,8 @@
                                         <obs conceptId="162866"/>
                                     </div>
                                 </div>
-
+                                </li>
+                                <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label>Directions to caregiver's home address</label>
@@ -469,19 +477,23 @@
                                         <obs conceptId="162870"/>
                                     </div>
                                 </div>
-
+                                </li>
+                                <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label>Has this person been disclosed to?</label>
                                         <obs conceptId="162871"/>
                                     </div>
                                 </div>
-
+                                </li>
+                                </ul>
                             </section>
                         </div>
 
                         <div class="tab-pane" id="mothers-history" >
                             <section>
+                                <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label>Place of Delivery</label>
@@ -496,7 +508,8 @@
                                         <obs conceptId="162872" answerConceptIds="90003,90004,90001" answerLabels="Yes,No,Unknown"/>
                                     </div>
                                 </div>
-
+                                </li>
+                                <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label>Mother's ANC No.</label>
@@ -511,7 +524,8 @@
                                         <obs conceptId="99784"/>
                                     </div>
                                 </div>
-
+                                </li>
+                                <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label>Postnatal</label>
@@ -528,7 +542,8 @@
                                         </span>
                                     </div>
                                 </div>
-
+                                </li>
+                                <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label>ART Clinic</label>
@@ -543,7 +558,8 @@
                                         </span>
                                     </div>
                                 </div>
-
+                                </li>
+                                </ul>
                             </section>
                         </div>
 
