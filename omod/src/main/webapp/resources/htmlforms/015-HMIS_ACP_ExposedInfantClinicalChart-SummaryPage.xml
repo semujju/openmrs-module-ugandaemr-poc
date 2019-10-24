@@ -307,23 +307,21 @@
 
             <span id="birthDate"><lookup expression="patient.birthdate"/></span>
         </span>
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-6">
+       
+                <!-- <div class="col-md-6">
                     <span class="float-right">
                         <label><span class="required">*</span>Attending Clinician
                         </label>
                         <encounterProvider role="Provider" style="autocomplete"/>
                     </span>
-                </div>
-                <div class="col-md-6">
-                    <br/>
+                </div> -->
+                <div class="col-md-1 offset-md-5">
+                    
                     <span class="submitButton float-right">
                          <submit submitStyle="customSubmit" class="confirm" submitLabel="Save"/>
                     </span>
                 </div>
-            </div>
-        </div>
+        
     </div>
 
     <div class="row">
@@ -333,27 +331,27 @@
 
                     <ul class="nav nav-tabs card-header-tabs nav-fill nav-success">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#care-entry"> Care Entry Point </a>
+                            <a class="nav-link active" data-toggle="tab" href="#care-giver-follow-up-information">Mother/Caregiver Follow-up</a>
                         </li>
-
+<!-- 
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#mother-care-giver-followup"> Mother/Caregiver Follow-up Information </a>
-                        </li>
+                            <a class="nav-link" data-toggle="tab" href="#mother-care-giver-followup">  </a>
+                        </li> -->
 
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#mothers-history"> Mother's History  </a>
-                        </li>
+                        </li> -->
 
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#testing-information"> Testing Information </a>
                         </li>
-
+<!-- 
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#clinical-assessment"> Link to Care/Treatment </a>
-                        </li>
+                        </li> -->
 
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#follow-up"> Follow-Up Sectionn</a>
+                            <a class="nav-link" data-toggle="tab" href="#follow-up-information"> Link to Care/Treatment Follow-up</a>
                         </li>
                     </ul>
 
@@ -362,11 +360,14 @@
 
                     <div class="tab-content">
 
-                        <div class="tab-pane active" id="care-entry" >
+                        <div class="tab-pane active" id="care-giver-follow-up-information" >
                             <section>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">
-                                <div class="row">
+                                <div class="card">
+                                  <div class="card-header">
+                                    Care Entry Point
+                                  </div>
+                                  <div class="card-body">
+                                <div class="row mt-4">
                                 <div class="col-md-3">
                                     <label><span class="required">*</span>EI Number</label>
                                     <patient field="identifier" identifierTypeId="2c5b695d-4bf3-452f-8a7c-fe3ee3432ffe"
@@ -376,175 +377,170 @@
                                     <label>Date Chart Opened</label>
                                     <encounterDate default="today" id="encounterDate" disallowMultipleEncountersOnDate="block"/>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <label><span class="required">*</span>Entry Point (Clinic/Ward)</label>
                                     <obs conceptId="90200"
                                          answerConceptIds="90012,90016,99593,90019,90013,90015,90018,90002"
                                          answerLabels="eMTCT,TB,YCC,Outreach,Out Patient,STI,Inpatient,Other"
                                          required="false"/>
                                 </div>
-                                </div>
-                                    </li>
-                                    <li class="list-group-item">
-                            <div class="row">
+                             
                                 <div class="col-md-3">
                                     <lookup expression="fn.patientAgeInDays()" class="patientAgeInDays"/>
                                     <lookup expression="fn.patientAgeInMonths()" class="patientAgeInMonths"/>
                                     <label>Date of NVP Start</label>
                                     <obs conceptId="99771" id="nvpDate"/>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 mt-4">
                                     <label>Date of CTX Start</label>
                                     <obs conceptId="99773" id="ctxDate"/>
                                 </div>
-                                <!-- <div class="col-md-4">
-                                    <label><span class="required">*</span> Clinical Team Leader:</label>
-                                    <encounterProvider role="Provider" style="autocomplete"/>
-                                </div> -->
+                                </div>
                             </div>
-                                    </li>
-                                </ul>
-                            </section>
-                        </div>
+                            </div>
 
-                        <div class="tab-pane" id="mother-care-giver-followup" >
-                            <section>
-                                <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-2">
+                                <div class="card mt-4">
+                                  <div class="card-header">
+                                  Mother/Care Giver Follow Up
+                                  </div>
+                                  <div class="card-body">
+                        
+                                <div class="row mt-4">
+                                    <div class="col-md-3">
                                         <label>Mother`s Name</label>
                                         <obs conceptId="99776"/>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <label>Common Name</label>
                                         <obs conceptId="99775"/>
                                     </div>
-                                    <div class="col-md-32">
+                                
+                                    <div class="col-md-3">
                                         <label>Telephone No.</label>
                                         <obs conceptId="162889" id="162889"/>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <label>District</label>
                                         <obs conceptId="162884"/>
                                     </div>
-                                    <div class="col-md-2">
+                                    
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-md-3">
                                         <label>County</label>
                                         <obs conceptId="162885"/>
                                     </div>
-                                </div>
-                                </li>
-                                <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <label>Sub County</label>
                                         <obs conceptId="162886"/>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <label>Village</label>
                                         <obs conceptId="162887"/>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <label>Parish</label>
                                         <obs conceptId="162888"/>
                                     </div>
-                                    <div class="col-md-2">
+                                </div>
+                             
+                                <div class="row mt-4">
+                                    <div class="col-md-6">
                                         <label>LC1 Zone</label>
                                         <obs conceptId="99137"/>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-6">
                                         <label>LC1 Chairman</label>
                                         <obs conceptId="162866"/>
                                     </div>
                                 </div>
-                                </li>
-                                <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-4">
+
+                                <div class="row mt-4">
+                                    <div class="col-md-6">
+                                        <label>How should outreach workers introduce themselves?</label>
+                                        <obs conceptId="162867" style="textarea"/>
+                                    </div>
+                                    <div class="col-md-6">
                                         <label>Directions to caregiver's home address</label>
                                         <obs conceptId="162868" style="textarea"/>
                                     </div>
-                                    <div class="col-md-2">
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-md-3">
                                         <label>Alternate Contact Person</label>
                                         <obs conceptId="162869"/>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <label>Relationship</label>
                                         <obs conceptId="90269"/>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <label>Telephone No.</label>
                                         <obs conceptId="162870"/>
                                     </div>
-                                </div>
-                                </li>
-                                <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <label>Has this person been disclosed to?</label>
-                                        <obs conceptId="162871"/>
+                                        <obs conceptId="162871" style="radio" class="horizontal"/>
                                     </div>
                                 </div>
-                                </li>
-                                </ul>
-                            </section>
-                        </div>
+                                </div>
+                            </div>
+                        
 
-                        <div class="tab-pane" id="mothers-history" >
-                            <section>
-                                <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
+                        <div class="card mt-4">
+                                  <div class="card-header">
+                                    Mother`s History
+                                  </div>
+                                  <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label>Place of Delivery</label>
                                         <obs conceptId="99570"/>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label>Mode of Delivery</label>
                                         <obs conceptId="5630"/>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label>Mother recieved ARVs for PMTCT</label>
-                                        <obs conceptId="162872" answerConceptIds="90003,90004,90001" answerLabels="Yes,No,Unknown"/>
+                                        <obs conceptId="162872" answerConceptIds="90003,90004,90001" answerLabels="Yes,No,Unknown" style="radio" class="horizontal"/>
                                     </div>
-                                </div>
-                                </li>
-                                <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label>Mother's ANC No.</label>
                                         <obs conceptId="99777"/>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label>Mother's PMTCT ARVs</label>
-                                        <obs conceptId="99783" labelText="For ANC:"/>
+                                </div>
+                                
+                                    <h4 class="mt-4">Mother's PMTCT ARVs</h4>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label>Antenatal</label>
+                                        <obs conceptId="99783"/>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label>During Labour/Delivery</label>
                                         <obs conceptId="99784"/>
                                     </div>
-                                </div>
-                                </li>
-                                <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label>Postnatal</label>
                                         <obs conceptId="99785"/>
                                     </div>
-                                    <div class="col-md-4">
+                                </div>
+                                <h4 class="mt-4">Infant's PMTCT ARVs</h4>
+                                <div class="row mt-4">
+                                    <div class="col-md-3">
                                         <label>Infant's PMTCT ARVs</label>
                                         <obs conceptId="99787"/>
                                     </div>
-                                    <div class="col-md-4">
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-md-3">
                                         <label>Mother in care at an ART Clinic?</label>
-                                        <span>class="EIDYesNoEnableDisable1">
-                                            <obs conceptId="162873" labelText=""/>
+                                        <span class="EIDYesNoEnableDisable1">
+                                            <obs conceptId="162873" style="radio" class="horizontal"/>
                                         </span>
                                     </div>
-                                </div>
-                                </li>
-                                <li class="list-group-item">
-                                <div class="row">
+
                                     <div class="col-md-4">
                                         <label>ART Clinic</label>
                                         <span class="EIDYesNoEnableDisableChild1">
@@ -558,16 +554,20 @@
                                         </span>
                                     </div>
                                 </div>
-                                </li>
-                                </ul>
+                                
+                            </div>
+                        </div>
+
                             </section>
                         </div>
 
                         <div class="tab-pane" id="testing-information" >
                             <section>
-                                <ul class="list-group list-group-flush">
-
-                                    <li class="list-group-item">
+                               <div class="card mt-4">
+                                  <div class="card-header">
+                                    Testing Information
+                                  </div>
+                                  <div class="card-body">
                                         <h4 class="card-title">1st PCR</h4>
                                         <div class="row">
                                             <div class="col-md-3">
@@ -583,7 +583,7 @@
                                             <div class="col-md-3">
                                                 <label>Result</label>
                                                 <span class="PCRTestResultEnableDisableChild1">
-                                                    <obs conceptId="99435" id="pcr1Results"></obs>
+                                                    <obs conceptId="99435" id="pcr1Results" style="radio" class="horizontal"/>
                                                 </span>
                                             </div>
                                             <div class="col-md-3">
@@ -593,12 +593,11 @@
                                                 </span>
                                             </div>
                                         </div>
-                                    </li>
-
-                                    <li class="list-group-item">
-                                        <h4 class="card-title">2nd PCR</h4>
+                                  
+                                        <h4 class="card-title mt-4">2nd PCR</h4>
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
+                                                <label>Test Date</label>
                                                 <span class="PCRTestResultEnableDisable2">
                                                     <obs conceptId="99436" id="2ndpcrDate"></obs>
                                                 </span>
@@ -610,7 +609,7 @@
                                             <div class="col-md-3">
                                                 <label>Result</label>
                                                 <span class="PCRTestResultEnableDisableChild2">
-                                                    <obs conceptId="99440" id="pcr2Results"></obs>
+                                                    <obs conceptId="99440" id="pcr2Results" style="radio" class="horizontal" />
                                                 </span>
                                             </div>
                                             <div class="col-md-3">
@@ -620,12 +619,11 @@
                                                 </span>
                                             </div>
                                         </div>
-                                    </li>
-
-                                    <li class="list-group-item">
-                                        <h4 class="card-title">Repeat PCR (if necessary)</h4>
+                                  
+                                        <h4 class="card-title mt-4">Repeat PCR (if necessary)</h4>
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
+                                                <label>Test Date</label>
                                                 <span class="PCRTestResultEnableDisable3">
                                                     <obs conceptId="162876" id="repeatPCRDate"/>
                                                 </span>
@@ -637,7 +635,7 @@
                                             <div class="col-md-3">
                                                 <label>Result</label>
                                                 <span class="PCRTestResultEnableDisableChild3">
-                                                    <obs conceptId="164980"/>
+                                                    <obs conceptId="164980" style="radio" class="horizontal"/>
                                                 </span>
                                             </div>
                                             <div class="col-md-3">
@@ -647,12 +645,11 @@
                                                 </span>
                                             </div>
                                         </div>
-                                    </li>                        
-
-                                    <li class="list-group-item">
-                                        <h4 class="card-title">18 Month Rapid Test</h4>
+                                  
+                                        <h4 class="card-title mt-4">18 Month Rapid Test</h4>
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
+                                                <label>Test Date</label>
                                                 <span class="PCRTestResultEnableDisable4">
                                                     <obs conceptId="162879" id="rapidTestDate"/>
                                                 </span>
@@ -664,7 +661,7 @@
                                             <div class="col-md-3">
                                                 <label>Result</label>
                                                 <span class="PCRTestResultEnableDisableChild4">
-                                                    <obs conceptId="162880"/>
+                                                    <obs conceptId="162880" style="radio" class="horizontal"/>
                                                 </span>
                                             </div>
                                             <div class="col-md-3">
@@ -674,12 +671,10 @@
                                                 </span>
                                             </div>
                                         </div>
-                                    </li>
-
-                                    <li class="list-group-item">
-                                        <h4 class="card-title">Final Status</h4>
-                                        <div class="row">
-                                            <div class="col-md-4">
+                                
+                                        <div class="row mt-4">
+                                            <div class="col-md-3">
+                                                <label>Final HIV Status</label>
                                                 <!-- <lookup complexExpression="#set($ageInMonths = fn.patientAgeInMonths())"/>-->
                                                 <span id="statusAbove18Months" class="LinkToCareEnableDisable1">
                                                     <obs conceptId="99797"/>
@@ -689,157 +684,134 @@
                                                          answerLabels="POSITIVE"/>
                                                 </span>
                                             </div>
-                                            <div class="col-md-3">
-                                                <label>Date</label>
-                                                <obs conceptId="99795"/>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Result</label>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Date Results given to caregiver</label>
-                                            </div>
                                         </div>
-                                    </li>
-
-                                </ul>
+                                    </div>
+                                </div>
 
                             </section>
                         </div>
 
-                        <div class="tab-pane" id="clinical-assessment" >
+                        <div class="tab-pane" id="follow-up-information" >
                             <section>
 
-                                <ul class="list-group list-group-flush">
-
-                                    <li class="list-group-item">
+                                <div class="card mt-4">
+                                  <div class="card-header">
+                                    Linkage to Care/Treatment
+                                  </div>
+                                  <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label>Referred to ART Clinic</label>
                                                 <span class="LinkToCareEnableDisableChild1">
-                                                    <obs conceptId="99430" answerConceptIds="1065,1066"></obs>
+                                                    <obs conceptId="99430" answerConceptIds="1065,1066" style="radio" class="horizontal" />
                                                 </span>
                                             </div>
-                                            <div class="col-md-4">
+
+                                            <div class="col-md-3">
                                                 <label>Date</label>
                                                 <span class="LinkToCareEnableDisableChild1">
                                                     <obs conceptId="162981"/>
                                                 </span>
                                             </div>
-                                        </div>
-                                    </li>
-
-                                    <li class="list-group-item">
-                                        <div class="row">
-                                            <div class="col-md-4">
+                                      
+                                            <div class="col-md-3">
                                                 <label>Enrolled at ART Clinic</label>
                                                 <span class="LinkToCareEnableDisableChild1">
-                                                    <obs conceptId="163004" answerConceptIds="1065,1066"/>
+                                                    <obs conceptId="163004" answerConceptIds="1065,1066" style="radio" class="horizontal"/>
                                                 </span>
                                             </div>
-                                            <div class="col-md-4">
+
+                                            <div class="col-md-3">
                                                 <label>Date</label>
                                                 <span class="LinkToCareEnableDisableChild1">
                                                     <obs conceptId="162980"/>
                                                 </span>
                                             </div>
                                         </div>
-                                    </li>
-
-                                    <li class="list-group-item">
-                                        <div class="row">
-                                            <div class="col-md-4">
+                                    
+                                        <div class="row mt-4">
+                                            <div class="col-md-3">
                                                 <label>Infant Pre-ART No.</label>
                                                 <span class="LinkToCareEnableDisableChild1">
-                                                    <obs conceptId="99751"></obs>
+                                                    <obs conceptId="99751" style="radio" class="horizontal" />
                                                 </span>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label>Presumptive Referral</label>
                                                 <span class="LinkToCareEnableDisableChild1">
-                                                    <obs conceptId="163003" answerConceptIds="90003,90004"/>
+                                                    <obs conceptId="163003" answerConceptIds="1065,1066" style="radio" class="horizontal"/>
                                                 </span>
                                             </div>
                                         </div>
-                                    </li>
-                                </ul>
-
-                            </section>
-                        </div>
-
-                        <div class="tab-pane" id="follow-up" >
-                            <section>
-                                <ul class="list-group list-group-flush">
-
-                                    <li class="list-group-item">
+                                    </div>
+                                </div>
+                             
+                                <div class="card mt-4">
+                                  <div class="card-header">
+                                    Follow Up Information
+                                  </div>
+                                  <div class="card-body">
                                         <h4 class="card-title">First Attempt</h4>
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label>Date</label>
                                                 <obs conceptId="162967"/>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label>Method</label>
                                                 <obs conceptId="162968"/>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label>Outcome</label>
                                                 <obs conceptId="162969"/>
                                             </div>
                                         </div>
-                                    </li>
-
-                                    <li class="list-group-item">
+                                  
                                         <h4 class="card-title">Second Attempt</h4>
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label>Date</label>
                                                 <obs conceptId="162971"/>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label>Method</label>
                                                 <obs conceptId="162972"/>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label>Outcome</label>
                                                 <obs conceptId="162973"/>
                                             </div>
                                         </div>
-                                    </li>
-
-                                    <li class="list-group-item">
+                                   
                                         <h4 class="card-title">Third Attempt</h4>
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label>Date</label>
                                                 <obs conceptId="162975"/>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label>Method</label>
                                                 <obs conceptId="162976"/>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label>Outcome</label>
                                                 <obs conceptId="162977"/>
                                             </div>
                                         </div>
-                                    </li>
-
-                                    <li class="list-group-item">
-                                        <div class="row">
-                                            <div class="col-md-4">
+                                  
+                                        <div class="row mt-4">
+                                            <div class="col-md-3">
                                                 <label>Final Outcome</label>
                                                 <obs conceptId="99428" answerConceptIds="99427,99430,5240,90306,99112"
                                                     answerLabels="Discharged Negative,Referred to ART Clinic,Lost (>6 Months),Transferred,Died"/>
                                             </div>
-                                            <div class="col-md-4">
+                                            <!-- <div class="col-md-3">  confirm with some one coz its not on new form
                                                 <label>Method</label>
                                                 <obs conceptId="162979"/>
-                                            </div>
+                                            </div> -->
                                         </div>
-                                    </li>
-                                   
-                                </ul>
+                                    </div>
+                                </div>
 
                             </section>
                         </div>
