@@ -199,15 +199,20 @@ form#htmlform div.radios label{
     padding: 0px 10px 0 0;
 }
 
-/* adds zebra stripes to rows */
-.strip-rows .row:nth-of-type(odd) {
- background-color: #ffffff
-;
-}.strip-rows .row:nth-of-type(even) {
+/*
+ * Provide zebra striped rows for boostrap divs  
+ */
+.div-stripped .row:nth-of-type(odd) {
+ background-color: #ffffff;
+}
+.strip-rows .row:nth-of-type(even) {
  background-color: rgba(0, 0, 0, 0.025);
 }
 
-/* controls overlapping select boxes */
+/* 
+ * By default select boxes are the length of the longest option.
+ * This class provides an overflow for long text while respecting the maxium width of the container in which the select is placed
+ */
 span.long-value-select select {
     width: 100%;
     overflow: hidden;
@@ -215,7 +220,10 @@ span.long-value-select select {
     text-overflow: ellipsis;
     -webkit-appearance: none;
 }
-/* horizontal alignment of time boxes for various procedures */
+/* 
+ * HTML Form Entry time selects are vertically aligned by default
+ * This class provides horizontal alignment of these select boxes 
+ */
 span.time-box-horizontal select {
     display: inline-block;
 }
