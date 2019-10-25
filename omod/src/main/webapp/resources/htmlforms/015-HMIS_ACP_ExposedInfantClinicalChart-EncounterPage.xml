@@ -770,20 +770,17 @@
                                         <h4>Development Milestones</h4>
                                         <div class="row">
                                             <div class="col-md-3">
-                                                <obs conceptId="162864"  answerConceptId="162855" answerLabels="SMI: Smiling"/>
-                                                <obs conceptId="162864"  answerConceptId="162857" answerLabels="SIT: Sitting"/>
-                                                <obs conceptId="162864"  answerConceptId="162856" answerLabels="W: Walking"/>
-                                                <obs conceptId="162864"  answerConceptId="162858"
-                                                     answerLabels="HEAD: Controlling Head"/>
-                                                <obs conceptId="162864"  answerConceptId="162859"
-                                                     answerLabels="TOB: Transfering objects from hand to hand"/>
+                                                <obs conceptId="162864"  answerConceptId="162855" answerLabel="SMI: Smiling"/>
+                                                <obs conceptId="162864"  answerConceptId="162863" answerLabel="ST: Standing"/>
+                                                <obs conceptId="162864"  answerConceptId="162858" answerLabel="HEAD: Controlling Head"/>
+                                                <obs conceptId="162864"  answerConceptId="162859" answerLabel="TOB: Transfering objects from hand to hand"/>
+                                                <obs conceptId="162864"  answerConceptId="162860" answerLabel="COG: Cognition(point to 3 familiar objects)"/>
                                             </div>
                                             <div class="col-md-3 pt-4">
-                                                <obs conceptId="162864"  answerConceptId="162860"
-                                                     answerLabels="COG: Cognition(point to 3 familiar objects)"/>
-                                                <obs conceptId="162864"  answerConceptId="162861" answerLabels="ROLL: Rolling Over"/>
-                                                <obs conceptId="162864"  answerConceptId="162862" answerLabels="CRA: Crawl"/>
-                                                <obs conceptId="162864"  answerConceptId="162863" answerLabels="ST: Stand"/>
+                                                <obs conceptId="162864"  answerConceptId="162861" answerLabel="ROLL: Rolling Over"/>
+                                                <obs conceptId="162864"  answerConceptId="162857" answerLabel="SIT: Sitting"/>
+                                                <obs conceptId="162864"  answerConceptId="162856" answerLabel="W: Walking"/>
+                                                <obs conceptId="162864"  answerConceptId="162862" answerLabel="CRA: Crawling"/>
                                             </div>
                                         </div>
                                    
