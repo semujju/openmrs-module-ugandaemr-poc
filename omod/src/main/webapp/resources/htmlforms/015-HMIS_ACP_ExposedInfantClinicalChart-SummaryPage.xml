@@ -401,7 +401,7 @@
 
                                 <div class="card mt-4">
                                   <div class="card-header">
-                                  Mother/Care Giver Follow Up
+                                  Mother/Care Giver Follow Up Information
                                   </div>
                                   <div class="card-body">
                         
@@ -530,7 +530,7 @@
                                 <div class="row mt-4">
                                     <div class="col-md-3">
                                         <label>Infant's PMTCT ARVs</label>
-                                        <obs conceptId="99787"/>
+                                        <obs conceptId="99787" answerConceptIds="162966,99790,1067"/>
                                     </div>
                                 </div>
                                 <div class="row mt-4">
@@ -545,12 +545,6 @@
                                         <label>ART Clinic</label>
                                         <span class="EIDYesNoEnableDisableChild1">
                                             <obs conceptId="162875"/>
-                                        </span>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>Mother's ART No</label>
-                                        <span class="EIDYesNoEnableDisableChild1">
-                                            <obs conceptId="162874"/>
                                         </span>
                                     </div>
                                 </div>
