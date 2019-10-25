@@ -200,12 +200,11 @@ form#htmlform div.radios label{
 }
 
 /* adds zebra stripes to rows */
-.row-striped:nth-of-type(odd){
-    background-color: #ffffff;
-}
-
-.row-striped:nth-of-type(even){
-    background-color: rgba(0,0,0,.025);
+.strip-rows .row:nth-of-type(odd) {
+ background-color: #ffffff
+;
+}.strip-rows .row:nth-of-type(even) {
+ background-color: rgba(0, 0, 0, 0.025);
 }
 
 /* controls overlapping select boxes */
