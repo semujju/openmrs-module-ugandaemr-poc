@@ -112,23 +112,24 @@
 
             jq("#muac-score").find("input[type$='text']").keyup(function() {
 
-            var age      =  <lookup complexExpression="$patient.age"/>;
+                var age      =  <lookup complexExpression="$patient.age"/>;
 
-            console.log(age)
+                console.log(age)
 
-            var muacScore = jq(this).val();
+                var muacScore = jq(this).val();
 
-            if(age &lt; 5) {
+                if(age &lt; 5) {
 
-                if(muacScore &lt; 11.5)
-                jq("#muac-code").find("select").val(99028).attr('selected', 'selected')
+                    if(muacScore &lt; 11.5)
+                    jq("#muac-code").find("select").val(99028).attr('selected', 'selected')
 
-                if(muacScore &gt;= 11.5 &amp;&amp; muacScore &lt; 12.5) 
-                jq("#muac-code").find("select").val(99029).attr('selected', 'selected')
+                    if(muacScore &gt;= 11.5 &amp;&amp; muacScore &lt; 12.5) 
+                    jq("#muac-code").find("select").val(99029).attr('selected', 'selected')
 
-                if(muacScore &gt;=12.5)
-                jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
-            }
+                    if(muacScore &gt;=12.5)
+                    jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
+                }
+            });
         });
                
     </script>
@@ -145,16 +146,7 @@
 
             <span id="birthDate"><lookup expression="patient.birthdate"/></span>
         </span>
-            <!--     <div class="col-md-6"> -->
-            <!-- <div class="row">
-                <div class="col-md-6">
-                     <label><span class="required">*</span>Service Provider:</label>
-                        <encounterProvider role="Provider" style="autocomplete"/>
-                        <span style="display: none;">
-                            <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117"
-                                order="629d78e9-93e5-43b0-ad8a-48313fd99117"/>
-                        </span>
-            </div> -->
+         
     </div>
   
     <br/>
@@ -267,7 +259,7 @@
                                     answerLabels="&#60;-3,-3_&#60;-1,-1_1,&#62;1_3,&#62;3"/>
                             </div>
                         </div>
-
+                        <br/>
                         <div class="row">
                             <div class="col-md-3">
                                 <label>MUAC Score</label>
