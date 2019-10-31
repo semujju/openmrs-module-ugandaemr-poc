@@ -1,8 +1,8 @@
-<htmlform formName="HMIS 082a - Exposed Infant Card Encounter Form"
+<htmlform formName="HMIS ACP 015 - Exposed Infant Card Encounter Form"
           formDescription="Captures encounter details for infants born to HIV positive mothers"
           formEncounterType="4345dacb-909d-429c-99aa-045f2db77e2b"
           formUuid="6f6b4802-7642-4226-84dc-ea7db01924b6"
-          formVersion="1.2"
+          formVersion="3.0.0"
           formAddMetadata="yes"
           formUILocation="patientDashboard.visitActions"
           formOrder="5"
@@ -44,12 +44,6 @@
         </includeIf>
     </ifMode>
 
-    <style type="text/css">
-        .error {
-            color: red;
-        }
-    </style>
-
     <script type="text/javascript">
 
         beforeSubmit.push(function () {
@@ -57,7 +51,7 @@
             var submitValStage = [];
             var message1 = "The next appointment date must be after the current visit date";
 
-            <!-- has a value -->
+            <!-- check if encounter date field has a value -->
             if (getValue('5096.value') != "") {
                 setValue('5096.error', '');
 
@@ -72,7 +66,6 @@
             return submitVal;
         });
 
-          
         //Block Multiple encounter entry on same date
         blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
 
@@ -112,9 +105,7 @@
 
             jq("#muac-score").find("input[type$='text']").keyup(function() {
 
-                var age      =  <lookup complexExpression="$patient.age"/>;
-
-                console.log(age)
+                var age =  <lookup complexExpression="$patient.age"/>;
 
                 var muacScore = jq(this).val();
 
@@ -135,7 +126,6 @@
     </script>
 
     <div class="row">
-
         <div class="col-md-6">
             <h1>HIV Exposed Infant Form</h1>
         </div>
@@ -146,14 +136,11 @@
 
             <span id="birthDate"><lookup expression="patient.birthdate"/></span>
         </span>
-         
     </div>
   
-    <br/>
     <div class="row">
         <div class="col-md-12">
             <section>
-
                 <div class="card">
                     <div class="card-header">Appointment</div>
                     <div class="card-body">
@@ -178,7 +165,6 @@
                                 <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
                             </div>
                         </div>
-                        <br/>
                         <div class="row">
                             <div class="col-md-3">
                                 <label>Next Appointment Date</label>
@@ -187,7 +173,7 @@
                         </div>
                     </div>
                 </div>
-                <br/>              
+                              
                 <div class="card">
                     <div class="card-header">HIV test, Infant Feeding, Immunisation Codes and Growth Measures</div>
                     <div class="card-body">
@@ -197,7 +183,7 @@
                                 <obs conceptId="99080 " answerConceptIds="163006,163007" style="radio" class="horizontal"/>
                             </div>
                         </div>
-                        <br/>
+                        
                         <h4 class="card-title mt-4">Infant feeding</h4>
                         <div class="row">
                             <div class="col-md-4">
@@ -206,7 +192,7 @@
                                     answerLabels="EBF - Exclusive Breast Feeding,RF - Replacement Feeding (never breastfed),MF - Mixed Feeding (below 6 months) ,CF - Complimentary Feeding (above 6 months),W - Wean from breastfeeding,NLB - No Longer Breastfeeding"/>
                             </div>
                         </div>
-                        <br/>
+                        
                         <h4 class="card-title">Immunisation Codes</h4>
                         <div class="row">
                             <div class="col-md-3">
@@ -258,7 +244,7 @@
                                     answerLabels="&#60;-3,-3_&#60;-1,-1_1,&#62;1_3,&#62;3"/>
                             </div>
                         </div>
-                        <br/>
+                        
                         <div class="row">
                             <div class="col-md-3">
                                 <label>MUAC Score</label>
@@ -273,7 +259,7 @@
                     </div>
                 </div>  
         
-                <br/>
+                
                 <div class="card">
                     <div class="card-header">Clinical Assessment for Signs and Symptoms of HIV</div>
                     <div class="card-body">
@@ -310,7 +296,7 @@
                         </div>
                     </div>
                 </div>
-                <br/>
+                
                 <div class="card">
                     <div class="card-header">Developmental Assessment for Evidence of Delay</div>
                         <div class="card-body">
@@ -332,14 +318,14 @@
                                 <obs conceptId="162864"  answerConceptId="162862" answerLabel="CRA: Crawling"/>
                             </div>
                         </div>
-                        <br/>
+                        
                         <div class="row">
                             <div class="col-md-3">
                                 <label>Head Circumference (cm)</label>
                                 <obs conceptId="5314"/>
                             </div>
                         </div>
-                        <br/>
+                        
                         <h4 class="card-title">Prophylaxis</h4>
                         <div class="row">
                             <div class="col-md-3">
@@ -353,7 +339,7 @@
                         </div>
                     </div>
                 </div>
-                <br/>
+                
                 <div class="card">
                     <div class="card-header">Medication</div>
                     <div class="card-body">
@@ -363,7 +349,7 @@
                                 <obs conceptId="162854" style="radio" class="horizontal"/>
                             </div>
                         </div>
-                        <br/>
+                        
                         <h4 class="card-title">Other Medication / Care Items</h4>
                         <div class="row">
                             <div class="col-md-3">
@@ -433,5 +419,4 @@
             </section>
         </div>
     </div>
-
 </htmlform>
