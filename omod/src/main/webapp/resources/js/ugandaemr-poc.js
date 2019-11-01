@@ -204,75 +204,12 @@ function enable_disable(field, class_name_prefix, conditions, input_type) {
     });
 }
 
-
-
-function enable_disable_district_tb_reg(selected_option) {
-
-    var class_name = jq(selected_option).attr("class");
-
-    var length = class_name.length;
-
-    var class_id = parseInt(class_name.substring(length - 1, length))
-
-    var row_id = class_id;
-
-    var disable = true;
-    var requires = false;
-
-    var row_1 = '[class^="DistrictTbReg"][class*="Child1"]';
-
-    var xx = row_1;
-    var selected_value = jq(selected_option).find(":selected").attr("value");
-
-    if (selected_value == "90071") {
-        disable = false;
-        requires = true;
-    }
-
-    switch (row_id) {
-        case 1:
-        xx = row_1;
-        break;
-    }
-
-    jq(xx).each(function () {
-        var group = jq(this);
-
-        if (class_name.indexOf('Child') == -1) {
-            /* group.find("input").attr("value", ""); */
-            group.find("input").attr("required", requires);
-            /* group.find('select').prop("selectedIndex", 0); */
-            group.find("input").attr("disabled", disable);
-            group.find('select').attr("disabled", disable);
-            if (requires == false) {
-                group.find('.required').show();
-            }
-            else if (requires == true) {
-                group.find('.required').hide();
-            }
-
-            if (disable) {
-                /* fade out the fields that are disabled */
-                group.find("input").fadeTo(250, 0.25);
-                group.find("select").fadeTo(250, 0.25);
-            } else {
-                /* remove the fade on the fields */
-                group.find("input").fadeTo(250, 1);
-                group.find("select").fadeTo(250, 1);
-            }
-
-        }
-    });
-}
-
-/*
-/*Since MUAC Codes varry from age to age, this function will check the specific age group 
-/*for the client and return their respective MUAC Code using the MUAC Score provided
-/*The MUAC Score is entered in the provided textbox which has an id="muac-code", this function 
-/*picks up this value and compares it against a list of available MUAC Codes hidden in the select box 
-/*which as an id ="muac-score". The MUAC Codes are categorized in age groups, this functions checks the
-/*right code based on the client age.
-*/
+/* Since MUAC Codes varry from age to age, this function will check the specific age group 
+for the client and return their respective MUAC Code using the MUAC Score provided.
+The MUAC Score is entered in the provided textbox which has an id="muac-code", this function 
+picks up this value and compares it against a list of available MUAC Codes hidden in the select box 
+which as an id ="muac-score". The MUAC Codes are categorized in age groups, this functions checks the
+right code based on the client age.*/
 
 function getMUACCodeFromMUACScoreByAge(age) {
 
