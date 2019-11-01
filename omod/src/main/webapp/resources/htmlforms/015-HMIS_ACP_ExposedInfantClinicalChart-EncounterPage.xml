@@ -75,30 +75,30 @@
             jq("#enable-disable-clinical-assessment").find("input[type$='text']").attr("disabled", true);
 
             jq("#enable-disable-clinical-assessment").change(function () {
-                if(jq('#enable-disable-clinical-assessment').find('#trigger').find(':checkbox').prop('checked'))
-                    jq("#enable-disable-clinical-assessment").find("#disabled").find("input[type$='text']").attr("disabled", false);
+                if(jq('#enable-disable-clinical-assessment').find('#specify').find(':checkbox').prop('checked'))
+                    jq("#enable-disable-clinical-assessment").find("#other-signs").find("input[type$='text']").attr("disabled", false);
                 else
-                    jq("#enable-disable-clinical-assessment").find("#disabled").find("input[type$='text']").attr("disabled", true);
+                    jq("#enable-disable-clinical-assessment").find("#other-signs").find("input[type$='text']").attr("disabled", true);
             });
 
-            /* enabling and disabling immunization code not done field */
+           /* enabling and disabling immunization code not done field */
             jq("#immunization-not-done").find("input[type$='text']").attr("disabled",true);
 
             jq("#immunization-not-done").change(function () {
-                if(jq('#immunization-not-done').find('#trigger').find(':checkbox').prop('checked'))
-                    jq("#immunization-not-done").find("#value").find("input[type$='text']").attr("disabled", false);
+                if(jq('#immunization-not-done').find('#specify-reason').find(':checkbox').prop('checked'))
+                    jq("#immunization-not-done").find("#why-not-immunized").find("input[type$='text']").attr("disabled", false);
                 else
-                    jq("#immunization-not-done").find("#value").find("input[type$='text']").attr("disabled", true);
+                    jq("#immunization-not-done").find("#why-not-immunized").find("input[type$='text']").attr("disabled", true);
             });
 
             /* enabling and disabling other medication codes not listed */
             jq("#medication").find("input[type$='text']").attr("disabled",true);
 
             jq("#medication").change(function () {
-                if(jq('#medication').find('#trigger').find(':checkbox').prop('checked'))
-                    jq("#medication").find("#disabled").find("input[type$='text']").attr("disabled", false);
+                if(jq('#medication').find('#specify-other-medication').find(':checkbox').prop('checked'))
+                    jq("#medication").find("#other-medication").find("input[type$='text']").attr("disabled", false);
                 else
-                    jq("#medication").find("#disabled").find("input[type$='text']").attr("disabled", true);
+                    jq("#medication").find("#other-medication").find("input[type$='text']").attr("disabled", true);
             });
 
             jq("#muac-code").find("select").attr("style", "pointer-events: none;");
@@ -130,7 +130,7 @@
             <h1>HIV Exposed Infant Form</h1>
         </div>
 
-        <span style="display: none;">
+        <span class="hidden">
             <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117"
                 order="629d78e9-93e5-43b0-ad8a-48313fd99117"/>
 
@@ -170,6 +170,14 @@
                                 <label>Next Appointment Date</label>
                                 <obs id="5096" conceptId="5096" allowFutureDates="true"/>
                             </div>
+                            <div class="col-md-3">
+                                <label><span class="required">*</span>Service Provider:</label>
+                                <encounterProvider role="Provider" style="autocomplete"/>
+                                                         <span style="display: none;">
+                                <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117"
+                                                   order="629d78e9-93e5-43b0-ad8a-48313fd99117"/>
+                                </span>
+                           </div>
                         </div>
                     </div>
                 </div>
@@ -177,23 +185,23 @@
                 <div class="card">
                     <div class="card-header">HIV test, Infant Feeding, Immunisation Codes and Growth Measures</div>
                     <div class="card-body">
-                        <h4 class="card-title">HIV test</h4>
+                        <h4>HIV test</h4>
                         <div class="row">
                             <div class="col-md-4">
-                                <obs conceptId="99080 " answerConceptIds="163006,163007" style="radio" class="horizontal"/>
+                                <obs conceptId="99080" answerConceptIds="163006,163007" style="radio" class="horizontal"/>
                             </div>
                         </div>
                         
-                        <h4 class="card-title mt-4">Infant feeding</h4>
+                        <h4>Infant feeding</h4>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <label>Feeding Code</label>
                                 <obs conceptId="99451" answerConceptIds="5526,99089,6046,99791,99792,99793"
                                     answerLabels="EBF - Exclusive Breast Feeding,RF - Replacement Feeding (never breastfed),MF - Mixed Feeding (below 6 months) ,CF - Complimentary Feeding (above 6 months),W - Wean from breastfeeding,NLB - No Longer Breastfeeding"/>
                             </div>
                         </div>
                         
-                        <h4 class="card-title">Immunisation Codes</h4>
+                        <h4>Immunisation Codes</h4>
                         <div class="row">
                             <div class="col-md-3">
                                 <obs conceptId="162839" answerConceptId="886" answerLabel="1-BCG"/>
@@ -217,17 +225,17 @@
                                 <obs conceptId="162839" answerConceptId="99356"  answerLabel="16-Vitamin A"/>
                                 <obs conceptId="162839" answerConceptId="162838" answerLabel="17-De-Worming"/>
                                 <span id="immunization-not-done">
-                                    <span id="trigger">
+                                    <span id="specify-reason">
                                         <obs conceptId="162839" answerConceptId="90002" answerLabel="Not Done (specify which ones)"/>
                                     </span>
-                                    <span id="value">
+                                    <span id="why-not-immunized">
                                         <obs conceptId="162890"/>
                                     </span>
                                 </span>
                             </div>
                         </div>
 
-                        <h4 class="card-title mt-4">Growth Measures</h4>
+                        <h4>Growth Measures</h4>
 
                         <div class="row">
                             <div class="col-md-3">
@@ -285,10 +293,10 @@
                             <div class="col-md-3">
                                 <obs  conceptId="162853" answerConceptId="5018"   answerLabel="PDR: Persistent Diarrhea"/>
                                     <span id="enable-disable-clinical-assessment">
-                                        <span id="trigger">
+                                        <span id="specify">
                                             <obs  conceptId="162853" answerConceptId="90002" answerLabel="Others (specify)"/>
                                         </span>
-                                        <span id="disabled">
+                                        <span id="other-signs">
                                             <obs  conceptId="163008" answerLabel="Others (specify)"/>
                                         </span>
                                     </span>
@@ -326,7 +334,7 @@
                             </div>
                         </div>
                         
-                        <h4 class="card-title">Prophylaxis</h4>
+                        <h4>Prophylaxis</h4>
                         <div class="row">
                             <div class="col-md-3">
                                 <label> Cotrim (Y/N) </label>
@@ -350,7 +358,7 @@
                             </div>
                         </div>
                         
-                        <h4 class="card-title">Other Medication / Care Items</h4>
+                        <h4>Other Medication / Care Items</h4>
                         <div class="row">
                             <div class="col-md-3">
                                 <obs  conceptId="1193" answerConceptId="931"
@@ -391,10 +399,10 @@
                                 <obs  conceptId="1193" answerConceptId="916" answerLabel="Septrin"/>
                                 <obs  conceptId="1193" answerConceptId="329" answerLabel="Vit B Complex"/>
                                     <span id="medication">
-                                        <span id="trigger">
+                                        <span id="specify-other-medication">
                                             <obs  conceptId="1193" answerConceptId="90002" answerLabel="Other specify:"/>
                                         </span>
-                                        <span id="disabled">
+                                        <span id="other-medication">
                                             <obs  conceptId="99035" answerClasses="Drug" style="autocomplete"/>
                                         </span>
                                     </span>
@@ -407,15 +415,15 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-10"></div>
-                    <div class="col-md-2">
-                        <span class="float-right">
-                            <submit submitStyle="customSubmit" class="confirm" submitLabel="Save"/> 
-                        </span>
                     </div>
-                </div>
+                    <div class="row">
+                        <div class="col-md-10"></div>
+                        <div class="col-md-2">
+                            <span class="submitButton float-right">
+                                <submit submitStyle="customSubmit" class="confirm" submitLabel="Save"/>
+                            </span>
+                        </div>
+                    </div>
             </section>
         </div>
     </div>
