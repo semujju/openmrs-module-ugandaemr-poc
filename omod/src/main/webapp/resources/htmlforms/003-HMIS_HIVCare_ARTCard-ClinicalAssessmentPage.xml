@@ -15,7 +15,7 @@
 
         <ifMode mode="ENTER,EDIT" include="false">
             <includeIf velocityTest="$fn.allEncounters('8d5b27bc-c2cc-11de-8d13-0010c6dffd0f').size() == 0">
-                jq(function () {
+                <!-- jq(function () {
                     jq().toastmessage('showErrorToast', "This patient has no Summary page");
                     alert('This patient has no Summary page, you will now be forwarded to the patient dashboard');
 
@@ -41,7 +41,7 @@
                     location.href = window.location.protocol + "//" + window.location.host +
                     '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='
                     + queryParameters['patientId']; // Causes page to reload
-                });
+                }); -->
             </includeIf>
         </ifMode>
 
@@ -586,7 +586,6 @@
                 jq().toastmessage('showErrorToast', " Patient Not Stable " + instabilityCause + ". \n Only Stable Patients can be enrolled in " + jq("#165143").find("select").find(":selected").text());
                 return false;
             }
-
             return true;
         });
         }
@@ -646,9 +645,7 @@
                     jq('#bp_diastolic > input').addClass('expected');
                 });
 
-
             <ifMode mode="VIEW">
-
                 // handle displaying the bmi when in VIEW mode
                 jq(function() {
 
@@ -674,11 +671,9 @@
                 });
 
             </ifMode>
-
         </includeIf>
 
     </script>
-
 
     <!-- This section contains lookup tags that pick data from other forms-->
 
@@ -720,10 +715,7 @@
             <div class="col-md-6">
                 <h1>003 HIV Care/ART CARD - Clinical Assessment Form</h1>
             </div>
-            <div class="col-md-4">
-                <label><span class="required">*</span>Attending Clinician</label>
-                <encounterProvider role="Provider" style="autocomplete"/>
-            </div>
+            <div class="col-md-4"></div>
             <div class="col-md-2">
                 <span class="submitButton">
                     <postSubmissionAction class="org.openmrs.module.aijar.htmlformentry.DSDSProgramSubmissionAction" />
@@ -738,7 +730,7 @@
                     <div class="card-header header-success">
                         <ul class="nav nav-tabs card-header-tabs nav-fill nav-success">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#appointment-vitals-nutrition"> Vitals/ Nutrition Assessment </a>
+                                <a class="nav-link active" data-toggle="tab" href="#appointment-vitals-nutrition">Appointment/ Vitals/ Nutrition Assessment </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#pregnancy-fp"> Pregnancy/ Family Planning </a>
@@ -813,7 +805,6 @@
                                                              answerLabels="1. ART Initiation, 2. ART Refill, 3. ART Regimen Switch/ Substitution, 4. Viral Load, 5. CD4, 6. IAC, 7. T.B Drug Refill,8. T.B Follow up, 9. ANC,10. EID,11. PMTCT, 12. Hypertension/ Diabetes, 13. Nutrition,14. Other Specify"/>
                                                     </span>
                                                 </div>
-
                                                 <div class="col-md-3">
                                                     <span class="OtherAppointmentReasonEnableDisableChild1">
                                                         <label>Other Reason for next appointment</label>
@@ -821,14 +812,20 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                            
                                             <div class="row">
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <obs conceptId="90069" labelText="Visit on Schedule" style="checkbox"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label><span class="required">*</span>Attending Clinician</label>
+                                                    <encounterProvider role="Provider" style="autocomplete"/>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="card">
                                         <div class="card-header">Vitals</div>
                                         <div class="card-body">
@@ -865,7 +862,6 @@
                                                     <obs conceptId="CIEL:5088" id="temperature" />
                                                 </div>
                                             </div>
-                                        
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Heart Rate (/min)</label>
@@ -884,7 +880,6 @@
                                                     <obs conceptId="CIEL:5086" id="bp_diastolic" />
                                                 </div>
                                             </div>
-                                        
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>MUAC Score</label>
@@ -972,7 +967,6 @@
                                                         </span>
                                                     </div>
                                                 </div>
-                                            
                                                 <div class="row">
                                                     <div class="col-md-3">
                                                         <label>EDD</label>
@@ -1074,8 +1068,7 @@
                                                 <div class="col-md-3">
                                                     <label>Tb Status</label>
                                                     <span class="DistrictTbRegEnableDisable1">
-                                                        <obs conceptId="90216"
-                                                             answerConceptIds="90079,90073,90078,90071"
+                                                        <obs conceptId="90216" answerConceptIds="90079,90073,90078,90071"
                                                              answerLabels="1. No signs,2. Suspect,3. Diagnosed with Tb,4. Tb Rx"/>
                                                     </span>
                                                 </div>
@@ -1095,7 +1088,7 @@
                                                     <label>District TB No.</label>
                                                     <span class="DistrictTbRegEnableDisableChild1">
                                                         <patient field="identifier" identifierTypeId="8110f2d2-1f98-4c38-aef3-11b19bb0a589"
-                                                                 required="false"/>
+                                                        required="false"/>
                                                     </span>
                                                 </div>
                                             </div>
