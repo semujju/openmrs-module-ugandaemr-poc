@@ -713,7 +713,7 @@
     <div>
         <div class="row">
             <div class="col-md-6">
-                <h1>003 HIV Care/ART CARD - Clinical Assessment Form</h1>
+                <h1>HMIS HIV 003:HIV CARE/ART CARD - CLINICAL ASSESSMENT PAGE</h1>
             </div>
             <div class="col-md-4"></div>
             <div class="col-md-2">
@@ -736,10 +736,7 @@
                                 <a class="nav-link" data-toggle="tab" href="#pregnancy-fp"> Pregnancy/ Family Planning </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tb-treatment"> TB Treatment </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#clinical-assessment"> Clinical Assessment </a>
+                                <a class="nav-link" data-toggle="tab" href="#tb-treatment-clinical-assessment">TB Treatment/ Clinical Assessment </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#medication"> Medication</a>
@@ -750,9 +747,7 @@
                         </ul>
                     </div>
                     <div class="card-body">
-
                         <div class="tab-content">
-
                             <div class="tab-pane active" id="appointment-vitals-nutrition">
                                 <section>
                                     <div class="card">
@@ -954,16 +949,12 @@
                                         <div class="card-body">
                                             <excludeIf velocityTest="$patient.gender =='M' || $patient.age &lt; 9">
                                                 <div class="row">
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-12 horizontal">
                                                         <span class="ARTYesNoEnableDisable2">
-                                                            <obs id="1065" conceptId="90041" answerConceptId="1065"
-                                                                 answerLabel="Pregnant"/>
-                                                            <obs conceptId="90041" answerConceptId="99601"
-                                                                 answerLabel="Breast Feeding"/>
-                                                            <obs conceptId="90041" answerConceptId="1066"
-                                                                 answerLabel="Not pregnant or not breast feeding"/>
-                                                            <obs conceptId="90041" answerConceptId="1175"
-                                                                 answerLabel="Unknown"/>
+                                                            <obs id="1065" conceptId="90041" answerConceptId="1065" answerLabel="Pregnant"/>
+                                                            <obs conceptId="90041" answerConceptId="99601" answerLabel="Breast Feeding"/>
+                                                            <obs conceptId="90041" answerConceptId="1066" answerLabel="Not pregnant or not breast feeding"/>
+                                                            <obs conceptId="90041" answerConceptId="1175" answerLabel="Unknown"/>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -1005,64 +996,76 @@
                                             <excludeIf velocityTest="$patient.age &lt; 9">
                                                 <div class="row">
                                                     <div class="col-md-3">
-                                                        <label>Is on Family Planning ? </label>
+                                                        Is on Family Planning ?
                                                         <span class="ARTYesNoEnableDisable1 horizontal">
                                                             <obs conceptId="90238" answerConceptIds="90082,90081" answerLabels="Yes,No" style="radio" />
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-4">
                                                         <label>Family Planning Method:</label>
+                                                    <div class="col-md-4">
                                                         <span class="FamilyPlanningEnableDisable">
                                                             <obs conceptId="374" answerConceptId="190" answerLabel="1 - Condoms"/>
                                                             <excludeIf velocityTest="$patient.gender =='M' ">
                                                                 <span class="lablex2">
-                                                                    <obs conceptId="374" answerConceptId="780"
-                                                                         answerLabel="2 - Oral Contraceptive pills"/>
-                                                                    <obs conceptId="374" answerConceptId="5279"
-                                                                         answerLabel="3 - Injectable/Implantable hormonies"/>
-                                                                    <obs conceptId="374" answerConceptId="162961"
-                                                                         answerLabel="4 - Implants"/>
-                                                                    <obs conceptId="374" answerConceptId="5278"
-                                                                         answerLabel="5 - Diaphram/Cervical Cap"/>
-                                                                    <obs conceptId="374" answerConceptId="5275"
-                                                                         answerLabel="6 - Intra uterine device (IUD)"/>
-                                                                    <obs conceptId="374" answerConceptId="5277"
-                                                                         answerLabel="7 - Fertility Awareness Methods"/>
+                                                                    <obs conceptId="374" answerConceptId="780" answerLabel="2 - Oral Contraceptive pills"/>
                                                                 </span>
-                                                            </excludeIf>
-                                                            <excludeIf velocityTest="$patient.gender =='F' ">
-                                                                <obs conceptId="374" answerConceptId="99265"
-                                                                     answerLabel="2 - Vasectomy/Tubal ligation"/>
                                                             </excludeIf>
                                                         </span>
                                                     </div>
                                                 </div>
-                                            </excludeIf>
-                                        
-                                            <excludeIf velocityTest="$patient.gender =='M' ">
-                                                
-                                                    <div class="row">
-                                                        <div class="col-md-3">
-                                                            <label>Intention to conceive in the next three months</label>
-                                                            <obs conceptId="165316" answerConceptIds="1065,1066" answerLabels="Yes,No" style="radio" class="horizontal"/>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <label>CaCx Status</label>
-                                                            <obs conceptId="165315" id="cacxStatus" answerConceptIds="165313, 1175, 165314, 1364" answerLabels="No evidence of Malignancy, Not Applicable, Suspicious of Malignancy, Not eligible"/>
-                                                        </div>
-                                                    </div>
+
+                                                <div class="col-md-4">
+                                                    <span class="FamilyPlanningEnableDisable">
+                                                        <excludeIf velocityTest="$patient.gender =='M' ">
+                                                            <obs conceptId="374" answerConceptId="5279"
+                                                                 answerLabel="3 - Injectable/Implantable hormonies"/>
+                                                            <obs conceptId="374" answerConceptId="162961"
+                                                                 answerLabel="4 - Implants"/>
+                                                            <obs conceptId="374" answerConceptId="5278"
+                                                                 answerLabel="5 - Diaphram/Cervical Cap"/>
+                                                            <obs conceptId="374" answerConceptId="5275"
+                                                                 answerLabel="6 - Intra uterine device (IUD)"/>
+                                                            <obs conceptId="374" answerConceptId="5277"
+                                                                 answerLabel="7 - Fertility Awareness Methods"/>
+                                                        </excludeIf>
+                                                    </span>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <span class="FamilyPlanningEnableDisable">
+                                                        <excludeIf velocityTest="$patient.gender =='F' ">
+                                                            <obs conceptId="374" answerConceptId="99265"
+                                                                 answerLabel="2 - Vasectomy/Tubal ligation"/>
+                                                        </excludeIf>
+                                                    </span>
+                                                </div>
                                             </excludeIf>
                                         </div>
+                                    
+                                        <excludeIf velocityTest="$patient.gender =='M' ">
+                                            
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label>Intention to conceive in the next three months</label>
+                                                        <obs conceptId="165316" answerConceptIds="1065,1066" answerLabels="Yes,No" style="radio" class="horizontal"/>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>CaCx Status</label>
+                                                        <obs conceptId="165315" id="cacxStatus" answerConceptIds="165313, 1175, 165314, 1364" answerLabels="No evidence of Malignancy, Not Applicable, Suspicious of Malignancy, Not eligible"/>
+                                                    </div>
+                                                </div>
+                                        </excludeIf>
+                                    </div>
                                     </div>
                                 </section>
                             </div>
 
-                            <div class="tab-pane fade" id="tb-treatment">
+                            <div class="tab-pane fade" id="tb-treatment-clinical-assessment">
                                 <section>
                                     <div class="card">
-                                        <div class="card-header">Treatment</div>
+                                        <div class="card-header">TB Treatment</div>
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-3">
@@ -1110,10 +1113,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </section>
-                            </div>
-                            <div class="tab-pane fade" id="clinical-assessment">
-                                <section>
+
                                     <div class="card">
                                         <div class="card-header">Signs and Symptoms</div>
                                         <div class="card-body">
