@@ -217,6 +217,11 @@ function getMUACCodeFromMUACScoreByAge(age) {
         
         var muacScore = jq(this).val();
 
+        if(jq("#muac-score input").val()=="" || jq("#muac-score input").val()==0) {
+            jq("#muac-code").find("select").val('').attr('selected', 'selected')
+            return false;
+        }
+
         if(age < 5) {
 
             if(muacScore < 11.5) {
@@ -278,74 +283,13 @@ function getMUACCodeFromMUACScoreByAge(age) {
                 jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
             }
         }
+
+        jq("#muac-code").change(function () {
+            jq("#muac-score").find("input[type$='text']").val('');
+        });
     });
 
-    jq("#muac-code").change(function () {
 
-        var muacScore  = jq(this).val();
-        
-        if(age < 5) {
-
-            if(muacScore < 11.5) {
-                jq("#muac-code").find("select").val(99028).attr('selected', 'selected')
-            }
-
-            if(muacScore >= 11.5 && muacScore < 12.5) {
-                jq("#muac-code").find("select").val(99029).attr('selected', 'selected')
-            }
-
-            if(muacScore >=12.5) {
-                jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
-            }
-        }
-
-        if(age >= 5 && age < 10) {
-
-            if(muacScore < 13.5) {
-                jq("#muac-code").find("select").val(99028).attr('selected', 'selected')
-            }
-
-            if(muacScore >=13.5 && muacScore < 14.5) {
-                jq("#muac-code").find("select").val(99029).attr('selected', 'selected')
-            }
-
-            if(muacScore >=14.5) {
-                jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
-            }
-
-        }
-
-        if(age >=10 && age < 18) {
-
-            if(muacScore < 16.5) {
-                jq("#muac-code").find("select").val(99028).attr('selected', 'selected')
-            }
-
-            if(muacScore >=16.5 && muacScore < 19) {
-                jq("#muac-code").find("select").val(99029).attr('selected', 'selected')
-            }
-
-            if(muacScore >=19) {
-                jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
-            }
-
-        }
-
-        if(age >=18) {
-
-            if(muacScore < 19) {
-                jq("#muac-code").find("select").val(99028).attr('selected', 'selected')
-            }
-
-            if(muacScore >=19 && muacScore < 22) {
-                jq("#muac-code").find("select").val(99029).attr('selected', 'selected')
-            }
-
-            if(muacScore >=22) {
-                jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
-            }
-        }
-    });
 }
 
 //Disable encounter date field.

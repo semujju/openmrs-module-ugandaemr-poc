@@ -114,46 +114,6 @@
 
             getMUACCodeFromMUACScoreByAge(age);
 
-            <!-- jq("#muac-score").find("input[type$='text']").keyup(function() {
-
-                var age =  <lookup complexExpression="$patient.age"/>;
-
-                var muacScore = jq(this).val();
-
-                if(age &lt; 5) {
-
-                    if(muacScore &lt; 11.5)
-                        jq("#muac-code").find("select").val(99028).attr('selected', 'selected')
-
-                    if(muacScore &gt;= 11.5 &amp;&amp; muacScore &lt; 12.5) 
-                        jq("#muac-code").find("select").val(99029).attr('selected', 'selected')
-
-                    if(muacScore &gt;=12.5)
-                        jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
-                }
-            });             
-
-            jq("#muac-code").change(function () {
-
-                var muacScore  = jq("#muac-score").find("input").val();
-
-                console.log(muacScore);
-
-                var age =  <lookup complexExpression="$patient.age"/>;
-
-                if(age &lt; 5) {
-
-                    if(muacScore &lt; 11.5)
-                        jq("#muac-code").find("select").val(99028).attr('selected', 'selected')
-
-                    if(muacScore &gt;= 11.5 &amp;&amp; muacScore &lt; 12.5) 
-                        jq("#muac-code").find("select").val(99029).attr('selected', 'selected')
-
-                    if(muacScore &gt;=12.5)
-                        jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
-                }
-            }); -->
-
         });
                
     </script>
@@ -163,15 +123,11 @@
             <div class="col-md-6">
                 <h1>HMIS ACP 015: Exposed Infant Clinical Chart - Encounter Form</h1>
             </div>
-
             <span class="hidden">
-                <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117"
-                    order="629d78e9-93e5-43b0-ad8a-48313fd99117"/>
-
+                <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117" order="629d78e9-93e5-43b0-ad8a-48313fd99117"/>
                 <span id="birthDate"><lookup expression="patient.birthdate"/></span>
             </span>
         </div>
-      
         <div class="row">
             <div class="col-md-12">
                 <section>
@@ -236,16 +192,16 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <obs conceptId="162839" answerConceptId="886" answerLabel="1 - BCG"/>
-                                    <obs conceptId="162839" answerConceptId="162834" answerLabel="5 - Polio-3"/>
+                                    <obs conceptId="162839" answerConceptId="162834" answerLabel="5 - Polio 3"/>
                                     <obs conceptId="162839" answerConceptId="163014" answerLabel="9 - PCV 1"/> 
-                                    <obs conceptId="162839" answerConceptId="99356"  answerLabel="13 - xxxxx"/>
+                                    <obs conceptId="162839" answerConceptId="162347" answerLabel="13 - Rotavirus 2"/>
                                     <obs conceptId="162839" answerConceptId="162838" answerLabel="17 - De-Worming"/>
                                 </div>
                                 <div class="col-md-3">
-                                    <obs conceptId="162839" answerConceptId="162831" answerLabel="2 - Polio-0"/>
+                                    <obs conceptId="162839" answerConceptId="162831" answerLabel="2 - Polio 0"/>
                                     <obs conceptId="162839" answerConceptId="1422" answerLabel="6 - IPV"/> 
                                     <obs conceptId="162839" answerConceptId="163015" answerLabel="10 - PCV 2"/> 
-                                    <obs conceptId="162839" answerConceptId="63"     answerLabel="14 - Measles"/>
+                                    <obs conceptId="162839" answerConceptId="165409"     answerLabel="14 - Measles 1 (MR1)"/>
                                     <span id="immunization-not-done">
                                         <span id="specify-reason">
                                             <obs conceptId="162839" answerConceptId="90002" answerLabel="Not Done (specify which ones)"/>
@@ -256,15 +212,15 @@
                                     </span>
                                 </div>
                                 <div class="col-md-3">
-                                    <obs conceptId="162839" answerConceptId="162832" answerLabel="3 - Polio-1"/>
-                                    <obs conceptId="162839" answerConceptId="162835" answerLabel="7 - DPT-HepB + Hib1"/>
+                                    <obs conceptId="162839" answerConceptId="162832" answerLabel="3 - Polio 1"/>
+                                    <obs conceptId="162839" answerConceptId="162835" answerLabel="7 - DPT-HepB + Hib 1"/>
                                     <obs conceptId="162839" answerConceptId="163016" answerLabel="11 - PCV 3"/> 
-                                    <obs conceptId="162839" answerConceptId="99356"  answerLabel="15 - xxxxx"/>
+                                    <obs conceptId="162839" answerConceptId="165410"  answerLabel="15 - Measles 2 (MR2)"/>
                                 </div>
                                 <div class="col-md-3">
-                                    <obs conceptId="162839" answerConceptId="162833" answerLabel="4 - Polio-2"/>
-                                    <obs conceptId="162839" answerConceptId="162836" answerLabel="8 - DPT-HepB + Hib2"/>
-                                    <obs conceptId="162839" answerConceptId="99356"  answerLabel="12 - xxxxx"/>
+                                    <obs conceptId="162839" answerConceptId="162833" answerLabel="4 - Polio 2"/>
+                                    <obs conceptId="162839" answerConceptId="162836" answerLabel="8 - DPT-HepB + Hib 2"/>
+                                    <obs conceptId="162839" answerConceptId="162346"  answerLabel="12 - Rotavirus 1"/>
                                     <obs conceptId="162839" answerConceptId="99356"  answerLabel="16 - Vitamin A"/>
                                 </div>
                             </div>
@@ -308,8 +264,8 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <obs conceptId="162853" answerConceptId="162848"  answerLabel="WELL - No clinical signs and symptoms"/>
-                                    <obs  conceptId="162853" answerConceptId="90130"  answerLabel="OT - Oral thrush"/>
+                                    <obs conceptId="162853" answerConceptId="162848"  answerLabel="WELL - No Clinical Signs and Symptoms"/>
+                                    <obs  conceptId="162853" answerConceptId="90130"  answerLabel="OT - Oral Thrush"/>
                                     <obs  conceptId="162853" answerConceptId="162851" answerLabel="ADR - Acute Diarrhea"/>
                                     <obs  conceptId="162853" answerConceptId="5018"   answerLabel="PDR - Persistent Diarrhea"/>
                                 </div>
@@ -327,8 +283,8 @@
                                     </span>
                                 </div>
                                 <div class="col-md-3">
-                                    <obs  conceptId="162853" answerConceptId="832"    answerLabel="WL - Weight loss"/>
-                                    <obs  conceptId="162853" answerConceptId="162850" answerLabel="G - Poor growth (height)"/>
+                                    <obs  conceptId="162853" answerConceptId="832"    answerLabel="WL - Weight Loss"/>
+                                    <obs  conceptId="162853" answerConceptId="162850" answerLabel="G - Poor Growth (Height)"/>
                                     <obs  conceptId="162853" answerConceptId="42"     answerLabel="PNEU - Pneumonia"/>
                                 </div>
                                 <div class="col-md-3">
@@ -355,7 +311,7 @@
                                     <obs conceptId="162864"  answerConceptId="162861" answerLabel="ROLL- Rolling Over"/>
                                 </div>
                                 <div class="col-md-3">
-                                    <obs conceptId="162864"  answerConceptId="162858" answerLabel="HEAD - Controlling Head"/>
+                                    <obs conceptId="162864"  answerConceptId="162858" answerLabel="HEAD - Controlling the Head"/>
                                     <obs conceptId="162864"  answerConceptId="162857" answerLabel="SIT - Sitting"/>
                                 </div>
                                 <div class="col-md-3">
