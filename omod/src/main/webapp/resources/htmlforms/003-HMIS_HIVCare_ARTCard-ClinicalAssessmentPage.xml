@@ -531,7 +531,48 @@
                     return false;
                 });
 
-        });
+                /* enabling and disabling other signs and symptoms*/
+                jq("#signs-and-symptoms-enabled").find("input[type$='text']").attr("disabled", true);
+                    jq("#signs-and-symptoms-enabled").addClass("html-form-entry-disabled-field");
+
+                jq("#enable-disable-signs-and-symptoms").change(function () {
+                    if(jq('#enable-disable-signs-and-symptoms').find(':checkbox').prop('checked')) {
+                        jq("#signs-and-symptoms-enabled").find("input[type$='text']").attr("disabled", false);
+                        jq("#signs-and-symptoms-enabled").removeClass("html-form-entry-disabled-field");
+                    }else {
+                        jq("#signs-and-symptoms-enabled").find("input[type$='text']").attr("disabled", true);
+                        jq("#signs-and-symptoms-enabled").addClass("html-form-entry-disabled-field");
+                    }
+                });
+
+                /* enabling and disabling other side effects of art*/
+                jq("#side-effects-of-art-enabled").find("input[type$='text']").attr("disabled", true);
+                    jq("#side-effects-of-art-enabled").addClass("html-form-entry-disabled-field");
+
+                jq("#enable-disable-side-effects-of-art").change(function () {
+                    if(jq('#enable-disable-side-effects-of-art').find(':checkbox').prop('checked')) {
+                        jq("#side-effects-of-art-enabled").find("input[type$='text']").attr("disabled", false);
+                        jq("#side-effects-of-art-enabled").removeClass("html-form-entry-disabled-field");
+                    }else {
+                        jq("#side-effects-of-art-enabled").find("input[type$='text']").attr("disabled", true);
+                        jq("#side-effects-of-art-enabled").addClass("html-form-entry-disabled-field");
+                    }
+                });
+
+                /* enabling and disabling other reasons for poor art adherence*/
+                jq("#poor-art-adherence-reason-enabled").find("input[type$='text']").attr("disabled", true);
+                    jq("#poor-art-adherence-reason-enabled").addClass("html-form-entry-disabled-field");
+
+                jq("#enable-disable-poor-art-adherence-reason").change(function () {
+                    if(jq('#enable-disable-poor-art-adherence-reason').find(':checkbox').prop('checked')) {
+                        jq("#poor-art-adherence-reason-enabled").find("input[type$='text']").attr("disabled", false);
+                        jq("#poor-art-adherence-reason-enabled").removeClass("html-form-entry-disabled-field");
+                    }else {
+                        jq("#poor-art-adherence-reason-enabled").find("input[type$='text']").attr("disabled", true);
+                        jq("#poor-art-adherence-reason-enabled").addClass("html-form-entry-disabled-field");
+                    }
+                });
+            });
 
         <!-- Validation rules -->
         beforeSubmit.push(function () {
@@ -593,7 +634,7 @@
             }
             return true;
         });
-        }
+    }
 
         <!-- only show BMI if patient is more than 5 years old (on the encounterDate) -->
         <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) > 5">
@@ -608,7 +649,7 @@
 
             <ifMode mode="ENTER">
 
-                // functions to handle updating the bmi when in ENTER mode
+                //functions to handle updating the bmi when in ENTER mode
                     var updateBmi = function() {
                     var wt = htmlForm.getValueIfLegal('weight.value');
                     var ht = htmlForm.getValueIfLegal('height.value');
@@ -716,7 +757,7 @@
     <div>
         <div class="row">
             <div class="col-md-6">
-                <h1>HMIS HIV 003:HIV CARE/ART CARD - CLINICAL ASSESSMENT PAGE</h1>
+                <h1>HMIS HIV 003:HIV CARE/ART CARD - CLINICAL ASSESSMENT</h1>
             </div>
             <div class="col-md-4"></div>
             <div class="col-md-2">
@@ -878,7 +919,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-3">
-                                                    <label>MUAC Score</label>
+                                                    <label>MUAC (cm)</label>
                                                     <obs conceptId="CIEL:1343" id="muac-score" />
                                                 </div>
                                                 <div class="col-md-3">
@@ -923,12 +964,12 @@
                                                 <div class="col-md-3">
                                                     <label>Nutrition Status </label>
                                                     <obs conceptId="165050" answerConceptIds="1115,99271,99272,99273,5277,165301"
-                                                         answerLabels="Normal, Moderate Acute Malnutrition, Severe Acute Malnutrition, Severe Acute Malnutrition with Oedema, Overweight/Obese"/>
+                                                         answerLabels="N - Normal, MAM - Moderate Acute Malnutrition, SAM - Severe Acute Malnutrition, SAMO - Severe Acute Malnutrition with Oedema, O - Overweight/Obese"/>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>Nutrition Support</label>
                                                     <obs conceptId="99054" answerConceptIds="99053,99050,99051,99052"
-                                                         answerLabels="Therapeutic Feeding (F75 F100 RUTF), Supplementary Feeding, Infant and Young Child Feeding Counselling ( &gt; 2yrs), Nutrition Counselling only (if &gt; 2yrs)"/>
+                                                         answerLabels="TF - Therapeutic Feeding (F75 F100 RUTF), SF - Supplementary Feeding, IYCF - Infant and Young Child Feeding Counselling ( &gt; 2yrs), NC - Nutrition Counselling only (if &gt; 2yrs)"/>
                                                 </div>
                                                 <excludeIf velocityTest="$patient.age &gt; 11">
                                                     <div class="col-md-3">
@@ -1139,15 +1180,12 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <obs conceptId="90251" answerConceptId="122936" answerLabel="Unable to walk without assisstance"/>
-                                                    <span class="enableDisable">
-                                                        <span id="trigger">
-                                                            <obs conceptId="90251" answerConceptId="90002"
-                                                                 answerLabel="Other specify"/>
+                                                        <span id="enable-disable-signs-and-symptoms">
+                                                            <obs conceptId="90251" answerConceptId="90002" answerLabel="Other specify"/>
                                                         </span>
-                                                        <span id="disabled">
-                                                            <obs conceptId="99113" size="17" labelText=""/>
+                                                        <span id="signs-and-symptoms-enabled">
+                                                            <obs conceptId="99113"/>
                                                         </span>
-                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -1160,7 +1198,7 @@
                                                     <obs conceptId="90227" answerConceptId="90100" answerLabel="AB"/>
                                                     <obs conceptId="90227" answerConceptId="90099" answerLabel="Anaemia"/>
                                                     <obs conceptId="90227" answerConceptId="90095" answerLabel="BN"/>
-                                                    <obs conceptId="90227" answerConceptId="90117" answerLabel="CNS"/>
+                                                    <obs conceptId="90227" answerConceptId="90117" answerLabel="CNS - "/>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <obs conceptId="90227" answerConceptId="90092" answerLabel="Diarrhoea"/>
@@ -1175,15 +1213,13 @@
                                                     <obs conceptId="90227" answerConceptId="122983" answerLabel="Vomiting"/>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <span class="enableDisable">
-                                                        <span id="trigger">
-                                                            <obs conceptId="90227" answerConceptId="90002"
-                                                                 answerLabel="Other specify"/>
-                                                        </span>
-                                                        <span id="disabled">
-                                                            <obs conceptId="99113" size="17" labelText=""/>
-                                                        </span>
+                                                    <span id="enable-disable-side-effects-of-art">
+                                                        <obs conceptId="90227" answerConceptId="90002"
+                                                             answerLabel="Other specify"/>
                                                     </span>
+                                                    <span id="side-effects-of-art-enabled">
+                                                        <obs conceptId="99113"/>
+                                                        </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -1375,14 +1411,12 @@
                                                              answerLabel="7 - Drug Stock out"/>
                                                         <obs conceptId="90223" answerConceptId="90153"
                                                              answerLabel="11 - Alcohol"/>
-                                                        <span class="enableDisable">
-                                                            <span id="trigger">
-                                                                <obs conceptId="90223" answerConceptId="90002"
-                                                                     answerLabel="15 - Other Specify"/>
-                                                            </span>
-                                                            <span id="disabled">
-                                                                <obs conceptId="99125"/>
-                                                            </span>
+                                                        <span id="enable-disable-poor-art-adherence-reason">
+                                                            <obs conceptId="90223" answerConceptId="90002"
+                                                                answerLabel="15 - Other Specify"/>
+                                                        </span>
+                                                        <span id="poor-art-adherence-reason-enabled">
+                                                            <obs conceptId="99125"/>
                                                         </span>
                                                     </div>
                                                     <div class="col-md-3">
