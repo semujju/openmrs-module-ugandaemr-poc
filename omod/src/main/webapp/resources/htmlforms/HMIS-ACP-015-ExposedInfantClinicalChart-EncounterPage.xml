@@ -14,32 +14,32 @@
     <ifMode mode="ENTER">
         <includeIf velocityTest="$fn.allEncounters('9fcfcc91-ad60-4d84-9710-11cc25258719').size() == 0">
             <script>
-                <!-- jq(function() {
-                    alert('This patient has no Summary page, you will now be forwarded to the patient dashboard');
+                jq(function() {
+                alert('This patient has no Summary page, you will now be forwarded to the patient dashboard');
 
-                    /*
-                     * queryParameters -> handles the query string parameters
-                     * queryString -> the query string without the fist '?' character
-                     * re -> the regular expression
-                     * m -> holds the string matching the regular expression
-                     */
-                    var queryParameters = {}, queryString = location.search.substring(1),
-                            re = /([^&amp;=]+)=([^&amp;]*)/g, m;
+                /*
+                * queryParameters -> handles the query string parameters
+                * queryString -> the query string without the fist '?' character
+                * re -> the regular expression
+                * m -> holds the string matching the regular expression
+                */
+                var queryParameters = {}, queryString = location.search.substring(1),
+                re = /([^&amp;=]+)=([^&amp;]*)/g, m;
 
-                    // Creates a map with the query string parameters
-                    while (m = re.exec(queryString)) {
-                        queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-                    }
+                // Creates a map with the query string parameters
+                while (m = re.exec(queryString)) {
+                queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+                }
 
-                    /*
-                     * Replace the query portion of the URL.
-                     * jQuery.param() -> create a serialized representation of an array or
-                     *     object, suitable for use in a URL query string or Ajax request.
-                     */
-                    location.href = window.location.protocol + "//" + window.location.host +
-                                    '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='
-                                    + queryParameters['patientId']; // Causes page to reload
-                }); -->
+                /*
+                * Replace the query portion of the URL.
+                * jQuery.param() -> create a serialized representation of an array or
+                *     object, suitable for use in a URL query string or Ajax request.
+                */
+                location.href = window.location.protocol + "//" + window.location.host +
+                '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='
+                + queryParameters['patientId']; // Causes page to reload
+                });
             </script>
         </includeIf>
     </ifMode>
@@ -47,85 +47,84 @@
     <script type="text/javascript">
 
         beforeSubmit.push(function () {
-            var submitVal = true;
-            var submitValStage = [];
-            var message1 = "The next appointment date must be after the current visit date";
+        var submitVal = true;
+        var submitValStage = [];
+        var message1 = "The next appointment date must be after the current visit date";
 
-            <!-- check if encounter date field has a value -->
-            if (getValue('5096.value') != "") {
-                setValue('5096.error', '');
+        <!-- check if encounter date field has a value -->
+        if (getValue('5096.value') != "") {
+        setValue('5096.error', '');
 
-                <!-- The next appointment date if specified has to be after the encounterDate -->
-                submitValStage.push(dateValidator("5096", "encounterDate", "", message1, "", "less_than", true));
-            }
+        <!-- The next appointment date if specified has to be after the encounterDate -->
+        submitValStage.push(dateValidator("5096", "encounterDate", "", message1, "", "less_than", true));
+        }
 
-            if (submitValStage.indexOf(false) != -1) {
-                submitVal = false;
-                jq().toastmessage('showErrorToast', "  There are errors during the validation of the data on the form. Please correct them and submit again");
-            }
-            return submitVal;
+        if (submitValStage.indexOf(false) != -1) {
+        submitVal = false;
+        jq().toastmessage('showErrorToast', "  There are errors during the validation of the data on the form. Please correct them and submit again");
+        }
+        return submitVal;
         });
 
         //Block Multiple encounter entry on same date
         blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
 
-        jq(document).ready(function () {    
+        jq(document).ready(function () {
 
-            /* enabling and disabling other clinical assessment codes not listed */
-            jq("#enable-disable-clinical-assessment").find("input[type$='text']").attr("disabled", true);
+        /* enabling and disabling other clinical assessment codes not listed */
+        jq("#enable-disable-clinical-assessment").find("input[type$='text']").attr("disabled", true);
 
-            jq("#enable-disable-clinical-assessment").change(function () {
-                if(jq('#enable-disable-clinical-assessment').find('#specify').find(':checkbox').prop('checked')) {
-                    jq("#enable-disable-clinical-assessment").find("#other-signs").find("input[type$='text']").attr("disabled", false);
-                    jq("#other-signs").removeClass("html-form-entry-disabled-field");
-                }else {
-                    jq("#enable-disable-clinical-assessment").find("#other-signs").find("input[type$='text']").attr("disabled", true);
-                    jq("#other-signs").addClass("html-form-entry-disabled-field");
-                }
-            });
+        jq("#enable-disable-clinical-assessment").change(function () {
+        if(jq('#enable-disable-clinical-assessment').find('#specify-other-signs-and-symptoms-of-hiv').find(':checkbox').prop('checked')) {
+        jq("#enable-disable-clinical-assessment").find("#other-signs-and-symptoms-of-hiv").find("input[type$='text']").attr("disabled", false);
+        jq("#other-signs-and-symptoms-of-hiv").removeClass("html-form-entry-disabled-field");
+        }else {
+        jq("#enable-disable-clinical-assessment").find("#other-signs-and-symptoms-of-hiv").find("input[type$='text']").attr("disabled", true);
+        jq("#other-signs-and-symptoms-of-hiv").addClass("html-form-entry-disabled-field");
+        }
+        });
 
-           /* enabling and disabling immunization code not done field */
-            jq("#immunization-not-done").find("input[type$='text']").attr("disabled",true);
+        /* enabling and disabling immunization code not done field */
+        jq("#immunization-not-done").find("input[type$='text']").attr("disabled",true);
 
-            jq("#immunization-not-done").change(function () {
-                if(jq('#immunization-not-done').find('#specify-reason').find(':checkbox').prop('checked')) {
-                    jq("#immunization-not-done").find("#why-not-immunized").find("input[type$='text']").attr("disabled", false);
-                    jq("#why-not-immunized").removeClass("html-form-entry-disabled-field");
-                }else {
-                    jq("#immunization-not-done").find("#why-not-immunized").find("input[type$='text']").attr("disabled", true);
-                    jq("#why-not-immunized").addClass("html-form-entry-disabled-field");
-                }
-            });
+        jq("#immunization-not-done").change(function () {
+        if(jq('#immunization-not-done').find('#specify-why-not-immunized').find(':checkbox').prop('checked')) {
+        jq("#immunization-not-done").find("#why-not-immunized").find("input[type$='text']").attr("disabled", false);
+        jq("#why-not-immunized").removeClass("html-form-entry-disabled-field");
+        }else {
+        jq("#immunization-not-done").find("#why-not-immunized").find("input[type$='text']").attr("disabled", true);
+        jq("#why-not-immunized").addClass("html-form-entry-disabled-field");
+        }
+        });
 
-            /* enabling and disabling other medication codes not listed */
-            jq("#medication").find("input[type$='text']").attr("disabled",true);
+        /* enabling and disabling other medication codes not listed */
+        jq("#medication").find("input[type$='text']").attr("disabled",true);
 
-            jq("#medication").change(function () {
-                if(jq('#medication').find('#specify-other-medication').find(':checkbox').prop('checked')) {
-                    jq("#medication").find("#other-medication").find("input[type$='text']").attr("disabled", false);
-                    jq("#other-medication").removeClass("html-form-entry-disabled-field");
-                }else {
-                    jq("#medication").find("#other-medication").find("input[type$='text']").attr("disabled", true);
-                    jq("#other-medication").addClass("html-form-entry-disabled-field");
-                }
-            });
+        jq("#medication").change(function () {
+        if(jq('#medication').find('#specify-other-medication').find(':checkbox').prop('checked')) {
+        jq("#medication").find("#other-medication").find("input[type$='text']").attr("disabled", false);
+        jq("#other-medication").removeClass("html-form-entry-disabled-field");
+        }else {
+        jq("#medication").find("#other-medication").find("input[type$='text']").attr("disabled", true);
+        jq("#other-medication").addClass("html-form-entry-disabled-field");
+        }
+        });
 
-            var age =  <lookup complexExpression="$patient.age"/>;
+        var age =  <lookup complexExpression="$patient.age"/>;
 
-            getMUACCodeFromMUACScoreByAge(age);
+        getMUACCodeFromMUACScoreByAge(age);
 
         });
-               
+
     </script>
 
     <div>
         <div class="row">
             <div class="col-md-6">
-                <h1>HMIS ACP 015: Exposed Infant Clinical Chart - Encounter Form</h1>
+                <h1>HMIS ACP 015 - Exposed Infant Clinical Chart - Encounter Form</h1>
             </div>
             <span class="hidden">
                 <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117" order="629d78e9-93e5-43b0-ad8a-48313fd99117"/>
-                <span id="birthDate"><lookup expression="patient.birthdate"/></span>
             </span>
         </div>
         <div class="row">
@@ -136,11 +135,11 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label>Visit Numbers</label>
+                                    <label>Visit Number</label>
                                     <obs conceptId="162992"
-                                        answerConceptIds="162993,162994,162995,162996,162997,162998,162999,163000,163001,163002,163018,163019,163020,163021,163022"
-                                        answerLabels="Visit 1,Visit 2,Visit 3,Visit 4,Visit 5,Visit 6,Visit 7,Visit 8,Visit 9,Visit 10,Visit 11,Visit 12,Visit 13,Visit 14,Visit 15"
-                                        required="true"/>
+                                         answerConceptIds="162993,162994,162995,162996,162997,162998,162999,163000,163001,163002,163018,163019,163020,163021,163022"
+                                         answerLabels="Visit 1,Visit 2,Visit 3,Visit 4,Visit 5,Visit 6,Visit 7,Visit 8,Visit 9,Visit 10,Visit 11,Visit 12,Visit 13,Visit 14,Visit 15"
+                                         required="true"/>
                                 </div>
                                 <div class="col-md-3">
                                     <label>Date of Appointment</label>
@@ -152,7 +151,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label>Next Appointment Date</label>
-                                    <obs id="5096" conceptId="5096" allowFutureDates="true"/>
+                                    <obs id="5096" conceptId="5096"/>
                                 </div>
                             </div>
                             <div class="row">
@@ -160,50 +159,52 @@
                                     <label>Service Provider:</label>
                                     <encounterProvider role="Provider" style="autocomplete"/>
                                     <span class="hidden">
-                                    <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117"
-                                                       order="629d78e9-93e5-43b0-ad8a-48313fd99117"/>
+                                        <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117"
+                                                           order="629d78e9-93e5-43b0-ad8a-48313fd99117"/>
                                     </span>
-                               </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                                  
+
                     <div class="card">
                         <div class="card-header">HIV Test, Infant Feeding, Immunisation Codes</div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-4">
-                                    HIV Test
+                                <div class="col-md-1">
+                                    <label>HIV Test</label>
+                                </div>
+                                <div class="col-md-3">
                                     <obs conceptId="99080" answerConceptIds="163006,163007" style="radio" class="horizontal"/>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            Infant Feeding Code
-                                        </div>
-                                        <div class="col-md-3">
-                                            <obs conceptId="99451" answerConceptIds="5526,99089,6046,99791,99792,99793"
-                                                answerLabels="EBF - Exclusive Breast Feeding,RF - Replacement Feeding (never breastfed),MF - Mixed Feeding (below 6 months) ,CF - Complimentary Feeding (above 6 months),W - Wean from breastfeeding,NLB - No Longer Breastfeeding"/>
-                                        </div>
-                                    </div>
+                                <div class="col-md-2">
+                                    <label>Infant Feeding Code</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <obs conceptId="99451" answerConceptIds="5526,99089,6046,99791,99792,99793"
+                                         answerLabels="EBF - Exclusive Breast Feeding,RF - Replacement Feeding (never breastfed),MF - Mixed Feeding (below 6 months) ,CF - Complimentary Feeding (above 6 months),W - Wean from breastfeeding,NLB - No Longer Breastfeeding"/>
                                 </div>
                             </div>
-                            <label>Immunisation Codes</label>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Immunisation Codes</label>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-3">
                                     <obs conceptId="162839" answerConceptId="886" answerLabel="1 - BCG"/>
                                     <obs conceptId="162839" answerConceptId="162834" answerLabel="5 - Polio 3"/>
-                                    <obs conceptId="162839" answerConceptId="163014" answerLabel="9 - PCV 1"/> 
+                                    <obs conceptId="162839" answerConceptId="163014" answerLabel="9 - PCV 1"/>
                                     <obs conceptId="162839" answerConceptId="162347" answerLabel="13 - Rotavirus 2"/>
                                     <obs conceptId="162839" answerConceptId="162838" answerLabel="17 - De-Worming"/>
                                 </div>
                                 <div class="col-md-3">
                                     <obs conceptId="162839" answerConceptId="162831" answerLabel="2 - Polio 0"/>
-                                    <obs conceptId="162839" answerConceptId="1422" answerLabel="6 - IPV"/> 
-                                    <obs conceptId="162839" answerConceptId="163015" answerLabel="10 - PCV 2"/> 
+                                    <obs conceptId="162839" answerConceptId="1422" answerLabel="6 - IPV"/>
+                                    <obs conceptId="162839" answerConceptId="163015" answerLabel="10 - PCV 2"/>
                                     <obs conceptId="162839" answerConceptId="165409"     answerLabel="14 - Measles 1 (MR1)"/>
                                     <span id="immunization-not-done">
-                                        <span id="specify-reason">
+                                        <span id="specify-why-not-immunized">
                                             <obs conceptId="162839" answerConceptId="90002" answerLabel="Not Done (specify which ones)"/>
                                         </span>
                                         <span id="why-not-immunized" class="html-form-entry-disabled-field">
@@ -214,7 +215,7 @@
                                 <div class="col-md-3">
                                     <obs conceptId="162839" answerConceptId="162832" answerLabel="3 - Polio 1"/>
                                     <obs conceptId="162839" answerConceptId="162835" answerLabel="7 - DPT-HepB + Hib 1"/>
-                                    <obs conceptId="162839" answerConceptId="163016" answerLabel="11 - PCV 3"/> 
+                                    <obs conceptId="162839" answerConceptId="163016" answerLabel="11 - PCV 3"/>
                                     <obs conceptId="162839" answerConceptId="165410"  answerLabel="15 - Measles 2 (MR2)"/>
                                 </div>
                                 <div class="col-md-3">
@@ -242,7 +243,7 @@
                                 <div class="col-md-3">
                                     <label>Z-Scores</label>
                                     <obs conceptId="99800" answerConceptIds="99803,99804,99805,99806,99807"
-                                        answerLabels="&#60;-3,-3_&#60;-1,-1_1,&#62;1_3,&#62;3"/>
+                                         answerLabels="&#60;-3,-3_&#60;-1,-1_1,&#62;1_3,&#62;3"/>
                                 </div>
                             </div>
                             <div class="row">
@@ -253,12 +254,12 @@
                                 <div class="col-md-3">
                                     <label>MUAC Code</label>
                                     <obs id="muac-code" conceptId="99801" answerConceptIds="99028,99029,99027"
-                                        answerLabels="Red &lt;11.5cm and/or Oedema Present,Yellow 11.5 -&lt;12.5cm and Oedema Absent,Green &gt;=12.5cm and Oedema Absent"/>
+                                         answerLabels="Red &lt;11.5cm and/or Oedema Present,Yellow 11.5 -&lt;12.5cm and Oedema Absent,Green &gt;=12.5cm and Oedema Absent"/>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="card">
                         <div class="card-header">Clinical Assessment for Signs and Symptoms of HIV</div>
                         <div class="card-body">
@@ -274,10 +275,10 @@
                                     <obs  conceptId="162853" answerConceptId="162849" answerLabel="EI - Ear Infection"/>
                                     <obs  conceptId="162853" answerConceptId="162852" answerLabel="RDR - Recurrent Diarrhea"/>
                                     <span id="enable-disable-clinical-assessment">
-                                        <span id="specify">
+                                        <span id="specify-other-signs-and-symptoms-of-hiv">
                                             <obs  conceptId="162853" answerConceptId="90002" answerLabel="Others (specify)"/>
                                         </span>
-                                        <span id="other-signs" class="html-form-entry-disabled-field">
+                                        <span id="other-signs-and-symptoms-of-hiv" class="html-form-entry-disabled-field">
                                             <obs  conceptId="163008" answerLabel="Others (specify)"/>
                                         </span>
                                     </span>
@@ -295,7 +296,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="card">
                         <div class="card-header">Developmental Assessment for Evidence of Delay</div>
                         <div class="card-body">
@@ -308,7 +309,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <obs conceptId="162864"  answerConceptId="162863" answerLabel="ST - Standing"/>
-                                    <obs conceptId="162864"  answerConceptId="162861" answerLabel="ROLL- Rolling Over"/>
+                                    <obs conceptId="162864"  answerConceptId="162861" answerLabel="ROLL - Rolling Over"/>
                                 </div>
                                 <div class="col-md-3">
                                     <obs conceptId="162864"  answerConceptId="162858" answerLabel="HEAD - Controlling the Head"/>
@@ -329,8 +330,8 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-header">Prophylaxis</div> 
-                        <div class="card-body">   
+                        <div class="card-header">Prophylaxis</div>
+                        <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3">
                                     Cotrim
@@ -343,7 +344,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="card">
                         <div class="card-header">Medication</div>
                         <div class="card-body">
@@ -357,7 +358,7 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <obs  conceptId="1193" answerConceptId="931"
-                                         answerLabel="Amitriptilline"/>
+                                          answerLabel="Amitriptilline"/>
                                     <obs  conceptId="1193" answerConceptId="922" answerLabel="Cloxacillin"/>
                                     <obs conceptId="1193" answerConceptId="1108" answerLabel="EH"/>
                                     <obs  conceptId="1193" answerConceptId="926" answerLabel="Ketoconazole"/>
@@ -392,14 +393,12 @@
                                 </div>
                                 <div class="col-md-3">
                                     <obs  conceptId="1193" answerConceptId="740"
-                                         answerLabel="Ciprofloxacine"/>
+                                          answerLabel="Ciprofloxacine"/>
                                     <obs  conceptId="1193" answerConceptId="95" answerLabel="Doxycycline"/>
                                     <obs  conceptId="1193" answerConceptId="912" answerLabel="Ibuprofen"/>
                                     <obs  conceptId="1193" answerConceptId="461" answerLabel="Multivitamins"/>
                                     <obs conceptId="1193" answerConceptId="1194" answerLabel="RH"/>
                                     <obs conceptId="1193" answerConceptId="99128" answerLabel="RHZES"/>
-
-
                                 </div>
                             </div>
                             <div class="row">
@@ -410,14 +409,12 @@
                             </div>
                         </div>
                     </div>
-                        <div class="row">
-                            <div class="col-md-10"></div>
-                            <div class="col-md-2">
-                                <span class="submitButton float-right">
-                                    <submit submitStyle="customSubmit" class="confirm" submitLabel="Save"/>
-                                </span>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-11"></div>
+                        <div class="col-md-1">
+                            <submit  class="confirm" submitLabel="Save"/>
                         </div>
+                    </div>
                 </section>
             </div>
         </div>
