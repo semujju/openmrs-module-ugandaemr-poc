@@ -1,33 +1,67 @@
 
-function disable_fields(groupId){
+/*function disable_fields(groupId){
     var disable = true;
     var group = jq("#"+groupId);
     group.find("input").attr("disabled", disable);
     group.find('select').attr("disabled", disable);
 
     if (disable) {
-        /* fade out the fields that are disabled */
+        *//* fade out the fields that are disabled *//*
         group.find("input").fadeTo(250, 0.25);
         group.find("select").fadeTo(250, 0.25);
     } else {
-        /* remove the fade on the fields */
+        *//* remove the fade on the fields *//*
         group.find("input").fadeTo(250, 1);
         group.find("select").fadeTo(250, 1);
     }
+}*/
+
+function disable_enable_fields(elementIdsArray = [],disabled) {
+
+    if (disabled) {
+        /* disable and grey out fields */
+        jQuery.each(elementIdsArray, function( index, elementId ) {
+             jq( "#" + elementId ).find('input').attr("disabled", true);
+             jq( "#" + elementId ).find('select').attr("disabled", true);
+             jq( "#" + elementId ).addClass("html-form-entry-disabled-field");
+        });
+    } else {
+        /* activate fields and remove the grey colour */
+        jQuery.each(elementIdsArray, function( index, elementId ) {
+            jq( "#" + elementId ).find('input').attr("disabled", false);
+            jq( "#" + elementId ).find('select').attr("disabled", false);
+            jq( "#" + elementId ).removeClass("html-form-entry-disabled-field");
+        });
+    }
 }
 
-function enable_fields(group){
-    var disable = false;
+function enable_fields_new(group){
     var group = jq("#"+group);
-    group.find("input").attr("disabled", disable);
-    group.find('select').attr("disabled", disable);
+    group.find("input").attr("disabled", false);
+    group.find('select').attr("disabled", false);
+    group.removeClass("html-form-entry-disabled-field");
 
     if (!disable) {
         /* remove the fade on the fields */
         group.find("input").fadeTo(250, 1);
         group.find("select").fadeTo(250, 1);
+        group.addClass("html-form-entry-disabled-field");
     }
 }
+
+/*function enable_fields(group){
+    var disable = false;
+    var group = jq("#"+group);
+    group.find("input").attr("disabled", disable);
+    group.find('select').attr("disabled", disable);
+    jq("#reason_for_next_appointment").addClass("html-form-entry-disabled-field");
+
+    if (!disable) {
+        *//* remove the fade on the fields *//*
+        group.find("input").fadeTo(250, 1);
+        group.find("select").fadeTo(250, 1);
+    }
+}*/
 
 function enable_disable_fm(selected_option) {
 

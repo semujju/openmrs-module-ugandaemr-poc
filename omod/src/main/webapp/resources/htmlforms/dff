@@ -99,6 +99,66 @@
 
                 stabilityCheck();
 
+                <!-- Enable TB fields only if TB RX is selected-->
+
+                function enable_disable_district_tb_reg(selected_option) {
+
+                    var class_name = jq(selected_option).attr("class");
+
+                    var length = class_name.length;
+
+                    var class_id = parseInt(class_name.substring(length - 1, length))
+
+                    var row_id = class_id;
+
+                    var disable = true;
+                    var requires = false;
+
+                    var row_1 = '[class^="DistrictTbReg"][class*="Child1"]';
+
+                    var xx = row_1;
+                    var selected_value = jq(selected_option).find(":selected").attr("value");
+
+                    if (selected_value == "90071") {
+                        disable = false;
+                        requires = true;
+                    }
+
+                    switch (row_id) {
+                        case 1:
+                        xx = row_1;
+                        break;
+                    }
+
+                    jq(xx).each(function () {
+                        var group = jq(this);
+
+                        if (class_name.indexOf('Child') == -1) {
+                            /* group.find("input").attr("value", ""); */
+                            group.find("input").attr("required", requires);
+                            /* group.find('select').prop("selectedIndex", 0); */
+                            group.find("input").attr("disabled", disable);
+                            group.find('select').attr("disabled", disable);
+                            if (requires == false) {
+                                group.find('.required').show();
+                            }
+                            else if (requires == true) {
+                                group.find('.required').hide();
+                            }
+
+                            if (disable) {
+                                /* fade out the fields that are disabled */
+                                group.find("input").fadeTo(250, 0.25);
+                                group.find("select").fadeTo(250, 0.25);
+                            } else {
+                                /* remove the fade on the fields */
+                                group.find("input").fadeTo(250, 1);
+                                group.find("select").fadeTo(250, 1);
+                            }
+                        }
+                    });
+                }
+
                 /* Validation of the ART regimen Selected */
                 jq("#90315").change(function () {
                     var regimen_encounter_page_value = jq("#90315").find("select").find(":selected").val();
@@ -131,165 +191,13 @@
                 });
                 /* End of Validation */
 
-
-                jq("#90203").change(function () {
-                    clinicStaging = jq(this).find(":selected").val();
-                    stabilityCheck();
-                });
-
-                disable_enable_fields(["edd", "emtct", "age-in-months", "anc_no", "district-tb-no", "tb-start-date", "tb-stop-date",
-                                    "no-tpt-pills", "no-b6-pills", "no-of-dapsone-pills", "no-of-dapsone-pills-days",
-                                    "no-of-fluconazole-pills", "no-of-fluconazole-pills-days", "fluconazole-stop-date",
-                                    "viral-load-status", "patient-categorization", "viral-load-results-qualitative",
-                                    "reason_for_next_appointment", "other_reason_for_next_appointment", "other-regimen",
-                                    "no-of-art-pills", "no-of-art-pills-days", "viral-load-results-copies",
-                                    "family-planning-methods"], true);
-
-                jq("#returndate").change(function () {
-                    if (jq("#returndate").find("input[type=hidden]").val() != "") {
-                        disable_enable_fields(["reason_for_next_appointment"], false);
-                    } else {
-                        disable_enable_fields(["reason_for_next_appointment", "other_reason_for_next_appointment"], true);
-                    }
-                });
-
-                jq("#reason_for_next_appointment").change(function () {
-                    if (jq(this).find("select").find(":selected").val() == "90002") {
-                        disable_enable_fields("other_reason_for_next_appointment", false);
-                    } else {
-                        disable_enable_fields("other_reason_for_next_appointment", true);
-                    }
-                });
-
-                jq(".pregnancy").change(function () {
-                    if (jq(this).find('#pregnant').find(':checkbox').prop('checked')) {
-                        disable_enable_fields(["edd"], false);
-                    } else {
-                        disable_enable_fields(["edd", "emtct", "age-in-months", "anc_no"], true);
-                    }
-                });
-
-                /*enable disable family planning options*/
-
-                jq(".family-planning-methods").find("input[type$='checkbox']").attr('disabled', true);
-                jq(".family-planning-methods").addClass("html-form-entry-disabled-field");
-
-                jq(".enable-disable-family-planning-methods").change(function () {
-                if(jq(this).find("input[type='radio']:checked").val() == 90082) {
-                    jq(".family-planning-methods").find("input[type$='checkbox']").attr('disabled', false);
-                    jq(".family-planning-methods").removeClass("html-form-entry-disabled-field");
-                } else {
-                    jq(".family-planning-methods").find("input[type$='checkbox']").attr('disabled', true);
-                    jq(".family-planning-methods").find("input[type$='checkbox']").prop("checked", false);
-                    jq(".family-planning-methods").addClass("html-form-entry-disabled-field");
-                }
-                });
-
-                jq("#tb-status").change(function () {
-                    if (jq(this).find("select").find(":selected").val() == "90071") {
-                        disable_enable_fields(["tb-start-date"], false);
-                    } else {
-                        disable_enable_fields(["tb-start-date", "tb-stop-date", "district-tb-no"], true);
-                    }
-                });
-
-                jq("#tb-start-date").change(function () {
-                    if (jq(this).find("input[type=hidden]").val() != "") {
-                        disable_enable_fields(["tb-stop-date"], false);
-                    } else {
-                        disable_enable_fields(["tb-start-date", "tb-stop-date", "district-tb-no"], true);
-                    }
-                });
-
-                jq("#tb-stop-date").change(function () {
-                    if (jq(this).find("input[type=hidden]").val() != "") {
-                        disable_enable_fields(["district-tb-no"], false);
-                    } else {
-                        disable_enable_fields(["tb-start-date", "tb-stop-date", "district-tb-no"], true);
-                    }
-                });
-
-                /*enable disable tpt prescription
-                jq("#tpt-status").change(function () {
-                    console.log('kkddl');
-                    if (jq(this).find("select").find(":selected").val() == "90072") {
-                        disable_enable_fields(["no-tpt-pills", "no-b6-pills"], false);
-                    } else {
-                        disable_enable_fields(["no-tpt-pills", "no-b6-pills"], true);
-                    }
-                });
-
-                /*enable disable dapsone prescription*/
-
-                jq("#is-taking-dapsone").change(function () {
-                    if (jq(this).find("input[type='radio']:checked").val() == "1065") {
-                        disable_enable_fields(["no-of-dapsone-pills", "no-of-dapsone-pills-days"], false);
-                    } else {
-                        disable_enable_fields(["no-of-dapsone-pills", "no-of-dapsone-pills-days"], true);
-                    }
-                });
-
-                /*enable disable fluconazole prescription*/
-
-                jq("#fluconazole-start-date").change(function () {
-                    if (jq(this).find("input[type=hidden]").val() != "") {
-                        disable_enable_fields(["fluconazole-stop-date"], false);
-                    } else {
-                        disable_enable_fields(["fluconazole-stop-date", "no-of-fluconazole-pills", "no-of-fluconazole-pills-days"], true);
-                    }
-                });
-
-                jq("#fluconazole-stop-date").change(function () {
-                    if (jq(this).find("input[type=hidden]").val() != "") {
-                        disable_enable_fields(["no-of-fluconazole-pills", "no-of-fluconazole-pills-days"], false);
-                    } else {
-                        disable_enable_fields(["no-of-fluconazole-pills", "no-of-fluconazole-pills-days"], true);
-                    }
-                });
-
-                /* enable or disable other art regimens */
-
-                jq("#90315").change(function () {
-                    if (jq(this).find("select").find(":selected").val() == "90002") {
-                        disable_enable_fields(["other-regimen"], false);
-                    } else {
-                        disable_enable_fields(["other-regimen"], true);
-                    }
-                });
-
-                jq("#90315").change(function () {
-                    if (jq(this).find("select").find(":selected").val() !== " ") {
-                        disable_enable_fields(["no-of-art-pills"], false);
-                    } else {
-                        disable_enable_fields(["no-of-art-pills"], true);
-                    }
-                });
-
-                jq("#no-of-art-pills").change(function () {
-                    if (jq(this).find("input[type$='text']").val() !== " ") {
-                        disable_enable_fields(["no-of-art-pills-days"], false);
-                    } else {
-                        disable_enable_fields(["no-of-art-pills-days"], true);
-                    }
-                });
-
-                /*enable disable viral load results*/
-
-                jq("#date-viral-load-taken").change(function () {
-                    if (jq(this).find("input[type=hidden]").val() != "") {
-                        disable_enable_fields(["viral-load-results-qualitative"], false);
-                    } else {
-                        disable_enable_fields(["viral-load-results-qualitative"], true);
-                    }
-                });
-
-                /* disable or enable viral load copies field */
+                /* Handle viral load results */
+                //jq("#viral-load-results-copies").attr("disabled", true);
                 jq("#viral-load-results-qualitative").change(function () {
-                var viral_load_status = getValue('viral-load-results-qualitative.value');
-                    if (viral_load_status == "")
-                        disable_enable_fields(["viral-load-results-copies"], true);
+                    var viral_load_status = getValue('viral-load-results-qualitative.value');
                     if (viral_load_status == 1301) {
                         /* Detected */
+                        jq("#viral-load-results-copies").attr("disabled", false);
                         <ifMode mode="ENTER">
                             setValue('viral-load-results-copies.value', '');
                         </ifMode>
@@ -298,33 +206,139 @@
                         if(viral_load_copies == 1){
                             setValue('viral-load-results-copies.value', '');
                         }
-
-                    disable_enable_fields(["viral-load-results-copies"], false);
                     }
                     if (viral_load_status == 1306) {
-                        /* Not Detected */
-                        disable_enable_fields(["viral-load-results-copies"], false);
+                    /* Not Detected */
+                        jq("#viral-load-results-copies").attr("disabled", false);
                         setValue('viral-load-results-copies.value', 1);
+                    }
+                    if (viral_load_status == "" || viral_load_status == 1304) {
+                    /* Sample Rejected and no data */
+                        jq("#viral-load-results-copies").attr("disabled", true).attr("readonly", true);
+                        setValue('viral-load-results-copies.value', '');
                     }
                 });
 
                 jq("#viral-load-results-copies").change(function () {
-                previousVl = jq("#viral-load-results-copies").find("input").val();
-                stabilityCheck();
+                    previousVl = jq("#viral-load-results-copies").find("input").val();
+                    stabilityCheck();
                 });
 
                 // trigger a change when the form loads
                 jq("#viral-load-results-qualitative").change();
 
+                jq('[class^="ARTYesNoEnableDisable"]').change(function () {
+                    enable_disable(jq(this), "ARTYesNo", 'selected_value == "yes" &amp;&amp; selected_value!=""', "select");
+                });
+
+                jq('[class^="ARTYesNoEnableDisable"]').each(function () {
+                    enable_disable(jq(this), "ARTYesNo", 'selected_value == "yes" &amp;&amp; selected_value!=""', "select");
+                });
+
+                jq('[class^="RegimenEnableDisable"]').change(function () {
+                    enable_disable(jq(this), "Regimen", 'selected_value == "other"', "select");
+                });
+
+                jq('[class^="RegimenEnableDisable"]').each(function () {
+                    enable_disable(jq(this), "Regimen", 'selected_value == "other"', "select");
+                });
+
+                jq('[class^="OtherAppointmentReasonEnableDisable"]').change(function () {
+                    enable_disable(jq(this), "OtherAppointmentReason", 'selected_value == "14. other specify"', "select");
+                });
+
+                jq('[class^="OtherAppointmentReasonEnableDisable"]').each(function () {
+                    enable_disable(jq(this), "OtherAppointmentReason", 'selected_value == "14. other specify"', "select");
+                });
+
+                jq('[class^="DistrictTbRegEnableDisable"]').change(function () {
+                    enable_disable_district_tb_reg(jq(this));
+                });
+
+                jq('[class^="DistrictTbRegEnableDisable"]').each(function () {
+                    enable_disable_district_tb_reg(jq(this));
+                });
+
+                jq("#90203").change(function () {
+                    clinicStaging = jq(this).find(":selected").val();
+                    stabilityCheck();
+                });
+
+                jq("#returndate").each(function () {
+                    if (jq("#returndate").find("input[type=hidden]").val() != "") {
+                        //enableContainer("#reason_for_next_appointment");
+                        //jq("#reason_for_next_appointment").removeClass("html-form-entry-disabled-field");
+                        //disable_fields_new("reason_for_next_appointment", true);
+                    } else {
+                        //disableContainer("#reason_for_next_appointment");
+                       // jq("#reason_for_next_appointment").addClass("html-form-entry-disabled-field");
+                        //disable_fields_new("reason_for_next_appointment", false);
+                    }
+                });
+
+                disable_fields_new(['edd', 'emtct', 'age-in-months', 'district-tb-no', 'tb-start-date', 'tb-stop-date',
+                                        'no-tpt-pills', 'no-b6-pills', 'no-of-dapsone-pills', 'no-of-dapsone-pills-days',
+                                        'no-of-fluconazole-pills', 'no-of-fluconazole-pills-days', 'fluconazole-stop-date',
+                                        'date-viral-load-taken', 'viral-load-status', 'patient-categorization'], true);
+
+                jq("#returndate").each(function () {
+                    disable_fields_new("other_reason_for_next_appointment", true);
+                });
+
+                jq("#returndate").change(function () {
+                    if (jq("#returndate").find("input[type=hidden]").val() != "") {
+                        //enableContainer("#reason_for_next_appointment");
+                        jq("#reason_for_next_appointment").removeClass("html-form-entry-disabled-field");
+                    } else {
+                        //disableContainer("#reason_for_next_appointment");
+                        jq("#reason_for_next_appointment").addClass("html-form-entry-disabled-field");
+                    }
+                });
+
+                jq(".ARTYesNoEnableDisable2").change(function () {
+                    if(jq('.ARTYesNoEnableDisable2').find('#1065').find(':checkbox').prop('checked')) {
+                        jq("#edd").find("input[type$='text']").attr("disabled",false);
+                    }
+                });
+
                 /*determine viral load status*/
 
                 jq("#viral-load-results-copies").keyup(function () {
-                    if (jq("#viral-load-results-copies").find("input").val() &lt; 1000)
+
+                    if(jq("#viral-load-results-copies").find("input").val() &lt; 1000)
                         jq("#viral-load-status").val("Suppressed");
-                    else if (jq("#viral-load-results-copies").find("input").val() >= 1000)
-                        jq("#viral-load-status").val("Non-suppressed");
                     else
-                        jq("#viral-load-status").val(" ");
+                        jq("#viral-load-status").val("Non-suppressed");
+                });
+
+                /*enable disable family planning options*/
+
+                jq(".FamilyPlanningEnableDisable").find("input[type$='checkbox']").attr('disabled', true);
+                jq(".FamilyPlanningEnableDisable").addClass("html-form-entry-disabled-field");
+
+                jq(".ARTYesNoEnableDisable1").change(function () {
+                    if(jq(this).find("input[type='radio']:checked").val() == 90082) {
+                        jq(".FamilyPlanningEnableDisable").find("input[type$='checkbox']").attr('disabled', false);
+                        jq(".FamilyPlanningEnableDisable").removeClass("html-form-entry-disabled-field");
+                    } else {
+                        jq(".FamilyPlanningEnableDisable").find("input[type$='checkbox']").attr('disabled', true);
+                        jq(".FamilyPlanningEnableDisable").addClass("html-form-entry-disabled-field");
+                    }
+                });
+
+                /*enable disable TPT prescription*/
+
+                jq(".TPTEnabelDisable").find("input[type$='text']").attr('disabled', true);
+                jq(".TPTEnabelDisable").find("input[type$='text']").fadeTo(250, 0.25);
+
+                jq("#90216").change(function () {
+                    if(jq(this).find(":selected").val() == 90072) {
+                        jq(".TPTEnabelDisable").find("input[type$='text']").attr('disabled', false);
+                        //jq(".TPTEnabelDisable").removeClass("html-form-entry-disabled-field");
+                    } else {
+                        jq(".TPTEnabelDisable").find("input[type$='text']").attr('disabled', true);
+                        //jq(".TPTEnabelDisable").addClass("html-form-entry-disabled-field");
+                    }
                 });
 
                 /*enable disable Art adherence*/
@@ -343,6 +357,22 @@
                     }
                 });
 
+                /*enable disable dapsone prescription*/
+
+                jq(".EnableDisableDapsone").find("input[type$='text']").attr('disabled', true);
+                //jq(".EnableDisableDapsone").addClass("html-form-entry-disabled-field");
+
+                jq(".IsTakingDapsone").change(function () {
+                    var onDapsone = jq(this).find("input[type='radio']:checked").val();
+                    if(onDapsone == 1065) {
+                        jq(".EnableDisableDapsone").find("input[type$='text']").attr('disabled', false);
+                        //jq(".EnableDisableDapsone").removeClass("html-form-entry-disabled-field");
+                    } else {
+                        jq(".EnableDisableDapsone").find("input[type$='text']").attr('disabled', true);
+                        //jq(".EnableDisableDapsone").addClass("html-form-entry-disabled-field");
+                    }
+                });
+
                 /*enable disable Hepatitis B status*/
 
                 jq(".EnableDisableHepBStatus").find("input[type$='radio']").attr('disabled', true);
@@ -354,7 +384,25 @@
                     } else {
                         jq(".EnableDisableHepBStatus").find("input[type$='radio']").attr('disabled', true);
                     }
+                });
 
+                /*enable disable fluconazole prescription*/
+
+                jq(".EnableDisableFluconazole").find("input[type$='text']").attr('disabled', true)
+                //jq(".EnableDisableFluconazole").addClass("html-form-entry-disabled-field");
+
+                jq(".EnableDisableFluconazolePills").find("input[type$='text']").attr('disabled', true);
+                //jq(".EnableDisableFluconazolePills").addClass("html-form-entry-disabled-field");
+                jq(".EnableDisableFluconazoleDays").find("input[type$='text']").attr('disabled', true);
+                //jq(".EnableDisableFluconazoleDays").addClass("html-form-entry-disabled-field");
+                jq("#fluconazole-start-date").change(function () {
+                    if(jq(this).find("inpuprescriptiont[type='text']").val() !== "") {
+                        jq(".EnableDisableFluconazole").find("input[type$='text']").attr('disabled', false);
+                        //jq(".EnableDisableFluconazole").removeClass("html-form-entry-disabled-field");
+                    } else {
+                        jq(".EnableDisableFluconazole").find("input[type$='text']").attr('disabled', true);
+                        //jq(".EnableDisableFluconazole").addClass("html-form-entry-disabled-field");
+                    }
                 });
 
                 jq("#bmi").find("input[type$='text']").attr('disabled', true);
@@ -582,7 +630,7 @@
             }
 
             /* if DSDM is not FBIM or FTR or Empty and patient is not stable should not save.*/
-            if (jq("#patient-categorization").find("select").find(":selected").val() !== "90003" &amp;&amp; (jq("#165143").find("select").find(":selected").val() !== "165138" &amp;&amp; jq("#165143").find("select").find(":selected").val() !== "165140" &amp;&amp; jq("#165143").find("select").find(":selected").val() !== "")) {
+            if (jq("#"patient-categorization").find("select").find(":selected").val() !== "90003" &amp;&amp; (jq("#165143").find("select").find(":selected").val() !== "165138" &amp;&amp; jq("#165143").find("select").find(":selected").val() !== "165140" &amp;&amp; jq("#165143").find("select").find(":selected").val() !== "")) {
                 getField('165143.error').html('Patient Not Stable due to ' + instabilityCause + '. \n Only Stable Patients can be enrolled in ' + jq("#165143").find("select").find(":selected").text()).show();
 
                 jq().toastmessage('showErrorToast', " Patient Not Stable " + instabilityCause + ". \n Only Stable Patients can be enrolled in " + jq("#165143").find("select").find(":selected").text());
@@ -723,7 +771,7 @@
                 </span>
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -945,8 +993,8 @@
                                             <excludeIf velocityTest="$patient.gender =='M' || $patient.age &lt; 9">
                                                 <div class="row horizontal">
                                                     <div class="col-md-12">
-                                                        <span class="pregnancy">
-                                                            <obs id="pregnant" conceptId="90041" answerConceptId="1065" answerLabel="Pregnant"/>
+                                                        <span class="ARTYesNoEnableDisable2">
+                                                            <obs id="1065" conceptId="90041" answerConceptId="1065" answerLabel="Pregnant"/>
                                                             <obs conceptId="90041" answerConceptId="99601" answerLabel="Breast Feeding"/>
                                                             <obs conceptId="90041" answerConceptId="1066" answerLabel="Not pregnant or not breast feeding"/>
                                                             <obs conceptId="90041" answerConceptId="1175" answerLabel="Unknown"/>
@@ -956,18 +1004,25 @@
                                                 <div class="row">
                                                     <div class="col-md-3">
                                                         <label>EDD</label>
-                                                        <obs id="edd" conceptId="5596" allowFutureDates="true"/>
+<!--                                                        <span class="ARTYesNoEnableDisableChild2">-->
+                                                            <obs id="edd" conceptId="5596" allowFutureDates="true" class="html-form-entry-disabled-field"/>
+<!--                                                        </span>-->
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <label>EMTCT</label>
-                                                        <obs id="emtct" conceptId="90012" answerConceptIds="90003,90004" answerLabels="Yes,No"/>
+<!--                                                        <span class="ARTYesNoEnableDisable3">-->
+                                                            <label>EMTCT</label>
+                                                            <obs id="emtct" conceptId="90012" answerConceptIds="90003,90004"
+                                                                 answerLabels="Yes,No"/>
+<!--                                                        </span>-->
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <label>Age in months</label>
-                                                        <obs id="age-in-months" conceptId="99270" />
+<!--                                                        <span class="ARTYesNoEnableDisableChild3">-->
+                                                            <label>Age in months</label>
+                                                            <obs id="age-in-months" conceptId="99270" />
+<!--                                                        </span>-->
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <span id="anc_no">
+                                                        <span id="anc_no" class="html-form-entry-disabled-field">
                                                             <label>ANC No.</label>
                                                             <patient field="identifier" identifierTypeId="b0cc255e-ef57-4266-839e-0df7f5099eb9" required="false"/>
                                                         </span>
@@ -981,18 +1036,17 @@
                                         <div class="card-body">
                                             <excludeIf velocityTest="$patient.age &lt; 9">
                                                 <div class="row">
-                                                    <div class="col-md-2">
-                                                        <label>Is on Family Planning ?</label>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <obs class="horizontal enable-disable-family-planning-methods" conceptId="90238"
-                                                             answerConceptIds="90082,90081" answerLabels="Yes,No" style="radio"/>
+                                                    <div class="col-md-3">
+                                                        Is on Family Planning ?
+                                                        <span class="ARTYesNoEnableDisable1 horizontal">
+                                                            <obs conceptId="90238" answerConceptIds="90082,90081" answerLabels="Yes,No" style="radio" />
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <label>Family Planning Method:</label>
                                                 <div class="row">
                                                     <div class="col-md-3">
-                                                        <span class="family-planning-methods">
+                                                        <span class="FamilyPlanningEnableDisable">
                                                             <obs conceptId="374" answerConceptId="190" answerLabel="1 - Condoms"/>
                                                             <excludeIf velocityTest="$patient.gender =='M' ">
                                                                 <span class="lablex2">
@@ -1002,7 +1056,7 @@
                                                         </span>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <span class="family-planning-methods">
+                                                        <span class="FamilyPlanningEnableDisable">
                                                             <excludeIf velocityTest="$patient.gender =='M' ">
                                                                 <obs conceptId="374" answerConceptId="780" answerLabel="2 - Oral Contraceptive pills"/>
                                                                 <obs conceptId="374" answerConceptId="5275" answerLabel="6 - Intra uterine device (IUD)"/>
@@ -1010,7 +1064,7 @@
                                                         </span>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <span class="family-planning-methods">
+                                                        <span class="FamilyPlanningEnableDisable">
                                                             <excludeIf velocityTest="$patient.gender =='M' ">
                                                                 <obs conceptId="374" answerConceptId="5279" answerLabel="3 - Injectable/Implantable hormonies"/>
                                                                 <obs conceptId="374" answerConceptId="5277" answerLabel="7 - Fertility Awareness Methods"/>
@@ -1018,13 +1072,13 @@
                                                         </span>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <span class="family-planning-methods">
+                                                        <span class="FamilyPlanningEnableDisable">
                                                             <excludeIf velocityTest="$patient.gender =='F' ">
                                                                 <obs conceptId="374" answerConceptId="99265"
                                                                      answerLabel="8 - Vasectomy/Tubal ligation"/>
                                                             </excludeIf>
                                                         </span>
-                                                        <span class="family-planning-methods">
+                                                        <span class="FamilyPlanningEnableDisable">
                                                             <excludeIf velocityTest="$patient.gender =='M' ">
                                                                 <obs conceptId="374" answerConceptId="162961" answerLabel="4 - Implants"/>
                                                             </excludeIf>
@@ -1061,16 +1115,22 @@
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Tb Status</label>
-                                                        <obs id="tb-status" conceptId="90216" answerConceptIds="90079,90073,90078,90071"
+                                                    <span class="DistrictTbRegEnableDisable1">
+                                                        <obs conceptId="90216" answerConceptIds="90079,90073,90078,90071"
                                                              answerLabels="1. No signs,2. Suspect,3. Diagnosed with Tb,4. Tb Rx"/>
+                                                    </span>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>TB Start Date</label>
+                                                    <span class="DistrictTbRegEnableDisableChild1">
                                                         <obs id="tb-start-date" conceptId="90217"/>
+                                                    </span>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>TB Stop Date</label>
+                                                    <span class="DistrictTbRegEnableDisableChild1">
                                                         <obs id="tb-stop-date" conceptId="90310" allowFutureDates="true"/>
+                                                    </span>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>District TB No.</label>
@@ -1083,14 +1143,14 @@
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>TPT Status</label>
-                                                    <obs id="tpt-status" conceptId="165288" answerConceptIds="1090,90072,165307,90040,160035"
+                                                    <obs id="165288" conceptId="165288" answerConceptIds="1090,90072,165307,90040,160035"
                                                          answerLabels="H0-Never Initiated,H1-On INH,H2-Defaulted,H3-Taken off due to side effects,H4-Completed"/>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-3 TPTB6EnabelDisable">
                                                     <label>No. TPT Pills</label>
                                                     <obs id="no-tpt-pills" conceptId="165278"/>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-3 TPTB6nabelDisable">
                                                     <label>No. B6 Pills</label>
                                                     <obs id="no-b6-pills" conceptId="165279"/>
                                                 </div>
@@ -1133,10 +1193,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>  
+                                    </div>
                                     <div class="card">
                                         <div class="card-header">Side effects of ART</div>
-                                        <div class="card-body">  
+                                        <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <obs conceptId="90227" answerConceptId="90091" answerLabel="Nausea"/>
@@ -1170,62 +1230,55 @@
                                     </div>
                                     <div class="card">
                                         <div class="card-header">Diagnosis</div>
-                                        <div class="card-body"> 
+                                        <div class="card-body">
                                             <div class ="row">
-                                                <div class ="col-md-12">
-                                                    <encounterDiagnoses required="false" selectedDiagnosesTarget="" preferredCodingSource="ICD-10-WHO"/>
+                                                <div class ="col-md-4">
+                                                    <div class ="row">
+                                                        <div class ="col-md-12">
+                                                            <encounterDiagnoses required="false" selectedDiagnosesTarget="" preferredCodingSource="ICD-10-WHO"/>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header">Advanced Disease Status and WHO Clinical Stage</div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-2">
-                                                    <label>Advanced Disease Status</label>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <obs conceptId="165272" answerConceptIds="165309, 165266, 165267, 165268, 165269, 165270, 165271"
-                                                         answerLabels="No Advanced Disease, Suspected Advanced Disease, Confirmed Advanced Disease CD4 &lt; 200, Confirmed Advanced Disease-Pos CrAg, Confirmed Advanced Disease-Pos TB, Confirmed Advanced Disease - WHO Stage 3/4, Confirmed Advanced Disease - Child &lt; 5 Yrs"/>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <label>WHO Clinical stages</label>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <obs id="90203" conceptId="90203" answerConceptIds="90033,90034,90035,90036,90293,90294,90295,90296" answerLabels="1,2,3,4,T1,T2,T3,T4"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header">Hepatitis B status and Syphilis Status</div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-1">
-                                                    <label>Hep B Status</label>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <span class="HepBStatus horizontal">
-                                                        <obs conceptId="1322" answerConceptIds="159971,90001"
-                                                             answerLabels="Tested,Not Tested" style="radio"/>
-                                                    </span>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <label>Hep B Results (if tested)</label>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <span class="EnableDisableHepBStatus horizontal">
-                                                        <obs conceptId="1322" answerConceptIds="703,664"
-                                                             answerLabels="Negative,Positive" style="radio"/>
-                                                    </span>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <label>Syphilis Status</label>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <obs conceptId="99753" answerConceptIds="162848,99756,99755,99754"
-                                                         answerLabels=" No symptoms,Symptomatic Non-Reactive,Symptomatic Reactive,Symptomatic Reactive and treated" />
+                                                <div class ="col-md-6">
+                                                    <div class ="row">
+                                                        <div class ="col-md-12">
+                                                            <div class="row">
+                                                                <div class="col-md-8">
+                                                                    <lable>Advanced Disease Status</lable>
+                                                                    <obs conceptId="165272" answerConceptIds="165309, 165266, 165267, 165268, 165269, 165270, 165271"
+                                                                         answerLabels="No Advanced Disease, Suspected Advanced Disease, Confirmed Advanced Disease CD4 &lt; 200, Confirmed Advanced Disease-Pos CrAg, Confirmed Advanced Disease-Pos TB, Confirmed Advanced Disease - WHO Stage 3/4, Confirmed Advanced Disease - Child &lt; 5 Yrs"/>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <lable>WHO Clinical stage</lable>
+                                                                    <obs id="90203" conceptId="90203"
+                                                                         answerConceptIds="90033,90034,90035,90036,90293,90294,90295,90296"
+                                                                         answerLabels="1,2,3,4,T1,T2,T3,T4" labelText=""/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <label>Hep B Status</label>
+                                                                    <span class="HepBStatus horizontal">
+                                                                        <obs conceptId="1322" answerConceptIds="159971,90001"
+                                                                             answerLabels="Tested,Not Tested" style="radio"/>
+                                                                    </span>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <label>Hep B Results (if tested)</label>
+                                                                    <span class="EnableDisableHepBStatus horizontal">
+                                                                        <obs conceptId="1322" answerConceptIds="703,664"
+                                                                             answerLabels="Negative,Positive" style="radio"/>
+                                                                    </span>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <lable>Syphilis Status</lable>
+                                                                    <obs conceptId="99753" answerConceptIds="162848,99756,99755,99754"
+                                                                         answerLabels=" No symptoms,Symptomatic Non-Reactive,Symptomatic Reactive,Symptomatic Reactive and treated" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1241,16 +1294,16 @@
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Is given CTX/Dapsone?</label>
-                                                        <obs id="is-taking-dapsone" conceptId="160434" answerConceptIds="1065,1066,1067"
-                                                             answerLabels="Yes,No,NE" style="radio" class="horizontal"/>
+                                                    <span class="IsTakingDapsone horizontal">
+                                                        <obs conceptId="160434" answerConceptIds="1065,1066,1067"
+                                                             answerLabels="Yes,No,NE" style="radio"/>
+                                                    </span>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <label>No. of Pills</label>
-                                                    <obs id="no-of-dapsone-pills" conceptId="99034"/>
+                                                <div class="col-md-3 EnableDisableDapsone">
+                                                    <obs id="no-of-dapsone-pills" conceptId="99034" labelText="No. of Pills"/>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <label>No. of Days</label>
-                                                    <obs id="no-of-dapsone-pills-days" conceptId="99033"/>
+                                                <div class="col-md-3 EnableDisableDapsone">
+                                                    <obs id="no-of-dapsone-pills-days" conceptId="99033" labelText="No. of Days"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -1260,20 +1313,16 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-3">
-                                                    <label>Start Date</label>
-                                                    <obs id="fluconazole-start-date" conceptId="165280"/>
+                                                    <obs conceptId="165280" labelText="Start Date"/>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <label>Stop Date</label>
-                                                    <obs id="fluconazole-stop-date" conceptId="165281"/>
+                                                <div class="col-md-3 EnableDisableFluconazole">
+                                                    <obs id="fluconazole-stop-date" conceptId="165281" labelText="Stop Date"/>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <label>No. of Pills</label>
-                                                    <obs id="no-of-fluconazole-pills" conceptId="165282"/>
+                                                <div class="col-md-3 EnableDisableFluconazole">
+                                                    <obs id="no-of-fluconazole-pills" conceptId="165282" labelText="No. of Pills"/>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <label>No. of Days</label>
-                                                    <obs id="no-of-fluconazole-pills-days" conceptId="165283"/>
+                                                <div class="col-md-3 EnableDisableFluconazole">
+                                                    <obs id="no-of-fluconazole-pills-days" conceptId="165283" labelText="No. of Days"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -1350,7 +1399,7 @@
                                                              answerLabel="13 - Pill burden"/>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <obs conceptId="90223" answerConceptId="90146" 
+                                                        <obs conceptId="90223" answerConceptId="90146"
                                                              answerLabel="2 - Share with others"/>
                                                         <obs conceptId="90223" answerConceptId="90150"
                                                              answerLabel="6 - Stigma"/>
@@ -1384,27 +1433,28 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-3">
-                                                    <obs id="90315" conceptId="90315" labelText="Regimen:"
-                                                         answerConceptIds="99015,99016,99005,99006,164979,99039,99040,164977,99041,99042,99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99884,99885,164978,99888,163017,99887,90002"
-                                                         answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-3TC-DTG,TDF-FTC-NVP,TDF-FTC-EFV,ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,ZDV-ddI(250)-LPV/r,ZDV-ddI(400)-LPV/r,AZT-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,ZDV-ddI-LPV/r,AZT-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,ABC-3TC-NVP,ABC-3TC-EFV,ABC-3TC-DTG,ABC-3TC-ATV/r,ABC-3TC-LPV/r,TDF-3TC-ATV/r,Other"/>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <label>Other Regimen</label>
-                                                    <obs id="other-regimen" conceptId="99126"/>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <label>No. of Pills</label>
-                                                    <obs id="no-of-art-pills" conceptId="99038"/>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <label>No. of Days</label>
-                                                    <obs id="no-of-art-pills-days"  conceptId="99036"/>
-                                                </div>
+                                            <div class="RegimenEnableDisable1">
+                                                <span class="disableARTRegimen">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <obs id="90315" conceptId="90315" labelText="Regimen:"
+                                                                 answerConceptIds="99015,99016,99005,99006,164979,99039,99040,164977,99041,99042,99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99884,99885,164978,99888,163017,99887,90002"
+                                                                 answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-3TC-DTG,TDF-FTC-NVP,TDF-FTC-EFV,ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,ZDV-ddI(250)-LPV/r,ZDV-ddI(400)-LPV/r,AZT-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,ZDV-ddI-LPV/r,AZT-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,ABC-3TC-NVP,ABC-3TC-EFV,ABC-3TC-DTG,ABC-3TC-ATV/r,ABC-3TC-LPV/r,TDF-3TC-ATV/r,Other"/>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <span class="RegimenEnableDisableChild1">
+                                                                <obs conceptId="99126" size="18" labelText="Other Regimen"/>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <obs conceptId="99038" labelText="No. of Pills:"/>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <obs conceptId="99036" size="5" labelText="Days:"/>
+                                                        </div>
+                                                    </div>
+                                                </span>
                                             </div>
-
-
                                         </div>
                                     </div>
                                 </section>
@@ -1518,7 +1568,7 @@
                                                     <label>Visit Type</label>
                                                     <obs conceptId="160288" answerConceptIds="164969,165284" answerLabels="Drug Refill Only, Clinical Assessment" />
                                                 </div>
-                                            </div>                                        
+                                            </div>
                                         </div>
                                     </div>
                                 </section>
