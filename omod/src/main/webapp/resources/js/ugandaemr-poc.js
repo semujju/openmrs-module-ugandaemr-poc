@@ -1,3 +1,21 @@
+function disable_enable_fields(elementIdsArray = [],disabled) {
+
+    if (disabled) {
+        /* disable and grey out fields */
+        jQuery.each(elementIdsArray, function( index, elementId ) {
+             jq( "#" + elementId ).find('input').attr("disabled", true);
+             jq( "#" + elementId ).find('select').attr("disabled", true);
+             jq( "#" + elementId ).addClass("html-form-entry-disabled-field");
+        });
+    } else {
+        /* activate fields and remove the grey colour */
+        jQuery.each(elementIdsArray, function( index, elementId ) {
+            jq( "#" + elementId ).find('input').attr("disabled", false);
+            jq( "#" + elementId ).find('select').attr("disabled", false);
+            jq( "#" + elementId ).removeClass("html-form-entry-disabled-field");
+        });
+    }
+}
 
 function disable_fields(groupId){
     var disable = true;
