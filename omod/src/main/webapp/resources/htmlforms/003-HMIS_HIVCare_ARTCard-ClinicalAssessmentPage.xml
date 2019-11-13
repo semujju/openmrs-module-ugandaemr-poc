@@ -15,7 +15,7 @@
 
         <ifMode mode="ENTER,EDIT" include="false">
             <includeIf velocityTest="$fn.allEncounters('8d5b27bc-c2cc-11de-8d13-0010c6dffd0f').size() == 0">
-                <!-- jq(function () {
+                 jq(function () {
                     jq().toastmessage('showErrorToast', "This patient has no Summary page");
                     alert('This patient has no Summary page, you will now be forwarded to the patient dashboard');
 
@@ -41,7 +41,7 @@
                     location.href = window.location.protocol + "//" + window.location.host +
                     '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='
                     + queryParameters['patientId']; // Causes page to reload
-                }); -->
+                });
             </includeIf>
         </ifMode>
 
