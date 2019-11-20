@@ -232,43 +232,44 @@ picks up this value and compares it against a list of available MUAC Codes hidde
 which as an id ="muac-score". The MUAC Codes are categorized in age groups, this functions checks the
 right code based on the client age.*/
 
-function getMUACCodeFromMUACScoreByAge(age) {
+function getMUACCodeFromMUACScoreByAge(age,muacscore,muaccode) {
 
-    jq("#muac-code").find("select").attr("style", "pointer-events: none;");
-
-    jq("#muac-score").find("input[type$='text']").keyup(function() {
-        
-        var age =45;
+    jq("#"+muacscore).find("input[type$='text']").keyup(function() {
 
         var muacScore = jq(this).val();
+
+        if(jq("#muac-score input").val()=="" || jq("#muac-score input").val()==0) {
+
+            jq("#"+muaccode).find("select").val('').attr('selected', 'selected')
+        }
 
         if(age < 5) {
 
             if(muacScore < 11.5) {
-                jq("#muac-code").find("select").val(99028).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99028).attr('selected', 'selected')
             }
 
             if(muacScore >= 11.5 && muacScore < 12.5) {
-                jq("#muac-code").find("select").val(99029).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99029).attr('selected', 'selected')
             }
 
             if(muacScore >=12.5) {
-                jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99027).attr('selected', 'selected')
             }
         }
 
         if(age >= 5 && age < 10) {
 
             if(muacScore < 13.5) {
-                jq("#muac-code").find("select").val(99028).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99028).attr('selected', 'selected')
             }
 
             if(muacScore >=13.5 && muacScore < 14.5) {
-                jq("#muac-code").find("select").val(99029).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99029).attr('selected', 'selected')
             }
 
             if(muacScore >=14.5) {
-                jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99027).attr('selected', 'selected')
             }
 
         }
@@ -276,15 +277,15 @@ function getMUACCodeFromMUACScoreByAge(age) {
         if(age >=10 && age < 18) {
 
             if(muacScore < 16.5) {
-                jq("#muac-code").find("select").val(99028).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99028).attr('selected', 'selected')
             }
 
             if(muacScore >=16.5 && muacScore < 19) {
-                jq("#muac-code").find("select").val(99029).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99029).attr('selected', 'selected')
             }
 
             if(muacScore >=19) {
-                jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99027).attr('selected', 'selected')
             }
 
         }
@@ -292,16 +293,20 @@ function getMUACCodeFromMUACScoreByAge(age) {
         if(age >=18) {
 
             if(muacScore < 19) {
-                jq("#muac-code").find("select").val(99028).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99028).attr('selected', 'selected')
             }
 
             if(muacScore >=19 && muacScore < 22) {
-                jq("#muac-code").find("select").val(99029).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99029).attr('selected', 'selected')
             }
 
             if(muacScore >=22) {
-                jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99027).attr('selected', 'selected')
             }
         }
+
+        jq("#"+muaccode).change(function () {
+            jq("#"+muacscore).find("input[type$='text']").val('');
+        });
     });
 }

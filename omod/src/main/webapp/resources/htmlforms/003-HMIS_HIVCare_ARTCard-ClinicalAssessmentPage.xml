@@ -59,7 +59,7 @@
 
         <!-- Determine muac code based on muac score and age -->
         var age  =  <lookup complexExpression="$patient.age"/>;
-        getMUACCodeFromMUACScoreByAge(age);
+        getMUACCodeFromMUACScoreByAge(age, 'muac-score', 'muac-code');
 
         //Block Multiple encounter entry on same date
         blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
@@ -161,13 +161,13 @@
         }
         });
 
-        // disable edd, emtct, age in months and ANC number
+        /* disable edd, emtct, age in months and ANC number */
         disable_fields("edd");
         disable_fields("emtct");
         disable_fields("age-in-months");
         disable_fields("anc_no");
 
-        //enable the EDD field in case the client is pregnant
+        /* enable the EDD field in case the client is pregnant */
         jq(".pregnancy").change(function () {
         if (jq(this).find('#pregnant').find(':checkbox').prop('checked')) {
         enable_fields("edd");
@@ -260,7 +260,7 @@
         });
 
         /*enable disable tpt prescription */
-        disable_fields("no-tpt-pills");
+        <!--disable_fields("no-tpt-pills");
         disable_fields("no-b6-pills");
         jq("#tpt-status").change(function () {
             if (jq(this).find("select").find(":selected").val() == "90072") {
@@ -270,7 +270,7 @@
                 disable_fields("no-tpt-pills");
                 disable_fields("no-b6-pills");
             }
-        });
+        });-->
 
         /*enable disable dapsone prescription*/
         disable_fields("no-of-dapsone-pills");
@@ -542,17 +542,21 @@
         return false;
         });
 
-        /* enabling and disabling other signs and symptoms*/
+        /* enabling and disabling other signs and symptoms */
         jq("#signs-and-symptoms-enabled").find("input[type$='text']").attr("disabled", true);
         jq("#signs-and-symptoms-enabled").addClass("html-form-entry-disabled-field");
+        jq("#signs-and-symptoms").addClass("html-form-entry-disabled-field");
 
         jq("#enable-disable-signs-and-symptoms").change(function () {
-        if(jq('#enable-disable-signs-and-symptoms').find(':checkbox').prop('checked')) {
-        jq("#signs-and-symptoms-enabled").find("input[type$='text']").attr("disabled", false);
+        if(jq(this).find(':checkbox').prop('checked')) {
+        jq(".signs-and-symptoms").find("input[type$='checkbox']").prop("checked", false);
+        jq("signs-and-symptoms-enabled").find("input[type$='text']").attr("disabled", false);
         jq("#signs-and-symptoms-enabled").removeClass("html-form-entry-disabled-field");
+        jq(".signs-and-symptoms").removeClass("html-form-entry-disabled-field");
         }else {
         jq("#signs-and-symptoms-enabled").find("input[type$='text']").attr("disabled", true);
         jq("#signs-and-symptoms-enabled").addClass("html-form-entry-disabled-field");
+        jq(".signs-and-symptoms").addClass("html-form-entry-disabled-field");
         }
         });
 
@@ -976,7 +980,7 @@
                                             <div class="card-header">Pregnancy</div>
                                                 <div class="card-body">
                                                     <div class="row horizontal">
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-7">
                                                             <span class="pregnancy">
                                                                 <obs conceptId="90041" answerConceptId="1065" answerLabel="P - Pregnant" id="pregnant" />
                                                                 <obs conceptId="90041" answerConceptId="99601" answerLabel="BF - Breast Feeding"/>
@@ -1139,10 +1143,12 @@
                                         <div class="card-body">
                                             <div class ="row">
                                                 <div class="col-md-3">
+                                                    <span class="signs-and-symptoms">
                                                     <obs conceptId="90251" answerConceptId="90139" answerLabel="1 - Oral or anal ulcers"/>
                                                     <obs conceptId="90251" answerConceptId="16" answerLabel="5 - Diarrhea > 1 week"/>
                                                     <obs conceptId="90251" answerConceptId="5953" answerLabel="9 - Double or Blurry vision"/>
                                                     <obs conceptId="90251" answerConceptId="90132" answerLabel="13 - Cough or shortness of breath > 1 week"/>
+                                                    </span>
                                                     <span id="enable-disable-signs-and-symptoms">
                                                         <obs conceptId="90251" answerConceptId="90002" answerLabel="17 - Other specify"/>
                                                     </span>
@@ -1151,22 +1157,28 @@
                                                     </span>
                                                 </div>
                                                 <div class="col-md-3">
+                                                    <span class="signs-and-symptoms">
                                                     <obs conceptId="90251" answerConceptId="206" answerLabel="2 - New seizure"/>
                                                     <obs conceptId="90251" answerConceptId="165286" answerLabel="6 - Acting unusual"/>
                                                     <obs conceptId="90251" answerConceptId="861" answerLabel="10 - Decreased hearing"/>
                                                     <obs conceptId="90251" answerConceptId="90116" answerLabel="14 - Fever, chills or night sweats > 1 week"/>
+                                                    </span>
                                                 </div>
                                                 <div class="col-md-3">
+                                                    <span class="signs-and-symptoms">
                                                     <obs conceptId="90251" answerConceptId="165285" answerLabel="3 - Weak arms or legs"/>
                                                     <obs conceptId="90251" answerConceptId="90135" answerLabel="7 - Weight loss in last month"/>
                                                     <obs conceptId="90251" answerConceptId="90130" answerLabel="11 - Whites spots/thrush in mouth"/>
                                                     <obs conceptId="90251" answerConceptId="79" answerLabel="15 - Red/purple or dark spots on skin"/>
+                                                    </span>
                                                 </div>
                                                 <div class="col-md-3">
+                                                    <span class="signs-and-symptoms">
                                                     <obs conceptId="90251" answerConceptId="90094" answerLabel="4 - Headache"/>
                                                     <obs conceptId="90251" answerConceptId="165287" answerLabel="8 - Difficulty walking"/>
                                                     <obs conceptId="90251" answerConceptId="118789" answerLabel="12 - Difficulty or painful swallowing"/>
                                                     <obs conceptId="90251" answerConceptId="122936" answerLabel="16 - Unable to walk without assisstance"/>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
