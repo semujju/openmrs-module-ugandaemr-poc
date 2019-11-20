@@ -1,39 +1,32 @@
 
-/*function disable_fields(groupId){
-    var disable = true;
-    var group = jq("#"+groupId);
-    group.find("input").attr("disabled", disable);
-    group.find('select').attr("disabled", disable);
+function disable_fields(elementId){
 
-    if (disable) {
-        *//* fade out the fields that are disabled *//*
-        group.find("input").fadeTo(250, 0.25);
-        group.find("select").fadeTo(250, 0.25);
-    } else {
-        *//* remove the fade on the fields *//*
-        group.find("input").fadeTo(250, 1);
-        group.find("select").fadeTo(250, 1);
-    }
-}*/
+    var element = jq("#"+elementId);
+    element.find("input").attr("disabled", true);
+    element.find('select').attr("disabled", true);
 
-function disable_enable_fields(elementIdsArray = [],disabled) {
-
-    if (disabled) {
-        /* disable and grey out fields */
-        jQuery.each(elementIdsArray, function( index, elementId ) {
-             jq( "#" + elementId ).find('input').attr("disabled", true);
-             jq( "#" + elementId ).find('select').attr("disabled", true);
-             jq( "#" + elementId ).addClass("html-form-entry-disabled-field");
-        });
-    } else {
-        /* activate fields and remove the grey colour */
-        jQuery.each(elementIdsArray, function( index, elementId ) {
-            jq( "#" + elementId ).find('input').attr("disabled", false);
-            jq( "#" + elementId ).find('select').attr("disabled", false);
-            jq( "#" + elementId ).removeClass("html-form-entry-disabled-field");
-        });
-    }
+    /* fade out the fields that are disabled */
+    element.addClass("html-form-entry-disabled-field");
 }
+
+// function disable_enable_fields(elementIdsArray = [],disabled) {
+
+//     if (disabled) {
+//         /* disable and grey out fields */
+//         jQuery.each(elementIdsArray, function( index, elementId ) {
+//              jq( "#" + elementId ).find('input').attr("disabled", true);
+//              jq( "#" + elementId ).find('select').attr("disabled", true);
+//              jq( "#" + elementId ).addClass("html-form-entry-disabled-field");
+//         });
+//     } else {
+//         /* activate fields and remove the grey colour */
+//         jQuery.each(elementIdsArray, function( index, elementId ) {
+//             jq( "#" + elementId ).find('input').attr("disabled", false);
+//             jq( "#" + elementId ).find('select').attr("disabled", false);
+//             jq( "#" + elementId ).removeClass("html-form-entry-disabled-field");
+//         });
+//     }
+// }
 
 function enable_fields_new(group){
     var group = jq("#"+group);
@@ -49,19 +42,13 @@ function enable_fields_new(group){
     }
 }
 
-/*function enable_fields(group){
-    var disable = false;
-    var group = jq("#"+group);
-    group.find("input").attr("disabled", disable);
-    group.find('select').attr("disabled", disable);
-    jq("#reason_for_next_appointment").addClass("html-form-entry-disabled-field");
-
-    if (!disable) {
-        *//* remove the fade on the fields *//*
-        group.find("input").fadeTo(250, 1);
-        group.find("select").fadeTo(250, 1);
-    }
-}*/
+function enable_fields(elementId){
+    
+    var element = jq("#"+elementId);
+    element.find("input").attr("disabled", false);
+    element.find('select').attr("disabled", false);
+    element.removeClass("html-form-entry-disabled-field");
+}
 
 function enable_disable_fm(selected_option) {
 
