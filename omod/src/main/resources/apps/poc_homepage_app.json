@@ -1,0 +1,93 @@
+[
+  {
+    "id": "ugandaemr.triage",
+    "description": "Linkages to the Traige section section",
+    "order": 1,
+    "extensions": [
+      {
+        "id": "ugandaemr.traige",
+        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+        "type": "link",
+        "label": "ugandaemrpoc.form.section.triage.label",
+        "url": "patientqueueing/providerDashboard.page?locationId=ff01eaab-561e-40c6-bf24-539206b521ce",
+        "icon": "fas fa-user-md",
+        "requiredPrivilege": "App: ugandaemrpoc.triage"
+      }
+    ]
+  },{
+  "id": "ugandaemr.outpatient",
+  "description": "Linkages to the OPD section section",
+  "order": 1,
+  "extensions": [
+    {
+      "id": "ugandaemr.opd",
+      "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+      "type": "link",
+      "label": "ugandaemrpoc.laboratory.outpatient.label",
+      "url": "patientqueueing/providerDashboard.page?locationId=11d5d2b8-0fdd-42e0-9f53-257c760bb9a3",
+      "icon": "fas fa-diagnoses",
+      "requiredPrivilege": "App: ugandaemrpoc.outpatient"
+    }
+  ]
+},{
+  "id": "ugandaemr.mch.clinic.homepageLink",
+  "description": "Linkages to the MCH section section",
+  "order": 1,
+  "extensions": [
+    {
+      "id": "ugandaemr.mch.homepageLink",
+      "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+      "type": "link",
+      "label": "ugandaemrpoc.laboratory.mch.label",
+      "url": "patientqueueing/providerDashboard.page?locationId=e9bc61b5-69ff-414b-9cf0-0c22d6dfca2b",
+      "icon": "fas fa-user-friends",
+      "requiredPrivilege": "App: ugandaemrpoc.mchclinic"
+    }
+  ]
+},{
+  "id": "ugandaemr.art.clinic.homepageLink",
+  "description": "Linkages to the ART Clinic",
+  "order": 1,
+  "extensions": [
+    {
+      "id": "ugandaemr.art.homepageLink",
+      "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+      "type": "link",
+      "label": "ugandaemrpoc.laboratory.art.label",
+      "url": "patientqueueing/providerDashboard.page?locationId=86863db4-6101-4ecf-9a86-5e716d6504e4",
+      "icon": "fas fa-ribbon",
+      "requiredPrivilege": "App: ugandaemrpoc.artclinic"
+    }
+  ]
+},{
+  "id": "ugandaemr.tb.clinic.homepageLink",
+  "description": "Linkages to the TB Clinic",
+  "order": 1,
+  "extensions": [
+    {
+      "id": "ugandaemr.tb.homepageLink",
+      "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+      "type": "link",
+      "label": "ugandaemrpoc.tb.outpatient.label",
+      "url": "patientqueueing/providerDashboard.page?locationId=8ab22b55-9a17-4121-bf08-6134a9a2439f",
+      "icon": "fas fa-tenge",
+      "requiredPrivilege": "App: ugandaemrpoc.tbclinic"
+    }
+  ]
+},{
+  "id": "ugandaemr.Laboratory",
+  "description": "Linkages to the Laboratory section",
+  "order": 1,
+  "extensions": [
+    {
+      "id": "ugandaemr.laboratory",
+      "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+      "type": "link",
+      "label": "ugandaemrpoc.laboratory.app.label",
+      "url": "patientqueueing/providerDashboard.page?locationId=ba158c33-dc43-4306-9a4a-b4075751d36c",
+      "icon": "fas fa-vials",
+      "requiredPrivilege": "App: ugandaemrpoc.laboratory"
+    }
+  ]
+}
+]

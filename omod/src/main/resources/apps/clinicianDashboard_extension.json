@@ -1,0 +1,30 @@
+[
+  {
+    "id": "ugandaemrpoc.labQueueList.providerDashboardRightColumn",
+    "extensionPointId": "providerDashboard.rightColumnFragments",
+    "order": 2,
+    "extensionParams": {
+      "provider": "ugandaemrpoc",
+      "fragment": "labQueueList",
+      "requiredPrivilege": "App: ugandaemrpoc.laboratory"
+    }
+  },{
+    "id": "ugandaemrpoc.triageQueueList.providerDashboardRightColumn",
+    "extensionPointId": "providerDashboard.rightColumnFragments",
+    "order": 1,
+    "extensionParams": {
+      "provider": "ugandaemrpoc",
+      "fragment": "triageQueueList",
+      "requiredPrivilege": "App: ugandaemrpoc.triage"
+    }
+  },{
+  "id": "ugandaemrpoc.clinicanQueueList.providerDashboardRightColumn",
+  "extensionPointId": "providerDashboard.rightColumnFragments",
+  "order": 2,
+  "extensionParams": {
+    "provider": "ugandaemrpoc",
+    "fragment": "clinicianQueueList",
+    "requiredPrivilege": "App: patientqueueing.providerDashboard"
+  }
+}
+]

@@ -24,7 +24,7 @@ function enable_fields_new(group){
 }
 
 function enable_fields(elementId){
-    
+
     var element = jq("#"+elementId);
     element.find("input").attr("disabled", false);
     element.find('select').attr("disabled", false);

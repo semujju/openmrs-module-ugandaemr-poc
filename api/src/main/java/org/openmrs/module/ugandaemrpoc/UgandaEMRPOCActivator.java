@@ -21,6 +21,7 @@ public class UgandaEMRPOCActivator extends BaseModuleActivator {
 			initializer.started();
 		}
 		log.info("Started UgandaEMRPOC");
+
 	}
 	
 	public void shutdown() {
