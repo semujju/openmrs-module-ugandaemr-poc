@@ -236,6 +236,7 @@ span.time-box-horizontal select {
     background-color:#f5f5f5 !important;
 }
 
-/*.html-form-entry-disabled-field {
-    background-color:#f5f5f5;
-}*/
+/* This class adds space between cards or rows */
+.cards-and-rows-separator {
+    margin-bottom: 20px;
+}
