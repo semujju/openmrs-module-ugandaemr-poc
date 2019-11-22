@@ -100,7 +100,7 @@
                     jq("#duration-on-current-regimen input").val(durationOnCurrentRegimen);
                 }
 
-                DSDMstabilityCheck();
+                DSDMStabilityCheck();
 
                 /* Validation of the ART regimen Selected */
                 jq("#90315").change(function () {
@@ -130,25 +130,13 @@
                     } else {
                         jq("#duration-on-current-regimen input").val(durationOnCurrentRegimen);
                     }
-                    DSDMstabilityCheck();
+                    DSDMStabilityCheck();
                 });
                 /* End of Validation */
 
                 jq("#90203").change(function () {
                     clinicStaging = jq(this).find(":selected").val();
-                    DSDMstabilityCheck();
-                });
-
-                disable_fields("reason-for-next-appointment");
-                jq("#returndate").change(function () {
-                    if (jq(this).find("input[type=hidden]").val() != "") {
-                        enable_fields("reason-for-next-appointment");
-                    } else {
-                        jq("#reason-for-next-appointment").find("select").find(":selected").val() == " ";
-                        jq("#other-reason-for-next-appointment").find("input[type=hidden]").val() == " ";
-                        disable_fields("reason-for-next-appointment");
-                        disable_fields("other-reason-for-next-appointment");
-                    }
+                    DSDMStabilityCheck();
                 });
 
                 disable_fields("other-reason-for-next-appointment");
@@ -161,16 +149,19 @@
                     }
                 });
 
-                /* disable edd, emtct, age in months and ANC number */
                 disable_fields("edd");
                 disable_fields("emtct");
                 disable_fields("age-in-months");
                 disable_fields("anc_no");
 
-                /* enable the EDD field in case the client is pregnant */
+                /* enable the edd,emtct,age in months and ANC no. fields in case the client is pregnant */
+
                 jq(".pregnancy").change(function () {
                     if (jq(this).find('#pregnant').find(':checkbox').prop('checked')) {
                         enable_fields("edd");
+                        enable_fields("emtct");
+                        enable_fields("age-in-months");
+                        enable_fields("anc_no");
                     } else {
                         disable_fields("edd");
                         disable_fields("emtct");
@@ -202,34 +193,6 @@
                     }
                 });
 
-                jq("#edd").change(function () {
-                    if (jq(this).find("input[type=hidden]").val() != ""){
-                        enable_fields("emtct");
-                    } else {
-                        disable_fields("emtct");
-                        disable_fields("age-in-months");
-                        disable_fields("anc_no");
-                    }
-                });
-
-                jq("#emtct").change(function () {
-                    if (jq(this).find("input[type='radio']:checked").val() == 90003 ) {
-                        enable_fields("age-in-months");
-                    } else {
-                        disable_fields("age-in-months");
-                        disable_fields("anc_no");
-                    }
-                });
-
-                disable_fields("anc_no");
-                jq("#age-in-months").keyup(function () {
-                    if (jq(this).find("input[type$='text']").val() !=" ") {
-                        enable_fields("anc_no");
-                    } else {
-                        disable_fields("anc_no");
-                    }
-                });
-
                 /*enable disable family planning options*/
 
                 jq(".family-planning-methods").find("input[type$='checkbox']").attr('disabled', true);
@@ -255,29 +218,11 @@
                 jq("#tb-status").change(function () {
                     if (jq(this).find("select").find(":selected").val() == "90071") {
                         enable_fields("tb-start-date");
-                    } else {
-                        disable_fields("tb-start-date");
-                        disable_fields("tb-stop-date");
-                        disable_fields("district-tb-no");
-                    }
-                });
-
-                //enable stop date if TB start date is defined
-                jq("#tb-start-date").change(function () {
-                    if (jq(this).find("input[type=hidden]").val() != "") {
                         enable_fields("tb-stop-date");
-                    } else {
-                        disable_fields("tb-start-date");
-                        disable_fields("tb-stop-date");
-                        disable_fields("district-tb-no");
-                    }
-                });
-
-                //enable district TB number if TB stop date is defined
-                jq("#tb-stop-date").change(function () {
-                    if (jq(this).find("input[type=hidden]").val() != "") {
                         enable_fields("district-tb-no");
                     } else {
+                        disable_fields("tb-start-date");
+                        disable_fields("tb-stop-date");
                         disable_fields("district-tb-no");
                     }
                 });
@@ -286,6 +231,7 @@
                 disable_fields("no-tpt-pills");
                 disable_fields("no-b6-pills");
                 disable_fields("inh-no-days");
+
                 jq("#tpt-status").change(function () {
                     if (jq(this).find("select").find(":selected").val() == "90072") {
                         enable_fields("no-tpt-pills");
@@ -305,16 +251,9 @@
                 jq("#is-taking-dapsone").change(function () {
                     if (jq(this).find("input[type='radio']:checked").val() == "1065") {
                         enable_fields("no-of-dapsone-pills");
-                    } else {
-                        disable_fields("no-of-dapsone-pills");
-                        disable_fields("no-of-dapsone-pills-days");
-                    }
-                });
-
-                jq("#no-of-dapsone-pills").keyup(function () {
-                    if (jq(this).find("input[type$='text']").val() !=" " &amp;&amp; jq(this).find("input[type$='text']").val() != 0) {
                         enable_fields("no-of-dapsone-pills-days");
                     } else {
+                        disable_fields("no-of-dapsone-pills");
                         disable_fields("no-of-dapsone-pills-days");
                     }
                 });
@@ -329,6 +268,8 @@
                 jq("#fluconazole-start-date").change(function () {
                     if (jq(this).find("input[type=hidden]").val() != "") {
                         enable_fields("fluconazole-stop-date");
+                        enable_fields("no-of-fluconazole-pills");
+                        enable_fields("no-of-fluconazole-pills-days");
                     } else {
                         disable_fields("fluconazole-stop-date");
                         disable_fields("no-of-fluconazole-pills");
@@ -336,26 +277,7 @@
                     }
                 });
 
-                //enable number of fluconazole pills if fluconazole stop date is defined
-                jq("#fluconazole-stop-date").change(function () {
-                    if (jq(this).find("input[type=hidden]").val() != "") {
-                        enable_fields("no-of-fluconazole-pills");
-                    } else {
-                        disable_fields("no-of-fluconazole-pills");
-                        disable_fields("no-of-fluconazole-pills-days");
-                    }
-                });
-
-                jq("#no-of-fluconazole-pills").keyup(function () {
-                    if (jq(this).find("input[type$='text']").val() !== " " &amp;&amp; jq(this).find("input[type$='text']").val() !== 0) {
-                        enable_fields("no-of-fluconazole-pills-days");
-                    } else {
-                        disable_fields("no-of-fluconazole-pills-days");
-                    }
-                });
-
                 /* enable or disable other art regimens */
-
                 disable_fields("other-regimen");
                 jq("#90315").change(function () {
                     if (jq(this).find("select").find(":selected").val() == "90002") {
@@ -366,26 +288,20 @@
                 });
 
                 disable_fields("no-of-art-pills");
+                disable_fields("no-of-art-pills-days");
+
+                /* enable art prescription */
                 jq("#90315").change(function () {
                     if (jq(this).find("select").find(":selected").val() !== " ") {
                         enable_fields("no-of-art-pills");
+                        enable_fields("no-of-art-pills-days");
                     } else {
                         disable_fields("no-of-art-pills");
                     }
                 });
 
-                disable_fields("no-of-art-pills-days");
-                jq("#no-of-art-pills").keyup(function () {
-                    if (jq(this).find("input[type$='text']").val() !== " ") {
-                        enable_fields("no-of-art-pills-days");
-                    } else {
-                        disable_fields("no-of-art-pills-days");
-                    }
-                });
-
-                /*enable disable viral load results*/
-
                 disable_fields("viral-load-results-qualitative");
+                /*enable disable viral load results*/
                 jq("#date-viral-load-taken").change(function () {
                     if (jq(this).find("input[type=hidden]").val() != "") {
                         enable_fields("viral-load-results-qualitative");
@@ -425,7 +341,7 @@
 
                 jq("#viral-load-results-copies").change(function () {
                     previousVl = jq("#viral-load-results-copies").find("input").val();
-                    DSDMstabilityCheck();
+                    DSDMStabilityCheck();
                 });
 
                 // trigger a change when the form loads
@@ -480,7 +396,7 @@
                 jq("#bmi").find("input[type$='text']").attr('disabled', true);
 
                 //This function checks if patient is stable or unstable given the patient`s viral load
-                function DSDMstabilityCheck() {
+                function DSDMStabilityCheck() {
 
                 stableArray = [];
                 instabilityCause = "";
@@ -865,7 +781,8 @@
                                                     <span class="">
                                                         <label>Reasons for next appointment</label>
                                                         <obs id="reason-for-next-appointment" conceptId="160288" answerConceptIds="164968,164972,164970,856,5497,163153,164971,164973,99324,164974,90012,903,5484,90002"
-                                                             answerLabels="1. ART Initiation, 2. ART Refill, 3. ART Regimen Switch/ Substitution, 4. Viral Load, 5. CD4, 6. IAC, 7. T.B Drug Refill,8. T.B Follow up, 9. ANC,10. EID,11. PMTCT, 12. Hypertension/ Diabetes, 13. Nutrition,14. Other Specify" disabled="true"/>
+                                                             answerLabels="1. ART Initiation, 2. ART Refill, 3. ART Regimen Switch/ Substitution, 4. Viral Load, 5. CD4, 6. IAC, 7. T.B Drug Refill,8. T.B Follow up,
+                                                             9. ANC,10. EID,11. PMTCT, 12. Hypertension/ Diabetes, 13. Nutrition,14. Other Specify"/>
                                                     </span>
                                                 </div>
                                                 <div class="col-md-3">
@@ -1009,15 +926,16 @@
                                                                 <obs conceptId="90041" answerConceptId="1175" answerLabel="NA - Not Applicable" id="not-pregnant-not-applicable" />
                                                             </span>
                                                         </div>
-                                                        <label>EDD</label>
-                                                        <div class="col-md-2">
-                                                            <obs id="edd" conceptId="5596" allowFutureDates="true"/>
-                                                        </div>
                                                     </div>
                                                     <div class="row cards-and-rows-separator">
                                                         <div class="col-md-1">
-                                                            <label>EMTCT</label>
+                                                            <label>EDD</label>
                                                         </div>
+                                                        <div class="col-md-2">
+                                                            <obs id="edd" conceptId="5596" allowFutureDates="true"/>
+                                                        </div>
+                                                        <div class="col-md-1"></div>
+                                                        <label>EMTCT</label>
                                                         <div class="col-md-2">
                                                             <obs id="emtct" conceptId="90012" answerConceptIds="90003,90004" answerLabels="Yes,No" class="horizontal" style="radio"/>
                                                         </div>
@@ -1031,7 +949,6 @@
                                                                 <patient field="identifier" identifierTypeId="b0cc255e-ef57-4266-839e-0df7f5099eb9" required="false"/>
                                                             </span>
                                                         </div>
-                                                        <div class="col-md-2"></div>
                                                     </div>
                                                 </div>
                                             </div>

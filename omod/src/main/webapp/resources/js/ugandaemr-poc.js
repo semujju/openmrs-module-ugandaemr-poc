@@ -9,20 +9,6 @@ function disable_fields(elementId){
     element.addClass("html-form-entry-disabled-field");
 }
 
-function enable_fields_new(group){
-    var group = jq("#"+group);
-    group.find("input").attr("disabled", false);
-    group.find('select').attr("disabled", false);
-    group.removeClass("html-form-entry-disabled-field");
-
-    if (!disable) {
-        /* remove the fade on the fields */
-        group.find("input").fadeTo(250, 1);
-        group.find("select").fadeTo(250, 1);
-        group.addClass("html-form-entry-disabled-field");
-    }
-}
-
 function enable_fields(elementId){
 
     var element = jq("#"+elementId);
@@ -201,45 +187,47 @@ function enable_disable(field, class_name_prefix, conditions, input_type) {
     });
 }
 
-/* This function takes in the age of the patient, muac score id, muac code id and returns the muac code based on the muac score and age provide */
-function getMUACCodeFromMUACScoreByAge(age,muacscore,muaccode) {
+/* This function takes in the age of the patient, muac score id, muac code id
+ and returns the muac code based on the muac score and age provided */
 
-    jq("#"+muacscore).find("input[type$='text']").keyup(function() {
+function getMUACCodeFromMUACScoreByAge(age, muacScoreFieldId, muacCodeFieldId) {
+
+    jq("#"+muacScoreFieldId).find("input[type$='text']").change(function() {
 
         var muacScore = jq(this).val();
 
-        if(jq("#muac-score input").val()=="" || jq("#muac-score input").val()==0) {
-
-            jq("#"+muaccode).find("select").val('').attr('selected', 'selected')
+        if( trim(muacScore) == " " || muacScore == 0) {
+            jq("#" + muacCodeFieldId).find("select").val(" ").attr("selected", "selected")
+            return false;
         }
 
         if(age < 5) {
 
             if(muacScore < 11.5) {
-                jq("#"+muaccode).find("select").val(99028).attr('selected', 'selected')
+                jq("#" + muacCodeFieldId).find("select").val(99028).attr("selected", "selected")
             }
 
             if(muacScore >= 11.5 && muacScore < 12.5) {
-                jq("#"+muaccode).find("select").val(99029).attr('selected', 'selected')
+                jq("#" + muacCodeFieldId).find("select").val(99029).attr("selected", "selected")
             }
 
             if(muacScore >=12.5) {
-                jq("#"+muaccode).find("select").val(99027).attr('selected', 'selected')
+                jq("#" + muacCodeFieldId).find("select").val(99027).attr("selected", "selected")
             }
         }
 
         if(age >= 5 && age < 10) {
 
             if(muacScore < 13.5) {
-                jq("#"+muaccode).find("select").val(99028).attr('selected', 'selected')
+                jq("#" + muacCodeFieldId).find("select").val(99028).attr("selected", "selected")
             }
 
             if(muacScore >=13.5 && muacScore < 14.5) {
-                jq("#"+muaccode).find("select").val(99029).attr('selected', 'selected')
+                jq("#" + muacCodeFieldId).find("select").val(99029).attr("selected", "selected")
             }
 
             if(muacScore >=14.5) {
-                jq("#"+muaccode).find("select").val(99027).attr('selected', 'selected')
+                jq("#" + muacCodeFieldId).find("select").val(99027).attr("selected", "selected")
             }
 
         }
@@ -247,15 +235,15 @@ function getMUACCodeFromMUACScoreByAge(age,muacscore,muaccode) {
         if(age >=10 && age < 18) {
 
             if(muacScore < 16.5) {
-                jq("#"+muaccode).find("select").val(99028).attr('selected', 'selected')
+                jq("#" + muacCodeFieldId).find("select").val(99028).attr("selected", "selected")
             }
 
             if(muacScore >=16.5 && muacScore < 19) {
-                jq("#"+muaccode).find("select").val(99029).attr('selected', 'selected')
+                jq("#" + muacCodeFieldId).find("select").val(99029).attr("selected", "selected")
             }
 
             if(muacScore >=19) {
-                jq("#"+muaccode).find("select").val(99027).attr('selected', 'selected')
+                jq("#" + muacCodeFieldId).find("select").val(99027).attr("selected", "selected")
             }
 
         }
@@ -263,20 +251,16 @@ function getMUACCodeFromMUACScoreByAge(age,muacscore,muaccode) {
         if(age >=18) {
 
             if(muacScore < 19) {
-                jq("#"+muaccode).find("select").val(99028).attr('selected', 'selected')
+                jq("#" + muacCodeFieldId).find("select").val(99028).attr("selected", "selected")
             }
 
             if(muacScore >=19 && muacScore < 22) {
-                jq("#"+muaccode).find("select").val(99029).attr('selected', 'selected')
+                jq("#" + muacCodeFieldId).find("select").val(99029).attr("selected", "selected")
             }
 
             if(muacScore >=22) {
-                jq("#"+muaccode).find("select").val(99027).attr('selected', 'selected')
+                jq("#" + muacCodeFieldId).find("select").val(99027).attr("selected", "selected")
             }
         }
-
-        jq("#"+muaccode).change(function () {
-            jq("#"+muacscore).find("input[type$='text']").val('');
-        });
     });
 }
