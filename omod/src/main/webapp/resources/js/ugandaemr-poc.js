@@ -1,50 +1,34 @@
-function disable_enable_fields(elementIdsArray = [],disabled) {
 
-    if (disabled) {
-        /* disable and grey out fields */
-        jQuery.each(elementIdsArray, function( index, elementId ) {
-             jq( "#" + elementId ).find('input').attr("disabled", true);
-             jq( "#" + elementId ).find('select').attr("disabled", true);
-             jq( "#" + elementId ).addClass("html-form-entry-disabled-field");
-        });
-    } else {
-        /* activate fields and remove the grey colour */
-        jQuery.each(elementIdsArray, function( index, elementId ) {
-            jq( "#" + elementId ).find('input').attr("disabled", false);
-            jq( "#" + elementId ).find('select').attr("disabled", false);
-            jq( "#" + elementId ).removeClass("html-form-entry-disabled-field");
-        });
-    }
+function disable_fields(elementId){
+
+    var element = jq("#"+elementId);
+    element.find("input").attr("disabled", true);
+    element.find('select').attr("disabled", true);
+
+    /* fade out the fields that are disabled */
+    element.addClass("html-form-entry-disabled-field");
 }
 
-function disable_fields(groupId) {
-    var disable = true;
-    var group = jq("#"+groupId);
-    group.find("input").attr("disabled", disable);
-    group.find('select').attr("disabled", disable);
-
-    if (disable) {
-        /* fade out the fields that are disabled */
-        group.find("input").fadeTo(250, 0.25);
-        group.find("select").fadeTo(250, 0.25);
-    } else {
-        /* remove the fade on the fields */
-        group.find("input").fadeTo(250, 1);
-        group.find("select").fadeTo(250, 1);
-    }
-}
-
-function enable_fields(group){
-    var disable = false;
+function enable_fields_new(group){
     var group = jq("#"+group);
-    group.find("input").attr("disabled", disable);
-    group.find('select').attr("disabled", disable);
+    group.find("input").attr("disabled", false);
+    group.find('select').attr("disabled", false);
+    group.removeClass("html-form-entry-disabled-field");
 
     if (!disable) {
         /* remove the fade on the fields */
         group.find("input").fadeTo(250, 1);
         group.find("select").fadeTo(250, 1);
+        group.addClass("html-form-entry-disabled-field");
     }
+}
+
+function enable_fields(elementId){
+
+    var element = jq("#"+elementId);
+    element.find("input").attr("disabled", false);
+    element.find('select').attr("disabled", false);
+    element.removeClass("html-form-entry-disabled-field");
 }
 
 function enable_disable_fm(selected_option) {
@@ -94,7 +78,6 @@ function enable_disable_fm(selected_option) {
             xx = row_5;
             break;
     }
-
 
     jq(xx).each(function () {
         var group = jq(this);
@@ -149,11 +132,9 @@ function enable_disable(field, class_name_prefix, conditions, input_type) {
         selected_value = jq(field).find("input[type=hidden]").val().trim().toLowerCase();
     }
 
-
     if (eval(conditions)) {
         disable = false;
     }
-
 
     jq(row).each(function () {
         var group = jq(this);
@@ -188,7 +169,6 @@ function enable_disable(field, class_name_prefix, conditions, input_type) {
             group.find("#checkboxAll,#checkboxRadio").find("input[type$='checkbox']").change();
         }
 
-
         group.find("#checkboxAll").find("input").click(
             function () {
                 var flip;
@@ -206,7 +186,6 @@ function enable_disable(field, class_name_prefix, conditions, input_type) {
             }
         );
 
-
         group.find("#checkboxRadio").find("input[type$='checkbox']").click(function () {
             uncheckAll();
             jq(this).siblings("input[type$='checkbox']").attr("checked", false);
@@ -222,51 +201,45 @@ function enable_disable(field, class_name_prefix, conditions, input_type) {
     });
 }
 
-/* Since MUAC Codes varry from age to age, this function will check the specific age group
-for the client and return their respective MUAC Code using the MUAC Score provided.
-The MUAC Score is entered in the provided textbox which has an id="muac-code", this function
-picks up this value and compares it against a list of available MUAC Codes hidden in the select box
-which as an id ="muac-score". The MUAC Codes are categorized in age groups, this functions checks the
-right code based on the client age.*/
+/* This function takes in the age of the patient, muac score id, muac code id and returns the muac code based on the muac score and age provide */
+function getMUACCodeFromMUACScoreByAge(age,muacscore,muaccode) {
 
-function getMUACCodeFromMUACScoreByAge(age) {
-
-    jq("#muac-score").find("input[type$='text']").keyup(function() {
+    jq("#"+muacscore).find("input[type$='text']").keyup(function() {
 
         var muacScore = jq(this).val();
 
         if(jq("#muac-score input").val()=="" || jq("#muac-score input").val()==0) {
-            jq("#muac-code").find("select").val('').attr('selected', 'selected')
-            return false;
+
+            jq("#"+muaccode).find("select").val('').attr('selected', 'selected')
         }
 
         if(age < 5) {
 
             if(muacScore < 11.5) {
-                jq("#muac-code").find("select").val(99028).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99028).attr('selected', 'selected')
             }
 
             if(muacScore >= 11.5 && muacScore < 12.5) {
-                jq("#muac-code").find("select").val(99029).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99029).attr('selected', 'selected')
             }
 
             if(muacScore >=12.5) {
-                jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99027).attr('selected', 'selected')
             }
         }
 
         if(age >= 5 && age < 10) {
 
             if(muacScore < 13.5) {
-                jq("#muac-code").find("select").val(99028).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99028).attr('selected', 'selected')
             }
 
             if(muacScore >=13.5 && muacScore < 14.5) {
-                jq("#muac-code").find("select").val(99029).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99029).attr('selected', 'selected')
             }
 
             if(muacScore >=14.5) {
-                jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99027).attr('selected', 'selected')
             }
 
         }
@@ -274,15 +247,15 @@ function getMUACCodeFromMUACScoreByAge(age) {
         if(age >=10 && age < 18) {
 
             if(muacScore < 16.5) {
-                jq("#muac-code").find("select").val(99028).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99028).attr('selected', 'selected')
             }
 
             if(muacScore >=16.5 && muacScore < 19) {
-                jq("#muac-code").find("select").val(99029).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99029).attr('selected', 'selected')
             }
 
             if(muacScore >=19) {
-                jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99027).attr('selected', 'selected')
             }
 
         }
@@ -290,27 +263,20 @@ function getMUACCodeFromMUACScoreByAge(age) {
         if(age >=18) {
 
             if(muacScore < 19) {
-                jq("#muac-code").find("select").val(99028).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99028).attr('selected', 'selected')
             }
 
             if(muacScore >=19 && muacScore < 22) {
-                jq("#muac-code").find("select").val(99029).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99029).attr('selected', 'selected')
             }
 
             if(muacScore >=22) {
-                jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
+                jq("#"+muaccode).find("select").val(99027).attr('selected', 'selected')
             }
         }
 
-        jq("#muac-code").change(function () {
-            jq("#muac-score").find("input[type$='text']").val('');
+        jq("#"+muaccode).change(function () {
+            jq("#"+muacscore).find("input[type$='text']").val('');
         });
     });
-}
-
-//Disable encounter date field.
-function disableEncounterDate() {
-    $encounterDateField = jq('#encounterDate').find('input[type="text"]');
-    $encounterDateField.addClass('disabled');
-    $encounterDateField.attr('disabled', 'disabled');
 }
