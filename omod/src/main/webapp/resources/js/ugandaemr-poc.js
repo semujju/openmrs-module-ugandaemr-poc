@@ -25,7 +25,7 @@ function getMUACCodeFromMUACScoreByAge(age, muacScoreFieldId, muacCodeFieldId) {
 
         var muacScore = jq(this).val().trim();
 
-        if( muacScore == " " || muacScore == 0) {
+        if(muacScore == " " || muacScore == 0) {
             jq("#" + muacCodeFieldId).find("select").val(" ").attr("selected", "selected")
             return false;
         }
@@ -91,6 +91,10 @@ function getMUACCodeFromMUACScoreByAge(age, muacScoreFieldId, muacCodeFieldId) {
                 jq("#" + muacCodeFieldId).find("select").val(99027).attr("selected", "selected")
             }
         }
+
+        jq("#" + muacCodeFieldId).change(function () {
+            jq("#" + muacScoreFieldId).find("input[type$='text']").val("");
+        })
     });
 }
 
