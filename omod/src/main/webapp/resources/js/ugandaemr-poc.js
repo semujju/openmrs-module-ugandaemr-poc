@@ -194,9 +194,9 @@ function getMUACCodeFromMUACScoreByAge(age, muacScoreFieldId, muacCodeFieldId) {
 
     jq("#"+muacScoreFieldId).find("input[type$='text']").change(function() {
 
-        var muacScore = jq(this).val();
+        var muacScore = jq(this).val().trim();
 
-        if( trim(muacScore) == " " || muacScore == 0) {
+        if( muacScore == " " || muacScore == 0) {
             jq("#" + muacCodeFieldId).find("select").val(" ").attr("selected", "selected")
             return false;
         }

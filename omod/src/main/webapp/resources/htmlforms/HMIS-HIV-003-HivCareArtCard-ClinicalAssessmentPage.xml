@@ -300,21 +300,10 @@
                     }
                 });
 
-                disable_fields("viral-load-results-qualitative");
-                /*enable disable viral load results*/
-                jq("#date-viral-load-taken").change(function () {
-                    if (jq(this).find("input[type=hidden]").val() != "") {
-                        enable_fields("viral-load-results-qualitative");
-                    } else {
-                        disable_fields("viral-load-results-qualitative");
-                    }
-                });
-
                 /* enable viral load copies field */
                 jq("#viral-load-results-qualitative").change(function () {
                     var viral_load_status = getValue('viral-load-results-qualitative.value');
                     if (viral_load_status == "") {
-                        disable_fields("viral-load-results-copies");
                         jq("#viral-load-status").hide();
                     }
 
@@ -329,12 +318,10 @@
                             jq("#viral-load-status").hide();
                             setValue('viral-load-results-copies.value', '');
                         }
-                        enable_fields("viral-load-results-copies");
                     }
                     if (viral_load_status == 1306) {
                         /* Not Detected */
                         jq("#viral-load-status").hide();
-                        disable_fields("viral-load-results-copies");
                         setValue('viral-load-results-copies.value', 1);
                     }
                 });
@@ -348,7 +335,7 @@
                 jq("#viral-load-results-qualitative").change();
 
                 /*determine viral load status*/
-                jq("#viral-load-results-copies").keyup(function () {
+                jq("#viral-load-results-copies").change(function () {
                     jq("#viral-load-status").show();
                     var vl_copies = jq(this).find("input").val();
                     if (vl_copies ==" " || vl_copies == 0) {
@@ -738,10 +725,10 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="appointment-vitals-nutrition">
                                 <section>
-                                    <div class="card cards-and-rows-separator">
+                                    <div class="card">
                                         <div class="card-header">Appointment</div>
                                         <div class="card-body">
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-3" id="visit-date">
                                                     <label>Visit Date</label>
                                                     <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
@@ -801,10 +788,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card cards-and-rows-separator">
+                                    <div class="card">
                                         <div class="card-header">Vital Signs</div>
                                         <div class="card-body">
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-2">
                                                     <label>Temperature (c)</label>
                                                     <obs conceptId="CIEL:5088" id="temperature" />
@@ -832,7 +819,7 @@
                                     <div class="card">
                                         <div class="card-header">Nutrition Assessment</div>
                                         <div class="card-body">
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Weight (kg)</label>
                                                     <obs conceptId="CIEL:5089" id="weight"/>
@@ -857,7 +844,7 @@
                                                     </includeIf>
                                                 </div>
                                             </div>
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <label>MUAC Score (cm)</label>
                                                     <obs conceptId="CIEL:1343" id="muac-score" />
@@ -914,10 +901,10 @@
                             <div class="tab-pane" id="pregnancy-fp">
                                 <section>
                                     <excludeIf velocityTest="$patient.gender =='M' || $patient.age &lt; 9">
-                                        <div class="card cards-and-rows-separator">
+                                        <div class="card">
                                             <div class="card-header">Pregnancy</div>
                                                 <div class="card-body">
-                                                    <div class="row cards-and-rows-separator horizontal">
+                                                    <div class="row horizontal">
                                                         <div class="col-md-7">
                                                             <span class="pregnancy">
                                                                 <obs conceptId="90041" answerConceptId="1065" answerLabel="P - Pregnant" id="pregnant" />
@@ -927,7 +914,7 @@
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div class="row cards-and-rows-separator">
+                                                    <div class="row">
                                                         <div class="col-md-1">
                                                             <label>EDD</label>
                                                         </div>
@@ -957,7 +944,7 @@
                                         <div class="card-header">Family Planning</div>
                                         <div class="card-body">
                                             <excludeIf velocityTest="$patient.age &lt; 9">
-                                                <div class="row cards-and-rows-separator">
+                                                <div class="row">
                                                     <div class="col-md-2">
                                                         <label>Is on Family Planning ?</label>
                                                     </div>
@@ -967,7 +954,7 @@
                                                     </div>
                                                 </div>
                                                 <label>Family Planning Method:</label>
-                                                <div class="row cards-and-rows-separator">
+                                                <div class="row">
                                                     <div class="col-md-3">
                                                         <span class="family-planning-methods">
                                                             <obs conceptId="374" answerConceptId="190" answerLabel="1 - Condoms"/>
@@ -1028,10 +1015,10 @@
 
                             <div class="tab-pane fade" id="tb-treatment-clinical-assessment">
                                 <section>
-                                    <div class="card cards-and-rows-separator">
+                                    <div class="card">
                                         <div class="card-header">TB Treatment</div>
                                         <div class="card-body">
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Tb Status</label>
                                                     <obs id="tb-status" class="long-value-select" conceptId="90216" answerConceptIds="90079,90073, 165295, 165296, 165297, 165298, 165299,165300,90071"
@@ -1075,7 +1062,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="card cards-and-rows-separator">
+                                    <div class="card">
                                         <div class="card-header">Signs and Symptoms</div>
                                         <div class="card-body">
                                             <div class="row">
@@ -1120,7 +1107,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card cards-and-rows-separator ">
+                                    <div class="card ">
                                         <div class="card-header">Side effects of ART</div>
                                         <div class="card-body">
                                             <div class="row">
@@ -1154,7 +1141,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card cards-and-rows-separator">
+                                    <div class="card">
                                         <div class="card-header">Diagnosis</div>
                                         <div class="card-body">
                                             <div class ="row">
@@ -1164,7 +1151,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card cards-and-rows-separator">
+                                    <div class="card">
                                         <div class="card-header">Advanced Disease Status and WHO Clinical Stage</div>
                                         <div class="card-body">
                                             <div class="row">
@@ -1189,7 +1176,7 @@
                                     <div class="card">
                                         <div class="card-header">Hepatitis B status and Syphilis Status</div>
                                         <div class="card-body">
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-1">
                                                     <label>Hep B Status</label>
                                                 </div>
@@ -1215,7 +1202,7 @@
 
                             <div class="tab-pane fade" id="medication">
                                 <section>
-                                    <div class="card cards-and-rows-separator">
+                                    <div class="card">
                                         <div class="card-header">CTX/Dapsone</div>
                                         <div class="card-body">
                                             <div class="row">
@@ -1235,7 +1222,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card cards-and-rows-separator">
+                                    <div class="card">
                                         <div class="card-header">Fluconazole</div>
                                         <div class="card-body">
                                             <div class="row">
@@ -1258,7 +1245,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card cards-and-rows-separator">
+                                    <div class="card">
                                         <div class="card-header">Other Medicine dispensed</div>
                                         <div class="card-body">
                                             <repeat>
@@ -1307,7 +1294,7 @@
                                     <div class="card">
                                         <div class="card-header">ART</div>
                                         <div class="card-body">
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 Adherence
                                                 <div class="col-md-6">
                                                     <span class="ART-adherence horizontal">
@@ -1318,7 +1305,7 @@
                                             </div>
                                             why Poor/Fair Adherence
                                             <div class="fair-or-poor-art-adherence-reason">
-                                                <div class="row cards-and-rows-separator">
+                                                <div class="row">
                                                     <div class="col-md-3">
                                                         <obs conceptId="90223" answerConceptId="90040"
                                                              answerLabel="1 - Toxicity"/>
@@ -1386,10 +1373,10 @@
 
                             <div class="tab-pane fade" id="investigations">
                                 <section>
-                                    <div class="card cards-and-rows-separator">
+                                    <div class="card">
                                         <div class="card-header">Investigations</div>
                                         <div class="card-body">
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <obs conceptId="5497" labelText="CD4"/>
                                                 </div>
@@ -1407,7 +1394,7 @@
                                                          answerLabels="R - Reactive, NR - Non Reactive, ND - Not Done, NA - Not Applicable"/>
                                                 </div>
                                             </div>
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <label>TB LAM</label>
                                                     <obs conceptId="165291" answerConceptIds="703,664,1118,1175"
@@ -1437,7 +1424,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card cards-and-rows-separator">
+                                    <div class="card">
                                         <div class="card-header">Viral Load</div>
                                         <div class="card-body">
                                             <div class="row">
@@ -1464,7 +1451,7 @@
                                     <div class="card">
                                         <div class="card-header">DSD Model</div>
                                         <div class="card-body">
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="hidden">
                                                     <uiInclude provider="aijar" fragment="patientStability"/>
                                                 </div>
