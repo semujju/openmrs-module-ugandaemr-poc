@@ -31,7 +31,7 @@
             jq(document).ready(function () {
 
                 disable_fields("art-clinic-no");
-                disable_fields("referred-to-art-clinic");
+                <!--disable_fields("referred-to-art-clinic");
                 disable_fields("link-to-care-date");
                 disable_fields("enrolled-at-art-clinic");
                 disable_fields("date-enrolled-art-clinic");
@@ -46,7 +46,7 @@
                 disable_fields("second-pcr-results-date");
                 disable_fields("third-pcr-results-date");
                 disable_fields("repeat-pcr-results-date");
-                disable_fields("rapid-pcr-results-date");
+                disable_fields("rapid-pcr-results-date");-->
 
                 jq("#encounterDate").addClass("html-form-entry-disabled-field");
 
@@ -58,7 +58,7 @@
                     }
                 });
 
-                jq("#first-pcr-date").change(function () {
+                <!--jq("#first-pcr-date").change(function () {
                     if(jq(this).find("input[type=hidden]").val() != ""){
                         enable_fields("first-pcr-results");
                     } else {
@@ -136,7 +136,7 @@
                 } else {
                 disable_fields("rapid-pcr-results-date");
                 }
-                });
+                });-->
                 /* add JQuery validator classes and rules*/
                 jq("#162889 input, #162870 input").addClass("ugphone");
 
@@ -253,12 +253,12 @@
 
                             <div class="tab-pane active" id="care-giver-follow-up-information" >
                                 <section>
-                                    <div class="card cards-and-rows-separator">
+                                    <div class="card">
                                         <div class="card-header">
                                             Care Entry Point
                                         </div>
                                         <div class="card-body">
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <label>EI Number</label>
                                                     <patient field="identifier" identifierTypeId="2c5b695d-4bf3-452f-8a7c-fe3ee3432ffe"
@@ -303,12 +303,12 @@
                                         </div>
                                     </div>
 
-                                    <div class="card cards-and-rows-separator">
+                                    <div class="card">
                                         <div class="card-header">
                                             Mother/Care Giver Follow Up Information
                                         </div>
                                         <div class="card-body">
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Mother`s Name</label>
                                                     <obs conceptId="99776"/>
@@ -327,7 +327,7 @@
                                                     <obs conceptId="162884"/>
                                                 </div>
                                             </div>
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <label>County</label>
                                                     <obs conceptId="162885"/>
@@ -345,7 +345,7 @@
                                                     <obs conceptId="162888"/>
                                                 </div>
                                             </div>
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-6">
                                                     <label>LC1 Zone</label>
                                                     <obs conceptId="99137"/>
@@ -355,7 +355,7 @@
                                                     <obs conceptId="162866"/>
                                                 </div>
                                             </div>
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-6">
                                                     <label>How should outreach workers introduce themselves?</label>
                                                     <obs conceptId="162867" style="textarea"/>
@@ -386,12 +386,12 @@
                                         </div>
                                     </div>
 
-                                    <div class="card cards-and-rows-separator">
+                                    <div class="card">
                                         <div class="card-header">
                                             Mother`s History
                                         </div>
                                         <div class="card-body">
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-2">
                                                     <label>Place of Delivery</label>
                                                 </div>
@@ -419,7 +419,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card cards-and-rows-separator">
+                                    <div class="card">
                                         <div class="card-header">
                                             Mother's PMTCT ARVs
                                         </div>
@@ -440,7 +440,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card cards-and-rows-separator">
+                                    <div class="card">
                                         <div class="card-header">
                                             Infant's PMTCT ARVs
                                         </div>
@@ -481,7 +481,7 @@
                                         </div>
                                         <div class="card-body">
                                             <h4>1st PCR</h4>
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Test Date</label>
                                                     <obs conceptId="99606" id="first-pcr-date"></obs>
@@ -501,7 +501,7 @@
                                             </div>
                                       
                                             <h4>2nd PCR</h4>
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Test Date</label>
                                                     <obs conceptId="99436" id="second-pcr-date"></obs>
@@ -521,7 +521,7 @@
                                             </div>
 
                                             <h4>3rd PCR</h4>
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Test Date</label>
                                                     <obs conceptId="165405" id="third-pcr-date"></obs>
@@ -541,7 +541,7 @@
                                             </div>
                                       
                                             <h4>Repeat PCR (if necessary)</h4>
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Test Date</label>
                                                     <obs conceptId="162876" id="repeat-pcr-date"/>
@@ -561,7 +561,7 @@
                                             </div>
                                       
                                             <h4>18 Month Rapid Test</h4>
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Test Date</label>
                                                     <obs conceptId="162879" id="rapid-pcr-date"/>
@@ -593,12 +593,12 @@
 
                             <div class="tab-pane" id="follow-up-information" >
                                 <section>
-                                    <div class="card cards-and-rows-separator">
+                                    <div class="card">
                                         <div class="card-header">
                                             Linkage to Care/Treatment
                                         </div>
                                         <div class="card-body">
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-2">
                                                     <label>Referred to ART Clinic</label>
                                                 </div>
@@ -611,7 +611,7 @@
                                                     <obs id="link-to-care-date" conceptId="162981"/>
                                                 </div>
                                             </div>
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-2">
                                                     <label>Enrolled at ART Clinic</label>
                                                 </div>
@@ -646,7 +646,7 @@
                                         </div>
                                         <div class="card-body">
                                             <h4>First Attempt</h4>
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Date</label>
                                                     <obs conceptId="162967"/>
@@ -661,7 +661,7 @@
                                                 </div>
                                             </div>
                                             <h4>Second Attempt</h4>
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Date</label>
                                                     <obs conceptId="162971"/>
@@ -676,7 +676,7 @@
                                                 </div>
                                             </div>
                                             <h4>Third Attempt</h4>
-                                            <div class="row cards-and-rows-separator">
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Date</label>
                                                     <obs conceptId="162975"/>
@@ -694,9 +694,28 @@
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Final Outcome</label>
-                                                    <obs conceptId="99428" answerConceptIds="99427,99430,5240,90306,99112"
-                                                        answerLabels="Discharged Negative,Referred to ART Clinic,Lost (>6 Months),Transferred,Died"/>
+                                                    <obs id="final-outcome" conceptId="99428" answerConceptIds="99427,99430,5240,90306,99112"
+                                                        answerLabels="Discharged Negative,Referred to ART Clinic,Lost (>6 Months),Transferred,Died">
+                                                        <controls>
+                                                            <when value="99430" thenDisplay="#art-no"/>
+                                                            <when value="99112" thenDisplay="#died"/>
+                                                        </controls>
+                                                    </obs>
                                                 </div>
+                                                <div class="col-md-3" id="died">
+                                                    <label>Died</label>
+                                                    <obs conceptId="162975"/>
+                                                </div>
+                                                <div class="col-md-3" id="art-no">
+                                                    <label>ART No.</label>
+                                                    <obs conceptId="162976"/>
+                                                </div>
+                                                <!-- <div class="col-md-3" id="is-mother-in-care">
+                                                    <label>Mother in Care</label>
+                                                    <obs conceptId="162977"/>
+                                                </div> -->
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Final Outcome Date</label>
                                                     <obs conceptId="162979"/>
