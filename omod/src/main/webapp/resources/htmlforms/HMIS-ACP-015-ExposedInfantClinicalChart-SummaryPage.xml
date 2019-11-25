@@ -225,7 +225,7 @@
             </span>
             <div class="col-md-5"></div>
             <div class="col-md-1">
-                <span class="submitButton float-right">
+                <span class="submitButton">
                      <submit submitStyle="customSubmit" class="confirm" submitLabel="Save"/>
                 </span>
             </div>
@@ -499,7 +499,7 @@
                                                     <obs conceptId="99438" id="first-pcr-results-date"></obs>
                                                 </div>
                                             </div>
-                                      
+
                                             <h4>2nd PCR</h4>
                                             <div class="row">
                                                 <div class="col-md-3">
@@ -539,7 +539,7 @@
                                                     <obs conceptId="165408" id="third-pcr-results-date"></obs>
                                                 </div>
                                             </div>
-                                      
+
                                             <h4>Repeat PCR (if necessary)</h4>
                                             <div class="row">
                                                 <div class="col-md-3">
@@ -559,7 +559,7 @@
                                                     <obs conceptId="162882" id="repeat-pcr-results-date"/>
                                                 </div>
                                             </div>
-                                      
+
                                             <h4>18 Month Rapid Test</h4>
                                             <div class="row">
                                                 <div class="col-md-3">
@@ -579,7 +579,7 @@
                                                     <obs conceptId="162883"  id="rapid-pcr-results-date"/>
                                                 </div>
                                             </div>
-                                    
+
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Final HIV Status</label>
@@ -639,7 +639,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                 
+
                                     <div class="card">
                                         <div class="card-header">
                                             Follow Up Information
@@ -702,23 +702,30 @@
                                                         </controls>
                                                     </obs>
                                                 </div>
-                                                <div class="col-md-3" id="died">
-                                                    <label>Died</label>
-                                                    <obs conceptId="162975"/>
-                                                </div>
                                                 <div class="col-md-3" id="art-no">
                                                     <label>ART No.</label>
                                                     <obs conceptId="162976"/>
                                                 </div>
-                                                <!-- <div class="col-md-3" id="is-mother-in-care">
-                                                    <label>Mother in Care</label>
-                                                    <obs conceptId="162977"/>
-                                                </div> -->
-                                            </div>
-                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Final Outcome Date</label>
                                                     <obs conceptId="162979"/>
+                                                </div>
+                                                <label>Mother in Care</label>
+                                                <div class="col-md-2" id="is-mother-in-care">
+                                                    <obs conceptId="162873" answerConceptIds="90003,90004" answerLabels="Yes,No" style="radio" class="horizontal"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Comment
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label>Comment</label>
+                                                    <obs conceptId="160632" style="textarea"/>
                                                 </div>
                                             </div>
                                         </div>
