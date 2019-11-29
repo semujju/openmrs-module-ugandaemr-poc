@@ -3,7 +3,8 @@ function disable_fields(elementId){
 
     var element = jq("#"+elementId);
     element.find("input").attr("disabled", true);
-    element.find('select').attr("disabled", true);
+    element.find("select").attr("disabled", true);
+    element.find("radio").attr("disabled", true);
 
     /* fade out the fields that are disabled */
     element.addClass("html-form-entry-disabled-field");
@@ -15,6 +16,7 @@ function enable_fields(elementId){
     var element = jq("#"+elementId);
     element.find("input").attr("disabled", false);
     element.find('select').attr("disabled", false);
+    element.find("radio").attr("disabled", false);
     element.removeClass("html-form-entry-disabled-field");
 }
 
@@ -205,7 +207,7 @@ function getMUACCodeFromMUACScoreByAge(age, muacScoreFieldId, muacCodeFieldId) {
             return false;
         }
 
-        if(age < 5) {
+        if(age ==" " || age < 5) {
 
             if(muacScore < 11.5) {
                 jq("#" + muacCodeFieldId).find("select").val(99028).attr("selected", "selected")
