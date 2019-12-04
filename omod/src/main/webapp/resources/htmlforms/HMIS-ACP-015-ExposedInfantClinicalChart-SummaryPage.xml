@@ -137,8 +137,6 @@
                 disable_fields("rapid-pcr-results-date");
                 }
                 });-->
-                /* add JQuery validator classes and rules*/
-                jq("#162889 input, #162870 input").addClass("ugphone");
 
                 /* add validation rule to ensure that the chart is opened after the birthdate of the child*/
                 jq.validator.addMethod("birthBeforeChartOpenedDate", function (value, element) {
@@ -446,8 +444,8 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-3">
-                                                    <label>Infant's PMTCT ARVs</label>
+                                                <label>Infant's PMTCT ARVs</label>
+                                                <div class="col-md-2">
                                                     <obs conceptId="99787" answerConceptIds="162966,99790,1067"/>
                                                 </div>
                                             </div>
@@ -459,13 +457,13 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-3">
-                                                    <label>Mother in care at an ART Clinic?</label>
+                                                <label>Mother in care at an ART Clinic?</label>
+                                                <div class="col-md-2">
                                                     <obs id="mother-in-care" conceptId="162873" answerConceptIds="90003,90004" answerLabels="Yes,No" style="radio" class="horizontal"/>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <label>ART Clinic No</label>
-                                                        <obs id="art-clinic-no" conceptId="99431"/>
+                                                <label>ART Clinic No</label>
+                                                <div class="col-md-3">
+                                                    <obs id="art-clinic-no" conceptId="99431"/>
                                                 </div>
                                             </div>
                                         </div>
