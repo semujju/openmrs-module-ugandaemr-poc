@@ -1,4 +1,4 @@
-/* Disable inputs and add grey background on them*/
+// Disable inputs and add grey background on them
 function disable_fields(elementId){
 
     var element = jq("#"+elementId);
@@ -9,7 +9,7 @@ function disable_fields(elementId){
     element.addClass("html-form-entry-disabled-field");
 }
 
-/* Enable inputs and remove grey background from them*/
+// Enable inputs and remove grey background from them
 function enable_fields(elementId){
 
     var element = jq("#"+elementId);
@@ -18,7 +18,7 @@ function enable_fields(elementId){
     element.removeClass("html-form-entry-disabled-field");
 }
 
-/* Determine MUAC color code from muac score and age */
+// Determine MUAC color code from muac score and age
 function getMUACCodeFromMUACScoreByAge(age, muacScoreFieldId, muacCodeFieldId) {
 
     jq("#"+muacScoreFieldId).find("input[type$='text']").change(function() {
@@ -98,9 +98,84 @@ function getMUACCodeFromMUACScoreByAge(age, muacScoreFieldId, muacCodeFieldId) {
     });
 }
 
-/* Get period between two dates */
+// Get period between two dates
 function periodBetweenDates(firstDate, secondDate) {
     var period = (secondDate.getTime() - firstDate.getTime()) / 1000;
     diff /= (60 * 60 * 24 * 7 * 4);
     return Math.abs(Math.round(period));
+}
+
+/**
+ *
+ * @param prime What to test
+ * @param factor What to be tested
+ * @param alternative_factor this is used when factorRequired is true and factor is expected to be null
+ * @param message_to_throw
+ * @param condition for example greater_than,less_than,equal_to,greater_or_equal,less_or_equal,not_equal
+ * @param factorRequired this
+ * @returns {boolean}
+ */
+function dateValidator(prime, factor, alternative_factor, message_to_throw, alternative_message_to_throw, condition, factorRequired) {
+    var evaluationResult = true;
+
+    getField(prime + '.error').html("").hide;
+
+    if (getValue(factor + '.value') === '' && getValue(prime + '.value') !== '' && factorRequired === true) {
+        getField(factor + '.error').html("Can Not Be Null").show;
+        evaluationResult = false;
+    }
+    else if (getValue(factor + '.value') === '' && getValue(alternative_factor + '.value') === '' && getValue(prime + '.value') !== '' && factorRequired == false) {
+        getField(alternative_factor + '.error').html("Can Not Be Null").show();
+        evaluationResult = false;
+    }
+
+    if (getValue(factor + '.value') === '' && getValue(alternative_factor + '.value') !== "" && factorRequired === false) {
+        factor = alternative_factor;
+        message_to_throw = alternative_message_to_throw;
+    }
+
+    if (getValue(prime + '.value') !== '' && getValue(factor + '.value') !== '') {
+        <!-- has a value -->
+
+        switch (condition) {
+            case "greater_than":
+                if (getValue(prime + '.value') > getValue(factor + '.value')) {
+                    getField(prime + '.error').html(message_to_throw).show();
+                    evaluationResult = false;
+                }
+                break;
+            case "less_than":
+                if (getValue(prime + '.value') < getValue(factor + '.value')) {
+                    getField(prime + '.error').html(message_to_throw).show();
+                    evaluationResult = false;
+                }
+                break;
+            case "equal_to":
+                if (!(getValue(prime + '.value') === getValue(factor + '.value'))) {
+                    getField(prime + '.error').html(message_to_throw).show();
+                    evaluationResult = false;
+                }
+                break;
+            case "greater_or_equal":
+                if (getValue(prime + '.value') >= getValue(factor + '.value')) {
+                    getField(prime + '.error').html(message_to_throw).show();
+                    evaluationResult = false;
+                }
+                break;
+            case "less_or_equal":
+                if (getValue(prime + '.value') <= getValue(factor + '.value')) {
+                    getField(prime + '.error').html(message_to_throw).show();
+                    evaluationResult = false;
+                }
+                break;
+            case "not_equal":
+                if (getValue(prime + '.value') !== getValue(factor + '.value')) {
+                    getField(prime + '.error').html(message_to_throw).show();
+                    evaluationResult = false;
+                }
+                break;
+        }
+
+    }
+    return evaluationResult;
 }

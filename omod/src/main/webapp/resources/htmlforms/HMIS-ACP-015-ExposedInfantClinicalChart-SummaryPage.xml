@@ -28,6 +28,39 @@
     <script type="text/javascript">
 
         if (jQuery) {
+
+            /* add the validator on the beforeSubmit*/
+            beforeSubmit.push(function () {
+
+            var pcrDateValidationErrors = [];
+
+            /* Repeat PCR can be done after the first PCR results */
+            if (getValue('first-pcr-results.value') == 703) {
+                pcrDateValidationErrors.push(dateValidator("repeat-pcr-date", "first-pcr-date", "", "The repeat PCR date must be after the date of the 1st PCR", "", "less_than", true));
+            }
+
+            /* Validate the 2nd PCR date if the 1st PCR date is provided */
+            if (getValue('first-pcr-date.value') != '') {
+                pcrDateValidationErrors.push(dateValidator("second-pcr-date", "first-pcr-date", "", "The date of the second PCR must be after the date of the 1st PCR", "", "less_than", true));
+
+            }
+
+            /* Repeat PCR can be done after the 2nd PCR results */
+            if (getValue('second-pcr-results.value') == 703) {
+                pcrDateValidationErrors.push(dateValidator("repeat-pcr-date", "second-pcr-date", "", "The repeat PCR date must be after the date of the 2nd PCR", "", "less_than", true));
+            }
+
+            /* Validate the Rapid Test date if the 2nd PCR date is provided */
+            if (getValue('second-pcr-date.value') != '') {
+                pcrDateValidationErrors.push(dateValidator("rapid-test-date", "second-pcr-date", "", "The rapid test date must be after the date of the 2nd PCR", "", "less_than", true));
+            }
+
+            if (pcrDateValidationErrors.indexOf(false) != -1) {
+                jq().toastmessage('showErrorToast', "  There are errors during the validation of the data on the form. Please correct them and submit again");
+                return false;
+            }
+            });
+
             jq(document).ready(function () {
 
                 disable_fields("art-clinic-no");
@@ -150,37 +183,6 @@
                 /*add the validation rule*/
                 jq("#encounterDate input").addClass("birthBeforeChartOpenedDate");
 
-                /* add the validator on the beforeSubmit*/
-                beforeSubmit.push(function () {
-
-                    var pcrDateValidationErrors = [];
-
-                    /* Repeat PCR can be done after the first PCR results */
-                    if (getValue('pcr1Results.value') == 703) {
-                        pcrDateValidationErrors.push(dateValidator("repeat-pcr-date", "first-pcr-date", "", "The repeat PCR date must be after the date of the 1st PCR", "", "less_than", true));
-                    }
-
-                    /* Validate the 2nd PCR date if the 1st PCR date is provided */
-                    if (getValue('first-pcr-date.value') != '') {
-                        pcrDateValidationErrors.push(dateValidator("second-pcr-date", "first-pcr-date", "", "The date of the second PCR must be after the date of the 1st PCR", "", "less_than", true));
-
-                    }
-
-                    /* Repeat PCR can be done after the 2nd PCR results */
-                    if (getValue('pcr2Results.value') == 703) {
-                        pcrDateValidationErrors.push(dateValidator("repeat-pcr-date", "second-pcr-date", "", "The repeat PCR date must be after the date of the 2nd PCR", "", "less_than", true));
-                    }
-
-                    /* Validate the Rapid Test date if the 2nd PCR date is provided */
-                    if (getValue('second-pcr-date.value') != '') {
-                        pcrDateValidationErrors.push(dateValidator("rapid-test-date", "second-pcr-date", "", "The rapid test date must be after the date of the 2nd PCR", "", "less_than", true));
-                    }
-
-                    if (pcrDateValidationErrors.indexOf(false) != -1) {
-                        jq().toastmessage('showErrorToast', "  There are errors during the valdation of the data on the form. Please correct them and submit again");
-                        return false;
-                    }
-                });
 
                 var gender = jq("span.gender").html();
                 var age = jq("span.age").html();
@@ -223,9 +225,7 @@
             </span>
             <div class="col-md-5"></div>
             <div class="col-md-1">
-                <span class="submitButton">
-                     <submit submitStyle="customSubmit" class="confirm" submitLabel="Save"/>
-                </span>
+                <submit submitStyle="customSubmit" class="confirm" submitLabel="Save"/>
             </div>
         </div>
 
@@ -490,7 +490,7 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>Result</label>
-                                                    <obs conceptId="99435" answerConceptIds="664,703" answerLabels="Positive,Negative" id="first-pcr-results" style="radio" class="horizontal"/>
+                                                    <obs conceptId="99435" answerConceptIds="664,703" answerLabels="Negative,Positive" id="first-pcr-results" style="radio" class="horizontal"/>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>Date Results given to caregiver</label>
