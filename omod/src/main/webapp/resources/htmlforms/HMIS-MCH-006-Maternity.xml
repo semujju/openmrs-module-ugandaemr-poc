@@ -108,17 +108,16 @@
 
 	<div>
 		<div class="row">
-			<div class="col-md-10">
+			<div class="col-md-8">
 				<H1>HMIS MCH 006 MATERNITY FORM</H1>
 			</div>
+			<div class="col-md-3"></div>
 			<div>
-				<div class="col-md-2">
+				<div class="col-md-1">
 					<submit class="confirm" submitLabel="Save" submitStyle="customSubmit" />
 				</div>
 			</div>
-			<div class="col-md-2"></div>
 		</div>
-
 		<div class="row">
 			<div class="col-md-12">
 				<div class="card">
@@ -138,7 +137,6 @@
 							</li>
 						</ul>
 					</div>
-
 					<div class="card-body">
 						<div class="tab-content">
 							<div class="tab-pane active" id="admission-information-section">
@@ -149,7 +147,7 @@
 											<div class="col-md-3 html-form-entry-disabled-field">
 												<label>Date of Admission:</label>
 												<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
-												<span style="display: none;">
+												<span class="hidden">
 													<encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117" order="629d78e9-93e5-43b0-ad8a-48313fd99117" />
 												</span>
 											</div>
@@ -157,7 +155,6 @@
 												<label>Gravida:</label>
 												<obs conceptId="5624" required="false" />
 											</div>
-
 											<div class="col-md-3">
 												<label>Parity:</label>
 												<obs conceptId="1053" required="false" />
@@ -167,13 +164,11 @@
 												<obs conceptId="162983" required="false" />
 											</div>
 										</div>
-
 										<div class="row">
 											<div class="col-md-3">
 												<label>IPD No.</label>
 												<obs conceptId="1646" required="false" />
 											</div>
-
 											<div class="col-md-3">
 												<label>
 													<span class="required">*</span>
@@ -189,11 +184,9 @@
 												<label>Reason For Admission:</label>
 												<obs conceptId="99727" required="false" />
 											</div>
-
 										</div>
 									</div>
 								</div>
-								<!-- Another Card -->
 								<div class="card">
 									<div class="card-header">WHO Clinical Stage/CD4/Viral Load</div>
 									<div class="card-body">
@@ -270,30 +263,23 @@
 										</div>
 									</div>
 								</div>
-
-
 								<div class="card">
 									<div class="card-header">
                                              Delivery Details
                                          </div>
 									<div class="card-body">
-
 										<div class="row">
-
 											<div class="col-md-4">
 
 												<label>Mode of Delivery:</label>
 												<obs conceptId="5630" required="false" answerConceptIds="1170,99734,1171,1637,164920" answerLabels="Normal Vaginal Delivery,Vaccum Extraction,
                                                         Caesarean Section,Manual Vaccum Aspiration(MVA),Dilatation and Curettage(D &amp; C), laparatomy, hysterectomy" style="dropdown" />
 											</div>
-
-
 											<div class="col-md-4">
 												<label>Date of Delivery:</label>
 												<i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 47%;"></i>
 												<obs conceptId="90267" required="false" />
 											</div>
-
 											<div class="col-md-4">
 												<label>Time of Delivery:</label>
 												<span class="time-box-horizontal">
@@ -301,12 +287,8 @@
 												</span>
 											</div>
 										</div>
-
-
 									</div>
 								</div>
-
-
 								<div class="card">
 									<div class="card-header">
                                                 Active Management of the 3rd stage of labour
@@ -328,72 +310,65 @@
 											</div>
 										</div>
 										<div class="row">
-
 											<div class="col-md-4">
 												<label>Management Procedure for a Complication:</label>
 												<obs conceptId="1646" required="false" />
 											</div>
-
 										</div>
-
 									</div>
 								</div>
-
-
 								<div class="card">
 									<div class="card-header">
                                          Nutrition Assessment
                                      </div>
 									<div class="card-body">
+										<div class="row">
+											<div class="col-md-3">
+												<label>MUAC Score</label>
+												<obs conceptId="CIEL:1343" id="muac-score" />
+											</div>
+											<div class="col-md-3 html-form-entry-disabled-field">
+												<span class="muac">
+													<includeIf velocityTest="$patient.age &lt; 5">
+														<label>MUAC Code</label>
+														<obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027"
+															 answerLabels="Red &lt; 11.5cm, Yellow 11.5cm - &lt;12.5cm,Green &gt;= 12.5cm"/>
+													</includeIf>
+													<includeIf velocityTest="$patient.age &lt; 10 &amp;&amp; $patient.age &gt;=5">
+														<label>MUAC</label>
+														<obs id= "muac-code" conceptId="99030" answerConceptIds="99028,99029,99027"
+															 answerLabels="Red &lt; 13.5cm,Yellow 13.5cm - &lt;14.5cm,Green &gt;=14.5cm" />
+													</includeIf>
+													<includeIf velocityTest="$patient.age &lt; 18 &amp;&amp; $patient.age &gt;=10">
+														<label>MUAC</label>
+														<obs id= "muac-code" conceptId="99030" answerConceptIds="99028,99029,99027"
+															 answerLabels="Red &lt; 16.5cm, Yellow 16.5cm - &lt;19.0cm,Green &gt;=19.0cm" />
+													</includeIf>
 
-											<div class="row">
-													<div class="col-md-3">
-														<label>MUAC Score</label>
-														<obs conceptId="CIEL:1343" id="muac-score" />
-													</div>
-													<div class="col-md-3 html-form-entry-disabled-field">
-														<span class="muac">
-															<includeIf velocityTest="$patient.age &lt; 5">
-																<label>MUAC Code</label>
-																<obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027"
-																	 answerLabels="Red &lt; 11.5cm, Yellow 11.5cm - &lt;12.5cm,Green &gt;= 12.5cm"/>
-															</includeIf>
-															<includeIf velocityTest="$patient.age &lt; 10 &amp;&amp; $patient.age &gt;=5">
-																<label>MUAC</label>
-																<obs id= "muac-code" conceptId="99030" answerConceptIds="99028,99029,99027"
-																	 answerLabels="Red &lt; 13.5cm,Yellow 13.5cm - &lt;14.5cm,Green &gt;=14.5cm" />
-															</includeIf>
-															<includeIf velocityTest="$patient.age &lt; 18 &amp;&amp; $patient.age &gt;=10">
-																<label>MUAC</label>
-																<obs id= "muac-code" conceptId="99030" answerConceptIds="99028,99029,99027"
-																	 answerLabels="Red &lt; 16.5cm, Yellow 16.5cm - &lt;19.0cm,Green &gt;=19.0cm" />
-															</includeIf>
-	
-															<includeIf velocityTest="$patient.age &gt;=18">
-																<label>MUAC</label>
-																<obs id= "muac-code" conceptId="99030" answerConceptIds="99028,99029,99027"
-																	 answerLabels="Red &lt;19.0cm , Yellow 19.0cm - &lt;22.0cm,Green &gt;=22.0cm" />
-															</includeIf>
-														</span>
-													</div>
-													<excludeIf velocityTest="$patient.age &gt; 11">
-														<div class="col-md-3">
-															<label>Z-Scores</label>
-															<obs conceptId="99800" answerConceptIds="99803,99804,99805,99806,99807"
-																 answerLabels="&#60;-3,-3_&#60;-1,-1_1,&#62;1_3,&#62;3"/>
-														</div>
-													</excludeIf>
-													<div class="col-md-4">
-															<label>INR No.</label>
-															<obs conceptId="5624" required="false" />
-														</div>
-												</div>									
+													<includeIf velocityTest="$patient.age &gt;=18">
+														<label>MUAC</label>
+														<obs id= "muac-code" conceptId="99030" answerConceptIds="99028,99029,99027"
+															 answerLabels="Red &lt;19.0cm , Yellow 19.0cm - &lt;22.0cm,Green &gt;=22.0cm" />
+													</includeIf>
+												</span>
+											</div>
+											<excludeIf velocityTest="$patient.age &gt; 11">
+												<div class="col-md-3">
+													<label>Z-Scores</label>
+													<obs conceptId="99800" answerConceptIds="99803,99804,99805,99806,99807"
+														 answerLabels="&#60;-3,-3_&#60;-1,-1_1,&#62;1_3,&#62;3"/>
+												</div>
+											</excludeIf>
+											<div class="col-md-4">
+												<label>INR No.</label>
+												<obs conceptId="5624" required="false" />
+											</div>
+										</div>									
 									</div>
 								</div>
 							</div>
 
 							<div class="tab-pane" role="tabpanel" aria-leballebdy="nav-profile-tab" id="child-information-section">
-							
 								<div class="row">
 									<div class="col-md-12">
 												<table class="table table-striped multi table-borderless">
@@ -531,22 +506,14 @@
 													</tbody>
 												</table>
 
-
-
 									</div>
 								</div>
-
-
 							</div>
 
 							<div class="tab-pane" role="tabpanel" aria-leballebdy="nav-profile-tab" id="discharge-information-section">
-
-
 								<div class="card">
-
 									<section>
 										<div class="card-header">Discharge Information</div>
-
 										<div class="card-body">
 											<div class="row">
 												<div class="col-md-3">
@@ -566,7 +533,6 @@
 													<obs conceptId="1646" required="false" />
 												</div>
 											</div>
-
 											<div class="row">
 												<div class="col-md-3">
 													<label>PNC at 6 Hours:</label>
@@ -584,14 +550,11 @@
 													<label>Condition of Baby at Discharge:</label>
 													<obs conceptId="99334" required="false" answerConceptIds="99327,99331,99332,162953,162954" answerLabels="D - Woman Discharged Alive,MSB - Macerated Still Bath,NND - Neonantal Death,FSB - Fresh Still Birth,BDF - Baby Born With Defect" style="dropdown" />
 												</div>
-
 											</div>
-
 											<div class="row">
 												<h4>Mother's Final Diagnosis:</h4>
 												<table id="final-diagnosis" class="table table-borderless">
 													<tbody>
-
 														<tr>
 															<td>
 																<obs conceptId="1284" answerConceptId="162277" answerLabel="1 - Abortions" style="checkbox" />
@@ -638,8 +601,6 @@
 													</tbody>
 												</table>
 											</div>
-
-
 											<div class="row">
 												<div class="col-md-3">
 													<label>PNC at 24Hours:</label>
@@ -659,11 +620,8 @@
 													<label>Transferred by:</label>
 													<encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" id="delivered-by" required="false" />
 												</div>
-
 											</div>
-
 											<div class="row">
-
 												<div class="col-md-3">
 													<label>Delivered By:</label>
 													<encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" id="delivered-by" required="false" />
@@ -683,14 +641,11 @@
 													<label>Dischraged by:</label>
 													<encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" id="delivered-by" required="false" />
 												</div>
-
 											</div>
-
 										</div>
 									</section>
 								</div>
 							</div>
-
 						</div>
 					</div>
 				</div>
