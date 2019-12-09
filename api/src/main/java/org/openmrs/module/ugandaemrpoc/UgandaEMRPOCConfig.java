@@ -23,18 +23,24 @@ public class UgandaEMRPOCConfig {
 	public static final int MEDICATION_ORDER_CONCEPT_ID = 1282;
 	public static final int MEDICATION_STRENGTH_CONCEPT_ID = 1444;
 	public static final int MEDICATION_QUANTITY_CONCEPT_ID = 160856;
+	public static final int ARV_MEDICATION_QUANTITY_CONCEPT_ID = 99038;
 	public static final int MEDICATION_QUANTITY_UNIT_CONCEPT_ID = 160855;
 	public static final int MEDICATION_FORM_CONCEPT_ID = 1519;
 	public static final int MEDICATION_START_DATE_CONCEPT_ID = 1190;
 	public static final int MEDICATION_END_DATE_CONCEPT_ID = 1191;
 	public static final int MEDICATION_INDICATOR_CONCEPT_ID = 160742;
 	public static final int MEDICATION_DURATION_CONCEPT_ID = 159368;
+	public static final int ARV_MEDICATION_DURATION_CONCEPT_ID = 99036;
 	public static final int MEDICATION_DURATION_UNIT_CONCEPT_ID = 1732;
 	public static final int CURRENTLY_TAKING_MEDICATION_CONCEPT_ID = 159367;
 	public static final int MEDICATION_COMMENT_CONCEPT_ID = 160632;
 	public static final int DEFALUT_ROUTE_CONCEPT_ID = 160240;
 	public static final int DEFALUT_DOSE_UNIT_CONCEPT_ID = 160862;
 	public static final int DEFALUT_DURATION_UNIT_CONCEPT_ID = 1072;
+
+	public static final int MEDICATION_DISPENSE_SET = 163711;
+	public static final int MEDICATION_DISPENSE_UNITS = 1443;
+	public static final int MEDICATION_DISPENSE_RECEIVED_AT_VIST = 1276;
 
 	public static final int CONCEPT_ID_NEXT_APPOINTMENT = 5096;
 	public static final int CONCEPT_ID_TRANSFERED_OUT = 90306;
@@ -62,6 +68,9 @@ public class UgandaEMRPOCConfig {
 	public static final String PROCESSED_ORDER_WITHOUT_RESULT_QUERY = "select orders.order_id from orders  inner join test_order on (test_order.order_id=orders.order_id) where accession_number!=\"\" and specimen_source!=\"\" AND orders.date_created BETWEEN \"%s\" AND \"%s\"";
 
 	public static final String ENCOUNTER_ROLE = "240b26f9-dd88-4172-823d-4a8bfeb7841f";
+	public static final String ENCOUNTER_ROLE_PHARMACIST= "8da340f3-c690-439f-b21f-3a8367ff4057";
+
+	public  static final String ENCOUNTER_TYPE_DISPENSE_UUID="22902411-19c1-4a02-b19a-bf1a9c24fd51";
 
 	public static final String CARE_SETTING_OPD = "Outpatient";
 
