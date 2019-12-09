@@ -124,25 +124,6 @@ function enable_disable(field, class_name_prefix, conditions, input_type) {
     if (eval(conditions)) {
         disable = false;
     }
-
-// Disable inputs and add grey background on them
-function disable_fields(elementId){
-
-    var element = jq("#"+elementId);
-    element.find("input").attr("disabled", true);
-    element.find('select').attr("disabled", true);
-
-    /* fade out the fields that are disabled */
-    element.addClass("html-form-entry-disabled-field");
-}
-
-// Enable inputs and remove grey background from them
-function enable_fields(elementId){
-
-    var element = jq("#"+elementId);
-    element.find("input").attr("disabled", false);
-    element.find('select').attr("disabled", false);
-    element.removeClass("html-form-entry-disabled-field");
 }
 
 /* Determine MUAC color code from muac score and age */
