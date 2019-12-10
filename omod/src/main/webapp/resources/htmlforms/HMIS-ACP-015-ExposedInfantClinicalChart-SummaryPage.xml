@@ -389,8 +389,16 @@
                                                 <div class="col-md-2">
                                                 <label>Infant's PMTCT ARVs</label>
                                                 </div>
+                                                <div class="col-md-3">
+                                                    <obs conceptId="99787" 
+                                                         answerConceptIds="162966,165426,99790,1067,99005,90002" 
+                                                         answerLabels="Daily NVP from birth to 6wks, Daily NVP from birth to 12wks, No ARVs taken at birth, Unknown, Z-T/3TC/NVP, Others"
+                                                         class="long-value-select"/>
+                                                </div>
+                                                <div class="col-md-1"></div>
+                                                    <label>Specify</label>
                                                 <div class="col-md-2">
-                                                    <obs conceptId="99787" answerConceptIds="162966,165426,99790,1067"/>
+                                                    <obs conceptId="99158"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -404,11 +412,11 @@
                                                 <div class="col-md-3">
                                                     <obs id="mother-in-care" conceptId="162873"
                                                          answerConceptIds="90003,90004" answerLabels="Yes,No"
-                                                         style="radio" labelText="Mother in care at an ART Clinic ?" class="horizontal"/>
+                                                         style="radio" labelText="Mother in care at an ART Clinic?" class="horizontal"/>
                                                 </div>
                                                 <label>ART Clinic No</label>
                                                 <div class="col-md-3">
-                                                    <obs id="art-clinic-no" conceptId="99431"/>
+                                                    <obs id="art-clinic-no" conceptId="162874"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -444,7 +452,7 @@
                                                 </div>
                                             </div>
 
-                                            <h4>2nd PCR</h4>
+                                            <h4>PCR at 9mths</h4>
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Test Date</label>
@@ -465,7 +473,7 @@
                                                 </div>
                                             </div>
 
-                                            <h4>3rd PCR</h4>
+                                            <h4>PCR at 6wks after stoping breast-feeding</h4>
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Test Date</label>
@@ -646,26 +654,27 @@
                                                 <div class="col-md-3">
                                                     <label>Final Outcome</label>
                                                     <obs id="final-outcome" conceptId="99428"
-                                                         answerConceptIds="99427,99430,5240,90306,99112"
-                                                         answerLabels="Discharged Negative,Referred to ART Clinic,Lost (>6 Months),Transferred,Died">
-                                                        <controls>
-                                                            <when value="99430" thenDisplay="#art-no"/>
-                                                            <when value="99112" thenDisplay="#died"/>
-                                                        </controls>
+                                                         answerConceptIds="99427,99430,5240,90306,165420,165421,162873"
+                                                         answerLabels="Discharged Negative,Initiated on ART Clinic,Lost to followup,Transferred,Died Negative, Died Positive,Mother in Care">
                                                     </obs>
                                                 </div>
                                                 <div class="col-md-3" id="art-no">
                                                     <label>ART No.</label>
-                                                    <obs conceptId="162976"/>
+                                                    <obs conceptId="162874"/>
                                                 </div>
+                                                <div class="col-md-3">
+                                                    <label>Location Transferred To</label>
+                                                    <obs conceptId="90211"/>
+                                                </div>
+                                                <div class="col-md-2">
+                                                <label>Transfer out Date</label>
+                                                    <obs conceptId="99165" class="horizontal"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Final Outcome Date</label>
                                                     <obs conceptId="162979"/>
-                                                </div>
-                                                <label>Mother in Care</label>
-                                                <div class="col-md-2" id="is-mother-in-care">
-                                                    <obs conceptId="162873" answerConceptIds="90003,90004"
-                                                         answerLabels="Yes,No" style="radio" class="horizontal"/>
                                                 </div>
                                             </div>
                                         </div>
