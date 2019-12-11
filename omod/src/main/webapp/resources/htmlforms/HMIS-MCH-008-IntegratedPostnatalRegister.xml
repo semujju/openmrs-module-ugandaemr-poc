@@ -25,8 +25,8 @@
                 //determine muac color code for infant
                 getMUACCodeFromMUACScoreByAge("", "infant-muac-score", "infant-muac-code");
 
-                //grey out visit date
-                jq("#visit-date").addClass("html-form-entry-disabled-field");
+                //Disable encounter date field
+                disableEncounterDate();
 
                 //disable necessary fields on form load
                 disable_fields("tfv-woman");
@@ -209,8 +209,9 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <obs conceptId="374" answerConceptId="163144" answerLabel="1 - Oral:Lo-Femenal" class="col-md-3"/>
+                                        <obs conceptId="374" answerConceptId="163144" answerLabel="1 - Oral: Lo-Femenal" class="col-md-3"/>
                                         <obs conceptId="374" answerConceptId="163145" answerLabel="2 - Oral: Microgynon" class="col-md-3" />
+                                        <obs conceptId="374" answerConceptId="163146" answerLabel="3 - Oral: Ovrette or Another POP" class="col-md-3" />
                                         <obs conceptId="374" answerConceptId="163147" answerLabel="4 - Oral:Others" class="col-md-3"/>
                                         <obs conceptId="374" answerConceptId="164814" answerLabel="5 - Female Condoms" class="col-md-3"/>
                                         <obs conceptId="374" answerConceptId="164813" answerLabel="6 - Male Condoms" class="col-md-3"/>
@@ -232,13 +233,13 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <label>Status Of The Breast</label>
-                                        <div class="col-md-3"> 
+                                        <div class="col-md-2"> 
                                             <obs conceptId="99349" answerConceptIds="99345,99346,1118" answerLabels="FOM - No swellings pain or discharge,SS - Have discharge blood or pus, 
                                                  ND - If the health worker did not assess for status of breast" class="long-value-select"/>
                                         </div>
-                                        <div class="col-md-2"></div>
+                                        <div class="col-md-1"></div>
                                         <label>Status Of The Cervix</label>
-                                        <div class="col-md-3"> 
+                                        <div class="col-md-2"> 
                                         <obs conceptId="99350" answerConceptIds="99348,99347,1118" answerLabels="FOM - Cervix is free of malignancy,SS - Cervix is suspicious of malignancy,ND - Not Done"      required="true" class="long-value-select"/>
                                         </div>
                                     </div>
@@ -608,30 +609,38 @@
                                             <div class="col-md-2">
                                                 <label>Refered From</label>
                                             </div>
+                                            <label>Facility Name</label>
                                             <div class="col-md-3">
-                                                <label>Facility Name</label>
                                                 <obs conceptId="90206"/>
                                             </div>
-                                            <div class="col-md-3">
-                                                <label>Facility Type</label>
-                                                <obs id="facility-referred-from" conceptId="164954" answerConceptIds="99360,99361,99267" 
+                                            <label>Facility Type</label>
+                                            <div class="col-md-2">
+                                                <obs id="facility-referred-from" conceptId="164954" answerConceptIds="99360,99361" 
                                                      answerLabels="Young Child Clinic, HIV Chronic Care, Other Referral">
                                                 </obs>
+                                            </div>
+                                            <label>Other Facility</label>
+                                            <div class="col-md-2">
+                                                <obs id="other-facility-referred-from" conceptId="99267"/>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-2">
                                                 <label>Refered To</label>
                                             </div>
+                                            <label>Facility Name</label>
                                             <div class="col-md-3">
-                                                <label>Facility Name</label>
                                                 <obs conceptId="90211" />
                                             </div>
-                                            <div class="col-md-3">
-                                                <label>Facility Type</label>
-                                                <obs id="facility-referred-to" conceptId="99362" answerConceptIds="99360,99361,99267" 
+                                            <label>Facility Type</label>
+                                            <div class="col-md-2">
+                                                <obs id="facility-referred-to" conceptId="99362" answerConceptIds="99360,99361" 
                                                      answerLabels="Young Child Clinic, HIV Chronic Care, Other Referral">
                                                 </obs>
+                                            </div>
+                                            <label>Other Facility</label>
+                                            <div class="col-md-2">
+                                                <obs id="other-facility-referred-to" conceptId="99267"/>
                                             </div>
                                         </div>
                                     </div>
@@ -642,11 +651,8 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-1">
-                                                <label>HIV+ ?</label>
-                                            </div>
                                             <div class="col-md-2">
-                                                <obs conceptId="99153" answerConceptIds="90166,90167" answerLabels="Yes, No" style="radio" class="horizontal" />
+                                                <obs conceptId="99153" answerConceptIds="90166,90167" answerLabels="Yes, No" style="radio" labelText="HIV+ ?" class="horizontal" />
                                             </div>
                                             <label>FSG Enrollment</label>
                                             <div class="col-md-3">
