@@ -323,9 +323,12 @@
                                                 <div class="col-md-2">
                                                     <obs conceptId="99619" answerConceptId="99620" answerLabel="HTS" style="checkbox"/>
                                                 </div>
-                                                <div class="col-md-6 row">
-                                                    <obs class="col-md-4" conceptId="99619" id="99619" answerConceptId="90002" answerLabel="Other(Specify)" style="checkbox"/>
-                                                    <obs conceptId="99622" id="99622"/>
+                                                <div class="col-md-2">
+                                                    <obs class="col-md-4" conceptId="99619" id="99619" answerConceptId="90002" answerLabel="Other" style="checkbox"/>
+                                                </div>
+                                                <label>Specify</label>
+                                                <div class="col-md-3">
+                                                  <obs conceptId="99622" id="99622"/>
                                                 </div>
                                             </obsgroup>
                                         </div>
