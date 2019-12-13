@@ -25,9 +25,6 @@
                 //determine muac color code for infant
                 getMUACCodeFromMUACScoreByAge("", "infant-muac-score", "infant-muac-code");
 
-                //Disable encounter date field
-                disableEncounterDate();
-
                 //disable necessary fields on form load
                 disable_fields("tfv-woman");
                 disable_fields("tfv-partner")
@@ -99,7 +96,25 @@
                     }
                 });
 
-                 //enable viral load copies field
+                //enable other facility referred from
+                jq("#facility-referred-from").change(function () {
+                    if (jq(this).find("select").find(":selected").val() == "90002") {
+                        enable_fields("other-facility-referred-from");
+                    } else {
+                        disable_fields("other-facility-referred-from");
+                    }
+                });
+
+                //enable other facility referred to
+                jq("#facility-referred-to").change(function () {
+                    if (jq(this).find("select").find(":selected").val() == "90002") {
+                        enable_fields("other-facility-referred-to");
+                    } else {
+                        disable_fields("other-facility-referred-to");
+                    }
+                });
+
+                //enable viral load copies field
                 jq("#viral-load-results").change(function () {
                     var viral_load_status = getValue('viral-load-results.value');
                     if (viral_load_status == "") {
@@ -179,7 +194,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-3" id="visit-date">
+                                        <div class="col-md-3 html-form-entry-disabled-field" id="visit-date">
                                             <label>Date</label>
                                             <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
                                         </div>
@@ -217,7 +232,7 @@
                                         <obs conceptId="374" answerConceptId="164813" answerLabel="6 - Male Condoms" class="col-md-3"/>
                                         <obs conceptId="374" answerConceptId="5275"   answerLabel="7 - IUDs" class="col-md-3"/>
                                         <obs conceptId="374" answerConceptId="5279"   answerLabel="8 - Injectable contraceptives" class="col-md-3" />
-                                        <obs conceptId="374" answerConceptId="5277"   answerLabel="9 - Natural Family planning" class="col-md-3" id="natural-fp"/>
+                                        <obs conceptId="374" answerConceptId="5277"   answerLabel="9 - Natural Family planning" class="col-md-3"/>
                                         <obs conceptId="374" answerConceptId="5276"   answerLabel="10 - Female Sterilization" class="col-md-3" />
                                         <obs conceptId="374" answerConceptId="90088"  answerLabel="11 - Male Sterilization" class="col-md-3"/>
                                         <obs conceptId="374" answerConceptId="162961" answerLabel="12 - Implants" class="col-md-3"/>
@@ -526,7 +541,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <label>INR No.</label>
-                                                <obs conceptId="99733" id="inr-number"/>
+                                                <obs conceptId="164942" id="infant-inr-number"/>
                                             </div>
                                         </div>
                                     </div>
@@ -615,13 +630,13 @@
                                             </div>
                                             <label>Facility Type</label>
                                             <div class="col-md-2">
-                                                <obs id="facility-referred-from" conceptId="164954" answerConceptIds="99360,99361" 
+                                                <obs id="facility-referred-from" conceptId="164954" answerConceptIds="99360,99361,90002" 
                                                      answerLabels="Young Child Clinic, HIV Chronic Care, Other Referral">
                                                 </obs>
                                             </div>
                                             <label>Other Facility</label>
                                             <div class="col-md-2">
-                                                <obs id="other-facility-referred-from" conceptId="99267"/>
+                                                <obs id="other-facility-referred-from" conceptId="165427"/>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -634,13 +649,13 @@
                                             </div>
                                             <label>Facility Type</label>
                                             <div class="col-md-2">
-                                                <obs id="facility-referred-to" conceptId="99362" answerConceptIds="99360,99361" 
+                                                <obs id="facility-referred-to" conceptId="99362" answerConceptIds="99360,99361,90002" 
                                                      answerLabels="Young Child Clinic, HIV Chronic Care, Other Referral">
                                                 </obs>
                                             </div>
                                             <label>Other Facility</label>
                                             <div class="col-md-2">
-                                                <obs id="other-facility-referred-to" conceptId="99267"/>
+                                                <obs id="other-facility-referred-to" conceptId="165428"/>
                                             </div>
                                         </div>
                                     </div>
