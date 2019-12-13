@@ -57,6 +57,7 @@
                 jq("#mother-in-care").change(function () {
                     if(jq(this).find("input[type='radio']:checked").val() == 90003) {
                         enable_fields("art-clinic-no");
+                        
                     } else {
                         disable_fields("art-clinic-no");
                     }
@@ -169,7 +170,7 @@
                 });
 
                 jq("#final-outcome").change(function () {
-                    if(jq(this).find("select").find(":selected").val() == "99430") {
+                    if(jq(this).find("select").find(":selected").val() == "162873") {
                         enable_fields("art-no");
                     } else {
                         disable_fields("art-no");
@@ -343,7 +344,7 @@
                                                              identifierTypeId="2c5b695d-4bf3-452f-8a7c-fe3ee3432ffe"
                                                              required="false"/>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-3 html-form-entry-disabled-field">
                                                     <label>Date Chart Opened</label>
                                                     <encounterDate default="today" id="encounterDate"
                                                                    disallowMultipleEncountersOnDate="block"/>
@@ -373,6 +374,7 @@
                                                     <label>Date of CTX Start</label>
                                                     <obs conceptId="99773" id="ctx-date"/>
                                                 </div>
+                                                <span class="container-padding"></span>
                                                 <label>Birth Defect?</label>
                                                 <div class="col-md-2">
                                                     <obs conceptId="165402" answerConceptIds="1065,1066"
@@ -474,13 +476,14 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="padding-left-divs"></div>
+                                                <span class="container-padding"></span>
                                                 <label>Place of Delivery</label>
                                                 <div class="col-md-3">
                                                     <obs conceptId="99570"/>
                                                 </div>
                                                 <div class="col-md-2"></div>
                                                 <label>Mode of Delivery</label>
+                                                <span class="container-padding"></span>
                                                 <div class="col-md-3">
                                                     <obs conceptId="5630"/>
                                                 </div>
@@ -491,7 +494,8 @@
                                                          answerLabels="Yes,No,Unknown" style="radio"
                                                          labelText="Mother recieved ARVs for PMTCT" class="horizontal"/>
                                                 </div>
-                                                <div class="col-md-2"></div>
+                                                <div class="col-md-2 "></div>
+                                                <span class="container-padding"></span>
                                                 <label>Mother's ANC No.</label>
                                                 <div class="col-md-3">
                                                     <obs conceptId="99777"/>
@@ -505,19 +509,18 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="padding-left-divs"></div>
+                                                <div class="container-padding"></div>
                                                 <label>Antenatal</label>
                                                 <div class="col-md-3">
-                                                    <obs conceptId="99783"/>
+                                                    <obs conceptId="99783" answerConceptIds="99786,99782,90001" answerLabels="Lifelong ART,No ART,Unknown" style="radio" class="horizontal"/>
                                                 </div>
                                                 <label>During Labour/Delivery</label>
-                                                <div class="col-md-2">
-                                                    <obs conceptId="99784"/>
+                                                <div class="col-md-3">
+                                                    <obs conceptId="99784" answerConceptIds="99786,99782,90001" answerLabels="Lifelong ART,No ART,Unknown" style="radio" class="horizontal"/>
                                                 </div>
-                                                <div class="col-md-1"></div>
                                                 <label>Postnatal</label>
-                                                <div class="col-md-2">
-                                                    <obs conceptId="99785"/>
+                                                <div class="col-md-3">
+                                                    <obs conceptId="99785" answerConceptIds="99786,99782,90001" answerLabels="Lifelong ART,No ART,Unknown" style="radio" class="horizontal"/>
                                                 </div>
                                             </div>
                                         </div>
