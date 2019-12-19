@@ -16,12 +16,171 @@
         if (jQuery) {
 
             jq(document).ready(function () {
+
+                //Block Multiple encounter entry on same date
+                blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
+
                 // Validate MUAC
                  var age  = <lookup complexExpression="$patient.age" />; 
                  getMUACCodeFromMUACScoreByAge(age, "muac-score", "muac-code");
 
                 //Disable encounter date field
                 disableEncounterDate();
+
+                /* enable viral load copies field */
+                jq("#viral-load-results-qualitative").change(function () {
+                    var viral_load_status = getValue('viral-load-results-qualitative.value');
+                    if (viral_load_status == "") {
+                        jq("#viral-load-status").hide();
+                    }
+
+                    if (viral_load_status == 1301) {
+                        /* Detected */
+                        <ifMode mode="ENTER">
+                            setValue('viral-load-results-copies.value', '');
+                        </ifMode>
+
+                        var viral_load_copies = getValue('viral-load-results-copies.value');
+                        if(viral_load_copies == 1) {
+                            jq("#viral-load-status").hide();
+                            setValue('viral-load-results-copies.value', '');
+                        }
+                    }
+                    if (viral_load_status == 1306) {
+                        /* Not Detected */
+                        jq("#viral-load-status").hide();
+                        setValue('viral-load-results-copies.value', 1);
+                    }
+                });
+
+                jq("#viral-load-results-copies").change(function () {
+                    previousVl = jq("#viral-load-results-copies").find("input").val();
+                    DSDMStabilityCheck();
+                });
+
+                // trigger a change when the form loads
+                jq("#viral-load-results-qualitative").change();
+
+                /*determine viral load status*/
+                jq("#viral-load-results-copies").change(function () {
+                    jq("#viral-load-status").show();
+                    var vl_copies = jq(this).find("input").val();
+                    if (vl_copies ==" " || vl_copies == 0) {
+                        jq("#viral-load-status").hide();
+                    }
+                    if (vl_copies &lt; 1000) {
+                        jq("#viral-load-status").html("Suppressed");
+                    } else if (vl_copies &gt;= 1000) {
+                        jq("#viral-load-status").html("Non-suppressed");
+                    } else {
+                        jq("#viral-load-status").hide();
+                    }
+                });
+
+                var gravidaValidate = function() {
+                var gravidaField = getField('gravida.value');
+                var gravida = getValue('gravida.value');
+                var gravidaErrorField = getField('gravida.error');
+
+                if (gravida &lt; 0) {
+                    gravidaField.addClass('error');
+                    gravidaErrorField.html('Parity cannot be less than 0').show();
+                    return false;
+                } else {
+                    gravidaField.removeClass('error');
+                    gravidaErrorField.html('').hide();
+                }
+
+                return true;
+                };
+
+                var parityValidate = function() {
+                    var parityField = getField('parity.value');
+                    var parity = getValue('parity.value');
+                    var parityErrorField = getField('parity.error');
+
+                    if (parity &lt; 0) {
+                        parityField.addClass('error');
+                        parityErrorField.html('Gravida cannot be less than 0').show();
+                        return false;
+                    } else {
+                        parityField.removeClass('error');
+                        parityErrorField.html('').hide();
+                    }
+
+                    return true;
+                };
+
+                var gestationalAgeValidate = function() {
+                    var gestationalAge = getValue('gestational-age.value');
+                    var gestationalAgeErrorField = getField('gestational-age.error');
+
+                    if (gestationalAge &gt; 45) {
+                        gestationalAgeField.addClass('error');
+                        gestationalAgeErrorField.html('Gestational Age cannot be greater than 45').show();
+                        return false;
+                    } else {
+                        gestationalAgeField.removeClass('error');
+                        gestationalAgeErrorField.html('').hide();
+                    }
+
+                    return true
+                }
+
+
+                beforeSubmit.push(function () {
+                    <!-- clear the previous errors -->
+                    setValue('returndate.error', '');
+                    setValue('viral-load-results-copies.error', '');
+                    setValue('date-viral-load-taken.error', '');
+
+                    var encounterDate = new Date((getValue('encounterDate.value')));
+                    var returnDate = new Date((getValue('returndate.value')));
+
+                    if (encounterDate &gt;= returnDate) {
+                        getField('errors-field.error').html('The return date must be after the date of this visit ' +
+                        formatDateForDisplay(encounterDate)).show();
+                        return false;
+                    }
+
+                    <!-- Check that the return date is before the transfer out date only if there is a transfer out date -->
+                    if (jq('#transfer_out_date_id').html().replace(/\s+/, "").length > 0) {
+                        var transfer_out_date_id = new Date(jq('#transfer_out_date_id').html());
+                        if (returnDate &gt;= transfer_out_date_id) {
+                            getField('returndate.error').html('The return date must be before the transfer out date of ' +
+                            formatDateForDisplay(transfer_out_date_id)).show();
+                            return false;
+                        }
+                        return false;
+                    }
+
+                    var viral_load_qualitative = getValue('viral-load-results-qualitative.value');
+                    var date_viral_load_taken = getValue('date-viral-load-taken.value');
+                    /* The date that the viral load was taken is required if a qualitative result is selected */
+                    if (viral_load_qualitative != "") {
+                        if (date_viral_load_taken == "") {
+                            getField('date-viral-load-taken.error').html('Please enter the date when the viral load sample was taken').show();
+                            return false;
+                        }
+                    }
+
+                    /** The date the viral load was taken cannot be after the encounter date */
+                    if (date_viral_load_taken != "") {
+                        if (encounterDate &lt; date_viral_load_taken) {
+                            getField('date-viral-load-taken.error').html('The date the viral load sample was taken cannot be after the date of this visit ' + encounterDate).show();
+                            return false;
+                        }
+                    }
+
+                    /* If the viral load is detected, the number of copies must be greater than 20 which is the lowest detectable level for a machine */
+                    if ((viral_load_qualitative == 1301) &amp;&amp; (getValue('viral-load-results-copies.value') &lt; 20)) {
+                        getField('viral-load-results-copies.error').html('Please enter the number of virus copies per ml. the minimum number of copies is 20').show();
+                        return false;
+                    }
+
+                    return true;
+                });
+
 
                 // Handle viral load
                 var disableViralLoadFields = function() {
@@ -35,7 +194,7 @@
                     jq('#viral-load-status').find('select').attr("disabled", "true");
                     jq('#viral-load-status').find('select').addClass('disabled');
                 }
-
+                <!-- 
                 var enableViralLoadFields = function() {
 
                     jq('#viral-load').find('input[type="text"]').removeAttr("disabled");
@@ -52,7 +211,7 @@
                 disableViralLoadFields();
                 jq('#163023').find('input[type="hidden"]').change(function($event){
                     enableViralLoadFields();
-                });
+                }); -->
           
             });
         }
@@ -63,7 +222,6 @@
         <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117" order="629d78e9-93e5-43b0-ad8a-48313fd99117" />
     </span>
     <!-- Beging of HTML Form -->
-
     <div>
         <div class="row">
             <div class="col-md-6">
@@ -202,8 +360,8 @@
                                                     </div>
                                                 </excludeIf>
                                                 <div class="col-md-4">
-                                                        <label>INR No.</label>
-                                                        <obs conceptId="b644c29c-9bb0-447e-9f73-2ae89496a709" id="inrNumber" />
+                                                    <label>INR No.</label>
+                                                    <obs conceptId="b644c29c-9bb0-447e-9f73-2ae89496a709" id="inrNumber" />
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label>Blood Pressure</label>
@@ -337,7 +495,25 @@
                                                     <obs conceptId="164910" answerConceptIds="164908,163159" answerLabels="Suppressed,Non-suppressed" id="viral-load-status" labelText="Viral Load Status" />
                                                 </div>
                                             </div>
-
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Date Viral Load Taken</label>
+                                                    <obs id="date-viral-load-taken" conceptId="163023" allowFutureDates="false"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Viral Load Results</label>
+                                                    <obs id="viral-load-results-qualitative" conceptId="1305" answerConceptIds="1301,1306,1304"
+                                                         answerLabels="Detected,Not Detected, Sample Rejected"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Viral Load (copies/ml)</label>
+                                                    <obs id="viral-load-results-copies" conceptId="856"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Viral Load Status</label>
+                                                    <span id="viral-load-status"></span>
+                                                </div>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-md-2">
                                             <label>WHO Clinical Stage</label>
