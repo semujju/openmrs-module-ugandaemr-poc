@@ -241,7 +241,10 @@
                                 <a class="nav-link active" data-toggle="tab" href="#client-information">Visit/Client Information</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#hiv-information">HIV Information and Diagnosis</a>
+                                <a class="nav-link" data-toggle="tab" href="#hiv-information">eMTCT Status</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#diagnosis-and-hiv-information">Diagnosis and HIV Information</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#investigations-section">Investigations</a>
@@ -379,33 +382,35 @@
                                 </section>
                             </div>
 
-                            <div class="tab-pane" id="hiv-information">
+                            <div class="tab-pane" id="emtct-status">
                                 <section>
                                     <div class="card">
                                         <div class="card-header">
                                             Woman eMTCT Status
                                         </div>
                                         <div class="card-body">
-                                            <div class="row ">
+                                            <div class="row">
                                                 <div class="col-md-1">
-                                                <label>Initial Result</label>
+                                                    <label>eMTCT Code</label>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <obs conceptId="99317" answerConceptIds="99313,99734,99314,99315,164962,164963,99737,99738,99739,99736"
-                                                        answerLabels="C - Client was counselled but declined HIV testing,
-                                                        T - Client was counselled and tested but didn't receive results,
-                                                        TR - Client was counselled tested and results given - Client tested for the for the first time in ANC this pregnancy and she is HIV Negative,
-                                                        TRR - Counselled tested and results given - Client tested for the first time in ANC this pregnacy  and she is HIV Positive,
-                                                        TR&#8730; - ANC revisit clients with a known HIV Negative (HIV-) Test Result from a previous ANC attendance during this pregnancy,
-                                                        TRR&#8730; - ANC revisit clients with a known HIV Positive (HIV+) Test Result from a previous ANC attendance during this pregnancy,
-                                                        TRK - Clients with a documented HIV Negative (HIV-) test result conducted within 4 weeks prior to their ANC 1st Visit,
-                                                        TRRK - Clients with a documented HIV Positive (HIV+) test result conducted within 4 weeks prior to their ANC 1st Visit,
-                                                        TR+ - Tested HIV- on retest,
-                                                        TRR+ - Clients who tested HIV Positive on a re-test" class="long-value-select" style="dropdown" id="emtct-code-woman" />
+                                                    <obs id="emtct-code-woman" conceptId="99317" answerConceptIds="99313, 99734, 99314, 99315, 99735, 99736, 99739, 99741"
+                                                         answerLabels="C - Counseled but declined HIV testing,
+                                                                       T - Counseled and tested but didn't receive results,
+                                                                       TR - Counseled tested and results given - Client tested HIV Negative in PNC,
+                                                                       TRR - Counseled tested and results given - Client tested HIV Positive in PNC,
+                                                                       TR&#8730; - Clients tested previously with known HIV Negative status,
+                                                                       TRRK; - Revisit ANC clients who were tested for HIV on a previous visit with known HIV positive status,
+                                                                       TR+ - Client tested HIV Negative on a re-test,
+                                                                       TRR+ - Client tested HIV Positive on a re-test"
+                                                                       required="true" class="long-value-select" />
                                                 </div>
-                                                <div class="col-md-2"></div>
-                                                <div class="col-md-4">
-                                                    <obs conceptId="165379" class="horizontal" style="radio" answerLabels="Yes,No" labelText="STK Given?"/>
+                                                <div class="col-md-1"></div>
+                                                <div class="col-md-1">
+                                                    <label>STK Given?</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <obs conceptId="165379" answerConceptIds="1065,1066" answerLabels="Yes, No" style="radio" class="horizontal" />
                                                 </div>
                                             </div>
                                         </div>
@@ -429,11 +434,18 @@
                                                 <div class="col-md-2">
                                                     <obs conceptId="99317" class="horizontal long-value-select" />
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Partner Linkage to ART
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <obs conceptId="99351" style="radio" class="horizontal" answerLabels="Yes, No" labelText="Linked to ART?"/>
                                                 </div>
-                                            </div>
-                                            <div class="row">
                                                 <div class="col-md-1">
                                                 <label>TFV</label>
                                                 </div>
@@ -443,6 +455,8 @@
                                                                       TRR+ - Clients who tested HIV Positive on a re-test" 
                                                         class="long-value-select" id="tfv-man" />
                                                 </div>
+                                            </div>
+                                            <div class="row">
                                                 <label>Where</label>
                                                 <div class="col-md-2">
                                                     <obs conceptId="99081"/>
@@ -458,6 +472,10 @@
                                             </div>
                                         </div>
                                     </div>
+                                 </section>
+                            </div>
+                                <div class="tab-pane" id="diagnosis-and-hiv-information">
+                                <section>
                                     <div class="card">
                                     <div class="card-header">
                                         Diagnosis
@@ -476,47 +494,31 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                 <label>CD4</label>
                                                     <obs conceptId="5497"/>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-3">
-                                                    <obs conceptId="163023" id="163023" labelText="Viral Load Date" allowFutureDates="false" />
-                                                </div>
-                                                <div class="col-md-3 html-form-entry-disabled-field">
-                                                    <obs conceptId="856" labelText="Viral Load (copies/ml)" id="viral-load" />
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <obs conceptId="1305" answerConceptIds="1306,1301,1304" answerLabels="Not Detected,Detected,Sample Rejected" style="dropdown" id="viral-load-results" labelText="Viral Load Results" />
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <obs conceptId="164910" answerConceptIds="164908,163159" answerLabels="Suppressed,Non-suppressed" id="viral-load-status" labelText="Viral Load Status" />
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <label>Date Viral Load Taken</label>
                                                     <obs id="date-viral-load-taken" conceptId="163023" allowFutureDates="false"/>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <label>Viral Load Results</label>
                                                     <obs id="viral-load-results-qualitative" conceptId="1305" answerConceptIds="1301,1306,1304"
                                                          answerLabels="Detected,Not Detected, Sample Rejected"/>
                                                 </div>
-                                                <div class="col-md-3">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
                                                     <label>Viral Load (copies/ml)</label>
                                                     <obs id="viral-load-results-copies" conceptId="856"/>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-4" id="viral-load-status-div">
                                                     <label>Viral Load Status</label>
                                                     <span id="viral-load-status"></span>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-2">
-                                            <label>WHO Clinical Stage</label>
+                                                <div class="col-md-4">
+                                                    <label>WHO Clinical Stage</label>
                                                     <obs conceptId="90203" />
                                                 </div>
                                             </div>
@@ -528,18 +530,20 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-3">
+                                                <div class="col-md-6">
                                                     <obs conceptId="165380" style="radio" class="horizontal" answerLabels="High, Low" labelText="eMTCT Risk Assessment"/>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-6">
                                                     <obs conceptId="99744" answerConceptIds="99745,99746,99747,1175" 
-                                                         answerLabels="ART - Initiated ART for eMTCT on visit,ARTK - Client already on HAART before this pregnancy,ART&#8730; - Client is revist and was prescribed on earlier visit,NA - Not Applicable" style="dropdown" id="arvs-given" labelText="ART Code" class="long-value-select"/>
+                                                         answerLabels="ART - Initiated ART for eMTCT on visit,ARTK - Client already on HAART before this pregnancy,ART&#8730; - Client is revist and was prescribed on earlier visit,NA - Not Applicable" style="dropdown" id="arvs-given" labelText="ART Code"/>
                                                 </div>
-                                                <div class="col-md-3">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
                                                     <label>Linkage ART NO</label>
                                                     <patient field="identifier" identifierTypeId="e1731641-30ab-102d-86b0-7a5022ba4115" required="false"/>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-6">
                                                     <obs conceptId="165389" labelText="Infant ARV Prophylaxis" />
                                                 </div>
                                             </div>
