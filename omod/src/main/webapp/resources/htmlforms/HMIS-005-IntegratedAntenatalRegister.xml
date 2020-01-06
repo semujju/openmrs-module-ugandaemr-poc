@@ -192,26 +192,7 @@
                     
                     jq('#viral-load-status').find('select').attr("disabled", "true");
                     jq('#viral-load-status').find('select').addClass('disabled');
-                }
-                <!-- 
-                var enableViralLoadFields = function() {
-
-                    jq('#viral-load').find('input[type="text"]').removeAttr("disabled");
-                    jq('#viral-load').find('input[type="text"]').removeClass('disabled');
-                    jq('#viral-load').parent().removeClass('html-form-entry-disabled-field');
-
-                    jq('#viral-load-results').find('select').removeAttr("disabled");
-                    jq('#viral-load-results').find('select').removeClass('disabled');
-                    
-                    jq('#viral-load-status').find('select').removeAttr("disabled");
-                    jq('#viral-load-status').find('select').removeClass('disabled');
-                }
-                
-                disableViralLoadFields();
-                jq('#163023').find('input[type="hidden"]').change(function($event){
-                    enableViralLoadFields();
-                }); -->
-          
+                }          
             });
         }
 
