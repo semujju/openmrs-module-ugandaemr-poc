@@ -114,7 +114,7 @@
 						<ul class="nav nav-tabs card-header-tabs">
 							<li class="nav-item">
 								<a class="nav-link active" data-toggle="tab" href="#registration">
-									Registration Information
+									Appointment Information
 								</a>
 							</li>
 							<li class="nav-item">
@@ -131,35 +131,26 @@
 								<section>
 									<div class="card">
 										<div class="card-header">
-                                            Missed Appointment
-                                        </div>
-										<div class="card-body">
-											<div class="row">
-												<div class="col-md-4">
-													<label>
-														Missed Appointment Date
-													</label>
-													<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
-													<br />
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="card">
-										<div class="card-header">
-                                            Service Point
+                                            Appointment
                                         </div>
                                         <div class="card-body">
 											<div class="row">
-												<obs conceptId="164993" answerConceptId="165047" answerLabel="ART Clinic" style="checkbox" class="col-md-3" />
-												<obs conceptId="164993" answerConceptId="165348" answerLabel="MCH/MBCP" style="checkbox" class="col-md-3" id="165348" />
-												<obs conceptId="164993" answerConceptId="90041" answerLabel="Pregnant" style="checkbox" class="col-md-3" id="90041"/>
-												<obs conceptId="164993" answerConceptId="5632" answerLabel="Breastfeeding" style="checkbox" class="col-md-3" />
-												<obs conceptId="164993" answerConceptId="99087" answerLabel="Infant Exposed" style="checkbox" class="col-md-3" />
-												<obs conceptId="164993" answerConceptId="165372" answerLabel="Infant Infected" style="checkbox" class="col-md-3"/>
-												<obs conceptId="164993" answerConceptId="165048" answerLabel="TB Clinic" style="checkbox" class="col-md-3" />
-												<obs conceptId="164993" answerConceptId="90002" style="checkbox" answerLabel="Other (Specify)" class="col-md-3" id="164993" />
-												<obs conceptId="165398" class="col-md-3" id="165398"/>
+											<div class="col-md-3"><label>Missed Appointment Date</label>
+												<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
+												<i class="icon-calendar small right-addon-row position-absolute" style="right: 24%; top: 48%;"></i>
+											</div>
+											<div class="col-md-3"><label>Service Point</label>
+												<obs conceptId="164993" answerConceptIds="165047,165048,90002" answerLabels="ART Clinic,TB Clinic,Other"/>
+											</div>
+											<div class="col-md-2"><label>Specify</label>
+												<obs conceptId="165398"/>
+											</div>
+											</div>
+											<div class="row">
+												<obs conceptId="164993" answerConceptId="90041" answerLabel="Pregnant" style="checkbox" class="col-md-2" id="90041"/>
+												<obs conceptId="164993" answerConceptId="5632" answerLabel="Breastfeeding" style="checkbox" class="col-md-2" />
+												<obs conceptId="164993" answerConceptId="99087" answerLabel="Infant Exposed" style="checkbox" class="col-md-2" />
+												<obs conceptId="164993" answerConceptId="165372" answerLabel="Infant Infected" style="checkbox" class="col-md-2"/>
 											</div>
 										</div>
 									</div>
@@ -169,12 +160,12 @@
                                         </div>
 										<div class="card-body">
 											<div class="row">
-												<obs conceptId="160288" answerConceptId="164972" answerLabel="ART" style="checkbox" class="col-md-3" />
-												<obs conceptId="160288" answerConceptId="164971" answerLabel="TB Meds/TPT" style="checkbox" class="col-md-3" />
-												<obs conceptId="164993" answerConceptId="165347" answerLabel="Infant NVP/CTX" style="checkbox" class="col-md-3" />
-												<obs conceptId="160288" answerConceptId="165386" answerLabel="FP" style="checkbox" class="col-md-3" />
-												<obs id="160288" conceptId="160288" answerConceptId="90002" style="checkbox" answerLabel="Other (Specify):" class="col-md-3" />
-												<obs id="164975" conceptId="164975" class="col-md-3"/>
+												<obs conceptId="160288" answerConceptId="164972" answerLabel="ART" style="checkbox" class="col-md-2" />
+												<obs conceptId="160288" answerConceptId="164971" answerLabel="TB Meds/TPT" style="checkbox" class="col-md-2" />
+												<obs conceptId="164993" answerConceptId="165347" answerLabel="Infant NVP/CTX" style="checkbox" class="col-md-2" />
+												<obs conceptId="160288" answerConceptId="165386" answerLabel="FP" style="checkbox" class="col-md-2" />
+												<obs id="160288" conceptId="160288" answerConceptId="90002" style="checkbox" answerLabel="Other (Specify):" class="col-md-2" />
+												<obs conceptId="164975" class="col-md-2"/>
 											</div>
 										</div>
 									</div>
@@ -184,19 +175,19 @@
                                         </div>
                                         <div class="card-body">
 											<div class="row">
-												<div class="col-md-4">
+												<div class="col-md-3">
 													<label>
 														Mode of Care
 													</label>
 													<obs conceptId="165143" answerConceptIds="165138,165140,165139,165142,165141" answerLabels="1 - FBIM, 2 - FBG, 3 - FTDR, 4 - CDDP, 5 - CCLAD" />
 												</div>
-												<div class="col-md-4">
+												<div class="col-md-3">
 													<label>
 														Client Telephone
 													</label>
 													<obs conceptId="165052" />
 												</div>
-												<div class="col-md-4">
+												<div class="col-md-3">
 													<label>
 														Next of Kin Telephone
 													</label>
@@ -215,47 +206,30 @@
                                             Follow Up Attempt
                                         </div>
                                     	<div class="card-body">
-											<div class="row">
-												<!-- <repeat> -->
+												<repeat>
 													<template>
+														<div class="follow-up">
 														<div class="row">
-															<div class="col-md-4">
-																<label>
-																	Follow Up Attempt:
-																</label>
+															<div class="col-md-2">
+																<label>Follow Up Attempt</label>
 																<obs conceptId="165346" answerConceptIds="165338,165339,165340,165341,165342,165343" answerLabels="1 - Follow Up 1, 2 - Follow Up 2, 3 - Follow Up 3, 4 - Follow Up 4, 5 - Follow Up 5,6 - Follow Up 6" />
 															</div>
-															<div class="col-md-4">
-																<label>
-																	Follow Up Date:
-																</label>
+															<div class="col-md-2">
+																<label>Follow Up Date</label>
 																<!-- TO DO ADD STYLING TO THE DATE PICKER ICON -->
 																<obs id="165373_{n}" conceptId="165373" allowFutureDates="false" class="Vertical-layout-options">
-																	<i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 63%;">
+																	<i class="icon-calendar small right-addon-row position-absolute" style="right: 24%; top: 48%;">
 																	</i>
 																</obs>
 															</div>
-															<div class="col-md-4">
-																<label>
-																	Follow Up Person:
-																	<span class="required">
-																		*
-																	</span>
-																</label>
-																<br />
+															<div class="col-md-2">
+																<label>Follow Up Person</label>
 																<encounterProvider required="true" />
 															</div>
-														</div>
-														<div class="row">
-															<div class="col-md-12">
-																<label>
-																	Follow Up Action:
-																</label>
-																<div class="row">
-																	<div class="col-md-4">
-																		<obs id="phone-call" conceptId="165100" answerConceptId="165102" answerLabel="Phone Call to Client" style="dropdown" class="horizontal-layout-options" />
-																	</div>
-																	<div class="col-md-4">
+															<div class="col-md-2">
+																<label>Follow Up Action</label>
+																		<obs id="phone-call" conceptId="165100" answerConceptIds="165102,165103,165336,165337,90002" answerLabels="Phone Call to Client,Home/Workplace Visit,Facility to Facility phone call,Facility to Facility visit,Other" style="dropdown" class="horizontal-layout-options"/>
+																	<!-- <div class="col-md-4">
 																		<obs id="home-visit" conceptId="165100" answerConceptId="165103" answerLabel="Home/Workplace Visit" style="dropdown" class="horizontal-layout-options" />
 																	</div>
 																	<div class="col-md-4">
@@ -271,19 +245,15 @@
 																		<br />
 																		<obs id="165399_{n}" conceptId="165399" />
 																	</div>
-																</div>
+																</div> -->
 															</div>
-														</div>
-														<div class="row">
-															<div class="col-md-11">
-																<label>
-																	Follow Up Outcome:
-																</label>
-																<br />
-																<obs conceptId="165104" answerConceptIds="165334,165335,1363,165367,160034,165368,165369,165370,165371" answerLabels="1 - Returned to care, 2 - Self transferred, 3 - Stopped/Refused, 4 - Migrated/Relocated, 5 - Died, 6 - Unable to be traced, 7 - Tracing attempts initiated but incomplete, 8 - No attempt to trace, 9 - Misclassified as missed appointment" />
+															<div class="col-md-2">
+																<label>Follow Up Outcome</label>
+																<obs conceptId="165104" answerConceptIds="165334,165335,1363,165367,160034,165368,165369,165370,165371" answerLabels="1 - Returned to care, 2 - Self transferred, 3 - Stopped/Refused, 4 - Migrated/Relocated, 5 - Died, 6 - Unable to be traced, 7 - Tracing attempts initiated but incomplete, 8 - No attempt to trace, 9 - Misclassified as missed appointment" class="long-value-select"/>
 															</div>
 															<div class="col-md-1">
 																<div class="text-nowrap">
+																	<br/>
 																	<a href="#" class="add  add-more-link" title="Add Follow Up">
 																		<i class="icon-plus-sign">
 																		</i>
@@ -295,15 +265,15 @@
 																</div>
 															</div>
 														</div>
+													</div>
 													</template>
-													<!-- <render n="1" />
+													<render n="1" />
 													<render n="2" />
 													<render n="3" />
 													<render n="4" />
 													<render n="5" />
 													<render n="6" />
-												</repeat> -->
-											</div>
+												</repeat>
 										</div>
 									</div>
 									<div class="card">
@@ -347,7 +317,7 @@
 												</div>
 											</div>
 											<div class="row">
-												<div class="col-md-6">
+												<div class="col-md-12">
 													<label>
 														Comment:
 													</label>
