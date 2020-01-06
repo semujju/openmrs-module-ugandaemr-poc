@@ -181,7 +181,6 @@
                     return true;
                 });
 
-
                 // Handle viral load
                 var disableViralLoadFields = function() {
 
@@ -241,7 +240,7 @@
                                 <a class="nav-link active" data-toggle="tab" href="#client-information">Visit/Client Information</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#hiv-information">eMTCT Status</a>
+                                <a class="nav-link" data-toggle="tab" href="#emtct-status">eMTCT Status</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#diagnosis-and-hiv-information">Diagnosis and HIV Information</a>
@@ -443,31 +442,37 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <obs conceptId="99351" style="radio" class="horizontal" answerLabels="Yes, No" labelText="Linked to ART?"/>
                                                 </div>
                                                 <div class="col-md-1">
-                                                <label>TFV</label>
+                                                    <label>Where</label>
                                                 </div>
-                                                <div class="col-md-2">
-                                                    <obs conceptId="99317" answerConceptIds="99315,99736" 
-                                                        answerLabels="TRR - Counselled tested and results given - Client tested for the first time in ANC this pregnacy  and she is HIV Positive,
-                                                                      TRR+ - Clients who tested HIV Positive on a re-test" 
-                                                        class="long-value-select" id="tfv-man" />
+                                                <div class="col-md-3">
+                                                    <obs conceptId="99081" />
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <label>Pre-ART No</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <obs conceptId="99431"/>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <label>Where</label>
-                                                <div class="col-md-2">
-                                                    <obs conceptId="99081"/>
+                                                <div class="col-md-1">
+                                                <label>TFV</label>
                                                 </div>
-                                                <label>Pre-ART No</label>
-                                                <div class="col-md-2">
-                                                    <obs conceptId="99431"/>
-                                                </div>
-                                                <label>ART No</label>
                                                 <div class="col-md-3">
-                                                    <obs conceptId="99431"/>
+                                                    <obs conceptId="99317" answerConceptIds="99315,99736" 
+                                                        answerLabels="TRR - Counselled tested and results given - Client tested for the first time in ANC this pregnacy  and she is HIV Positive,
+                                                                      TRR+ - Clients who tested HIV Positive on a re-test" 
+                                                        class="long-value-select" id="tfv-man" labelText=""/>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <label>ART No</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <obs conceptId="99431" />
                                                 </div>
                                             </div>
                                         </div>
@@ -500,6 +505,7 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label>Date Viral Load Taken</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                     <obs id="date-viral-load-taken" conceptId="163023" allowFutureDates="false"/>
                                                 </div>
                                                 <div class="col-md-4">
