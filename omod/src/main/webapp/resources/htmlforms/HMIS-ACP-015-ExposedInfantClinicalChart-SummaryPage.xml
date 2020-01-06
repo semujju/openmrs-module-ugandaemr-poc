@@ -1,4 +1,4 @@
-<htmlform formName="HMIS ACP - Exposed Infant Card Summary Form"
+<htmlform formName="HMIS ACP 015 Exposed Infant Card Summary Form"
           formDescription="Captures demographic details for infants born to HIV positive mothers"
           formEncounterType="9fcfcc91-ad60-4d84-9710-11cc25258719"
           formUuid="860c5f2f-cf3c-4c3f-b0c4-9958b6a5a938"
@@ -292,7 +292,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-6">
-                <h1>HMIS ACP 015 - Exposed Infant Clinical Chart - Summary Form</h1>
+                <h1>HMIS ACP 015 Exposed Infant Clinical Chart - Summary Form</h1>
             </div>
             <span class="hidden">
                 <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117"
@@ -322,7 +322,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#follow-up-information">
-                                    Link to Care/Treatment Follow-up
+                                    Link to Care/Treatment and Follow-up
                                 </a>
                             </li>
                         </ul>
@@ -346,6 +346,7 @@
                                                 </div>
                                                 <div class="col-md-3 html-form-entry-disabled-field">
                                                     <label>Date Chart Opened</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 36%;"></i>
                                                     <encounterDate default="today" id="encounterDate"
                                                                    disallowMultipleEncountersOnDate="block"/>
                                                 </div>
@@ -368,10 +369,12 @@
                                                     <lookup expression="fn.patientAgeInMonths()"
                                                             class="patientAgeInMonths"/>
                                                     <label>Date of NVP Start</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                     <obs conceptId="99771" id="nvp-date"/>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>Date of CTX Start</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                     <obs conceptId="99773" id="ctx-date"/>
                                                 </div>
                                                 <span class="container-padding"></span>
@@ -395,7 +398,7 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-3">
-                                                    <label>Mother`s Name</label>
+                                                    <label>Mother's Name</label>
                                                     <obs conceptId="99776"/>
                                                 </div>
                                                 <div class="col-md-3">
@@ -472,7 +475,7 @@
                                     </div>
                                     <div class="card">
                                         <div class="card-header">
-                                            Mother`s History
+                                            Mother's History
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
@@ -571,13 +574,13 @@
                                 <section>
                                     <div class="card">
                                         <div class="card-header">
-                                            Testing Information
+                                            1st PCR
                                         </div>
                                         <div class="card-body">
-                                            <h4>1st PCR</h4>
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Test Date</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                     <obs conceptId="99606" id="first-pcr-date"></obs>
                                                 </div>
                                                 <div class="col-md-3">
@@ -591,14 +594,21 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>Date Results given to caregiver</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                     <obs conceptId="99438" id="first-pcr-results-date"></obs>
                                                 </div>
                                             </div>
-
-                                            <h4>PCR at 9mths</h4>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            PCR at 9mths
+                                        </div>
+                                        <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Test Date</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                     <obs conceptId="99436" id="second-pcr-date"></obs>
                                                 </div>
                                                 <div class="col-md-3">
@@ -612,14 +622,21 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>Date Results given to caregiver</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                     <obs conceptId="99442" id="second-pcr-results-date"></obs>
                                                 </div>
                                             </div>
-
-                                            <h4>PCR at 6wks after stoping breast-feeding</h4>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            PCR at 6wks after stoping breast-feeding
+                                        </div>
+                                        <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Test Date</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                     <obs conceptId="165405" id="third-pcr-date"></obs>
                                                 </div>
                                                 <div class="col-md-3">
@@ -633,14 +650,21 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>Date Results given to caregiver</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                     <obs conceptId="165408" id="third-pcr-results-date"></obs>
                                                 </div>
                                             </div>
-
-                                            <h4>Repeat PCR (if necessary)</h4>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Repeat PCR (if necessary)
+                                        </div>
+                                        <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Test Date</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                     <obs conceptId="162876" id="repeat-pcr-date"/>
                                                 </div>
                                                 <div class="col-md-3">
@@ -654,14 +678,21 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>Date Results given to caregiver</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                     <obs conceptId="162882" id="repeat-pcr-results-date"/>
                                                 </div>
                                             </div>
-
-                                            <h4>18 Month Rapid Test</h4>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            18 Month Rapid Test
+                                        </div>
+                                        <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Test Date</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                     <obs conceptId="162879" id="rapid-pcr-date"/>
                                                 </div>
                                                 <div class="col-md-3">
@@ -675,12 +706,19 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>Date Results given to caregiver</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                     <obs conceptId="162883" id="rapid-pcr-results-date"/>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Final HIV Status
+                                        </div>
+                                        <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-3">
-                                                    <label>Final HIV Status</label>
                                                     <obs id="final-hiv-status" conceptId="99797" answerConceptIds="664,703"
                                                          answerLabels="Negative,Positive" style="radio" class="horizontal"/>
                                                 </div>
@@ -706,8 +744,9 @@
                                                          answerConceptIds="1065,1066" style="radio" class="horizontal"/>
                                                 </div>
                                                 <div class="col-md-1"></div>
-                                                <label>Date</label>
+                                                <label>Date Referred to ART Clinic</label>
                                                 <div class="col-md-3">
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 25%;"></i>
                                                     <obs id="link-to-care-date" conceptId="162981"/>
                                                 </div>
                                             </div>
@@ -720,8 +759,9 @@
                                                          answerConceptIds="1065,1066" style="radio" class="horizontal"/>
                                                 </div>
                                                 <div class="col-md-1"></div>
-                                                <label>Date</label>
+                                                <label>Date Enrolled at ART Clinic</label>
                                                 <div class="col-md-3">
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 25%;"></i>
                                                     <obs id="date-enrolled-art-clinic" conceptId="162980"/>
                                                 </div>
                                             </div>
@@ -742,15 +782,16 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <h4>Follow Up Information</h4>
                                     <div class="card">
                                         <div class="card-header">
-                                            Follow Up Information
+                                            First Attempt
                                         </div>
                                         <div class="card-body">
-                                            <h4>First Attempt</h4>
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Date</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                     <obs conceptId="162967"/>
                                                 </div>
                                                 <div class="col-md-3">
@@ -762,10 +803,17 @@
                                                     <obs conceptId="162969"/>
                                                 </div>
                                             </div>
-                                            <h4>Second Attempt</h4>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Second Attempt
+                                        </div>
+                                        <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Date</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                     <obs conceptId="162971"/>
                                                 </div>
                                                 <div class="col-md-3">
@@ -777,10 +825,17 @@
                                                     <obs conceptId="162973"/>
                                                 </div>
                                             </div>
-                                            <h4>Third Attempt</h4>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Third Attempt
+                                        </div>
+                                        <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Date</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                     <obs conceptId="162975"/>
                                                 </div>
                                                 <div class="col-md-3">
@@ -792,7 +847,13 @@
                                                     <obs conceptId="162977"/>
                                                 </div>
                                             </div>
-                                            <h4>Final Outcome</h4>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Final Outcome
+                                        </div>
+                                        <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Final Outcome</label>
@@ -811,12 +872,14 @@
                                                 </div>
                                                 <div class="col-md-2">
                                                 <label>Transfer out Date</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                     <obs id="transfer-date" conceptId="99165" class="horizontal"/>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Final Outcome Date</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                     <obs conceptId="162979"/>
                                                 </div>
                                             </div>
@@ -829,7 +892,6 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <label>Comment</label>
                                                     <obs conceptId="160632" style="textarea"/>
                                                 </div>
                                             </div>
