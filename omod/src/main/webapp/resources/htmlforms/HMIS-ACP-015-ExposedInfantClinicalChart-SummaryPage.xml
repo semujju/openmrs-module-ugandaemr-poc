@@ -202,49 +202,64 @@
                 /* add the validator on the beforeSubmit */
                 beforeSubmit.push(function () {
 
-                    var pcrDateValidationErrors = [];
+                    var dateValidationErrors = [];
 
                     /* Repeat PCR can be done after the first PCR results */
                     if (getValue('first-pcr-results.value') == 703) {
-                        pcrDateValidationErrors.push(dateValidator("repeat-pcr-date", "first-pcr-date", "", "The repeat PCR date must be after the date of the 1st PCR", "", "less_than", true));
+                        dateValidationErrors.push(dateValidator("repeat-pcr-date", "first-pcr-date", "", "The repeat PCR date must be after the date of the 1st PCR", "", "less_than", true));
                     }
 
                     /* Validate the 2nd PCR date if the 1st PCR date is provided */
                     if (getValue('first-pcr-date.value') != '') {
-                        pcrDateValidationErrors.push(dateValidator("second-pcr-date", "first-pcr-date", "", "The date of the second PCR must be after the date of the 1st PCR", "", "less_than", true));
+                        dateValidationErrors.push(dateValidator("second-pcr-date", "first-pcr-date", "", "The date of the second PCR must be after the date of the 1st PCR", "", "less_than", true));
                     }
 
                     /* Repeat PCR can be done after the 2nd PCR results */
                     if (getValue('second-pcr-results.value') == 703) {
-                        pcrDateValidationErrors.push(dateValidator("repeat-pcr-date", "second-pcr-date", "", "The repeat PCR date must be after the date of the 2nd PCR", "", "less_than", true));
+                        dateValidationErrors.push(dateValidator("repeat-pcr-date", "second-pcr-date", "", "The repeat PCR date must be after the date of the 2nd PCR", "", "less_than", true));
                     }
 
                     /* Validate the Rapid Test date if the 2nd PCR date is provided */
                     if (getValue('second-pcr-date.value') != '') {
-                        pcrDateValidationErrors.push(dateValidator("rapid-test-date", "second-pcr-date", "", "The rapid test date must be after the date of the 2nd PCR", "", "less_than", true));
+                        dateValidationErrors.push(dateValidator("rapid-pcr-date", "second-pcr-date", "", "The rapid test date must be after the date of the 2nd PCR", "", "less_than", true));
                     }
 
                     /* Repeat PCR can be done after the 3rd PCR results */
                     if (getValue('third-pcr-results.value') == 703) {
-                        pcrDateValidationErrors.push(dateValidator("repeat-pcr-date", "third-pcr-date", "", "The repeat PCR date must be after the date of the 3rd PCR", "", "less_than", true));
+                        dateValidationErrors.push(dateValidator("repeat-pcr-date", "third-pcr-date", "", "The repeat PCR date must be after the date of the 3rd PCR", "", "less_than", true));
                     }
 
                     /* Validate the 3rd PCR date if the 1st PCR date is provided */
                     if (getValue('first-pcr-date.value') != '') {
-                        pcrDateValidationErrors.push(dateValidator("third-pcr-date", "first-pcr-date", "", "The date of the third PCR must be after the date of the 1st PCR", "", "less_than", true));
+                        dateValidationErrors.push(dateValidator("third-pcr-date", "first-pcr-date", "", "The date of the third PCR must be after the date of the 1st PCR", "", "less_than", true));
                     }
 
                     /* Validate the 3rd PCR date if the 2nd PCR date is provided */
                     if (getValue('second-pcr-date.value') != '') {
-                        pcrDateValidationErrors.push(dateValidator("third-pcr-date", "second-pcr-date", "", "The date of the third PCR must be after the date of the 2nd PCR", "", "less_than", true));
+                        dateValidationErrors.push(dateValidator("third-pcr-date", "second-pcr-date", "", "The date of the third PCR must be after the date of the 2nd PCR", "", "less_than", true));
                     }
 
                     /* Validate the Rapid Test date if the 3rd PCR date is provided */
                     if (getValue('third-pcr-date.value') != '') {
-                        pcrDateValidationErrors.push(dateValidator("rapid-test-date", "third-pcr-date", "", "The rapid test date must be after the date of the 3rd PCR", "", "less_than", true));
+                        dateValidationErrors.push(dateValidator("rapid-pcr-date", "third-pcr-date", "", "The rapid test date must be after the date of the 3rd PCR", "", "less_than", true));
                     }
 
-                    if (pcrDateValidationErrors.indexOf(false) != -1) {
+                    /* Validate the 2nd follow up attempt date if the 1st follow up attempt date is provided */
+                    if (getValue('first-followup-date.value') != '') {
+                        dateValidationErrors.push(dateValidator("second-followup-date", "first-followup-date", "", "The date of the Second follow up must be after the date of the first follow up", "", "less_than", true));
+                    }
+
+                    /* Validate the 3rd follow up attempt date if the 2nd follow up attempt date is provided */
+                    if (getValue('second-followup-date.value') != '') {
+                        dateValidationErrors.push(dateValidator("third-followup-date", "second-followup-date", "", "The date of the third follow up must be after the date of the second follow up", "", "less_than", true));
+                    }
+
+                    /* Validate the 3rd follow up attempt date if the 1st follow up attempt date is provided */
+                    if (getValue('first-followup-date.value') != '') {
+                        dateValidationErrors.push(dateValidator("third-followup-date", "first-followup-date", "", "The date of the third follow up must be after the date of the first follow up", "", "less_than", true));
+                    }
+                    
+                    if (dateValidationErrors.indexOf(false) != -1) {
                         jq().toastmessage('showErrorToast', "There are errors during the validation of the data on the form. Please correct them and submit again");
                         return false;
                     } 
@@ -377,16 +392,13 @@
                                                     <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                     <obs conceptId="99773" id="ctx-date"/>
                                                 </div>
-                                                <span class="container-padding"></span>
-                                                <label>Birth Defect?</label>
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                                     <obs conceptId="165402" answerConceptIds="1065,1066"
-                                                         answerLabels="Yes,No" style="radio" class="horizontal"/>
+                                                         answerLabels="Yes,No" style="radio" class="horizontal" labelText="Birth Defect ?"/>
                                                 </div>
-                                                <label>Neurotube Defect?</label>
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                                     <obs conceptId="165403" answerConceptIds="1065,90002"
-                                                         answerLabels="Yes,Others" style="radio" class="horizontal"/>
+                                                         answerLabels="Yes,Others" style="radio" class="horizontal" labelText="Neurotube Defect ?"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -789,18 +801,15 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-3">
-                                                    <label>Date</label>
-                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
-                                                    <obs conceptId="162967"/>
+                                                <div class="col-md-4">
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 15%; top: 25%;"></i>
+                                                    <obs conceptId="162967" id="first-followup-date" class="horizontal" labelText="Date"/>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <label>Method</label>
-                                                    <obs conceptId="162968"/>
+                                                <div class="col-md-4">
+                                                    <obs conceptId="162968" class="horizontal" labelText="Method"/>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <label>Outcome</label>
-                                                    <obs conceptId="162969"/>
+                                                <div class="col-md-4">
+                                                    <obs conceptId="162969" class="horizontal" labelText="Outcome"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -811,18 +820,15 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-3">
-                                                    <label>Date</label>
-                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
-                                                    <obs conceptId="162971"/>
+                                                <div class="col-md-4">
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 15%; top: 25%;"></i>
+                                                    <obs conceptId="162971" id="second-followup-date" class="horizontal" labelText="Date"/>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <label>Method</label>
-                                                    <obs conceptId="162972"/>
+                                                <div class="col-md-4">
+                                                    <obs conceptId="162972" class="horizontal" labelText="Method"/>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <label>Outcome</label>
-                                                    <obs conceptId="162973"/>
+                                                <div class="col-md-4">
+                                                    <obs conceptId="162973" class="horizontal" labelText="Outcome"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -833,18 +839,15 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-3">
-                                                    <label>Date</label>
-                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
-                                                    <obs conceptId="162975"/>
+                                                <div class="col-md-4">
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 15%; top: 25%;"></i>
+                                                    <obs conceptId="162975" id="third-followup-date" class="horizontal" labelText="Date"/>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <label>Method</label>
-                                                    <obs conceptId="162976"/>
+                                                <div class="col-md-4">
+                                                    <obs conceptId="162976" class="horizontal" labelText="Method"/>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <label>Outcome</label>
-                                                    <obs conceptId="162977"/>
+                                                <div class="col-md-4">
+                                                    <obs conceptId="162977" class="horizontal" labelText="Outcome"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -855,32 +858,28 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-3">
-                                                    <label>Final Outcome</label>
+                                                <div class="col-md-4">
                                                     <obs id="final-outcome" conceptId="99428"
                                                          answerConceptIds="99427,99430,5240,90306,165420,165421,162873"
-                                                         answerLabels="Discharged Negative,Initiated on ART Clinic,Lost to followup,Transferred,Died Negative,Died Positive,Mother in Care">
-                                                    </obs>
+                                                         answerLabels="Discharged Negative,Initiated on ART Clinic,Lost to followup,Transferred,Died Negative,Died Positive,Mother in Care"
+                                                         class="horizontal" labelText="Final Outcome" />
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <label>ART No.</label>
-                                                    <obs id="art-no" conceptId="162874"/>
+                                                    <obs id="art-no" conceptId="162874" class="horizontal" />
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <label>Location Transferred To</label>
-                                                    <obs id="transfer-facility" conceptId="90211"/>
-                                                </div>
-                                                <div class="col-md-2">
-                                                <label>Transfer out Date</label>
-                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
-                                                    <obs id="transfer-date" conceptId="99165" class="horizontal"/>
+                                                <div class="col-md-4">
+                                                    <obs id="transfer-facility" conceptId="90211" class="horizontal" labelText="Location Transferred To" />
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-3">
-                                                    <label>Final Outcome Date</label>
+                                                <div class="col-md-4">
                                                     <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
-                                                    <obs conceptId="162979"/>
+                                                    <obs id="transfer-date" conceptId="99165" class="horizontal" labelText="Transfer out Date" />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
+                                                    <obs conceptId="162979" class="horizontal" labelText="Final Outcome Date" />
                                                 </div>
                                             </div>
                                         </div>
