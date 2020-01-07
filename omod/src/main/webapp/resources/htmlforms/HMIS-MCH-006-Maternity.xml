@@ -124,7 +124,7 @@
 					<div class="card-header">
 						<ul class="nav nav-tabs card-header-tabs">
 							<li class="nav-item">
-								<a class="nav-link active" data-toggle="tab" href="#admission-information-section">Admission Information</a>
+								<a class="nav-link active" data-toggle="tab" href="#admission-information-section">Admission and HIV Information</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" data-toggle="tab" href="#delivery-information-section">Delivery Information</a>
@@ -145,7 +145,7 @@
 									<div class="card-body">
 										<div class="row">
 											<div class="col-md-3 html-form-entry-disabled-field">
-												<label>Date of Admission:</label>
+												<label>Date of Admission</label>
 												<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
 												<span class="hidden">
 													<encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117" order="629d78e9-93e5-43b0-ad8a-48313fd99117" />
@@ -231,29 +231,23 @@
 												<obs id="90267" conceptId="90267" />
 											</div>
 										</div>
-
 									</div>
 								</div>
-							</div>
-
-							<div class="tab-pane" role="tabpanel" aria-leballebdy="nav-profile-tab" id="delivery-information-section">
 								<div class="card">
 									<div class="card-header">EMTCT And ART Codes</div>
 									<div class="card-body">
 										<div class="row">
 											<div class="col-md-6">
-												<label>eMTCT:</label>
+												<label>eMTCT-woman</label>
 												<obs conceptId="99317" required="false" answerConceptIds="99313,99734,99314,99315,99739,99741" answerLabels="C - Counseled but declined HIV testing,T - Counseled and tested but didn't recieve results
                                                         ,TR - Counseled tested and results given,TRR - Counseled tested and results given, TR+ -Clients who tested HIV negative on a retest in maternity,TRR+ - Client was originally negative but sero-converted at this test" style="dropdown" />
 											</div>
 											<div class="col-md-6">
 												<obs id="99881_{n}" conceptId="99317" answerConceptIds="164962,164963" style="radio" class="horizontal" />
 											</div>
-
 										</div>
 
 										<div class="row">
-
 											<div class="col-md-6">
 												<label>ART Code:</label>
 												<obs conceptId="99344" required="false" answerConceptIds="99745,99747,1175,1118" style="dropdown" />
@@ -262,10 +256,12 @@
 												<label>Results for Syphilis And Hepatitis B:</label>
 												<obs id="99881_{n}" conceptId="99881" answerConceptIds="90003,90002,90005,90004" answerLabels="Rx - Client reactive treatmeant given,+Ve - Client Positive no Treatment,NR - Results Given Client non-reactive,NT - Client not Tested for Syphilis/Hep B" style="dropdown" />
 											</div>
-
 										</div>
 									</div>
 								</div>
+							</div>
+
+							<div class="tab-pane" role="tabpanel" aria-leballebdy="nav-profile-tab" id="delivery-information-section">
 								<div class="card">
 									<div class="card-header">
                                              Delivery Details
