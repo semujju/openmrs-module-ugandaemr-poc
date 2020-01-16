@@ -13,152 +13,174 @@
             //determine muac color code for mother
             getMUACCodeFromMUACScoreByAge(age, "muac-score", "muac-code");
 
-        //Disable encounter date field.
-        var disableEncounterDate = function() {
-            $encounterDateField = jq('span#encounterDate').find('input[type="text"]');
-            $encounterDateField.addClass('disabled')
-            $encounterDateField.attr('disabled', 'disabled')
-        }
+            //Disable encounter date field.
+            var disableEncounterDate = function() {
+                $encounterDateField = jq('span#encounterDate').find('input[type="text"]');
+                $encounterDateField.addClass('disabled')
+                $encounterDateField.attr('disabled', 'disabled')
+            }
 
-        //Disable Malalaria test results when the form loads
-        disable_fields(164434)
+            //Block Multiple encounter entry on same date
+            blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
 
-        // Disable TB Test results when the form loads
-        disable_fields(165291)
-        disableContainer("#" + 165291)
+            //Disable Malalaria test results when the form loads
+            disable_fields("164434")
 
-        //Disable Unit TB Number and Lab TB results
-        disable_fields(164955)
+            //Disable Malalaria test done field when the form loads
+            disable_fields("164433")
 
-        //Disable disability prescription tools
-        disableContainer("." + 164945)
-        disableContainer("." + 164204)
-       
-        //Disable encounter date field
-        disableEncounterDate()
+            //Disable TB Test results when the form loads 
+            disable_fields("165291")
 
-        //Disable linked to TB clinic option
-        disableContainer("#" + 164435)
+            //Disable location of TB referral
+            disable_fields("90211")
 
-        //Disable screened for HIV option
-        disableContainer("#" + 99550)
+            //Disable Unit TB Number and Lab TB results
+            disable_fields("164955")
 
-        // Disable patient sent to lab
-        disableContainer("#" + 165178)
+            //Disable disability prescription tools
+            disable_fields("164945")
+            disable_fields("164204")
+           
+            //Disable encounter date field
+            disableEncounterDate()
 
-        jq("#99030").find("select").attr("style", "pointer-events: none;");
-        
-        
-       var age      =  <lookup complexExpression="$patient.age"/>;
-        getMUACCodeFromMUACScoreByAge(age)
+            //Disable linked to TB clinic option
+            disable_fields("164435")
 
-    <ifMode mode="EDIT">
+            //Disable screened for HIV option
+            disable_fields("99550")
 
-        // In edit mode, enable the malaria test results if a test was done.
-        jq('#164433').find("input[type='radio']").each(function(){
+            //Disable patient sent to lab
+            disable_fields("165178")
+
+        <ifMode mode="EDIT">
+
+            // In edit mode, enable the malaria test results if a test was done.
+            jq('#164433').find("input[type='radio']").each(function(){
+                if(this.checked &amp;&amp; this.value !=='1118' ){
+                    enable_fields("164434")
+                }
+            })
+
+            // In edit mode, enable patient sent to the lab if a new presumed case option YES was initially checked.
+            // Also enable screened for  HIV
+            jq('#99498').change(function(){
+                if(this.checked &amp;&amp; this.value === 1066){
+                    enable_fields("165178")
+                    enable_fields("99550")
+                }
+            })
+
+            // In edit mode, enable lab TB results field if patient sent to lab option is a YES
+             jq('#165178').change(function(){
+                if(this.checked &amp;&amp; this.value === 90004){
+                    enable_fields("165291")
+                }
+            }4
+
+            // In edit mode, enable linked to TB clinic and Unit TB Number if lab TB results were initially positive
+            var labTBResultsValue = jq('#165291').find("select option:selected").val()
+            if(labTBResultsValue === "703"){
+                enable_fields("164435")
+                enable_fields("164955")
+            }
+            
+        </ifMode>
+
+        // Enable Malaria test results field when a malaria test is selected.
+        // Disable the malaria test results field if the selected option is Not done.
+
+        jq('#164433').find("input[type='radio']").change(function() {
             if(this.checked &amp;&amp; this.value !=='1118' ){
-                enable_fields(164434)
+                enable_fields("164434")
+            }
+            else{
+                disable_fields("164434")
+            }
+        })   
+
+        // Enable prescription disability tools
+
+        jq('#disability').find("input[type='radio']").change(function(){
+            if ($(this).is(':checked') &amp;&amp;  $(this).val() == '1065') {
+                enable_fields("164945")
+                enable_fields("164204")
+            }else{
+                disable_fields("164945")
+                disable_fields("164204")
+            }
+
+            // Uncheck all checked checkboxes if a user clicks No disability. 
+            // This is applicable if a user had initially selected yes to disability and checked some disability prescription tools.
+
+            if ($(this).is(':checked') &amp;&amp;  $(this).val() === '1066') {
+               jq('.164945').find("input[type='checkbox']").each(function(){
+                   if(this.checked){
+                       this.checked = false
+                   }
+               })
+               jq('.164204').find("input[type='checkbox']").each(function(){
+                   if(this.checked){
+                       this.checked = false
+                   }
+               })
             }
         })
 
-        // In edit mode, enable patient sent to the lab if a new presumed case option YES was initially checked.
-        // Also enable screened for  HIV
-        jq('#99498').find("input[type='radio']").each(function(){
-            if(this.checked &amp;&amp; this.value ==='1066' ){
-                enableContainer("#" + 165178)
-                enableContainer("#" + 99550)
+        //Enable patient sent to lab and screened for HIV when a new presumed TB case is Yes
+        jq('#99498').find("input[type='radio']").change(function(){
+            if(this.checked &amp;&amp; this.value === '1066'){
+                enable_fields("165178")
+                enable_fields("99550")
+            }else{
+                disable_fields("165178")
+                disable_fields("99550")
             }
         })
 
-        // In edit mode, enable lab TB results field if patient sent to lab option is a YES
-         jq('#165178').find("input[type='radio']").each(function(){
-            if(this.checked &amp;&amp; this.value ==='90004' ){
-                enable_fields(165291)
+        //Enable Lab TB results when patient sent to the lab is YES
+        jq('#165178').change(function(){
+            if(jq(this).find("input[type='radio']:checked").val()  == 90003){
+                enable_fields("165291")
+            }else{
+                disable_fields("165291")
             }
         })
 
-        // In edit mode, enable linked to TB clinic and Unit TB Number if lab TB results were initially positive
-        var labTBResultsValue = jq('#165291').find("select option:selected").val()
-        if(labTBResultsValue === "703"){
-            enableContainer("#" + 164435)
-            enable_fields(164955)
-        }
-        
-    </ifMode>
+        //Enable linked to TB clinic and unit TB Number when the TB Results are positive
+        jq('#165291').change(function(){
+            if(jq(this).find("input[type='radio']:checked").val() == 703) {
+                enable_fields("164435")
+            }else{
+                disable_fields("164435")
+            }
 
-    // Enable Malaria test results field when a malaria test is selected.
-    // Disable the malaria test results field if the selected option is Not done.
+        })
 
-    jq('#164433').find("input[type='radio']").change(function() {
-        if(this.checked &amp;&amp; this.value !=='1118' ){
-            enable_fields(164434)
-        }
-        else{
-            disable_fields(164434)
-        }
-    })   
+        //Enable TB clinic location  and unit TB Number if client is linked to TB clinic
+        jq('#164435').change(function(){
+            if(jq(this).find("input[type='radio']:checked").val() == 1065) {
+                enable_fields("90211")
+                enable_fields("164955")
+            }else{
+                disable_fields("90211")
+                disable_fields("164955")
+            }
 
-    // Enable prescription disability tools
+        })
 
-    jq('#disability').find("input[type='radio']").change(function(){
-        if ($(this).is(':checked') &amp;&amp;  $(this).val() == '1065') {
-            enableContainer("." + 164945)
-            enableContainer("." + 164204)
-        }else{
-            disableContainer("." + 164945)
-            disableContainer("." + 164204)
-        }
+        //if client has fever enable test done field
 
-        // Uncheck all checked checkboxes if a user clicks No disability. 
-        // This is applicable if a user had initially selected yes to disability and checked some disability prescription tools.
-
-        if ($(this).is(':checked') &amp;&amp;  $(this).val() === '1066') {
-           jq('.164945').find("input[type='checkbox']").each(function(){
-               if(this.checked){
-                   this.checked = false
-               }
-           })
-           jq('.164204').find("input[type='checkbox']").each(function(){
-               if(this.checked){
-                   this.checked = false
-               }
-           })
-        }
-    })
-
-    //Enable patient sent to lab and screened for HIV when a new presumed TB case is Yes
-    jq('#99498').find("input[type='radio']").change(function(){
-        if(this.checked &amp;&amp; this.value === '1066'){
-            enableContainer("#" + 165178)
-            enableContainer("#" + 99550)
-        }else{
-            disableContainer("#" + 165178)
-            disableContainer("#" + 99550)
-        }
-    })
-
-    //Enable Lab TB results when patient sent to the lab is YES
-    jq('#165178').find("input[type='radio']").change(function(){
-        if(this.checked &amp;&amp; this.value === '90004'){
-            enableContainer("#" + 165291)
-        }else{
-            disableContainer("#" + 165291)
-        }
-    })
-
-    //Enable linked to TB clinic and unit TB Number when the TB Results are positive
-    jq('#165291').find("select").change(function(){
-        const selectedOption = $(this).children("option:selected").val()
-        if(selectedOption === '703'){
-            enableContainer("#164435")
-            enableContainer("#164955")
-        }else{
-            disableContainer("#164435")
-            disableContainer("#164955")
-        }
-
-    })
-
+         jq("#140238").change(function () {
+            if(jq(this).find("input[type='radio']:checked").val() == 1065) {
+                enable_fields("164433");
+                enable_fields("164434");
+            } else {
+                disable_fields("164433");
+                disable_fields("164434");
+            }
+        });
     });
     }
 
@@ -172,20 +194,6 @@
                 <submit class="confirm" submitLabel="Save" submitStyle="customSubmit" />
             </div>
         </div>
-
-        <!-- <div class="row">
-            <div class="col-md-12">
-                <nav>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" id="nav-demographics-tab" data-toggle="tab" href="#nav-demographics" role="tab" aria-controls="nav-demographics">Encounter, Vitals and Follow-up Information</a>
-                        <a class="nav-item nav-link" id="nav-tests-tab" data-toggle="tab" href="#nav-tests" role="tab" aria-controls="nav-tests">Investigations</a>
-                        <a class="nav-item nav-link" id="nav-diagnosis-tab" data-toggle="tab" href="#nav-diagnosis" role="tab" aria-controls="nav-diagnosis">Diagnosis</a>
-                        <a class="nav-item nav-link" id="nav-prescription-tab" data-toggle="tab" href="#nav-prescription" role="tab" aria-controls="nav-prescription">Prescription</a>
-                        <a class="nav-item nav-link" id="nav-referalls-tab" data-toggle="tab" href="#nav-referalls" role="tab" aria-controls="nav-referalls">Referrals</a>
-                    </div>
-                </nav>
-            </div>
-        </div> -->
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -219,12 +227,12 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-4">
-                                            <label>Encounter Date:</label>
+                                        <div class="col-md-4 html-form-entry-disabled-field">
+                                            <label>Encounter Date</label>
                                             <encounterDate disallowMultipleEncountersOnDate="block" class="long-value-select"/>
                                         </div>
                                         <div class="col-md-4">
-                                            <label> Service provider:</label>
+                                            <label> Service provider</label>
                                             <encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" required="required"/>
                                         </div>
                                     </div>
@@ -290,72 +298,36 @@
                                                      answerLabels="&#60;-3,-3_&#60;-1,-1_1,&#62;1_3,&#62;3"/>
                                             </div>
                                         </excludeIf>
+                                     </div>
+                                    <div class="row">
                                         <div class="col-md-3">
                                             <obs conceptId="5089" labelText="Weight(kg)" id="5089"/>
                                         </div>
                                         <div class="col-md-3">
                                             <obs conceptId="5090" labelText="Height(cm)" id="5090"/>
                                         </div>
-                                    </div>  
-                                    <!-- <div class="row">
-                                        <div class="col-md-3">
-                                            <label>MUAC Score</label>
-                                            <obs conceptId="CIEL:1343" id="muac-score" />
-                                        </div>
-                                        <div class="col-md-3">
-                                            <span class="muac">
-                                                <includeIf velocityTest="$patient.age &lt; 5">
-                                                    <label>MUAC Code</label>
-                                                    <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 11.5cm, Yellow 11.5cm - &lt;12.5cm,Green &gt;= 12.5cm"/>
-                                                </includeIf>
-                                                <includeIf velocityTest="$patient.age &lt; 10 &amp;&amp; $patient.age &gt;=5">
-                                                    <label>MUAC</label>
-                                                    <obs id= "muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 13.5cm,Yellow 13.5cm - &lt;14.5cm,Green &gt;=14.5cm" />
-                                                </includeIf>
-                                                <includeIf velocityTest="$patient.age &lt; 18 &amp;&amp; $patient.age &gt;=10">
-                                                    <label>MUAC</label>
-                                                    <obs id= "muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 16.5cm, Yellow 16.5cm - &lt;19.0cm,Green &gt;=19.0cm" />
-                                                </includeIf>
-
-                                                <includeIf velocityTest="$patient.age &gt;=18">
-                                                    <label>MUAC</label>
-                                                    <obs id= "muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt;19.0cm , Yellow 19.0cm - &lt;22.0cm,Green &gt;=22.0cm" />
-                                                </includeIf>
-                                            </span>
-                                        </div>
-                                        <excludeIf velocityTest="$patient.age &gt; 11">
-                                        <div class="col-md-3">
-                                            <label>Z-Scores</label>
-                                            <obs conceptId="99800" answerConceptIds="99803,99804,99805,99806,99807" answerLabels="&#60;-3,-3_&#60;-1,-1_1,&#62;1_3,&#62;3"/>
-                                        </div>
-                                        </excludeIf>
-                                        
-                                    </div> -->
-                                    <div class="row">
                                         <div class="col-md-3">
                                             <obs conceptId="1854" answerConceptIds="1115,114413,123814,1067,134722,126598,134723,123815" answerLabels="Normal,Overweight,Underweight,unknown,Malnutrition of moderate degree (Gomez: 60% to Less than 75% of Standard Weight),Severe protein-calorie malnutrition (Gomez: Less than 60% of Standard Weight),Malnutrition of mild degree (Gomez: 75% to Less than 90% of Standard Weight),Undernourished" style="dropdown" labelText="Weight for Age Z-score" class="long-value-select"/>
                                         </div>
                                         <div class="col-md-3">
                                             <obs conceptId="164088" labelText="Height for Age Z-score"/>
                                         </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col-md-3">
                                             <obs conceptId="1342" labelText="BMI Score" id="1342"/>
                                         </div>
                                         <div class="col-md-3">
                                             <obs conceptId="1342" labelText="Measure"/>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <label>Blood Pressure</label>
                                             <div class="row">
-                                                <div class="col-md-6">
-                                                    <obs conceptId="5085" id="bp_systolic" />
-                                                    <p class="left" >
-                                                        /
-                                                    </p>
-                                                    <obs conceptId="5086" id="bp_diastolic" />
-                                                </div>
+                                                <obs conceptId="5085" id="bp_systolic" />
+                                                <p class="left" >
+                                                    /
+                                                </p>
+                                                <obs conceptId="5086" id="bp_diastolic" />
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -385,26 +357,22 @@
                         <div class="tab-pane fade" id="nav-tests" role="tabpanel" aria-labelledby="nav-tests-tab">
                             <div class="card">
                                 <div class="card-header"> 
-                                                Malaria Test
+                                    Malaria Test
                                 </div>
                                 <div class="card-body">
-                                    
                                     <div class="row">
                                         <div class="col-md-1">
                                             <label> Fever?</label>
                                         </div>
                                         <div class="col-md-2">
-                                            <obs conceptId="140238" style="radio" answerLabels="Yes,No,Unknown" class="horizontal"/>
+                                            <obs id="140238" conceptId="140238" answerConceptIds="1065,1066" answerLabels="Yes,No" style="radio" class="horizontal" />
                                         </div>
-                                        <div class="col-md-1"></div>
                                         <div class="col-md-1">
                                             <label>Test done</label>
                                         </div>
-                                        <div class="col-md-5">
-                                            <obs conceptId="164433" id="164433" answerLabels="Rapid Diagnostic Test, Malaria Smear, B/S Microscopy, Not Done, " answerConceptIds="1643,32,165360,1118 " style="radio" class="horizontal" />
+                                        <div class="col-md-3">
+                                            <obs conceptId="164433" id="164433" answerLabels="Rapid Diagnostic Test, Malaria Smear, B/S Microscopy, Not Done, " answerConceptIds="1643,32,165360,1118" />
                                         </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col-md-1">
                                             <label>Result</label>
                                         </div>
@@ -414,32 +382,30 @@
                                     </div>
                                 </div>
                             </div>
-
-
                             <div class="card">
                                 <div class="card-header">
                                     TB Test
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <obs conceptId="99498"  id="99498" answerLabels="Yes,No" labelText="Presumed TB case ?" style="radio" class="horizontal col-md-3"/>
-                                        <obs conceptId="99550"  id="99550" answerLabels="Yes,No" labelText="Screened for HIV ?" style="radio" class="horizontal col-md-3"/>
-                                        <obs conceptId="99550"  id="99550" answerLabels="Yes,No" labelText="Eligible for HIV Testing ?" style="radio" class="horizontal col-md-3"/>
+                                        <obs conceptId="99498"  id="99498" answerLabels="Yes,No" labelText="Presumed TB case ?" style="radio" class="horizontal col-md-4"/>
+                                        <obs conceptId="99550"  id="99550" answerLabels="Yes,No" labelText="Screened for HIV ?" style="radio" class="horizontal col-md-4"/>
+                                        <obs conceptId="99550"  id="99550" answerLabels="Yes,No" labelText="Eligible for HIV Testing ?" style="radio" class="horizontal col-md-4"/>
                                     </div>
                                     <div class="row">
-                                        <obs conceptId="165178" id="165178"  answerLabels="Yes,No" labelText="Patient sent to lab ?" style="radio" class="horizontal col-md-3"/>
-                                        <obs conceptId="165291" id="165291" answerConceptIds="703,664,1175" answerLabels="Pos,Neg,NA" labelText="Lab TB Results" style="radio" class="horizontal col-md-3"/>
-                                        <obs conceptId="164435" id="164435" style="radio" answerLabels="Yes,No" labelText="Linked to TB Clinic?" class="horizontal col-md-3"/>
+                                        <obs conceptId="165178" id="165178"  answerConceptIds="90003,90004" answerLabels="Yes,No" labelText="Patient sent to lab ?" style="radio" class="horizontal col-md-4"/>
+                                        <obs conceptId="165291" id="165291" answerConceptIds="703,664,1175" answerLabels="Pos,Neg,NA" labelText="Lab TB Results" style="radio" class="horizontal col-md-4"/>
+                                        <obs conceptId="164435" id="164435" answerConceptIds="1065,1066" style="radio" answerLabels="Yes,No" labelText="Linked to TB Clinic ?" class="horizontal col-md-4"/>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-1">
                                             <label>Where</label>
                                         </div>
-                                        <obs conceptId="164955" id="164955" class="col-md-2"/>
-                                        <div class="col-md-2">
-                                            <label>Unit TB Number</label>
-                                        </div>
-                                        <obs conceptId="164955" id="164955" class="col-md-2"/>
+                                        <obs conceptId="90211" id="90211" class="col-md-3"/>
+                                        <label>Unit TB Number</label>
+                                        <obs conceptId="164955" id="164955" class="col-md-3"/>
+                                        <obs conceptId="99550"  id="9949778" answerLabels="New Attendance, Re-attandance" labelText="Attendance ?" style="radio" class="horizontal col-md-4"/>
+                                        <!-- missing concept -->
                                     </div>
                                 </div>
                             </div>
@@ -448,7 +414,7 @@
                         <div class="tab-pane fade" id="nav-diagnosis" role="tabpanel" aria-labelledby="nav-diagnosis-tab">
                             <div class="card">
                                 <div class="card-header"> 
-                                                Diagnosis
+                                    Diagnosis
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
@@ -463,7 +429,7 @@
                         <div class="tab-pane fade" id="nav-prescription" role="tabpanel" aria-labelledby="nav-prescription-tab">
                             <div class="card">
                                 <div class="card-header">
-                                            Prescription
+                                    Prescription
                                 </div>
                                 <div class="card-body">
                                     <table class="table table-borderless">
@@ -485,7 +451,6 @@
                                                     <obs conceptId="1732" class="long-value-select" labelText="Duration Units:"/>
                                                 </div>
                                             </div>
-
                                         </tr>
                                     </table>
                                 </div>
@@ -512,7 +477,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <!-- Referalls -->
                         <div class="tab-pane fade" id="nav-referalls" role="tabpanel" aria-labelledby="nav-referalls-tab">
                             <div class="card">
