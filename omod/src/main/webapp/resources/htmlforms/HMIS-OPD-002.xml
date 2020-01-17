@@ -52,8 +52,6 @@
                 //Disable Malalaria test done field when the form loads
                 disable_fields("164433")
 
-                //Disable TB Test results when the form loads 
-                disable_fields("165291")
 
                 //Disable location of TB referral
                 disable_fields("90211")
@@ -61,12 +59,16 @@
                 //Disable Unit TB Number and Lab TB results
                 disable_fields("164955")
 
+
                 //Disable disability prescription tools
                 disable_fields("164945")
                 disable_fields("164204")
                
                 //Disable encounter date field
                 disableEncounterDate()
+
+                //Disable TB Test results when the form loads 
+                disable_fields("165291")
 
                 //Disable linked to TB clinic option
                 disable_fields("164435")
@@ -119,7 +121,7 @@
 
                 //Enable patient sent to lab and screened for HIV when a new presumed TB case is Yes
                 jq('#99498').find("input[type='radio']").change(function(){
-                    if(this.checked &amp;&amp; this.value === '1066'){
+                    if(this.checked &amp;&amp; this.value == 1065){
                         enable_fields("165178")
                         enable_fields("99550")
                     }else{
@@ -201,7 +203,6 @@
 
                     return false;
                 });
-
         
                 <!-- only show BMI if patient is more than 5 years old (on the encounterDate) -->
                 <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) > 5">
@@ -255,8 +256,8 @@
                             jq('#calculated-bmi-continue').hide();
                             jq('#no-calculated-bmi').hide();
 
-                            var wt = getField('weight.value')
-                            var ht = getField('height.value')
+                            var wt = htmlForm.getValueIfLegal('weight.value')
+                            var ht = htmlForm.getValueIfLegal('height.value')
 
                             var bmi = calculateBmi(wt, ht);
 
@@ -271,46 +272,98 @@
 
                 <ifMode mode="EDIT">
 
-                    // In edit mode, enable the malaria test results if a test was done.
-                   <!--  jq('#164433').change(function() {
-                    if(jq(this).find("input[type='radio']:checked").val() !== 1118) {
-                            enable_fields("164434")
-                        }
-                    }) -->
+                    //enable patient sent to lab in edit mode
+                    enable_fields("165178")
 
-                    jq("#140238").change(function () {
-                        if(jq(this).find("input[type='radio']:checked").val() == 1065) {
+                    //enable TB Test results in edit mode
+                    enable_fields("165291")
+                    
+                    //enable linked to TB clinic in edit mode
+                    enable_fields("164435")
+
+                    //enable screened for HIV in edit mode
+                    enable_fields("99550")
+
+                    
+                    //disable/enable malaria test done and test results in edit mode
+                    jq('#140238').find("input[type='radio']").each(function(){
+                        if(this.checked &amp;&amp; this.value == 1065){
                             disable_fields("164433");
                             disable_fields("164434");
                         } else {
-                            enable_fields("164433");
-                            enaable_fields("164434");
-                        }
-                    });
-
-                    // In edit mode, enable patient sent to the lab if a new presumed case option YES was initially checked.
-                    // Also enable screened for  HIV
-                    jq('#99498').change(function() {
-                    if(jq(this).find("input[type='radio']:checked").val() == 1066) {
-                            enable_fields("165178")
-                            enable_fields("99550")
+                            enable_fields(164433)
+                            enable_fields(164434)
                         }
                     })
 
-                    // In edit mode, enable lab TB results field if patient sent to lab option is a YES
-                     jq('#165178').change(function() {
-                        if(jq(this).find("input[type='radio']:checked").val() == 90004) {
+                    //In edit mode, enable referred TB location and TB clinic number if presumptive TB option is checked
+                    jq('#99498').find("input[type='radio']").each(function() {
+                        if(this.checked &amp;&amp; this.value == 1065) {
+                            enable_fields("90211")
+                            enable_fields("164955")
+                        }
+                    })
+
+                    //In edit mode, if not presumptive TB is checked
+                    jq('#99498').change(function() {
+                    if(jq(this).find("input[type='radio']:checked").val() !== 1065) {
+
+                            //disable referred TB location and TB clinic number
+                            disable_fields("90211")
+                            disable_fields("164955")
+
+                            //disable linked to TB clinic and TB test results
+                            disable_fields("164435") 
+                            disable_fields("165291")
+
+                            //uncheck  patient sent to lab, TB test results and linked to TB clinic
+                            jq("#165178").find("input[type$='radio']").prop("checked", false);
+                            jq("#165291").find("input[type$='radio']").prop("checked", false);
+                            jq("#164435").find("input[type$='radio']").prop("checked", false);
+
+                            //clear TB clinic referred location and TB Clinic Number
+                            setValue("90211.value",  " ");
+                            setValue("164955.value", " ");
+
+                        } else {
+                            //enable referred TB location, TB clinic number, linked to TB clinic and TB test results
+                            enable_fields("90211")
+                            enable_fields("164955")
+                            enable_fields("164435")
                             enable_fields("165291")
                         }
                     })
 
-                    // In edit mode, enable linked to TB clinic and Unit TB Number if lab TB results were initially positive
-                    var labTBResultsValue = jq('#165291').find("select option:selected").val()
-                    if(labTBResultsValue === "703"){
-                        enable_fields("164435")
-                        enable_fields("164955")
-                    }
+                    //In edit mode, enable Lab TB results when patient sent to the lab is YES
+                    jq('#165178').change(function(){
+                        if(jq(this).find("input[type='radio']:checked").val() == 90003){
+                            enable_fields("165291")
+                        }else{
+                            disable_fields("165291")
+                        }
+                    })
 
+                    //In edit mode, enable linked to TB clinic and unit TB Number when the TB Results are positive
+                    jq('#165291').change(function(){
+                        if(jq(this).find("input[type='radio']:checked").val() == 703) {
+                            enable_fields("164435")
+                        }else{
+                            disable_fields("164435")
+                        }
+                    })
+
+                    //In edit mode, enable TB clinic location  and unit TB Number if client is linked to TB clinic
+                    jq('#164435').change(function(){
+                        if(jq(this).find("input[type='radio']:checked").val() == 1065) {
+                            enable_fields("90211")
+                            enable_fields("164955")
+                        }else{
+                            disable_fields("90211")
+                            disable_fields("164955")
+                        }
+                    })
+                    
+                    //In edit mode, recalculate BMI
                     var wt = htmlForm.getValueIfLegal('weight.value')
                     var ht = htmlForm.getValueIfLegal('height.value')
 
@@ -321,6 +374,7 @@
                         jq('#calculated-bmi').html(bmi.toFixed(1));
                         jq('#hidden-calculated-bmi').val(bmi.toFixed(1));
                     }
+
                 </ifMode>
             });
         }
@@ -536,9 +590,9 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <obs conceptId="99498"  id="99498" answerLabels="Yes,No" labelText="Presumed TB case ?" style="radio" class="horizontal col-md-4"/>
-                                            <obs conceptId="99550"  id="99550" answerLabels="Yes,No" labelText="Screened for HIV ?" style="radio" class="horizontal col-md-4"/>
-                                            <obs conceptId="99550"  id="99550" answerLabels="Yes,No" labelText="Eligible for HIV Testing ?" style="radio" class="horizontal col-md-4"/>
+                                            <obs conceptId="99498"  id="99498" answerConceptIds="1065,1066" answerLabels="Yes,No" labelText="Presumed TB case ?" style="radio" class="horizontal col-md-4"/>
+                                            <obs conceptId="99550"  id="995550" answerLabels="Yes,No" labelText="Screened for HIV ?" style="radio" class="horizontal col-md-4"/> <!-- Missing concept -->
+                                            <obs conceptId="99550"  id="995550" answerLabels="Yes,No" labelText="Eligible for HIV Testing ?" style="radio" class="horizontal col-md-4"/> <!-- Missing concept -->
                                         </div>
                                         <div class="row">
                                             <obs conceptId="165178" id="165178"  answerConceptIds="90003,90004" answerLabels="Yes,No" labelText="Patient sent to lab ?" style="radio" class="horizontal col-md-4"/>
