@@ -27,9 +27,17 @@
                 //Disable encounter date field
                 disableEncounterDate();
 
-                disable_fields("99431");   // partner pre art number
-                disable_fields("165385");  // stk/facility results
-                disable_fields("165422")    // tfv for partner 
+                disable_fields("99431");        // partner pre art number
+                disable_fields("165385");      // stk/facility results
+                disable_fields("165422")      // tfv for partner
+                disable_fields("90203");     // who clinical stage
+                disable_fields("5497");     //cd4 count
+                disable_fields("159376");  //cd4 date
+                disable_fields("163023"); //viral load date
+                disable_fields("1305");  // viral load results
+                disable_fields("856");  //viral load copies
+                <!-- disable_fields("other-facility-referred-from");
+                disable_fields("other-facility-referred-to"); -->
 
 
                 jq("#woman-emtct-code").change(function () {
@@ -410,15 +418,15 @@
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <label>WHO Clinical Stage</label>
-                                                    <obs conceptId="90203" answerConceptIds="90033, 90034, 90035, 90036, 90293, 90294, 90295, 90296" answerLabels="1,2,3,4,T1,T2,T3,T4"/>    
+                                                    <obs id="90203" conceptId="90203" answerConceptIds="90033, 90034, 90035, 90036, 90293, 90294, 90295, 90296" answerLabels="1,2,3,4,T1,T2,T3,T4"/>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label>CD4 Count</label>
-                                                    <obs conceptId="5497" />
+                                                    <obs id="5497" conceptId="5497" />
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label>CD4 Date</label>
-                                                    <obs conceptId="159376" allowFutureDates="false" />
+                                                    <obs id="159376" conceptId="159376" allowFutureDates="false" />
                                                 </div>
                                             </div>
                                         </div>
@@ -432,16 +440,16 @@
                                                 <div class="col-md-3">
                                                     <label>Date Viral Load Taken</label>
                                                     <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
-                                                    <obs id="date-viral-load-taken" conceptId="163023" allowFutureDates="false"/>
+                                                    <obs id="163023" conceptId="163023" allowFutureDates="false"/>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>Viral Load Results</label>
-                                                    <obs id="viral-load-results-qualitative" conceptId="1305" answerConceptIds="1301,1306,1304"
+                                                    <obs id="1305" conceptId="1305" answerConceptIds="1301,1306,1304"
                                                          answerLabels="Detected,Not Detected, Sample Rejected"/>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>Viral Load (copies/ml)</label>
-                                                    <obs id="viral-load-results-copies" conceptId="856"/>
+                                                    <obs id="856" conceptId="856"/>
                                                 </div>
                                                 <div class="col-md-3" id="viral-load-status-div">
                                                     <label>Viral Load Status</label>
