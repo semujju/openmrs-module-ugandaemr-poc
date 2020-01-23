@@ -31,60 +31,6 @@
                 disable_fields("165385");  // stk/facility results
                 disable_fields("165422")    // tfv for partner 
 
-                /* enable viral load copies field */
-                jq("#viral-load-results-qualitative").change(function () {
-                    var viral_load_status = getValue('this.value');
-
-                    console.log(viral_load_status);
-
-                    if (viral_load_status == "") {
-                        jq("#viral-load-status").hide();
-                    }
-
-                    if (viral_load_status == 1301) {
-                        /* Detected */
-                        <ifMode mode="ENTER">
-                            setValue('viral-load-results-copies.value', '');
-                        </ifMode>
-
-                        var viral_load_copies = getValue('viral-load-results-copies.value');
-
-                        if(viral_load_copies == 1) {
-
-                            jq("#viral-load-status").hide();
-                            setValue('viral-load-results-copies.value', '');
-                        }
-                    }
-                    if (viral_load_status == 1306) {
-                        /* Not Detected */
-                        jq("#viral-load-status").hide();
-                        setValue('viral-load-results-copies.value', 1);
-                    }
-                });
-
-                jq("#viral-load-results-copies").change(function () {
-                    previousVl = jq("#viral-load-results-copies").find("input").val();
-                    DSDMStabilityCheck();
-                });
-
-                // trigger a change when the form loads
-                   jq("#viral-load-results-qualitative").change();
-
-                /*determine viral load status*/
-                jq("#viral-load-results-copies").change(function () {
-                    jq("#viral-load-status").show();
-                    var vl_copies = getValue('viral-load-results-copies.value');
-                    if (vl_copies ==" " || vl_copies == 0) {
-                        jq("#viral-load-status").hide();
-                    }
-                    if (vl_copies &lt; 1000) {
-                        jq("#viral-load-status").html("Suppressed");
-                    } else if (vl_copies &gt;= 1000) {
-                        jq("#viral-load-status").html("Non-suppressed");
-                    } else {
-                        jq("#viral-load-status").hide();
-                    }
-                });
 
                 jq("#woman-emtct-code").change(function () {
                 if(jq(this).find("select").find(":selected").val() == "99314") {
@@ -159,73 +105,7 @@
 
                     return true
                 }
-
-
-                beforeSubmit.push(function () {
-                    <!-- clear the previous errors -->
-                    setValue('returndate.error', '');
-                    setValue('viral-load-results-copies.error', '');
-                    setValue('date-viral-load-taken.error', '');
-
-                    var encounterDate = new Date((getValue('encounterDate.value')));
-                    var returnDate = new Date((getValue('returndate.value')));
-
-                    if (encounterDate &gt;= returnDate) {
-                        getField('errors-field.error').html('The return date must be after the date of this visit ' +
-                        formatDateForDisplay(encounterDate)).show();
-                        return false;
-                    }
-
-                    <!-- Check that the return date is before the transfer out date only if there is a transfer out date -->
-                    if (jq('#transfer_out_date_id').html().replace(/\s+/, "").length > 0) {
-                        var transfer_out_date_id = new Date(jq('#transfer_out_date_id').html());
-                        if (returnDate &gt;= transfer_out_date_id) {
-                            getField('returndate.error').html('The return date must be before the transfer out date of ' +
-                            formatDateForDisplay(transfer_out_date_id)).show();
-                            return false;
-                        }
-                        return false;
-                    }
-
-                    var viral_load_qualitative = getValue('viral-load-results-qualitative.value');
-                    var date_viral_load_taken = getValue('date-viral-load-taken.value');
-                    /* The date that the viral load was taken is required if a qualitative result is selected */
-                    if (viral_load_qualitative != "") {
-                        if (date_viral_load_taken == "") {
-                            getField('date-viral-load-taken.error').html('Please enter the date when the viral load sample was taken').show();
-                            return false;
-                        }
-                    }
-
-                    /** The date the viral load was taken cannot be after the encounter date */
-                    if (date_viral_load_taken != "") {
-                        if (encounterDate &lt; date_viral_load_taken) {
-                            getField('date-viral-load-taken.error').html('The date the viral load sample was taken cannot be after the date of this visit ' + encounterDate).show();
-                            return false;
-                        }
-                    }
-
-                    /* If the viral load is detected, the number of copies must be greater than 20 which is the lowest detectable level for a machine */
-                    if ((viral_load_qualitative == 1301) &amp;&amp; (getValue('viral-load-results-copies.value') &lt; 20)) {
-                        getField('viral-load-results-copies.error').html('Please enter the number of virus copies per ml. the minimum number of copies is 20').show();
-                        return false;
-                    }
-
-                    return true;
-                });
-
-                // Handle viral load
-                var disableViralLoadFields = function() {
-
-                    jq('#viral-load').find('input[type="text"]').attr("disabled", "true");
-                    jq('#viral-load').find('input[type="text"]').addClass('disabled');
-
-                    jq('#viral-load-results').find('select').attr("disabled", "true");
-                    jq('#viral-load-results').find('select').addClass('disabled');
-                    
-                    jq('#viral-load-status').find('select').attr("disabled", "true");
-                    jq('#viral-load-status').find('select').addClass('disabled');
-                }          
+          
             });
         }
 
@@ -402,14 +282,17 @@
                                 <section>
                                     <div class="card">
                                         <div class="card-header">
-                                            Woman eMTCT Status
+                                            eMTCT Status
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-1">
+                                                    <label>Woman</label>
+                                                </div>
+                                                <div class="col-md-1">
                                                     <label>eMTCT Code</label>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <obs id="woman-emtct-code" conceptId="99317" answerConceptIds="99313, 99734, 99314, 99315, 99735, 99736, 99737, 99738, 99739, 99741"
                                                          answerLabels="C - Counseled but declined HIV testing,
                                                                        T - Counseled and tested but didn't receive results,
@@ -431,18 +314,14 @@
                                                     <obs conceptId="165379" answerConceptIds="1065,1066" answerLabels="Yes, No" style="radio" class="horizontal" />
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header">
-                                            Partner eMTCT Status
-                                        </div>
-                                        <div class="card-body">
                                             <div class="row">
+                                                <div class="col-md-1">
+                                                    <label>Partner</label>
+                                                </div>
                                                 <div class="col-md-1">
                                                     <label>eMTCT Code</label>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <obs id="partner-emtct-code" conceptId="99342" answerConceptIds="99313, 99734, 99314, 99315, 99735, 99736, 99737, 99738, 99739, 99741"
                                                          answerLabels="C - Counseled but declined HIV testing,
                                                                        T - Counseled and tested but didn't receive results,
@@ -460,7 +339,7 @@
                                                 <div class="col-md-1">
                                                 <label>Age</label>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <obs conceptId="99074"/> 
                                                 </div>
                                                 <div class="col-md-3">
@@ -475,16 +354,17 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-4">
+                                                <div class="col-md-2">
                                                     <obs conceptId="99351" style="radio" class="horizontal" answerLabels="Yes, No" labelText="Linked to ART?"/>
                                                 </div>
                                                 <div class="col-md-1"></div>
                                                 <div class="col-md-1">
                                                     <label>Where</label>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <obs conceptId="99081" />
                                                 </div>
+                                                <div class="col-md-1"></div>
                                                 <div class="col-md-1">
                                                     <label>Pre-ART No</label>
                                                 </div>
@@ -493,17 +373,14 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-1">
-                                                <label>TFV</label>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <obs id="165422" conceptId="165422" answerConceptIds="1065,1066" answerLabels="Yes, No" style="radio" class="horizontal"/>
+                                                <div class="col-md-2">
+                                                    <obs id="165422" conceptId="165422" answerConceptIds="1065,1066" answerLabels="Yes, No" labelText="TFV" style="radio" class="horizontal"/>
                                                 </div>
                                                 <div class="col-md-1"></div>
                                                 <div class="col-md-1">
                                                     <label>ART No</label>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <obs conceptId="99431" />
                                                 </div>
                                             </div>
@@ -514,34 +391,49 @@
                             <div class="tab-pane" id="diagnosis-and-hiv-information">
                                 <section>
                                     <div class="card">
-                                    <div class="card-header">
-                                        Diagnosis
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <encounterDiagnoses required="false" selectedDiagnosesTarget="" preferredCodingSource="ICD-10-WHO" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                    <div class="card">
                                         <div class="card-header">
-                                            CD4, VL and WHO Clinical Stage
+                                            Diagnosis
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-3">
-                                                <label>CD4</label>
-                                                    <obs conceptId="5497"/>
+                                                <div class="col-md-12">
+                                                    <encounterDiagnoses required="false" selectedDiagnosesTarget="" preferredCodingSource="ICD-10-WHO" />
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            HIV Information
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>WHO Clinical Stage</label>
+                                                    <obs conceptId="90203" answerConceptIds="90033, 90034, 90035, 90036, 90293, 90294, 90295, 90296" answerLabels="1,2,3,4,T1,T2,T3,T4"/>    
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>CD4 Count</label>
+                                                    <obs conceptId="5497" />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>CD4 Date</label>
+                                                    <obs conceptId="159376" allowFutureDates="false" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Viral Load
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Date Viral Load Taken</label>
                                                     <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                     <obs id="date-viral-load-taken" conceptId="163023" allowFutureDates="false"/>
                                                 </div>
-                                            </div>
-                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Viral Load Results</label>
                                                     <obs id="viral-load-results-qualitative" conceptId="1305" answerConceptIds="1301,1306,1304"
@@ -554,10 +446,6 @@
                                                 <div class="col-md-3" id="viral-load-status-div">
                                                     <label>Viral Load Status</label>
                                                     <span id="viral-load-status"></span>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <label>WHO Clinical Stage</label>
-                                                    <obs conceptId="90203" />
                                                 </div>
                                             </div>
                                         </div>
