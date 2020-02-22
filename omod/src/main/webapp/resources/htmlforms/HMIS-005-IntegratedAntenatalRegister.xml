@@ -210,7 +210,7 @@
     <div>
         <div class="row">
             <div class="col-md-6">
-                <h1>Integrated Antenatal Register</h1>
+                <h1>HMIS MCH 005: Integrated Antenatal Register</h1>
             </div>
             <div class="col-md-5"></div>
             <div class="col-md-1">
@@ -352,7 +352,7 @@
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>INR No.</label>
-                                                    <obs conceptId="b644c29c-9bb0-447e-9f73-2ae89496a709" id="inrNumber" />
+                                                    <obs conceptId="5624" id="inrNumber" />
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>Blood Pressure</label>
