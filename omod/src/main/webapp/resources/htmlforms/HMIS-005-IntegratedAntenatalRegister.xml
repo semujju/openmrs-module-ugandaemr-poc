@@ -232,13 +232,13 @@
                                 <a class="nav-link" data-toggle="tab" href="#diagnosis-and-hiv-information">Diagnosis and HIV Information</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#investigations-section">Investigations</a>
+                                <a class="nav-link" data-toggle="tab" href="#investigations-section">Counselling Investigations</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#treatment-section">Treatment</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#fp-and-referral">Family Planning and Referral</a>
+                                <a class="nav-link" data-toggle="tab" href="#fp-and-referral">Referral</a>
                             </li>
                         </ul>
                     </div>
@@ -352,7 +352,7 @@
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>INR No.</label>
-                                                    <obs conceptId="5624" id="inrNumber" />
+                                                    <obs conceptId="99733" id="inrNumber" />
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>Blood Pressure</label>
@@ -496,14 +496,10 @@
                                     </div>
                                     <div class="card">
                                         <div class="card-header">
-                                            HIV Information
+                                            CD4 
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-3">
-                                                    <label>WHO Clinical Stage</label>
-                                                    <obs id="90203" conceptId="90203" answerConceptIds="90033, 90034, 90035, 90036, 90293, 90294, 90295, 90296" answerLabels="1,2,3,4,T1,T2,T3,T4"/>
-                                                </div>
                                                 <div class="col-md-3">
                                                     <label>CD4 Count</label>
                                                     <obs id="5497" conceptId="5497" />
@@ -544,12 +540,25 @@
                                     </div>
                                     <div class="card">
                                         <div class="card-header">
+                                            WHO Clinical Stage
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>WHO Clinical Stage</label>
+                                                    <obs id="90203" conceptId="90203" answerConceptIds="90033, 90034, 90035, 90036, 90293, 90294, 90295, 90296" answerLabels="1,2,3,4,T1,T2,T3,T4"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
                                             eMTCT Assessment and ART
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-3">
-                                                    <obs conceptId="165380" style="radio" class="horizontal" answerLabels="High, Low" labelText="eMTCT Risk Assessment"/>
+                                                    <obs conceptId="165380" answerConceptIds="1408,165381,1175" style="radio" class="horizontal" answerLabels="High,Low,NA" labelText="eMTCT Risk Assessment"/>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <obs conceptId="99744" answerConceptIds="99745,99746,99747,1175" 
@@ -591,7 +600,7 @@
                                                 <obs conceptId="717" labelText="Other TB Diagnosis" /> <!-- wrog concept-->
                                             </div>
                                             <div class="col-md-3">
-                                                <obs conceptId="717" labelText="WOA U/S Scan Done" /> <!-- wrog concept-->
+                                                <obs conceptId="165450" labelText="WOA U/S Scan Done" />
                                             </div>
                                             <div class="col-md-3">
                                                 <label>GBV Risk / Type</label>
@@ -600,7 +609,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="card">
                                     <div class="card-header">
                                         Blood Screening
@@ -611,18 +619,17 @@
                                                 <obs conceptId="21" labelText="Haemoglobin(Hb)" />
                                             </div>
                                             <div class="col-md-3">
-                                                <obs conceptId="300" labelText="Blood Group" />
+                                                <obs conceptId="300" answerConceptIds="690,692,694,696,699,701,1230,1231" answerLabels="A Postive, A Negative, B Postive, B Negative, O Postive, O Negative, AB Postive, AB Negative" labelText="Blood Group" />
                                             </div>
                                             <div class="col-md-3">
-                                                <obs conceptId="1429" labelText="Rhesus Factor (Rh)" />
+                                                <obs conceptId="1429" answerConceptIds="703,664,1067" answerLabels="Postive,Negative,Unknown" labelText="Rhesus Factor (Rh)" />
                                             </div>
                                             <div class="col-md-3">
-                                                <obs conceptId="165383" labelText="Sickle Cell" />
+                                                <obs conceptId="165383" answerConceptIds="1115,99641,126513" answerLabels="Normal,Sickle cell disease, Sickle cell Trait" labelText="Sickle Cell" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             <div class="card">
                                 <div class="card-header">
                                     Urine
@@ -710,22 +717,22 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-3">
-                                                <obs conceptId="781" labelText="Tetanus Diptheria(Td)" /> <!-- concepts for td doses missing -->
+                                                <obs conceptId="99303" answerConceptIds="99298,99299,99300,99301,99302,1267" answerLabels="1st, 2nd, 3rd, 4th, 5th, C - Completed" labelText="Tetanus Diptheria(Td)" />
                                             </div>
                                             <div class="col-md-3">
-                                                <obs conceptId="99306" answerConceptIds="99298, 99299, 99300, 99301, 99302, 99305" answerLabels="1 - IPT1, 2 - IPT2, 3 - IPT3, 4 - IPT4, 5 - IPT5, 
-                                                     ND - Not Due,C - Complete,CTX - Initial  septrin prescrition,CTX&#8730; - Septrin prescribed on prev visit" labelText="IPT/CTX" />
+                                                <obs conceptId="99306" answerConceptIds="99298,99299,99300,99301,99302,99305,1267,99758,99759" 
+                                                     answerLabels="1 - IPT1, 2 - IPT2, 3 - IPT3, 4 - IPT4, 5 - IPT5, ND - Not Due,C - Complete,CTX - Septrin(CTX) given for the first time on that visit,CTX&#8730; - Septrin prescribed on a previous visit and given a refill" 
+                                                     labelText="IPT/CTX" class="horizontal long-value-select" />
                                             </div>
                                             <div class="col-md-3">
                                                 <obs conceptId="99760" answerConceptIds="90003,90004" answerLabels="Yes, No" style="radio" class="horizontal" labelText="Free LLIN Given?"/>
                                             </div>
                                             <div class="col-md-3">
-                                                <obs conceptId="99312" answerConceptIds="99309, 99310, 99311, 1267" 
+                                                <obs conceptId="99312" answerConceptIds="99309,99310,99311,1267" 
                                                      answerLabels="&#8730; - Dose Received, X - Dose Not Received, ND - Not due for dose,C - Completed Dose" 
                                                      labelText="Mebendazole Dose" />
                                             </div>
                                         </div>
-
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <obs conceptId="99318" answerConceptIds="90003,90004" answerLabels="Yes, No" style="radio" labelText="Iron Sulphate" class="horizontal"/> 
