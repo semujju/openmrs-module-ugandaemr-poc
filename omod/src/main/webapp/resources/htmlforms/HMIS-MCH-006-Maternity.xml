@@ -10,8 +10,8 @@
 				blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
 
 				// Validate MUAC
-                 var age  = <lookup complexExpression="$patient.age" />; 
-                 getMUACCodeFromMUACScoreByAge(age, "muac-score", "muac-code");
+                var age  = <lookup complexExpression="$patient.age" />; 
+                getMUACCodeFromMUACScoreByAge(age, "muac-score", "muac-code");
 
 				/*determine viral load status*/
                 jq("#viral-load-results-copies").change(function () {
@@ -33,7 +33,7 @@
 				jq('#165169').click(function () {
                     if (getValue('165169.value') == 165125) {
                         enableContainer('#1646');
-                      } else {
+                    } else {
                         disableContainer('#1646');
                     }
 				});
@@ -67,84 +67,6 @@
 
                     return false;
                 });
-
-	<!--  add or remove follow up visit    -->
-	<!-- var $allTables,
-					 $allRows,
-					 $otherRows,
-					 $firstRow,
-					 $thisRow,
-					 $nextRow,
-					 $hiddenRows,
-					 $lastVisibleRow,
-					 $nonEmptyBoxes;
-				 var showAddButtonForLastVisibleRow = function($container) {
-					 $lastVisibleRow = $container.find('tr:visible:last');
-					 $lastVisibleRow.find('.add').show();
-				 };
-
-				 $firstRow = jq('table.multi tbody tr:first-of-type');
-				 $otherRows = jq('table.multi tbody tr:not(:first-of-type)');
-
-				 jq('.add').click(function(e) { //Handle add button event
-					 e.preventDefault();
-					 $thisRow = jq(this).parents('tr:first');
-					 $nextRow = $thisRow.next();
-
-				 if ($nextRow.length &gt; 0) {
-					 $nextRow.show('slow');
-					 $thisRow.find('.add').hide();
-				 }
-
-				 showAddButtonForLastVisibleRow($thisRow.parents('table:first')); });
-
-				 jq('.remove').click(function(e) { //Handle remove button event
-					 e.preventDefault();
-					 $thisRow = jq(this).parents('tr:first');
-					 if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
-						 $thisRow = jq(this).parents('tr:first');
-
-						 $thisRow.hide('slow', function() {
-						 showAddButtonForLastVisibleRow($thisRow.parents('table:first'));
-						 fieldHelper.clearAllFields($thisRow);
-					 });
-					 }
-				 });
-	<ifMode mode="ENTER">
-					 $otherRows.hide(); //Hide all rows apart from first row if adding new form
-					 $firstRow.find('.remove').hide(); //Hide the remove button from the first row
-
-				 </ifMode>
-
-	<ifMode mode="EDIT">
-
-					 /*Handle loading of existing obs */
-					 $allTables = jq('table.multi');
-					 $allTables.each(function() {
-					 $allRows = jq(this).find('tbody &gt; tr');
-					 $allRows.hide();
-					 $nonEmptyBoxes = jq(this).find('tbody tr input[type=text],tbody tr select').filter(function() {
-					 return this.value.length &gt; 0;
-					 });
-
-					 if ($nonEmptyBoxes.length &gt; 0 ) {
-					 $nonEmptyBoxes.each(function() {
-					 $thisRow = jq(this).parents('tr:first');
-					 $thisRow.show();
-					 if ($thisRow.is($firstRow)) {
-					 $firstRow.find('.remove').hide();
-					 }
-					 });
-
-					 if ($nonEmptyBoxes.length == 1) {
-					 $nonEmptyBoxes.parents('tr:first').find('.remove').hide(); //Hide the remove button if there is only one visible row
-					 }
-					 } else {
-					 $firstRow.show();
-					 $firstRow.find('.remove').hide();
-					 }
-					 }); 
-				 </ifMode> -->
 			});
 		}
 	</script>
@@ -168,6 +90,9 @@
 						<ul class="nav nav-tabs card-header-tabs">
 							<li class="nav-item">
 								<a class="nav-link active" data-toggle="tab" href="#admission-information-section">Admission and HIV Information</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#emtct-art-section">EMTCT/ART/Nutrition Assessment</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" data-toggle="tab" href="#delivery-information-section">Delivery Information</a>
@@ -224,7 +149,7 @@
 											</div>
 											<div class="col-md-3">
 												<label>Reason For Admission</label>
-												<obs conceptId="99727"  /> <!-- missing concept -->
+												<obs conceptId="165460"  />
 											</div>
 										</div>
 									</div>
@@ -270,6 +195,8 @@
                                         </div>
 									</div>
 								</div>
+							</div>
+							<div class="tab-pane" id="emtct-art-section">
 								<div class="card">
 									<div class="card-header">EMTCT</div>
 									<div class="card-body">
@@ -344,7 +271,7 @@
 	                                        </div>
 	                                    </div>
 	                                </div>
-	                           </div>
+	                            </div>
                                 <div class="card">
 	                                <div class="card-header">
 	                                    Results for Syphilis And Hepatitis B
@@ -514,7 +441,7 @@
 																	</div>
 																	<div class="col-md-4">
 																		<obs conceptId="162935" answerConceptIds="162934,1175" answerLabels="Yes,NA"
-																			 labelText="ARVs Administered to Baby" style="radio" class="horizontal" /><!-- use corrected concepts -->
+																			 labelText="ARVs Administered to Baby" style="radio" class="horizontal" />
 																	</div>
 																</div>
 																<div class="row">
@@ -564,7 +491,7 @@
 												</div>
 												<div class="col-md-3">
 													<label>Final Diagnosis For the Baby</label>
-													<obs conceptId="1646"/> <!-- missing -->
+													<obs conceptId="165451"/>
 												</div>
 												<div class="col-md-3">
 													<label>Delivered By</label>
@@ -578,7 +505,7 @@
 													<encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" id="transferred-by"  />
 												</div>
 												<div class="col-md-3">
-													<obs id="" conceptId="99881" answerConceptIds="99355,99355,99355" answerLabels="Y,N,NA" labelText="PNC at 6 Hours" style="radio" class="horizontal" />
+													<obs id="" conceptId="165462" answerConceptIds="1065,1066,1175" answerLabels="Y,N,NA" labelText="PNC at 6 Hours" style="radio" class="horizontal" />
 												</div>
 												<div class="col-md-3">
 													<obs id="" conceptId="165025" answerConceptIds="1065,1066" answerLabels="Y,N"  labelText="LLINs Given to Baby" style="radio" class="horizontal" />
@@ -607,7 +534,7 @@
 											<div class="row">
 												<div class="col-md-3">
 													<label>PNC at 24 Hours</label>
-													<obs conceptId="99296"  answerConceptIds="5526,99089,6046" answerLabels="Y - Attendance at 6Hrs,N - Attendance not in 6HRS,NA - Mothers from C-Section" style="dropdown" />
+													<obs conceptId="165463"  answerConceptIds="1065,1066,1175" answerLabels="Y - Attendance at 6Hrs,N - Attendance not in 6HRS,NA - Mothers from C-Section" style="dropdown" />
 												</div>
 												<div class="col-md-3">
 													<obs conceptId="99749"  answerConceptIds="90003,90004" answerLabels="Yes,No" labelText="IYCF" style="radio"  class="horizontal" />
@@ -634,20 +561,12 @@
 													<label>Dischraged by</label>
 													<encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" id="discharged-by"/>
 												</div>
-											</div>
 												<div class="col-md-3">
 													<label>Date of Discharge</label>
 													<i class="icon-calendar small right-addon-row position-absolute" style="right: 25%; top: 47%;"></i>
 													<obs conceptId="162958" allowTime="true" class="date-and-time" required="false"/>
 												</div>
-											<!-- <div class="row">
-												<div class="col-md-3">
-													<label>Time of Discharge</label>
-													<span class="time-box-horizontal">
-														<obs conceptId="99543" time="true"/>
-													</span>
-												</div>
-											</div> -->
+											</div>
 										</div>
 									</section>
 								</div>
