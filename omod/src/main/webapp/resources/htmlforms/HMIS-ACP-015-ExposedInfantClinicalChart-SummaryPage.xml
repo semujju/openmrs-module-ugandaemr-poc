@@ -1,4 +1,4 @@
-<htmlform formName="HMIS ACP 015 Exposed Infant Card Summary Form"
+<htmlform formName="HMIS ACP 015:Exposed Infant Card Summary Form"
           formDescription="Captures demographic details for infants born to HIV positive mothers"
           formEncounterType="9fcfcc91-ad60-4d84-9710-11cc25258719"
           formUuid="860c5f2f-cf3c-4c3f-b0c4-9958b6a5a938"
@@ -307,7 +307,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-6">
-                <h1>HMIS ACP 015 Exposed Infant Clinical Chart - Summary Form</h1>
+                <h1>HMIS ACP 015: Exposed Infant Clinical Chart - Summary Form</h1>
             </div>
             <span class="hidden">
                 <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117"
