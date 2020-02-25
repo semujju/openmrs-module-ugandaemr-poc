@@ -20,56 +20,54 @@
                 //Block Multiple encounter entry on same date
                 blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
 
-                // Validate MUAC
-                 var age  = <lookup complexExpression="$patient.age" />; 
-                 getMUACCodeFromMUACScoreByAge(age, "muac-score", "muac-code");
+                //Validate MUAC
+                var age  = <lookup complexExpression="$patient.age" />; 
+                getMUACCodeFromMUACScoreByAge(age, "muac-score", "muac-code");
 
                 //Disable encounter date field
                 disableEncounterDate();
 
-                disable_fields("165424");      // partner pre art number
-                disable_fields("165422")      // tfv for partner
-                disable_fields("90203");     // who clinical stage
-                disable_fields("5497");     //cd4 count
-                disable_fields("159376");  //cd4 date
-                disable_fields("163023"); //viral load date
-                disable_fields("1305");    // viral load results
-                disable_fields("856");    //viral load copies
-                disable_fields("99081"); //place where partner was linked for art
-                disable_fields("99431") // Art number
+                disable_fields("165424");        //partner pre art number
+                disable_fields("165422")         //tfv for partner
+                disable_fields("90203");         //who clinical stage
+                disable_fields("5497");          //cd4 count
+                disable_fields("159376");        //cd4 date
+                disable_fields("163023");        //viral load date
+                disable_fields("1305");          //viral load results
+                disable_fields("856");           //viral load copies
+                disable_fields("99081");         //place where partner was linked for art
+                disable_fields("99431")          //Art number
+
+                jq("#woman-emtct-code").change(function () {
+
+                    var emtctCode = jq(this).find("select").find(":selected").val();
+
+                    if(emtctCode == 99315 || emtctCode == 99736 || emtctCode == 99738 || emtctCode == 99741) { // if woman emtc code corresponds to an HIV positive status
+
+                        enable_fields("90203");  //who clinical stage
+                        enable_fields("163023"); //viral load date  99315
+                        enable_fields("5497");   //cd4 count
+                        enable_fields("159376"); //cd4 date
+
+                    } else {
+
+                        disable_fields("90203");  //who clinical stage
+                        disable_fields("163023"); //viral load date
+                        disable_fields("5497");   //cd4 count
+                        disable_fields("159376"); //cd4 date
+                    }
+                });
 
                 jq("#partner-emtct-code").change(function () {
-                if(jq(this).find("select").find(":selected").val() == "99315") {
-                    jq("#165422").find("input[type$='radio']").attr("disabled", false);
-                    enable_fields("90203");
-                    enable_fields("163023");
-                    enable_fields("5497");
-                    enable_fields("159376");
-                } else if (jq(this).find("select").find(":selected").val() == "99736") {
-                    jq("#165422").find("input[type$='radio']").attr("disabled", false);
-                    enable_fields("90203");
-                    enable_fields("163023");
-                    enable_fields("5497");
-                    enable_fields("159376");
-                } else if (jq(this).find("select").find(":selected").val() == "99738") {
-                    jq("#165422").find("input[type$='radio']").attr("disabled", false);
-                    enable_fields("90203");
-                    enable_fields("163023");
-                    enable_fields("5497");
-                    enable_fields("159376");
-                } else if (jq(this).find("select").find(":selected").val() == "99741") {
-                    jq("#165422").find("input[type$='radio']").attr("disabled", false);
-                    enable_fields("90203");
-                    enable_fields("163023");
-                    enable_fields("5497");
-                    enable_fields("159376");
-                } else {
-                    jq("#165422").find("input[type$='radio']").attr("disabled", true);
-                    disable_fields("90203");
-                    disable_fields("163023");
-                    disable_fields("5497");
-                    disable_fields("159376");
-                }
+
+                    var emtctCode = jq(this).find("select").find(":selected").val();
+
+                    if(emtctCode == 99315 || emtctCode == 99736 || emtctCode == 99738 || emtctCode == 99741) { // if partner emtc code corresponds to an HIV positive status
+                        jq("#165422").find("input[type$='radio']").attr("disabled", false);
+
+                    } else {
+                        jq("#165422").find("input[type$='radio']").attr("disabled", true);
+                    }
                 });
 
                 jq("#162982").change(function () {
@@ -87,18 +85,20 @@
                         disable_fields("165422");
                     }
                 });
-
+                
+                //enable/disable viral load results field when viral load date is provided
                 jq("#163023").change(function () {
                     if (jq(this).find("input").val() !== " ") {
-                        enable_fields("1305");
+                        enable_fields("1305");  //viral load result
                     } else {
                         disable_fields("1305");
                     }
                 });
 
+                //enable/disable viral load copies field when viral load result is provided
                 jq("#1305").change(function () {
                     if (jq(this).find("select").find(":selected").val() == 1301) {
-                        enable_fields("856");
+                        enable_fields("856"); //viral load copies
                     } else {
                         disable_fields("856");
                     }
@@ -149,18 +149,21 @@
                 });
 
                 var gravidaValidate = function() {
-                var gravidaField = getField('gravida.value');
-                var gravida = getValue('gravida.value');
-                var gravidaErrorField = getField('gravida.error');
+                //var gravidaField = getField('gravida.value');
+                //var gravida = getValue('gravida.value');
+                var gravida = jq("#gravida").find("input").val();
+                //var gravidaErrorField = getField('gravida.error');
+                console.log(gravida);
 
                 if (gravida &lt; 0) {
                     gravidaField.addClass('error');
                     gravidaErrorField.html('Parity cannot be less than 0').show();
                     return false;
-                } else {
-                    gravidaField.removeClass('error');
-                    gravidaErrorField.html('').hide();
-                }
+                } 
+                <!-- else {
+                    //gravidaField.removeClass('error');
+                    //gravidaErrorField.html('').hide();
+                } -->
 
                 return true;
                 };
@@ -168,16 +171,17 @@
                 var parityValidate = function() {
                     var parityField = getField('parity.value');
                     var parity = getValue('parity.value');
-                    var parityErrorField = getField('parity.error');
+                    //var parityErrorField = getField('parity.error');
 
                     if (parity &lt; 0) {
                         parityField.addClass('error');
                         parityErrorField.html('Gravida cannot be less than 0').show();
                         return false;
-                    } else {
-                        parityField.removeClass('error');
-                        parityErrorField.html('').hide();
-                    }
+                    } 
+                    <!-- else {
+                        //parityField.removeClass('error');
+                        //parityErrorField.html('').hide();
+                    } -->
 
                     return true;
                 };
@@ -190,13 +194,18 @@
                         gestationalAgeField.addClass('error');
                         gestationalAgeErrorField.html('Gestational Age cannot be greater than 45').show();
                         return false;
-                    } else {
-                        gestationalAgeField.removeClass('error');
-                        gestationalAgeErrorField.html('').hide();
-                    }
+                    } 
+                   <!--  else {
+                        //gestationalAgeField.removeClass('error');
+                        //gestationalAgeErrorField.html('').hide();
+                    } -->
 
                     return true
                 }
+
+                gravidaValidate();
+                parityValidate();
+                gestationalAgeValidate();
           
             });
         }
@@ -284,13 +293,13 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-3">
-                                                    <obs conceptId="5624" labelText="Gravida" />
+                                                    <obs conceptId="5624" labelText="Gravida" id="gravida"/>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <obs conceptId="1053" labelText="Parity" />
+                                                    <obs conceptId="1053" labelText="Parity" id="parity"/>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <obs conceptId="5992" labelText="Gestation Age" />
+                                                    <obs conceptId="5992" labelText="Gestation Age" class="gestational-age"/>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <obs conceptId="99732" answerConceptIds="90003, 90004, 1175" answerLabels="Yes, No, NA" labelText="ANC 1 Timimg" style="radio" class="horizontal"/>
@@ -447,6 +456,9 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-2">
+                                                    <obs id="165422" conceptId="165422" answerConceptIds="1065,1066" answerLabels="Yes, No" labelText="TFV" style="radio" class="horizontal"/>
+                                                </div>
+                                                <div class="col-md-2">
                                                     <obs id="162982" conceptId="162982" answerConceptIds="1065,1066" answerLabels="Yes, No" labelText="Linked to ART?" style="radio"  class="horizontal" />
                                                 </div>
                                                 <div class="col-md-1"></div>
@@ -460,20 +472,16 @@
                                                 <div class="col-md-1">
                                                     <label>Pre-ART No</label>
                                                 </div>
-                                                <div class="col-md-2">
+                                                <div class="col-md-1">
                                                     <obs id="165424" conceptId="165424"/>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-2">
-                                                    <obs id="165422" conceptId="165422" answerConceptIds="1065,1066" answerLabels="Yes, No" labelText="TFV" style="radio" class="horizontal"/>
-                                                </div>
-                                                <div class="col-md-1"></div>
+                                             <div class="row">
                                                 <div class="col-md-1">
                                                     <label>ART No</label>
                                                 </div>
-                                                <div class="col-md-2">
-                                                    <obs id="99431" conceptId="99431" />
+                                                <div class="col-md-1">
+                                                    <obs id="99431" conceptId="99431" /> <!--get right concept for partner -->
                                                 </div>
                                             </div>
                                         </div>
@@ -594,7 +602,7 @@
                                         <div class="row"></div>
                                         <div class="row">
                                             <div class="col-md-3">
-                                                <obs id="tb-status" class="long-value-select" conceptId="90216" answerConceptIds="90079, 90073, 165295, 165296, 165297, 165298, 165299, 165300, 90071, 99421" answerLabels="1 - No signs,2 - Presumptive, 3C - TB Diagnosed - Clinically diagnosed,  3G - TB Diagnosed - Gene Xpert, 3L - TB Diagnosed - TB LAM, 3M - TB Diagnosed -TB Microscopy, 3X - TB Diagnosed - Chest Xray, 3O - TB Diagnosed - Others, 4 - Tb Rx, 5 - Completed TB Treatment" labelText="TB Status"/>
+                                                <obs id="tb-status" class="long-value-select" conceptId="90216" answerConceptIds="90079, 90073, 165295, 165296, 165297, 165298, 165299, 165300, 90071, 99421" answerLabels="1 - No signs,2 - Presumptive TB , 3C - TB Diagnosed - Clinically diagnosed,  3G - TB Diagnosed - Gene Xpert, 3L - TB Diagnosed - TB LAM, 3M - TB Diagnosed -TB Microscopy, 3X - TB Diagnosed - Chest Xray, 3O - TB Diagnosed - Others, 4 - Currenty on TB Treatment, 5 - Completed TB Treatment" labelText="TB Status"/>
                                             </div>
                                             <div class="col-md-3">
                                                 <obs conceptId="717" labelText="Other TB Diagnosis" /> <!-- wrog concept-->
@@ -630,7 +638,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            <div class="card">
+                                <div class="card">
                                 <div class="card-header">
                                     Urine
                                 </div>
@@ -642,7 +650,7 @@
                                         <div class="col-md-3">
                                             <obs conceptId="717" />
                                         </div>
-                                        <div class="col-md-1"></div>
+                                        <div class="col-md-2"></div>
                                         <div class="col-md-1">
                                             <label>Glucose</label>
                                         </div>
@@ -651,63 +659,44 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header">
-                                    Syphilis and Hep B Test Results
                                 </div>
-                                <div class="card-body">
-                                    <div class="row"> 
-                                        <div class="col-md-1">
-                                            <label>Woman</label>
-                                        </div> 
-                                        <div class="col-md-1">
-                                            <label>Syphillis</label>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <obs conceptId="299" id="syphillis-woman" /> <!-- wrong concept-->
-                                        </div>
-                                        <div class="col-md-1">
-                                            <label>Hepatitis B</label>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <obs conceptId="1321" id="hepatitis-b-woman" /> <!--confirm concept -->
+                                <div class="card">
+                                    <div class="card-header">
+                                        Syphilis and Hep B Test Results
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row"> 
+                                            <div class="col-md-1">
+                                                <label>Woman</label>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <obs conceptId="165464" answerConceptIds="165465,165466,165467,165468" answerLabels="Rx - Client reactive treatmeant given,+Ve - Client Positive no Treatment,NR - Results Given Client non-reactive,NT - Client not Tested for Syphilis/Hep B" style="dropdown" />
+                                            </div>
+                                            <div class="col-md-1">
+                                                <label>Partner</label>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <!-- concepts missing -->
+                                                    <obs conceptId="165464" answerConceptIds="165465,165466,165467,165468" answerLabels="Rx - Client reactive treatmeant given,+Ve - Client Positive no Treatment,NR - Results Given Client non-reactive,NT - Client not Tested for Syphilis/Hep B" style="dropdown" />
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="row">  
-                                        <div class="col-md-1">
-                                            <label>Parner</label>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <label>Syphillis</label>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <obs conceptId="299" id="syphillis-woman" /> <!-- get concept-->
-                                        </div>
-                                        <div class="col-md-1">
-                                            <label>Hepatitis B</label>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <obs conceptId="1321" id="hepatitis-b-woman" /> <!-- get concept-->
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        Family Planning
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row"> 
+                                            <div class="col-md-3">
+                                                <label>Family Planning Counselling</label>
+                                                <obs conceptId="99296" answerConceptIds="99294,99295" answerLabels="C - Counselling Done,C/D - Counselling and Provided with Condoms" 
+                                                     class="long-value-select" style="dropdown"/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card">
-                                <div class="card-header">
-                                    Family Planning
-                                </div>
-                                <div class="card-body">
-                                    <div class="row"> 
-                                        <div class="col-md-3">
-                                            <label>Family Planning Counselling</label>
-                                            <obs conceptId="99296" answerConceptIds="99294,99295" answerLabels="C - Counselling Done,C/D - Counselling and Provided with Condoms" 
-                                                 class="long-value-select" style="dropdown"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                             <div class="tab-pane" id="treatment-section">
                                 <div class="card">
