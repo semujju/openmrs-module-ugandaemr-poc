@@ -53,7 +53,7 @@
 					});
 				}
 				});
-				<ifMode mode="ENTER">
+				<!-- <ifMode mode="ENTER">
 
 					$otherRows.hide(); //Hide all rows apart from first row if adding new form
 					$firstRow.find('.remove').hide(); //Hide the remove button from the first row
@@ -66,7 +66,7 @@
 					enable_fields('164975'); //other medication due for refill
 					enable_fields('165378'); //date returned to care
 
-				</ifMode>
+				</ifMode> -->
 
 				<!-- Disable the text box for Other(Specify) option if this option is not checked -->
 				<!-- Other Service Point -->
@@ -156,21 +156,21 @@
 											</div>
 										</div>
 									</div>
-									<excludeIf velocityTest="$patient.gender =='M'">
+									<!-- <excludeIf velocityTest="$patient.gender =='M'">
 										<div class="card">
 											<div class="card-header">
 	                                            Mother/Bby Status
 	                                        </div>
 	                                        <div class="card-body">
 												<div class="row">
-													<obs conceptId="164993" answerConceptId="90041" answerLabel="Pregnant" style="checkbox" class="col-md-2" id="90041"/> <!-- wrong conceptId for all -->
-													<obs conceptId="164993" answerConceptId="5632" answerLabel="Breastfeeding" style="checkbox" class="col-md-2" /> <!-- all concepts not attached -->
-													<obs conceptId="164993" answerConceptId="99087" answerLabel="Infant Exposed" style="checkbox" class="col-md-2" />
-													<obs conceptId="164993" answerConceptId="165372" answerLabel="Infant Infected" style="checkbox" class="col-md-2"/> <!-- this concept is not exsisiting -->
-												</div>
+													<obs conceptId="164993" answerConceptId="90041" answerLabel="Pregnant" style="checkbox" class="col-md-2" id="90041"/> // wrong conceptId for all -->
+													<!-- <obs conceptId="164993" answerConceptId="5632" answerLabel="Breastfeeding" style="checkbox" class="col-md-2" />  --><!-- all concepts not attached -->
+													<!-- <obs conceptId="164993" answerConceptId="99087" answerLabel="Infant Exposed" style="checkbox" class="col-md-2" />
+													<obs conceptId="164993" answerConceptId="165372" answerLabel="Infant Infected" style="checkbox" class="col-md-2"/> --> <!-- this concept is not exsisiting -->
+												<!-- </div>
 											</div>
 										</div>
-									</excludeIf>
+									</excludeIf> --> 
 									<div class="card">
 										<div class="card-header">
                                             Medication Due for Refill
@@ -250,7 +250,7 @@
 															</div>
 															<div class="col-md-2">
 																<label>Other Follow up actions</label>
-																<obs id="165104" conceptId="165104" answerConceptIds="165334" /><!-- This concept is missing -->
+																<!-- <obs id="165104" conceptId="165104" answerConceptIds="165334" /> --><!-- This concept is missing -->
 															</div>
 															<div class="col-md-2">
 																<label>Follow Up Outcome</label>
