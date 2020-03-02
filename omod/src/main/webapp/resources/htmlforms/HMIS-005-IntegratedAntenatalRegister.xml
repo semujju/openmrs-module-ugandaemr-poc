@@ -148,27 +148,43 @@
                     }
                 });
 
-                var gravidaValidate = function() {
+                jq("#gravida").change(function () {
+
+                    var gravida = jq(this).find("input").val();
+
+                    if (gravida &lt; 0) {
+                    jq('#gravida').find('.error').html('Gravida cannot be less than 0').show();
+                    console.log('jffk');
+                    }
+
+                    <!-- if (gravida &lt; 0) {
+                    //gravidaField.addClass('error');
+                    gravidaErrorField.html('Gravida cannot be less than 0').show();
+                    return true; -->
+                
+                });
+
+               <!--  var gravidaValidate = function() {
                 //var gravidaField = getField('gravida.value');
                 //var gravida = getValue('gravida.value');
                 var gravida = jq("#gravida").find("input").val();
                 //var gravidaErrorField = getField('gravida.error');
-                console.log(gravida);
+                //console.log(gravida);
 
                 if (gravida &lt; 0) {
                     gravidaField.addClass('error');
                     gravidaErrorField.html('Parity cannot be less than 0').show();
                     return false;
                 } 
-                <!-- else {
+                else {
                     //gravidaField.removeClass('error');
                     //gravidaErrorField.html('').hide();
-                } -->
+                }
 
                 return true;
-                };
+                }; -->
 
-                var parityValidate = function() {
+                <!-- var parityValidate = function() {
                     var parityField = getField('parity.value');
                     var parity = getValue('parity.value');
                     //var parityErrorField = getField('parity.error');
@@ -178,13 +194,13 @@
                         parityErrorField.html('Gravida cannot be less than 0').show();
                         return false;
                     } 
-                    <!-- else {
+                    else {
                         //parityField.removeClass('error');
                         //parityErrorField.html('').hide();
-                    } -->
+                    }
 
                     return true;
-                };
+                }; -->
 
                 var gestationalAgeValidate = function() {
                     var gestationalAge = getValue('gestational-age.value');
@@ -195,17 +211,17 @@
                         gestationalAgeErrorField.html('Gestational Age cannot be greater than 45').show();
                         return false;
                     } 
-                   <!--  else {
+                    else {
                         //gestationalAgeField.removeClass('error');
                         //gestationalAgeErrorField.html('').hide();
-                    } -->
+                    }
 
                     return true
                 }
 
-                gravidaValidate();
-                parityValidate();
-                gestationalAgeValidate();
+                //gravidaValidate();
+                //parityValidate();
+                //gestationalAgeValidate();
           
             });
         }
