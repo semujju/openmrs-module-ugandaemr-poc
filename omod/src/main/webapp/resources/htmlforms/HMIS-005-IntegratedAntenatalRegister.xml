@@ -738,31 +738,29 @@
                                                      labelText="Mebendazole Dose" />
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        Number of tablets given
+                                    </div>
+                                    <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-3">
-                                                <obs conceptId="99318" answerConceptIds="90003,90004" answerLabels="Yes, No" style="radio" labelText="Iron Sulphate" class="horizontal"/> 
+                                                <obs conceptId="99761" labelText="Iron Sulphate" />
                                             </div>
-                                            <div class="col-md-2">
-                                                <obs conceptId="99761" labelText="No. of Iron Tablets Given" />
-                                            </div>
-                                            <div class="col-md-1"></div>
                                             <div class="col-md-3">
-                                                <obs conceptId="99319" answerConceptIds="90003,90004" style="radio" answerLabels="Yes, No" labelText="Folic Acid" class="horizontal"/>  
+                                                <obs conceptId="99762" labelText="Folic acid" />
                                             </div>
-                                            <div class="col-md-2">
-                                                <obs conceptId="99762" labelText="No. of Folic acid tablets given" />
+                                            <div class="col-md-3">
+                                                <obs conceptId="99762" labelText="Iron/Folic Acid Combined" /> <!-- miissing concept -->
+                                            </div>
+                                            <div class="col-md-3">
+                                                <obs conceptId="99339" labelText="Misoprostol" />  <!-- miissing concept -->
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-2">
-                                                <obs conceptId="99762" labelText="Iron/Folic Acid Combined" /> <!-- miissing concept. the one available throws an error -->
-                                            </div>
-                                            <div class="col-md-1"></div>
-                                            <div class="col-md-2">
-                                                <obs conceptId="99339" labelText="Misoprostol" />
-                                            </div>
-                                            <div class="col-md-1"></div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-12">
                                                 <obs conceptId="99320" labelText="Other Treatments" style="textarea"/>
                                             </div>
                                         </div>
