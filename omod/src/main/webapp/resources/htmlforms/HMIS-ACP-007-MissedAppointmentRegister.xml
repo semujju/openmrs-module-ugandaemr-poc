@@ -214,49 +214,50 @@
                                     	<div class="card-body">
 											<repeat>
 												<template>
-													<div class="follow-up">
-														<div class="row">
-															<div class="col-md-2">
-																<label>Follow Up Attempt</label>
-																<obs conceptId="165346" answerConceptIds="165338,165339,165340,165341,165342,165343" answerLabels="1 - Follow Up 1, 2 - Follow Up 2, 3 - Follow Up 3, 4 - Follow Up 4, 5 - Follow Up 5,6 - Follow Up 6" />
+													<obsgroup groupingConceptId="165373">
+														<div class="follow-up">
+															<div class="row">
+																<div class="col-md-2">
+																	<label>Follow Up Attempt</label>
+																	<obs conceptId="165346" answerConceptIds="165338,165339,165340,165341,165342,165343" answerLabels="1 - Follow Up 1, 2 - Follow Up 2, 3 - Follow Up 3, 4 - Follow Up 4, 5 - Follow Up 5,6 - Follow Up 6" />
+																</div>
+																<div class="col-md-2">
+																	<label>Follow Up Date</label>
+																	<obs id="165373_{n}" conceptId="165373" allowFutureDates="false" class="Vertical-layout-options">
+																		<i class="icon-calendar small right-addon-row position-absolute" style="right: 24%; top: 48%;"></i>
+																	</obs>
+																</div>
+																<div class="col-md-2">
+																	<label>Follow Up Person</label>
+																	<encounterProvider required="true" />
+																</div>
+																<div class="col-md-2">
+																	<label>Follow Up Action</label>
+																	<obs id="follow-up-action" conceptId="165100" answerConceptIds="165102,165103,165336,165337,90002" answerLabels="Phone Call to Client,Home/Workplace Visit,Facility to Facility phone call,Facility to Facility visit,Other" style="dropdown" class="horizontal-layout-options"/>
+																</div>
+																<div class="col-md-2">
+																	<label>Other Follow up actions</label>
+																	<!-- <obs id="165104" conceptId="165104" answerConceptIds="165334" /> --> <!-- This concept is missing -->
+																</div>
+																<div class="col-md-2">
+																	<label>Follow Up Outcome</label>
+																	<obs id="165104" conceptId="165104" answerConceptIds="165334,165335,1363,165367,160034,165368,165369,165370" answerLabels="1 - Returned to care, 2 - Self transferred, 3 - Stopped/Refused, 4 - Migrated/Relocated, 5 - Died, 6 - Unable to be traced, 7 - Tracing attempts initiated but incomplete, 8 - No attempt to trace" class="long-value-select"/>
+																</div> <!-- concept 4 for migrated does not exisit and need to be created -->
 															</div>
-															<div class="col-md-2">
-																<label>Follow Up Date</label>
-																<!-- TO DO ADD STYLING TO THE DATE PICKER ICON -->
-																<obs id="165373_{n}" conceptId="165373" allowFutureDates="false" class="Vertical-layout-options">
-																	<i class="icon-calendar small right-addon-row position-absolute" style="right: 24%; top: 48%;"></i>
-																</obs>
-															</div>
-															<div class="col-md-2">
-																<label>Follow Up Person</label>
-																<encounterProvider required="true" />
-															</div>
-															<div class="col-md-2">
-																<label>Follow Up Action</label>
-																<obs id="follow-up-action" conceptId="165100" answerConceptIds="165102,165103,165336,165337,90002" answerLabels="Phone Call to Client,Home/Workplace Visit,Facility to Facility phone call,Facility to Facility visit,Other" style="dropdown" class="horizontal-layout-options"/>
-															</div>
-															<div class="col-md-2">
-																<label>Other Follow up actions</label>
-																<!-- <obs id="165104" conceptId="165104" answerConceptIds="165334" /> --> <!-- This concept is missing -->
-															</div>
-															<div class="col-md-2">
-																<label>Follow Up Outcome</label>
-																<obs id="165104" conceptId="165104" answerConceptIds="165334,165335,1363,165367,160034,165368,165369,165370,165371" answerLabels="1 - Returned to care, 2 - Self transferred, 3 - Stopped/Refused, 4 - Migrated/Relocated, 5 - Died, 6 - Unable to be traced, 7 - Tracing attempts initiated but incomplete, 8 - No attempt to trace" class="long-value-select"/>
-															</div> <!-- concept 4 for migrated does not exisit and need to be created -->
-														</div>
-														<div class="row">
-															<div class="col-md-1">
-																<div class="text-nowrap">
-																	<a href="#" class="add  add-more-link" title="Add Follow Up">
-																		<i class="icon-plus-sign"></i>
-																	</a>
-																	<a href="#" class="remove remove-more-link required" title="Remove Follow Up">
-																		<i class="icon-minus"></i>
-																	</a>
+															<div class="row">
+																<div class="col-md-1">
+																	<div class="text-nowrap">
+																		<a href="#" class="add  add-more-link" title="Add Follow Up">
+																			<i class="icon-plus-sign"></i>
+																		</a>
+																		<a href="#" class="remove remove-more-link required" title="Remove Follow Up">
+																			<i class="icon-minus"></i>
+																		</a>
+																	</div>
 																</div>
 															</div>
 														</div>
-													</div>
+													</obsgroup>
 												</template>
 												<render n="1" />
 												<render n="2" />
