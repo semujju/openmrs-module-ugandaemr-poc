@@ -21,11 +21,11 @@
 				<!-- Disable these fields when the form is first loaded -->
 				disable_fields('165398'); //other specified service point
 				disable_fields('165483'); //other medication due for refill
-				disable_fields('90211');  //ART clinic
-				disable_fields('99431');  //ART number
 				disable_fields('165378'); //date returned to care
+				disable_fields('165485'); //outcome by end of next quarter
+				disable_fields('5002');   // cause of death
 
-				<!-- Section: Add and Remove FOllow Up section logic implementatiom -->
+				<!-- Add/remove logic for followup section-->
 				var $otherRows,
 					$firstRow,
 					$thisRow,
@@ -45,8 +45,8 @@
 					$nextRow = $thisRow.next();
 
 					if ($nextRow.length &gt; 0) {
-					$nextRow.show('slow');
-					$thisRow.find('.add').hide();
+						$nextRow.show('slow');
+						$thisRow.find('.add').hide();
 					}
 
 					showAddButtonForLastVisibleRow($thisRow.parents('div.follow-up:first'));
@@ -56,32 +56,32 @@
 					e.preventDefault();
 					$thisRow = jq(this).parents('div.follow-up:first');
 					if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
-					$thisRow = jq(this).parents('div.follow-up:first');
+						$thisRow = jq(this).parents('div.follow-up:first');
 
-					$thisRow.hide('slow', function() {
-						showAddButtonForLastVisibleRow($thisRow.parents('div.follow-up:first'));
-						fieldHelper.clearAllFields($thisRow);
-					});
-				}
+						$thisRow.hide('slow', function() {
+							showAddButtonForLastVisibleRow($thisRow.parents('div.follow-up:first'));
+							fieldHelper.clearAllFields($thisRow);
+						});
+					}
 				});
+
 				<ifMode mode="ENTER">
 
 					$otherRows.hide(); //Hide all rows apart from first row if adding new form
 					$firstRow.find('.remove').hide(); //Hide the remove button from the first row
 
-				</ifMode>
+					<!-- Disable art clinic and art number if client is self reffered-->	
+					function disableARTclinicandArtnumber () {
+						var n;
+						for (n = 1; n &lt;= 6; n++) {
+						 	disable_fields('90211_'+n);
+						 	disable_fields('99431_'+n);
+						}
+					}
 
-				<ifMode mode="VIEW">
+					disableARTclinicandArtnumber();
 
-					enable_fields('165398'); //other specified service point
-					enable_fields('165483'); //other medication due for refill 
-					enable_fields('90211'); //ART clinic
-				    enable_fields('99431');  //ART number
-					enable_fields('165378'); //date returned to care
-
-				</ifMode>
-
-				<!-- Enable/disable the text box for Other Service Point -->
+				<!-- Enable/disable the text box for other service point -->
 				jq('#164993').change(function () {
 					if (getValue('164993.value') == 90002) {
 						enable_fields('165398');
@@ -90,7 +90,7 @@
 					}
 				});
 
-				<!-- Other Medications due for Refill -->
+				<!-- Other medications due for refill -->
 				jq('#5622').click(function () {
 					if(jq(this).find(':checkbox').prop('checked')) {
 						enable_fields('165483');
@@ -99,22 +99,94 @@
 					}
 				});
 
-				<!-- Enable ART clinic and ART number if client self transferred -->
-				jq('#165104').change(function () {
-					if (getValue('165104.value') == 165335) {
-						enable_fields('165378');
-					} else {
-						disable_fields('165378');
+				<!-- Enable ART clinic and ART number if first follow up outcome is client self transferred -->
+				jq('#165104_1').change(function () {
+
+					if (jq(this).find("select").find(":selected").val() == 165335) {
+					 	enable_fields('90211_1');
+					 	enable_fields('99431_1');
 					}
 				});
-			
-				<!-- Enable the date of return to care if client returned to care or self transferred  -->
-				jq('#165104').change(function () {
-					if (getValue('165104.value') == 165334 || getValue('165104.value') == 165335) {
-						enable_fields('165378');
-					} else {
-						disable_fields('165378');
+
+				<!-- Enable ART clinic and ART number if second follow up outcome is client self transferred -->
+				jq('#165104_2').change(function () {
+
+					if (jq(this).find("select").find(":selected").val() == 165335) {
+					 	enable_fields('90211_2');
+					 	enable_fields('99431_2');
 					}
+				});
+
+				<!-- Enable ART clinic and ART number if third follow up outcome is client self transferred -->
+				jq('#165104_3').change(function () {
+
+					if (jq(this).find("select").find(":selected").val() == 165335) {
+					 	enable_fields('90211_3');
+					 	enable_fields('99431_3');
+					}
+				});
+
+				<!-- Enable ART clinic and ART number if fourth follow up outcome is client self transferred -->
+				jq('#165104_4').change(function () {
+
+					if (jq(this).find("select").find(":selected").val() == 165335) {
+					 	enable_fields('90211_4');
+					 	enable_fields('99431_4');
+					}
+				});
+
+				<!-- Enable ART clinic and ART number if fifth follow up outcome is client self transferred -->
+				jq('#165104_5').change(function () {
+
+					if (jq(this).find("select").find(":selected").val() == 165335) {
+					 	enable_fields('90211_5');
+					 	enable_fields('99431_5');
+					}
+				});
+
+				<!-- Enable ART clinic and ART number if sixth follow up outcome is client self transferred -->
+				jq('#165104_6').change(function () {
+
+					if (jq(this).find("select").find(":selected").val() == 165335) {
+					 	enable_fields('90211_6');
+					 	enable_fields('99431_6');
+					}
+				});
+				
+				</ifMode>
+
+				<ifMode mode="EDIT">
+
+					enable_fields('165398'); //other specified service point
+					enable_fields('165483'); //other medication due for refill 
+					enable_fields('165378'); //date returned to care
+					enable_fields('165485'); //outcome by end of next quarter
+					enable_fields('5002');   // cause of death
+
+				</ifMode>
+
+				<!-- Enable the date of return to care if outcome by end of quarter is client returned to care or self transferred  -->
+				jq('#165484').change(function () {
+					if (getValue('165484.value') == 165334 || getValue('165484.value') == 165335)
+						enable_fields('165378');
+					else
+						disable_fields('165378');
+				});
+
+				<!-- Enable cause of death if outcome by end of quarter is client died  -->
+				jq('#165484').change(function () {
+					if (getValue('165484.value') == 160034)
+						enable_fields('5002');
+					else
+						disable_fields('5002');
+				});
+
+				<!-- Enable outcome by end of next quarter if outcome by end of quarter is 'no tracing attepmts' or 'tracing attempts initiated and incomplete'  -->
+				jq('#165484').change(function () { 
+					if (getValue('165484.value') == 165369 || getValue('165484.value') == 165370)
+						enable_fields('165485');
+					else
+						disable_fields('165485');
 				});
 			});
 		}
@@ -215,57 +287,57 @@
 											<repeat>
 												<template>
 													<obsgroup groupingConceptId="99075">
-													<div class="follow-up">
-														<div class="row">
-															<div class="col-md-3">
-																<label>Follow Up Attempt</label>
-																<obs conceptId="165346" answerConceptIds="165338,165339,165340,165341,165342,165343" answerLabels="1 - Follow Up 1, 2 - Follow Up 2, 3 - Follow Up 3, 4 - Follow Up 4, 5 - Follow Up 5,6 - Follow Up 6" />
+														<div class="follow-up">
+															<div class="row">
+																<div class="col-md-3">
+																	<label>Follow Up Attempt</label>
+																	<obs id="165346" conceptId="165346" answerConceptIds="165338,165339,165340,165341,165342,165343" answerLabels="1 - Follow Up 1, 2 - Follow Up 2, 3 - Follow Up 3, 4 - Follow Up 4, 5 - Follow Up 5,6 - Follow Up 6" />
+																</div>
+																<div class="col-md-3">
+																	<label>Follow Up Date</label>
+																	<obs id="165373_{n}" conceptId="165373" allowFutureDates="false" class="Vertical-layout-options">
+																		<i class="icon-calendar small right-addon-row position-absolute" style="right: 24%; top: 48%;"></i>
+																	</obs>
+																</div>
+																<div class="col-md-3">
+																	<label>Follow Up Person</label>
+																	<encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" required="required"/>
+																</div>
+																<div class="col-md-3">
+																	<label>Follow Up Action</label>
+																	<obs id="follow-up-action" conceptId="165100" answerConceptIds="165102,165103,165336,165337,90002" answerLabels="Phone call to client/caregiver/next of Kin, Home/workplace visit by HCW, Facility to facility phone call, Facility to facility visit, Other" style="dropdown" class="long-value-select"/>
+																</div>
+																<div class="col-md-3">
+																	<label>Other Follow up actions</label>
+																	<obs id="165481_{n}" conceptId="165481" /> 
+																</div>
+																<div class="col-md-3">
+																	<label>Follow Up Outcome</label>
+																	<obs id="165104_{n}" conceptId="165104" answerConceptIds="165334,165335,1363,165486,160034,165368,165369,165370,165371" answerLabels="1 - Returned to care, 2 - Self transferred, 3 - Stopped/Refused, 4 - Migrated/Relocated, 5 - Died, 6 - Unable to be traced, 7 - Tracing attempts initiated but incomplete, 8 - No attempt to trace, 9 - Misclassified as Missed Appointment" class="long-value-select"/>
+																</div>
+																<div class="col-md-3">
+																	<label>ART Clinic</label>
+																	<obs id="90211_{n}" conceptId="90211" /> 
+																</div>
+																<div class="col-md-3">
+																	<label>ART No.</label>
+																	<obs id="99431_{n}" conceptId="99431" /> 
+																</div>
 															</div>
-															<div class="col-md-3">
-																<label>Follow Up Date</label>
-																<obs id="165373_{n}" conceptId="165373" allowFutureDates="false" class="Vertical-layout-options">
-																	<i class="icon-calendar small right-addon-row position-absolute" style="right: 24%; top: 48%;"></i>
-																</obs>
-															</div>
-															<div class="col-md-3">
-																<label>Follow Up Person</label>
-																<encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" required="required"/>
-															</div>
-															<div class="col-md-3">
-																<label>Follow Up Action</label>
-																<obs id="follow-up-action" conceptId="165100" answerConceptIds="165102,165103,165336,165337,90002" answerLabels="Phone call to client/caregiver/next of Kin, Home/workplace visit by HCW, Facility to facility phone call, Facility to facility visit, Other" style="dropdown" class="long-value-select"/>
-															</div>
-															<div class="col-md-3">
-																<label>Other Follow up actions</label>
-																<obs id="165481_{n}" conceptId="165481" /> 
-															</div>
-															<div class="col-md-3">
-																<label>Follow Up Outcome</label>
-																<obs id="165104" conceptId="165104" answerConceptIds="165334,165335,1363,165486,160034,165368,165369,165370,165371" answerLabels="1 - Returned to care, 2 - Self transferred, 3 - Stopped/Refused, 4 - Migrated/Relocated, 5 - Died, 6 - Unable to be traced, 7 - Tracing attempts initiated but incomplete, 8 - No attempt to trace, 9 - Misclassified as Missed Appointment" class="long-value-select"/>
-															</div>
-															<div class="col-md-3">
-																<label>ART Clinic</label>
-																<obs id="90211_{n}" conceptId="90211" /> 
-															</div>
-															<div class="col-md-3">
-																<label>ART No.</label>
-																<obs id="99431_{n}" conceptId="99431" /> 
-															</div>
-														</div>
-														<div class="row">
-															<div class="col-md-1">
-																<div class="text-nowrap">
-																	<a href="#" class="add  add-more-link" title="Add Follow Up">
-																		<i class="icon-plus-sign"></i>
-																	</a>
-																	<a href="#" class="remove remove-more-link required" title="Remove Follow Up">
-																		<i class="icon-minus"></i>
-																	</a>
+															<div class="row">
+																<div class="col-md-1">
+																	<div class="text-nowrap">
+																		<a href="#" class="add  add-more-link" title="Add Follow Up">
+																			<i class="icon-plus-sign"></i>
+																		</a>
+																		<a href="#" class="remove remove-more-link required" title="Remove Follow Up">
+																			<i class="icon-minus"></i>
+																		</a>
+																	</div>
 																</div>
 															</div>
 														</div>
-													</div>
-												</obsgroup>
+													</obsgroup>
 												</template>
 												<render n="1" />
 												<render n="2" />
@@ -287,7 +359,7 @@
 													<obs id="165484" conceptId="165484" answerConceptIds="165334,165335,1363,165486,160034,165368,165369,165370,165371" answerLabels="1 - Returned to care, 2 - Self transferred, 3 - Stopped/Refused, 4 - Migrated/Relocated, 5 - Died, 6 - Unable to be traced, 7 - Tracing attempts initiated but incomplete, 8 - No attempt to trace, 9 - Misclassified as Missed Appointment" class="long-value-select"/>
 												</div>
 												<div class="col-md-3">
-													<label>Outcome By End of next Quarter</label>
+													<label>Outcome By End of Next Quarter</label>
 													<obs id="165485" conceptId="165485" answerConceptIds="165334,165335,1363,165486,160034,165368,165369,165370,165371" answerLabels="1 - Returned to care, 2 - Self transferred, 3 - Stopped/Refused, 4 - Migrated/Relocated, 5 - Died, 6 - Unable to be traced, 7 - Tracing attempts initiated but incomplete, 8 - No attempt to trace, 9 - Misclassified as Missed Appointment" class="long-value-select"/>
 												</div>
 												<div class="col-md-3">
@@ -297,7 +369,7 @@
 												</div>
 												<div class="col-md-3">
 													<label>Cause of Death</label>
-													<obs conceptId="5002" answerConceptIds="58,116030,165374,165375,165376,165377,90001" answerLabels="1 - TB, 2 - Cancer, 3 - Infectious disease other than TB, 4 - HIV Non-infectious disease, 5 - Natural causes, 6 - Non natural causes, 7 - Unknown" />
+													<obs id="5002" conceptId="5002" answerConceptIds="58,116030,165374,165375,165376,165377,90001" answerLabels="1 - TB, 2 - Cancer, 3 - Infectious disease other than TB, 4 - HIV Non-infectious disease, 5 - Natural causes, 6 - Non natural causes, 7 - Unknown" />
 												</div>
 											</div>
 											<div class="row">
