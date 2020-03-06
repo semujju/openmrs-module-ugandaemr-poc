@@ -25,8 +25,9 @@
         disable_fields("specify-other-entry-point");
         disable_fields("adverse-event-presence");
         disable_fields("specify-other-ae");
+        disable_fields("circumcision-procedure-card");
         disable_fields("circumcision-procedure");
-        disable_fields("post-operation-management")
+        disable_fields("post-operation-management-card")
         disable_fields("smc_client_in_care");
         disable_fields("other-circumcision-procedure");
         disable_fields('ring-size');
@@ -71,7 +72,7 @@
         jq('#circumcision-procedure').change(function () {
           if (getValue('circumcision-procedure.value') == 162911) {
               enable_fields('ring-size');
-          } else if (getValue('circumcision-procedure.value') == 90002){
+          } else if (getValue('circumcision-procedure.value') == 90002) {
               enable_fields("other-circumcision-procedure");
               disable_fields('ring-size');
           } else {
@@ -112,11 +113,11 @@
           });
 
           if (eligibilityList.length === 3) {
-              enable_fields("circumcision-procedure");
-              enable_fields("post-operation-management")
+              enable_fields("circumcision-procedure-card");
+              enable_fields("post-operation-management-card")
           } else {
-              disable_fields("circumcision-procedure");
-              disable_fields("post-operation-management")
+              disable_fields("circumcision-procedure-card");
+              disable_fields("post-operation-management-card")
           }
         });
 
@@ -135,14 +136,44 @@
             });
 
             if (eligibilityList.length === 3) {
-              enable_fields("circumcision-procedure");
-              enable_fields("post-operation-management")
+              enable_fields("circumcision-procedure-card");
+              enable_fields("post-operation-management-card")
             } else {
-              disable_fields("circumcision-procedure");
-              disable_fields("post-operation-management")
+              disable_fields("circumcision-procedure-card");
+              disable_fields("post-operation-management-card")
             }
           });
         </ifMode>
+
+        <!-- Enabling and Disabling Prescription of multiple drugs -->
+          $allRows = jq(this).find('.drugs-prescribed');
+          /*hide default prescription rows on load*/
+          $allRows.hide();
+          jq('#1-removeEntry').remove();
+          jq('#10-addEntry').remove();
+          jq('#1-toggleContainer').show();
+
+          jq('#11-removeEntry').remove();
+          jq('#20-addEntry').remove();
+          jq('#11-toggleContainer').show();
+
+          jq('.addEntry').on("click", function() {
+              var correctedAddButtonId = parseFloat(this.id) + 1;
+              var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
+              jq(contentAddId).toggle(true);
+              jq('#' + this.id).toggle(false); jq('#' + parseFloat(this.id) + '-removeEntry').toggle(true);
+              return false;
+          });
+
+          jq('.removeEntry').on("click", function() {
+              var correctedRemoveButtonId = parseFloat(this.id) - 1;
+              var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
+              jq(contentAddId).toggle(false);
+              jq( ':input:not(:button)', contentAddId).val([]);
+              jq('#' + correctedRemoveButtonId + '-addEntry').toggle(true); jq('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
+
+              return false;
+          });
       });
     }
   </script>
@@ -196,43 +227,45 @@
                               <label>Visit Date</label>
                               <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
                           </div>
-                          <div class="col-md-3">
-                              <obs conceptId="99142" required="true" labelText="Next Of Kin Name" />
-                          </div>
-                          <div class="col-md-3">
-                              <obs conceptId="90278" class="ugphone" id="90278" labelText="Next Of Kin Telephone Number" required="true" />
-                          </div>
                       </div>
 
-                      <label>How did you hear about SMC?</label>
-                      <div class="row">
-                          <obsgroup groupingConceptId="99611">
-                            <obs conceptId="99612" answerConceptId="99614" answerLabel="Friend/Family" class="col-md-3" style="checkbox"/>
-                            <obs conceptId="99612" answerConceptId="99615" answerLabel="Radio" class="col-md-2" style="checkbox"/>
-                            <obs conceptId="99612" answerConceptId="99616" answerLabel="TV" class="col-md-1" style="checkbox"/>
-                            <obs conceptId="99612" answerConceptId="99617" answerLabel="HCW Referral" class="col-md-2" style="checkbox"/>
-                            <obs conceptId="99612" answerConceptId="162897" answerLabel="VHT" class="col-md-1" style="checkbox"/>
-                          </obsgroup>
-                      </div>
-                      <div class="row">
-                        <obsgroup groupingConceptId="99611">
-                            <obs conceptId="99612" answerConceptId="162898" answerLabel="Megaphones /Community Radio" class="col-md-3" style="checkbox"/>
-                            <obs conceptId="99612" answerConceptId="165349" answerLabel="Print Media" class="col-md-2" style="checkbox"/>
-                            <obs conceptId="99612" answerConceptId="90002"  answerLabel="Other" class="col-md-1" style="checkbox" id="other-smc-info-source"/>
-                            <label>Specify</label>
-                            <obs conceptId="99613" class="col-md-3" id="specify-other-smc-info-source"/>
-                        </obsgroup>
+                      <label>How did you know about SMC?</label>
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="row">
+                              <obsgroup groupingConceptId="99611">
+                                <obs conceptId="99612" answerConceptId="99614" answerLabel="Friend/Family" class="col-md-3" style="checkbox"/>
+                                <obs conceptId="99612" answerConceptId="99615" answerLabel="Radio" class="col-md-2" style="checkbox"/>
+                                <obs conceptId="99612" answerConceptId="99616" answerLabel="TV" class="col-md-1" style="checkbox"/>
+                                <obs conceptId="99612" answerConceptId="99617" answerLabel="HCW Referral" class="col-md-2" style="checkbox"/>
+                                <obs conceptId="99612" answerConceptId="162897" answerLabel="VHT" class="col-md-1" style="checkbox"/>
+                              </obsgroup>
+                          </div>
+                          <div class="row">
+                            <obsgroup groupingConceptId="99611">
+                                <obs conceptId="99612" answerConceptId="162898" answerLabel="Megaphones /Community Radio" class="col-md-3" style="checkbox"/>
+                                <obs conceptId="99612" answerConceptId="165349" answerLabel="Print Media" class="col-md-2" style="checkbox"/>
+                                <obs conceptId="99612" answerConceptId="90002"  answerLabel="Other" class="col-md-1" style="checkbox" id="other-smc-info-source"/>
+                                <label>Specify</label>
+                                <obs conceptId="99613" class="col-md-3" id="specify-other-smc-info-source"/>
+                            </obsgroup>
+                          </div>
+                        </div>
                       </div>
 
                       <label>Care Entry Point</label>
-                      <div class="row">
-                          <obsgroup groupingConceptId="99618">
-                            <obs conceptId="99619" answerConceptId="162899" answerLabel="SMC" class="col-md-3" style="checkbox"/>
-                            <obs conceptId="99619" answerConceptId="99620" answerLabel="HTS" class="col-md-2" style="checkbox"/>
-                            <obs id="other-entry-point" conceptId="99619" answerConceptId="90002" answerLabel="Other" class="col-md-1" style="checkbox"/>
-                            <label>Specify</label>
-                            <obs id="specify-other-entry-point" conceptId="99622" class="col-md-3"/>
-                          </obsgroup>
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="row">
+                              <obsgroup groupingConceptId="99618">
+                                <obs conceptId="99619" answerConceptId="162899" answerLabel="SMC" class="col-md-3" style="checkbox"/>
+                                <obs conceptId="99619" answerConceptId="99620" answerLabel="HTS" class="col-md-2" style="checkbox"/>
+                                <obs id="other-entry-point" conceptId="99619" answerConceptId="90002" answerLabel="Other" class="col-md-1" style="checkbox"/>
+                                <label>Specify</label>
+                                <obs id="specify-other-entry-point" conceptId="99622" class="col-md-3"/>
+                              </obsgroup>
+                          </div>
+                        </div>
                       </div>
                   </div>
               </div>
@@ -264,13 +297,11 @@
                     </div>
                         <label>Date of TD1</label>
                     <div class="col-md-3">
-                        <!-- TODO: fix Calendar icon style -->
                         <i class=" icon-calendar small family-date-icon position-absolute" style="right: 25%; top: 20%;"></i>
                         <obs  conceptId="162902" required="false" allowFutureDates="false" />
                     </div>
                         <label>Date of TD2</label>
                     <div class="col-md-3">
-                        <!-- TODO: fix Calendar icon style -->
                         <i class=" icon-calendar small family-date-icon position-absolute" style="right: 25%; top: 20%;"></i>
                         <obs conceptId="162903"  class="" id="90278" required="false" />
                     </div>
@@ -305,7 +336,7 @@
                         <div class="col-md-12">
                           <div class="col-md-6 row">
                             <label>Other Specify</label>
-                            <obs class="col-md-6" conceptId="99642" id="99642" required="false" /><!-- NB: this field is independent thus not greyed out on load-->
+                            <obs class="col-md-6" conceptId="99642" id="99642" required="false" />
                           </div>
                         </div>
                       </div>
@@ -325,7 +356,7 @@
                     <obs conceptId="99647" answerConceptIds="90003,90004" answerLabels="Yes, No" labelText="HIV/AIDS?" style="radio"
                          class="col-md-2 horizontal"/>
                     <label>Other Specify</label>
-                    <obs class="col-md-3" conceptId="99648" id="99648" required="false" /> <!-- NB: this field is independent thus not greyed out on load-->
+                    <obs class="col-md-3" conceptId="99648" id="99648" required="false" />
                   </div>
                 </div>
               </div>
@@ -344,7 +375,7 @@
                     </div>
                     <div class="col-md-6 row">
                       <label>Any other medication (Specify)</label>
-                        <obs class="col-md-6" conceptId="99652" id="99652" required="false" /> <!-- NB: this field is independent thus not greyed out on load-->
+                        <obs class="col-md-6" conceptId="99652" id="99652" required="false" />
                     </div>
                   </div>
                 </div>
@@ -353,60 +384,91 @@
               <div class="card">
                 <div class="card-header">C5: Physical Exam</div>
                 <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-3">
-                      <label>BP</label>
-                    <div class="row">
-                      <obs conceptId="CIEL:5085" id="bp_systolic" />
-                        <p class="left" >/</p>
-                      <obs conceptId="CIEL:5086" id="bp_diastolic" />
-                    </div>
-                    </div>
-                    <div class="col-md-2">
-                        <obs conceptId="5087" labelText="Pulse"/>
-                    </div>
-                    <div class="col-md-2">
-                        <obs conceptId="5088" labelText="Temp"/>
-                    </div>
-                    <div class="col-md-2">
-                        <obs conceptId="162904" labelText="RR"/>
-                    </div>
-                    <div class="col-md-2">
-                        <obs conceptId="5089" labelText="Weight"/>
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <label>BP</label>
+                          <div class="row">
+                            <obs conceptId="CIEL:5085" id="bp_systolic" />
+                              <p>/</p>
+                            <obs conceptId="CIEL:5086" id="bp_diastolic" />
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <obs conceptId="5087" labelText="Pulse"/>
+                        </div>
+                        <div class="col-md-2">
+                          <obs conceptId="5088" labelText="Temp"/>
+                        </div>
+                        <div class="col-md-2">
+                          <obs conceptId="162904" labelText="RR"/>
+                        </div>
+                        <div class="col-md-2">
+                          <obs conceptId="5089" labelText="Weight"/>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <obs conceptId="99656" answerConceptIds="90003,90004" answerLabels="Yes,No" labelText="Urethra Discharge?" style="radio"
-                         class="col-md-4 horizontal"/>
-                    <obs conceptId="99657" answerConceptIds="90003,90004" answerLabels="Yes, No" labelText="Adhesions?" style="radio"
-                         class="col-md-4 horizontal"/>
-                    <obs conceptId="99658" answerConceptIds="90003,90004" answerLabels="Yes, No" labelText="Anatomical abnormalities?" style="radio"
-                         class="col-md-4 horizontal"/>
-                  </div>
-                  <div class="row">
-                    <obs conceptId="99659" answerConceptIds="90003,90004" answerLabels="Yes, No" labelText="Genital Ulcer Disease?" style="radio"
-                        class="col-md-4 horizontal"/>
-                    <obs conceptId="99660" answerConceptIds="90003,90004" answerLabels="Yes, No" labelText="Balanitis?" style="radio"
-                        class="col-md-4 horizontal"/>
-                    <obs conceptId="99661" answerConceptIds="90003,90004" answerLabels="Yes, No" labelText="Genital Warts?" style="radio"
-                         class="col-md-4 horizontal"/>
-                  </div>
-                  <div class="row">
-                    <obs conceptId="99662" answerConceptIds="90003,90004" answerLabels="Yes, No" labelText="Surgical disorders?" style="radio"
-                         class="col-md-4 horizontal"/>
-                    <obs conceptId="99663" answerConceptIds="90003,90004" answerLabels="Yes, No" labelText="Other STI/ abnormalities?" style="radio"
-                         class="col-md-4 horizontal"/>
-                    <obs conceptId="162905" answerConceptIds="90003,90004" answerLabels="Yes, No" labelText="Open wounds/ recently healed scars?" style="radio"
-                         class="col-md-4 horizontal"/>
-                  </div>
-                  <div class="row">
-                    <obs conceptId="162906" answerConceptIds="90003,90004" answerLabels="Yes, No" labelText="Jiggers?" style="radio"
-                         class="col-md-4 horizontal"/>
-                    <obs conceptId="162907" answerConceptIds="90003,90004" answerLabels="Yes, No" labelText="TD given during this appointment?" style="radio"
-                         class="col-md-4 horizontal"/>
-                    <div class="col-md-4 row">
-                    <label>Other Specify</label>
-                      <obs class="col-md-2" conceptId="99664"/> <!-- NB: this field is independent thus not greyed out on load-->
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-2">
+                          <label>Urethra Discharge?</label>
+                        </div>
+                        <obs conceptId="99656" answerConceptIds="90003,90004" answerLabels="Yes,No" style="radio" class="col-md-2 horizontal"/>
+                        <div class="col-md-2">
+                          <label>Adhesions?</label>
+                        </div>
+                        <obs conceptId="99657" answerConceptIds="90003,90004" answerLabels="Yes, No" style="radio" class="col-md-2 horizontal"/>
+                        <div class="col-md-2">
+                          <label>Anatomical abnormalities?</label>
+                        </div>
+                        <obs conceptId="99658" answerConceptIds="90003,90004" answerLabels="Yes, No" style="radio" class="col-md-2 horizontal"/>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-2">
+                          <label>Genital Ulcer Disease?</label>
+                        </div>
+                        <obs conceptId="99659" answerConceptIds="90003,90004" answerLabels="Yes, No" style="radio" class="col-md-2 horizontal"/>
+                        <div class="col-md-2">
+                          <label>Balanitis?</label>
+                        </div>
+                        <obs conceptId="99660" answerConceptIds="90003,90004" answerLabels="Yes, No" style="radio" class="col-md-2 horizontal"/>
+                        <div class="col-md-2">
+                          <label>Genital Warts?</label>
+                        </div>
+                        <obs conceptId="99661" answerConceptIds="90003,90004" answerLabels="Yes, No" style="radio" class="col-md-2 horizontal"/>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-2">
+                          <label>Surgical disorders?</label>
+                        </div>
+                        <obs conceptId="99662" answerConceptIds="90003,90004" answerLabels="Yes, No" style="radio" class="col-md-2 horizontal"/>
+                        <div class="col-md-2">
+                          <label>Other STI/ abnormalities?</label>
+                        </div>
+                        <obs conceptId="99663" answerConceptIds="90003,90004" answerLabels="Yes, No" style="radio" class="col-md-2 horizontal"/>
+                        <div class="col-md-2">
+                          <label>Jiggers?</label>
+                        </div>
+                        <obs conceptId="162906" answerConceptIds="90003,90004" answerLabels="Yes, No" style="radio" class="col-md-2 horizontal"/>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-2">
+                          <label>Open wounds/ recently healed scars?</label>
+                        </div>
+                        <obs conceptId="162905" answerConceptIds="90003,90004" answerLabels="Yes, No" style="radio" class="col-md-2 horizontal"/>
+                        <div class="col-md-2">
+                          <label>TD given during this appointment?</label>
+                        </div>
+                        <obs conceptId="162907" answerConceptIds="90003,90004" answerLabels="Yes, No" style="radio" class="col-md-2 horizontal"/>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12">
+                            <obs labelText="Other findinds" conceptId="99664" style="textarea"/>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -430,33 +492,25 @@
                   </div>
                 </div>
               </div>
-              <obsgroup groupingConceptId="99670">
                 <!-- Procedure card -->
-                <div class="card" id="circumcision-procedure">
+                <div class="card" id="circumcision-procedure-card">
                   <div class="card-header">E: Circumcision Procedure </div>
                     <div class="card-body">
-                      <!--   Date and time      -->
+                      <!--  Date and time  -->
                       <div class="row">
-                        <div class="col-md-2">
-                          <label>Date of circumcision</label>
-                        </div>
                         <div class="col-md-3">
-                          <!-- TODO: fix Calendar icon style -->
-                          <i class=" icon-calendar small family-date-icon position-absolute" style="right: 25%; top: 20%;" ></i>
+                          <label>Date of circumcision</label>
+                          <i class=" icon-calendar small family-date-icon position-absolute" style="right: 25%; top: 50%;" ></i>
                           <obs conceptId="165390" class="hasDatepicker" allowFutureDates="false" />
                         </div>
-                        <div class="col-md-1">
+                        <div class="col-md-3">
                           <label>Time started</label>
-                        </div>
-                        <div class="col-md-2">
                           <span class="time-box-horizontal">
                               <obs conceptId="99542" id="99542"/>
                           </span>
                         </div>
-                        <div class="col-md-1">
-                          <label>End Time</label>
-                        </div>
                         <div class="col-md-3">
+                          <label>End Time</label>
                           <span class="time-box-horizontal">
                               <obs conceptId="99543" id="99543"/>
                           </span>
@@ -467,59 +521,45 @@
                         <div class="col-md-3">
                           <label>Local Anesthesia</label>
                         </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-2">
-                          <label>Lignocaine (mls)</label>
+                        <div class="col-md-3">
+                          <obs labelText="Lignocaine (mls)" conceptId="99671" />
                         </div>
                         <div class="col-md-3">
-                          <obs conceptId="99671" />
-                        </div>
-                        <div class="col-md-1">
-                          <label>Bupivicaine (mls)</label>
-                        </div>
-                        <div class="col-md-2">
-                          <obs conceptId="99672" />
+                          <obs labelText="Bupivicaine (mls)" conceptId="99672" />
                         </div>
                         <div class="col-md-3">
+                          <br/>
                           <obs conceptId="99612" answerConceptId="165384" answerLabel="EMLA Cream" style="checkbox"/>
                         </div>
                       </div>
                       <!--  Type of circumcision procedure  -->
                       <div class="row ">
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                           <label>Type of Circumcision Procedure </label>
                         </div>
                         <div class="col-md-3">
                           <obs conceptId="99674" answerConceptIds="99676,99675,99677,162908,162911,90002" answerLabels="Dorsal slit,Forceps guided,Sleeve,PrePex,Shang Ring,Other" 
-                               id="circumcision-procedure" style="dropdown" />
+                               id="circumcision-procedure" labelText="Procedure" style="dropdown" />
                         </div>
-                        <div class="col-md-1">
-                        <label>Ring Size</label>
+                        <div class="col-md-3">
+                          <obs conceptId="162909" id="ring-size" labelText="Ring Size"/>
                         </div>
-                        <div class="col-md-2">
-                          <obs conceptId="162909" id="ring-size"/>
-                        </div>
-                        <label>Other(Specify)</label>
-                        <div class="col-md-2">
-                          <obs conceptId="99678" id="other-circumcision-procedure" required="false" />
+                        <div class="col-md-3">
+                          <obs conceptId="99678" id="other-circumcision-procedure" labelText="Other(Specify)" required="false" />
                         </div>
                       </div>
                       <!--  Circumciser details   -->
                       <div class="row ">
-                        <div class="col-md-2">
-                          <label>Name of Circumciser</label>
-                        </div>
                         <div class="col-md-3">
+                          <label>Name of Circumciser</label>
                           <encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" required="required"/>
                         </div>
-                        <div class="col-md-1">
-                        <labe>Cadre</labe>
-                        </div>
-                        <div class="col-md-2">
-                          <obs conceptId="99680"/>
+                        <div class="col-md-3">
+                          <label>Cadre</label>
+                          <obs conceptId="99680" />
                         </div>
                         <div class="col-md-4">
+                          <br/>
                           <obs  id="adverse-events" conceptId="99684" answerConceptIds="90003,90004" answerLabels="Yes,No" style="radio" labelText="Adverse events during procedure?" class="horizontal"/>
                         </div>
                       </div>
@@ -549,55 +589,104 @@
                       <div class="col-md-1">
                         <obs conceptId="99685" answerConceptId="90002" answerLabel="5 - Other" style="checkbox" id="other-ae"/>
                       </div>
-                    <label>Specify</label>
+                      <label>Specify</label>
                       <obs class="col-md-2" id="specify-other-ae" conceptId="99690"/>
                     </div>
                     <!-- severity row -->
-                    <div class="row ">
-                      <obs conceptId="99691" answerConceptIds="99562,99561" answerLabels="Moderate, Severe" labelText="Severity" style="radio" class="horizontal col-md-3"/>
-                      <label>Treatment given:</label>
-                      <obs conceptId="99692" class="horizontal col-md-3"/>
+                    <div class="row">
+                      <div class="col-md-3">
+                        <obs conceptId="99691" answerConceptIds="99562,99561" answerLabels="Moderate, Severe" labelText="Severity" style="radio" class="horizontal"/>
+                      </div>
+                      <div class="col-md-3">
+                        <label>Treatment given</label>
+                        <obs conceptId="99692" />
+                      </div>
                     </div>
                   </div>
                 </div>
                 <!-- Adverse event form-->
-                <div class="card" id="post-operation-management">
-                  <div class="card-header">Post Operation Management (After 30 minutes):</div>
+                <div class="card" id="post-operation-management-card">
+                  <div class="card-header">Post Operation Management (After 30 minutes)</div>
                   <div class="card-body">
                     <!-- measurements -->
-                    <div class="row ">
-                      <div class="col-md-3">
-                        <label>BP</label>
-                        <div class="col-md-12  align-items-center row">
-                          <obs conceptId="CIEL:5085" id="bp_systolic" />
-                          <p class="left" >
-                              /
-                          </p>
-                          <obs conceptId="CIEL:5086" id="bp_diastolic" />
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row ">
+                          <div class="col-md-2">
+                            <label>BP</label>
+                            <div class="col-md-12  align-items-center row">
+                              <obs conceptId="CIEL:5085" id="bp_systolic" />
+                              <p>/</p>
+                              <obs conceptId="CIEL:5086" id="bp_diastolic" />
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <obs conceptId="5087"  labelText="Pulse"/>
+                          </div>
+                          <div class="col-md-2">
+                            <obs conceptId="5088"  labelText="Temp"/>
+                          </div>
+                          <div class="col-md-2">
+                            <obs conceptId="162904"  labelText="RR"/>
+                          </div>
                         </div>
-                      </div>
-                      <div class="col-md-3">
-                        <obs conceptId="5087"  labelText="Pulse"/>
-                      </div>
-                      <div class="col-md-3">
-                        <obs conceptId="5088"  labelText="Temp"/>
-                      </div>
-                      <div class="col-md-3">
-                        <obs conceptId="162904"  labelText="RR"/>
                       </div>
                     </div>
                     <!-- treatments given -->
                     <div class="row">
                       <div class="col-md-12">
-                        <label>List Post-Operative medication given</label>
-                        <obs conceptId="99697" style="textarea"/>
+                        <label>Medication given</label>
+                        <div class="card">
+                          <div class="card-body">
+                            <repeat>
+                              <template>
+                                  <obsgroup groupingConceptId="160741">
+                                      <div class="row drugs-prescribed" id="{id}-toggleContainer">
+                                          <div class="col-md-2">
+                                              <obs labelText="Drug" conceptId="1282" answerConceptSetIds="1157,1158,1159,1195,1197,5279,5839" style="autocomplete"/>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <obs labelText="Units per dose" conceptId="160856"/>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <span class="long-value-select">
+                                                  <obs labelText="Doses per day" conceptId="160855"/>
+                                              </span>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <obs labelText="Duration" conceptId="159368"/>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <obs labelText="Frequency" conceptId="1732"/>
+                                          </div>
+                                          <div class="col-md-1">
+                                              <div style="font-size: 25px;margin-top: 26px;">
+                                                  <a href="#" id="{id}-addEntry" class="addEntry add-more-link"><i class="icon-plus-sign"></i></a>  
+                                                  <a href="#" class="removeEntry remove-more-link" id="{id}-removeEntry"><i class="icon-minus"></i></a>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </obsgroup>
+                              </template>
+                              <render id="1"/>
+                              <render id="2"/>
+                              <render id="3"/>
+                              <render id="4"/>
+                              <render id="5"/>
+                              <render id="6"/>
+                              <render id="7"/>
+                              <render id="8"/>
+                              <render id="9"/>
+                              <render id="10"/>
+                            </repeat>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </obsgroup>
-            </section>
-          </div>
+              </section>
+            </div>
           </div>
           </div> 
         </div>
