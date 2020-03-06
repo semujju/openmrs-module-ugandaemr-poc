@@ -28,6 +28,7 @@
                 disableEncounterDate();
 
                 disable_fields("165424");        //partner pre art number
+                disable_fields("165479");        //patner art number
                 disable_fields("165422")         //tfv for partner
                 disable_fields("90203");         //who clinical stage
                 disable_fields("5497");          //cd4 count
@@ -36,7 +37,8 @@
                 disable_fields("1305");          //viral load results
                 disable_fields("856");           //viral load copies
                 disable_fields("99081");         //place where partner was linked for art
-                disable_fields("99431")          //Art number
+                disable_fields("99431");         //Art number
+                disable_fields("165478");        //other tb diagnosed
 
                 jq("#woman-emtct-code").change(function () {
 
@@ -75,12 +77,14 @@
                     if(jq(this).find("input[type='radio']:checked").val() == 1065) { 
                         enable_fields("99081");
                         enable_fields("165424");
+                        enable_fields("165479");
                         enable_fields("99431");
                         enable_fields("165422");
 
                     } else {
                         disable_fields("99081");
                         disable_fields("165424");
+                        disable_fields("165479");
                         disable_fields("99431");
                         disable_fields("165422");
                     }
@@ -148,80 +152,13 @@
                     }
                 });
 
-                jq("#gravida").change(function () {
+                jq('#tb-status').change(function () {
 
-                    var gravida = jq(this).find("input").val();
-
-                    if (gravida &lt; 0) {
-                    jq('#gravida').find('.error').html('Gravida cannot be less than 0').show();
-                    console.log('jffk');
-                    }
-
-                    <!-- if (gravida &lt; 0) {
-                    //gravidaField.addClass('error');
-                    gravidaErrorField.html('Gravida cannot be less than 0').show();
-                    return true; -->
-                
+                    if (getValue('tb-status.value') == 165300)
+                        enable_fields("165478");
+                    else
+                        disable_fields("165478");
                 });
-
-               <!--  var gravidaValidate = function() {
-                //var gravidaField = getField('gravida.value');
-                //var gravida = getValue('gravida.value');
-                var gravida = jq("#gravida").find("input").val();
-                //var gravidaErrorField = getField('gravida.error');
-                //console.log(gravida);
-
-                if (gravida &lt; 0) {
-                    gravidaField.addClass('error');
-                    gravidaErrorField.html('Parity cannot be less than 0').show();
-                    return false;
-                } 
-                else {
-                    //gravidaField.removeClass('error');
-                    //gravidaErrorField.html('').hide();
-                }
-
-                return true;
-                }; -->
-
-                <!-- var parityValidate = function() {
-                    var parityField = getField('parity.value');
-                    var parity = getValue('parity.value');
-                    //var parityErrorField = getField('parity.error');
-
-                    if (parity &lt; 0) {
-                        parityField.addClass('error');
-                        parityErrorField.html('Gravida cannot be less than 0').show();
-                        return false;
-                    } 
-                    else {
-                        //parityField.removeClass('error');
-                        //parityErrorField.html('').hide();
-                    }
-
-                    return true;
-                }; -->
-
-                var gestationalAgeValidate = function() {
-                    var gestationalAge = getValue('gestational-age.value');
-                    var gestationalAgeErrorField = getField('gestational-age.error');
-
-                    if (gestationalAge &gt; 45) {
-                        gestationalAgeField.addClass('error');
-                        gestationalAgeErrorField.html('Gestational Age cannot be greater than 45').show();
-                        return false;
-                    } 
-                    else {
-                        //gestationalAgeField.removeClass('error');
-                        //gestationalAgeErrorField.html('').hide();
-                    }
-
-                    return true
-                }
-
-                //gravidaValidate();
-                //parityValidate();
-                //gestationalAgeValidate();
           
             });
         }
@@ -472,7 +409,7 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-2">
-                                                    <obs id="165422" conceptId="165422" answerConceptIds="1065,1066" answerLabels="Yes, No" labelText="TFV" style="radio" class="horizontal"/>
+                                                    <obs id="165422" conceptId="165422" answerConceptIds="99315,99741" answerLabels="TRR,TRR+" labelText="TFV" style="radio" class="horizontal"/>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <obs id="162982" conceptId="162982" answerConceptIds="1065,1066" answerLabels="Yes, No" labelText="Linked to ART?" style="radio"  class="horizontal" />
@@ -486,7 +423,7 @@
                                                 </div>
                                                 <div class="col-md-1"></div>
                                                 <div class="col-md-1">
-                                                    <label>Pre-ART No</label>
+                                                    <label>Pre-ART No.</label>
                                                 </div>
                                                 <div class="col-md-1">
                                                     <obs id="165424" conceptId="165424"/>
@@ -494,10 +431,10 @@
                                             </div>
                                              <div class="row">
                                                 <div class="col-md-1">
-                                                    <label>ART No</label>
+                                                    <label>ART No.</label>
                                                 </div>
                                                 <div class="col-md-1">
-                                                    <obs id="99431" conceptId="99431" /> <!--get right concept for partner -->
+                                                    <obs id="165479" conceptId="165479" />
                                                 </div>
                                             </div>
                                         </div>
@@ -531,6 +468,9 @@
                                                 <div class="col-md-3">
                                                     <label>CD4 Date</label>
                                                     <obs id="159376" conceptId="159376" allowFutureDates="false" />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <obs id="165480" conceptId="165480" answerConceptIds="1065, 1066, 1067" answerLabels="Yes, No, NA" labelText="Results recorded on a previous visit?" style="radio" class="horizontal"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -621,7 +561,7 @@
                                                 <obs id="tb-status" class="long-value-select" conceptId="90216" answerConceptIds="90079, 90073, 165295, 165296, 165297, 165298, 165299, 165300, 90071, 99421" answerLabels="1 - No signs,2 - Presumptive TB , 3C - TB Diagnosed - Clinically diagnosed,  3G - TB Diagnosed - Gene Xpert, 3L - TB Diagnosed - TB LAM, 3M - TB Diagnosed -TB Microscopy, 3X - TB Diagnosed - Chest Xray, 3O - TB Diagnosed - Others, 4 - Currenty on TB Treatment, 5 - Completed TB Treatment" labelText="TB Status"/>
                                             </div>
                                             <div class="col-md-3">
-                                                <obs conceptId="717" labelText="Other TB Diagnosis" /> <!-- wrog concept-->
+                                                <obs id="165478" conceptId="165478" labelText="Other TB Diagnosis" />
                                             </div>
                                             <div class="col-md-3">
                                                 <obs conceptId="165450" labelText="WOA U/S Scan Done" />
@@ -686,27 +626,39 @@
                                                 <label>Woman</label>
                                             </div>
                                             <div class="col-md-5">
-                                                <obs conceptId="165464" answerConceptIds="165465,165466,165467,165468" answerLabels="Rx - Client reactive treatmeant given,+Ve - Client Positive no Treatment,NR - Results Given Client non-reactive,NT - Client not Tested for Syphilis/Hep B" style="dropdown" />
+                                                <obs conceptId="165464" answerConceptIds="165465,165466,165467,165468" 
+                                                     answerLabels="Rx - Client tested positive results given and treatment initiated,
+                                                                   +Ve - Client tested positive results given but treatment not yet initiated,
+                                                                   NR - Client tested negative and results given,
+                                                                   NT - Client not Tested for Syphilis/Hep B" 
+                                                     style="dropdown" />
                                             </div>
                                             <div class="col-md-1">
                                                 <label>Partner</label>
                                             </div>
                                             <div class="col-md-5">
-                                                <!-- concepts missing -->
-                                                    <obs conceptId="165464" answerConceptIds="165465,165466,165467,165468" answerLabels="Rx - Client reactive treatmeant given,+Ve - Client Positive no Treatment,NR - Results Given Client non-reactive,NT - Client not Tested for Syphilis/Hep B" style="dropdown" />
+                                                <obs conceptId="165464" answerConceptIds="165465,165466,165467,165472,165473,165474,165475,165476,165477,165468" 
+                                                     answerLabels="Rx - Client tested positive results given and treatment initiated,
+                                                                   +Ve - Client tested positive results given but treatment not yet initiated,
+                                                                   NR - Client tested negative and results given,
+                                                                   RX&#8730; - Revisit - Client tested positive and results given,
+                                                                   +Ve&#8730; - Revisit - Client tested positive but not yet given treatment,
+                                                                   NR&#8730; - Revisit - Client tested negative results given,
+                                                                   RX+ - Retest - Client tested positive and results given,
+                                                                   +Ve+ - Retest -Client tested positive but not yet given treatment,
+                                                                   NR+ - Retest - Client tested negative and results given,
+                                                                   NT - Client not Tested for Syphilis/Hep B" 
+                                                     style="dropdown" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <div class="card-header">
-                                        Family Planning
-                                    </div>
                                     <div class="card-body">
                                         <div class="row"> 
                                             <div class="col-md-3">
                                                 <label>Family Planning Counselling</label>
-                                                <obs conceptId="99296" answerConceptIds="99294,99295" answerLabels="C - Counselling Done,C/D - Counselling and Provided with Condoms" 
+                                                <obs conceptId="99296" answerConceptIds="99294,99295" answerLabels="C - Counselling Done, C/D - Counselling and Provided with Condoms" 
                                                      class="long-value-select" style="dropdown"/>
                                             </div>
                                         </div>
@@ -753,10 +705,10 @@
                                                 <obs conceptId="99762" labelText="Folic acid" />
                                             </div>
                                             <div class="col-md-3">
-                                                <obs conceptId="99762" labelText="Iron/Folic Acid Combined" /> <!-- miissing concept -->
+                                                <obs conceptId="165487" labelText="Iron/Folic Acid Combined" />
                                             </div>
                                             <div class="col-md-3">
-                                                <obs conceptId="99339" labelText="Misoprostol" />  <!-- miissing concept -->
+                                                <obs conceptId="165488" labelText="Misoprostol" />
                                             </div>
                                         </div>
                                         <div class="row">
