@@ -80,15 +80,8 @@
     top: 11%;
 }
 
-#patient-search {
-    min-width: 96%;
-    color: #363463;
-    display: block;
-    padding: 5px 10px;
-    height: 45px;
-    margin-top: 27px;
-    background-color: #FFF;
-    border: 1px solid #dddddd;
+.fade:not(.show) {
+    opacity: 1;
 }
 </style>
 
@@ -200,7 +193,17 @@
         var content = "";
         var pendingCounter=0;
         content = "<table><thead><tr><th>Q ID</th><th>NAMES</th><th>AGE</th><th>ORDER FROM</th><th>WAITING TIME</th><th>TEST(S) ORDERED</th></tr></thead><tbody>";
-        jq.each(response.patientLabQueueList, function (index, element) {
+
+
+        var dataToDisplay=[];
+
+        if(response.patientLabQueueList.length>0){
+            dataToDisplay=response.patientLabQueueList.sort(function (a, b) {
+                return a.patientQueueId - b.patientQueueId;
+            });
+        }
+
+        jq.each(dataToDisplay, function (index, element) {
                 var orders = displayLabOrderData(element, true);
                 if (orders !== null) {
                     var patientQueueListElement = element;
@@ -393,7 +396,7 @@ ${ui.includeFragment("ugandaemrpoc", "lab/displayResultList")}
                     <form method="get" id="patient-lab-search-form" onsubmit="return false">
                         <input type="text" id="patient-lab-search" name="patient-lab-search"
                                placeholder="${ui.message ( "coreapps.findPatient.search.placeholder" )}"
-                               autocomplete="off"/>
+                               autocomplete="off" class="provider-dashboard-patient-search"/>
 
                     </form>
                 </div>

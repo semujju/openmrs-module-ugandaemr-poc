@@ -19,17 +19,6 @@
     left: 99%;
     top: 11%;
 }
-
-#patient-triage-search {
-    min-width: 96%;
-    color: #363463;
-    display: block;
-    padding: 5px 10px;
-    height: 45px;
-    margin-top: 27px;
-    background-color: #FFF;
-    border: 1px solid #dddddd;
-}
 </style>
 <script>
     var stillInQueue = 0;
@@ -84,14 +73,23 @@
         var headerPending = "<table><thead><tr><th>VISIT ID</th><th>NAMES</th><th>GENDER</th><th>AGE</th><th>VISIT STATUS</th><th>ENTRY POINT</th><th>WAITING TIME</th><th>ACTION</th></tr></thead><tbody>";
         var headerCompleted = "<table><thead><tr><th>VISIT ID</th><th>NAMES</th><th>GENDER</th><th>AGE</th><th>ENTRY POINT</th><th>COMPLETED TIME</th><th>ACTION</th></tr></thead><tbody>";
         var footer = "</tbody></table>";
-        jq.each(response.patientTriageQueueList, function (index, element) {
+
+        var dataToDisplay=[];
+
+        if(response.patientTriageQueueList.length>0){
+            dataToDisplay=response.patientTriageQueueList.sort(function (a, b) {
+                return a.patientQueueId - b.patientQueueId;
+            });
+        }
+
+        jq.each(dataToDisplay, function (index, element) {
                 var patientQueueListElement = element;
                 var dataRowTable = "";
                 var vitalsPageLocation = "";
                 if (element.status !== "COMPLETED") {
-                    vitalsPageLocation = "/" + OPENMRS_CONTEXT_PATH + "/htmlformentryui/htmlform/enterHtmlFormWithStandardUi.page?patientId=" + patientQueueListElement.patientId +"&formUuid=d514be1d-8a95-4f46-b8d8-9b8485679f47&returnUrl="+"/"+OPENMRS_CONTEXT_PATH+"/patientqueueing/providerDashboard.page";
-                } else {
-                    vitalsPageLocation = "/" + OPENMRS_CONTEXT_PATH + "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId=" + patientQueueListElement.patientId +"&formUuid=d514be1d-8a95-4f46-b8d8-9b8485679f47&encounterId=" + patientQueueListElement.encounterId + "&returnUrl="+"/"+OPENMRS_CONTEXT_PATH+"/patientqueueing/providerDashboard.page";;
+                    vitalsPageLocation = "/" + OPENMRS_CONTEXT_PATH + "/htmlformentryui/htmlform/enterHtmlFormWithStandardUi.page?patientId=" + patientQueueListElement.patientId +"&visitId="+patientQueueListElement.visitId+"&formUuid=d514be1d-8a95-4f46-b8d8-9b8485679f47&returnUrl="+"/"+OPENMRS_CONTEXT_PATH+"/patientqueueing/providerDashboard.page";
+                } else if(element.status !== "COMPLETED" && (element.encounterId!==null || element.encounterId!=="")){
+                    vitalsPageLocation = "/" + OPENMRS_CONTEXT_PATH + "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId=" + patientQueueListElement.patientId +"&formUuid=d514be1d-8a95-4f46-b8d8-9b8485679f47&encounterId=" + patientQueueListElement.encounterId + "&visitId="+patientQueueListElement.visitId+"&returnUrl="+"/"+OPENMRS_CONTEXT_PATH+"/patientqueueing/providerDashboard.page";;
                 }
 
                 var action = "<i style=\"font-size: 25px;\" class=\"icon-edit edit-action\" title=\"Capture Vitals\" onclick=\" location.href = '" + vitalsPageLocation + "'\"></i>";
@@ -183,8 +181,7 @@
                     <form method="get" id="patient-triage-search-form" onsubmit="return false">
                         <input id="patient-triage-search" name="patient-triage-search"
                                placeholder="${ui.message ( "coreapps.findPatient.search.placeholder" )}"
-                               autocomplete="off"/><i
-                            id="patient-search-clear-button" class="small icon-remove-sign"></i>
+                               autocomplete="off" class="provider-dashboard-patient-search"/>
                     </form>
                 </div>
             </div>
