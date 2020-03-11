@@ -48,8 +48,6 @@
 						$nextRow.show('slow');
 						$thisRow.find('.add').hide();
 					}
-
-					showAddButtonForLastVisibleRow($thisRow.parents('div.follow-up:first'));
 				});
 
 				jq('.remove').click(function(e) { //Handle remove button event
@@ -57,10 +55,12 @@
 					$thisRow = jq(this).parents('div.follow-up:first');
 					if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
 						$thisRow = jq(this).parents('div.follow-up:first');
+						$lastRow = jq(this).parents('div.follow-up:last');
+                		$lastVisibleRow = $lastRow.prev();
 
 						$thisRow.hide('slow', function() {
-							showAddButtonForLastVisibleRow($thisRow.parents('div.follow-up:first'));
 							fieldHelper.clearAllFields($thisRow);
+							$lastVisibleRow.find('.add').show();
 						});
 					}
 				});
@@ -325,6 +325,7 @@
 																</div>
 															</div>
 															<div class="row">
+																<div class="col-md-11"></div>
 																<div class="col-md-1">
 																	<div class="text-nowrap">
 																		<a href="#" class="add  add-more-link" title="Add Follow Up">
