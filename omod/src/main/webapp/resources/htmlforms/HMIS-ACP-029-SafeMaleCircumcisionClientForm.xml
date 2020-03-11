@@ -143,6 +143,68 @@
               disable_fields("post-operation-management-card")
             }
           });
+
+          //
+          //
+
+          /*
+          * If consent values are pre-ticked, activate procedure tab
+          */
+          <!-- var i = 0;
+          jq('.consent').find("input[type$='radio']").each(function () {
+              consentValues[i] = this.value;
+              i++;
+              var consentList =  Object.keys(consentValues).filter(function(data){ -->
+              <!-- add to consent list if yes -->
+              <!-- if(consentValues[data] === '90003'){
+                return true;
+              }
+                return false;
+              });
+
+              if(consentList.length === 3){
+                jq('.nav-tabs').find('a:nth-child(2)').removeClass('disabled');
+              }else{
+                jq('.nav-tabs').find('a:not(:first-child)').addClass('disabled');
+              }
+          });
+
+          /*if circumcision procedure is selected, activate followup */
+          var procedure = jq("#circumcision_procedure").find("select option:selected").val();
+          if (procedure > 0) {
+            jq('.nav-tabs').find('a:nth-child(3)').removeClass('disabled');
+          } else {
+            jq('.nav-tabs').find('a:nth-child(3)').addClass('disabled');
+          } -->
+
+
+          /*Handle loading of existing obs */
+          $allTables = jq('table.multi');
+          $allTables.each(function() {
+          $allRows = jq(this).find('tbody &gt; tr');
+          $allRows.hide();
+          $nonEmptyBoxes = jq(this).find('tbody tr input[type=text],tbody tr select').filter(function() {
+          return this.value.length &gt; 0;
+          });
+
+          if ($nonEmptyBoxes.length &gt; 0 ) {
+          $nonEmptyBoxes.each(function() {
+          $thisRow = jq(this).parents('tr:first');
+          $thisRow.show();
+          if ($thisRow.is($firstRow)) {
+          $firstRow.find('.remove').hide();
+          }
+          });
+
+          if ($nonEmptyBoxes.length == 1) {
+          $nonEmptyBoxes.parents('tr:first').find('.remove').hide(); //Hide the remove button if there is only one visible row
+          }
+          } else {
+          $firstRow.show();
+          $firstRow.find('.remove').hide();
+          }
+          });
+
         </ifMode>
 
         <!-- Enabling and Disabling Prescription of multiple drugs -->
@@ -174,6 +236,55 @@
 
               return false;
           });
+
+        <!--  add or remove follow up visit    -->
+          var $allTables,
+              $allRows,
+              $otherRows,
+              $firstRow,
+              $thisRow,
+              $nextRow,
+              $hiddenRows,
+              $lastVisibleRow,
+              $nonEmptyBoxes;
+          var showAddButtonForLastVisibleRow = function($container) {
+              $lastVisibleRow = $container.find('tr:visible:last');
+              $lastVisibleRow.find('.add').show();
+          };
+
+          $firstRow = jq('table.multi tbody tr:first-of-type');
+          $otherRows = jq('table.multi tbody tr:not(:first-of-type)');
+
+          jq('.add').click(function(e) { //Handle add button event
+              e.preventDefault();
+              $thisRow = jq(this).parents('tr:first');
+              $nextRow = $thisRow.next();
+
+          if ($nextRow.length &gt; 0) {
+              $nextRow.show('slow');
+              $thisRow.find('.add').hide();
+          }
+
+          showAddButtonForLastVisibleRow($thisRow.parents('table:first')); });
+
+          jq('.remove').click(function(e) { //Handle remove button event
+              e.preventDefault();
+              $thisRow = jq(this).parents('tr:first');
+              if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
+                  $thisRow = jq(this).parents('tr:first');
+
+                  $thisRow.hide('slow', function() {
+                  showAddButtonForLastVisibleRow($thisRow.parents('table:first'));
+                  fieldHelper.clearAllFields($thisRow);
+              });
+              }
+          });
+
+          <ifMode mode="ENTER">
+              $otherRows.hide(); //Hide all rows apart from first row if adding new form
+              $firstRow.find('.remove').hide(); //Hide the remove button from the first row
+
+          </ifMode>
       });
     }
   </script>
@@ -212,6 +323,9 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#eligibility-and-procedure">Eligibility and Procedure</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#followup-section">Followup</a>
           </li>
         </ul>
       </div>
@@ -687,6 +801,150 @@
                 </div>
               </section>
             </div>
+
+
+            <!-- follow up tab-->
+            <div class="tab-pane" role="tabpanel" aria-labelledby="nav-profile-tab" id="followup-section">
+              <!-- follow up information  -->
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="card">
+                          <div class="card-header">Follow Up Information</div>
+                          <div class="card-body">
+                              <table class="table table-striped multi table-borderless">
+                                  <tbody>
+                                      <repeat>
+                                          <template>
+                                              <obsgroup groupingConceptId="99075">
+                                                  <tr class="FollowupEnableDisable">
+                                                      <td>
+                                                          <div class="accordion col-md-12" id="followUpForm">
+                                                              <div class="card">
+                                                              <div class="card-header" id="{anchorId}" data-target="#{tag}" data-toggle="collapse" aria-controls="{tag}" aria-expanded="true">
+                                                                  <h5 class="mb-0">
+                                                                      {heading}:
+                                                                  </h5>
+                                                              </div>
+
+                                                              <div id="{tag}" class="collapse show" aria-labelledby="{anchorId}" data-parent="#followUpForm">
+                                                              <div class="card-body div-stripped">
+
+                                                          <!--   Date  -->
+                                                          <div class="row">
+                                                              <div class="col-md-3 ">
+                                                                  <label>Date :</label>
+                                                                  <!-- TODO: fix Calendar icon style -->
+                                                                  <i class=" icon-calendar small family-date-icon position-absolute" style="right: 25%; top: 50%;" ></i>
+                                                                  <obs conceptId="{followupDate}" class="hasDatepicker" allowFutureDates="false" />
+                                                              </div>
+                                                              <div class="col-md-4">
+                                                                  <label>Wound Status:</label>
+                                                                  <obs conceptId="162912" />
+                                                              </div>
+                                                              <div class="col-md-5 ">
+                                                                  <label>Type of Visit:</label>
+                                                                  <obs conceptId="99702" answerConceptIds="99703,99704,99705" answerLabels="1 - Routine, 2 - Client initiated/unscheduled,3 - Recommended by Physician"
+                                                                       id="99702"
+                                                                       style="dropdown" />
+                                                              </div>
+                                                          </div>
+
+                                                          <!-- Presence of AE -->
+                                                          <div class="row div-stripped">
+                                                              <div class="col-md-12 ">
+                                                                  <h5>Presence of AE </h5>
+                                                              </div>
+                                                              <div class="col-md-3">
+                                                                  <obs conceptId="99706" answerConceptId="99687" answerLabel="1 - Damage to penis"/>
+                                                              </div>
+                                                              <div class="col-md-3">
+                                                                  <obs conceptId="99706" answerConceptId="99688" answerLabel="2 - Excessive bleeding"/>
+                                                              </div>
+                                                              <div class="col-md-3">
+                                                                  <obs conceptId="99706" answerConceptId="99707" answerLabel="3 - Pus discharge"/>
+                                                              </div>
+                                                              <div class="col-md-3">
+                                                                  <obs conceptId="99706" answerConceptId="99708" answerLabel="4 - Excessive Swelling"/>
+                                                              </div>
+                                                          </div>
+
+                                                          <div class="row div-stripped">
+                                                              <div class="col-md-3">
+                                                                  <obs conceptId="99706" answerConceptId="99709" answerLabel="5 - Infection"/>
+                                                              </div>
+                                                              <div class="col-md-3">
+                                                                  <obs conceptId="99706" answerConceptId="162913" answerLabel="6 - Smell"/>
+                                                              </div>
+                                                              <div class="col-md-3">
+                                                                  <obs conceptId="99706" answerConceptId="162914" answerLabel="7 - Device displacement"/>
+                                                              </div>
+                                                              <div class="col-md-3">
+                                                                  <obs conceptId="99706" answerConceptId="162915" answerLabel="8 - Failure to pass urine"/>
+                                                              </div>
+                                                          </div>
+
+                                                          <div class="row div-stripped">
+                                                              <div class="col-md-3">
+                                                                  <obs conceptId="99706" answerConceptId="162914" answerLabel="9 - Early Ring Removal"/>
+                                                              </div>
+                                                              <div class="col-md-2">
+                                                                  <obs class="col-md-x4" conceptId="99706" id="smc_presence_of_ae" answerConceptId="90002" answerLabel="(Other Specify)" />
+                                                              </div>
+                                                              <div class="col-md-4">
+                                                                  <obs conceptId="99710" id="smc_presence_of_ae_other"/>
+                                                              </div>
+                                                          </div>
+
+                                                          <!-- severity -->
+                                                          <div class="row ">
+                                                              <div class="col-md-6 ">
+                                                                  <label >Severity</label>
+                                                                  <obs conceptId="99691" answerConceptIds="99562,99561" answerLabels="Moderate, Severe"
+                                                                       style="radio" class="horizontal col-md-6"/>
+                                                              </div>
+                                                          </div>
+
+                                                          <!-- Treatment given -->
+                                                          <div class="row">
+                                                              <div class="col-md-6">
+                                                                  <label>Treatment given:</label>
+                                                                  <obs conceptId="99692" size="50"/>
+                                                              </div>
+                                                          </div>
+
+                                                          <!-- health worker -->
+                                                          <div class="row ">
+                                                              <div class="col-md-12 ">
+                                                                  <label>Attending Health Worker:</label>
+                                                                  <encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f"
+                                                                                            required="required"/>
+                                                              </div>
+                                                          </div>
+
+                                                              </div>
+                                                              </div>
+                                                              </div>
+                                                          </div>
+                                                      </td>
+                                                      <td class="text-nowrap">
+                                                          <a href="#" class="add  add-more-link" title="Add Follow up Visit"><i class= "icon-plus-sign"></i></a>
+                                                          <a href="#" class="remove remove-more-link required" title="Remove Follow up Visit"> <i class="icon-minus"></i></a>
+                                                      </td>
+                                                  </tr>
+                                              </obsgroup>
+                                          </template>
+                                          <render followupDate="99701" tag="followUp1" anchorId="followUpHeading1" heading="Follow Up 1"/>
+                                          <render followupDate="99713" tag="followUp2" anchorId="followUpHeading2" heading="Follow Up 2"/>
+                                          <render followupDate="99719" tag="followUp3" anchorId="followUpHeading3" heading="Follow Up 3"/>
+                                      </repeat>
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+
           </div>
           </div> 
         </div>
