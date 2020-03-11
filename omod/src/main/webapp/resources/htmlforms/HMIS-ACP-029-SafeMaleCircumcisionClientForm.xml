@@ -895,6 +895,7 @@
                         <render followupDate="99701" heading="Follow Up 1" f="1"/>
                         <render followupDate="99713" heading="Follow Up 2" f="2"/>
                         <render followupDate="99719" heading="Follow Up 3" f="3"/>
+                        <render followupDate="99719" heading="Follow Up 3" f="4"/> <!-- followupDate concept is wrong -->
                         </repeat>
                         </div>
                     </div>
