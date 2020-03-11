@@ -31,6 +31,7 @@
         disable_fields("smc_client_in_care");
         disable_fields("other-circumcision-procedure");
         disable_fields('ring-size');
+        disable_fields('specify-other-ae-on-followup');
 
         <!-- disable other source of smc info -->
         jq('#other-smc-info-source').click(function () {
@@ -96,6 +97,33 @@
               enable_fields("specify-other-ae");
           } else {
               disable_fields("specify-other-ae");
+          }
+        });
+
+        <!-- enable other ae field if adverse event on followup attemp 1-->
+        jq('#other-ae-on-followup_1').click(function () {
+          if(jq(this).find(':checkbox').prop('checked')) {
+              enable_fields("specify-other-ae-on-followup_1");
+          } else {
+              disable_fields("specify-other-ae-on-followup_1");
+          }
+        });
+
+        <!-- enable other ae field if adverse event on followup attemp 2-->
+        jq('#other-ae-on-followup_2').click(function () {
+          if(jq(this).find(':checkbox').prop('checked')) {
+              enable_fields("specify-other-ae-on-followup_2");
+          } else {
+              disable_fields("specify-other-ae-on-followup_2");
+          }
+        });
+
+        <!-- enable other ae field if adverse event on followup attemp 3-->
+        jq('#other-ae-on-followup_3').click(function () {
+          if(jq(this).find(':checkbox').prop('checked')) {
+              enable_fields("specify-other-ae-on-followup_3");
+          } else {
+              disable_fields("specify-other-ae-on-followup_3");
           }
         });
 
@@ -237,54 +265,50 @@
               return false;
           });
 
-        <!--  add or remove follow up visit    -->
-          var $allTables,
-              $allRows,
-              $otherRows,
-              $firstRow,
-              $thisRow,
-              $nextRow,
-              $hiddenRows,
-              $lastVisibleRow,
-              $nonEmptyBoxes;
-          var showAddButtonForLastVisibleRow = function($container) {
-              $lastVisibleRow = $container.find('tr:visible:last');
-              $lastVisibleRow.find('.add').show();
-          };
+        <!--  add or remove follow up section -->
+        var $otherRows,
+            $firstRow,
+            $thisRow,
+            $nextRow,
+            $lastVisibleRow;
 
-          $firstRow = jq('table.multi tbody tr:first-of-type');
-          $otherRows = jq('table.multi tbody tr:not(:first-of-type)');
+        $firstRow = jq('div.follow-up:first-of-type');
+        $otherRows = jq('div.follow-up:not(:first-of-type)');
 
-          jq('.add').click(function(e) { //Handle add button event
-              e.preventDefault();
-              $thisRow = jq(this).parents('tr:first');
-              $nextRow = $thisRow.next();
+        jq('.add').click(function(e) { //Handle add button event
+            e.preventDefault();
+            $thisRow = jq(this).parents('div.follow-up:first');
+            $nextRow = $thisRow.next();
 
-          if ($nextRow.length &gt; 0) {
-              $nextRow.show('slow');
-              $thisRow.find('.add').hide();
-          }
+            if ($nextRow.length &gt; 0) {
+                $nextRow.show('slow');
+                $thisRow.find('.add').hide();
+            }
+        });
 
-          showAddButtonForLastVisibleRow($thisRow.parents('table:first')); });
+        jq('.remove').click(function(e) { //Handle remove button event
+            e.preventDefault();
+            $thisRow = jq(this).parents('div.follow-up:first');
+            if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
+                $thisRow = jq(this).parents('div.follow-up:first');
+                $lastRow = jq(this).parents('div.follow-up:last');
+                $lastVisibleRow = $lastRow.prev();
 
-          jq('.remove').click(function(e) { //Handle remove button event
-              e.preventDefault();
-              $thisRow = jq(this).parents('tr:first');
-              if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
-                  $thisRow = jq(this).parents('tr:first');
-
-                  $thisRow.hide('slow', function() {
-                  showAddButtonForLastVisibleRow($thisRow.parents('table:first'));
+                $thisRow.hide('slow', function() {
                   fieldHelper.clearAllFields($thisRow);
-              });
-              }
-          });
+                  $lastVisibleRow.find('.add').show();
+                });
+            }
+        });
 
-          <ifMode mode="ENTER">
-              $otherRows.hide(); //Hide all rows apart from first row if adding new form
-              $firstRow.find('.remove').hide(); //Hide the remove button from the first row
-
-          </ifMode>
+        <ifMode mode="ENTER">
+            $otherRows.hide(); //Hide all rows apart from first row if adding new form
+            $firstRow.find('.remove').hide(); //Hide the remove button from the first row
+            var f;
+            for(f=1; f &lt;=4; f++) {
+              disable_fields('specify-other-ae-on-followup_{f}');
+            }
+        </ifMode>
       });
     }
   </script>
@@ -802,7 +826,6 @@
               </section>
             </div>
 
-
             <!-- follow up section -->
             <div class="tab-pane" id="followup-section">
               <section>
@@ -812,8 +835,8 @@
                       <repeat>
                         <template>
                             <obsgroup groupingConceptId="99075">
-                              <div class="card">
-                              <div class="card-header" id="{anchorId}">{heading}</div>
+                              <div class="card follow-up">
+                              <div class="card-header">{heading}</div>
                               <div class="card-body">
 
                               <div class="row">
@@ -854,7 +877,7 @@
                                   </div>
                               </div>
 
-                              <div class="row div-stripped">
+                              <div class="row">
                                   <div class="col-md-3">
                                       <obs conceptId="99706" answerConceptId="99709" answerLabel="5 - Infection"/>
                                   </div>
@@ -869,16 +892,16 @@
                                   </div>
                               </div>
 
-                              <div class="row div-stripped">
+                              <div class="row">
                                   <div class="col-md-3">
                                       <obs conceptId="99706" answerConceptId="162914" answerLabel="9 - Early Ring Removal"/>
                                   </div>
                                   <div class="col-md-3">
-                                      <obs class="col-md-x4" conceptId="99706" id="smc_presence_of_ae" answerConceptId="90002" answerLabel="Other" />
+                                      <obs class="col-md-x4" conceptId="99706" id="other-ae-on-followup_{f}" answerConceptId="90002" answerLabel="Other" />
                                   </div>
                                   <div class="col-md-1"><label>Specifiy</label></div>
                                   <div class="col-md-3">
-                                      <obs conceptId="99710" id="smc_presence_of_ae_other"/>
+                                      <obs conceptId="99710" id="specify-other-ae-on-followup_{f}"/>
                                   </div>
                               </div>
                               <div class="row">
@@ -895,27 +918,26 @@
                                 </div>
                               </div>
                               </div>
-                            </div>
-                            <div class="row">
-                              <div class="col-md-11"></div>
-                                <div class="col-md-1">
-                                  <div style="font-size: 20px;margin-top: 10px;">
-                                    <a href="#" class="add  add-more-link" title="Add Follow up Visit"><i class="icon-plus-sign"></i></a>
-                                    <a href="#" class="remove remove-more-link required" title="Remove Follow up Visit"><i class="icon-minus"></i></a>
+                              <div class="row">
+                                <div class="col-md-11"></div>
+                                  <div class="col-md-1">
+                                    <div style="font-size: 20px;margin-top: 10px;">
+                                      <a href="#" class="add  add-more-link" title="Add Follow up Visit"><i class="icon-plus-sign"></i></a>
+                                      <a href="#" class="remove remove-more-link required" title="Remove Follow up Visit"><i class="icon-minus"></i></a>
+                                    </div>
                                   </div>
-                                </div>
+                              </div>
                             </div>
                           </obsgroup>
                         </template>
-                        <render followupDate="99701" tag="followUp1" anchorId="followUpHeading1" heading="Follow Up 1"/>
-                        <render followupDate="99713" tag="followUp2" anchorId="followUpHeading2" heading="Follow Up 2"/>
-                        <render followupDate="99719" tag="followUp3" anchorId="followUpHeading3" heading="Follow Up 3"/>
+                        <render followupDate="99701" heading="Follow Up 1" f="1"/>
+                        <render followupDate="99713" heading="Follow Up 2" f="2"/>
+                        <render followupDate="99719" heading="Follow Up 3" f="3"/>
                         </repeat>
                         </div>
                     </div>
                   </section>
               </div>
-
           </div>
           </div> 
         </div>
