@@ -711,8 +711,8 @@
                       <div class="col-md-3">
                         <obs conceptId="99691" answerConceptIds="99562,99561" answerLabels="Moderate, Severe" labelText="Severity" style="radio" class="horizontal"/>
                       </div>
+                      <label>Treatment given</label>
                       <div class="col-md-3">
-                        <label>Treatment given</label>
                         <obs conceptId="99692" />
                       </div>
                     </div>
@@ -803,147 +803,118 @@
             </div>
 
 
-            <!-- follow up tab-->
-            <div class="tab-pane" role="tabpanel" aria-labelledby="nav-profile-tab" id="followup-section">
-              <!-- follow up information  -->
-              <div class="row">
-                  <div class="col-md-12">
-                      <div class="card">
-                          <div class="card-header">Follow Up Information</div>
-                          <div class="card-body">
-                              <table class="table table-striped multi table-borderless">
-                                  <tbody>
-                                      <repeat>
-                                          <template>
-                                              <obsgroup groupingConceptId="99075">
-                                                  <tr class="FollowupEnableDisable">
-                                                      <td>
-                                                          <div class="accordion col-md-12" id="followUpForm">
-                                                              <div class="card">
-                                                              <div class="card-header" id="{anchorId}" data-target="#{tag}" data-toggle="collapse" aria-controls="{tag}" aria-expanded="true">
-                                                                  <h5 class="mb-0">
-                                                                      {heading}:
-                                                                  </h5>
-                                                              </div>
+            <!-- follow up section -->
+            <div class="tab-pane" id="followup-section">
+              <section>
+                <div class="card">
+                    <div class="card-header">Follow Up Information</div>
+                    <div class="card-body">
+                      <repeat>
+                        <template>
+                            <obsgroup groupingConceptId="99075">
+                              <div class="card">
+                              <div class="card-header" id="{anchorId}">{heading}</div>
+                              <div class="card-body">
 
-                                                              <div id="{tag}" class="collapse show" aria-labelledby="{anchorId}" data-parent="#followUpForm">
-                                                              <div class="card-body div-stripped">
+                              <div class="row">
+                                  <div class="col-md-3 ">
+                                      <label>Date :</label>
+                                      <!-- TODO: fix Calendar icon style -->
+                                      <i class=" icon-calendar small family-date-icon position-absolute" style="right: 25%; top: 50%;" ></i>
+                                      <obs conceptId="{followupDate}" class="hasDatepicker" allowFutureDates="false" />
+                                  </div>
+                                  <div class="col-md-4">
+                                      <label>Wound Status:</label>
+                                      <obs conceptId="162912" />
+                                  </div>
+                                  <div class="col-md-5 ">
+                                      <label>Type of Visit:</label>
+                                      <obs conceptId="99702" answerConceptIds="99703,99704,99705" answerLabels="1 - Routine, 2 - Client initiated/unscheduled,3 - Recommended by Physician"
+                                           id="99702"
+                                           style="dropdown" />
+                                  </div>
+                              </div>
 
-                                                          <!--   Date  -->
-                                                          <div class="row">
-                                                              <div class="col-md-3 ">
-                                                                  <label>Date :</label>
-                                                                  <!-- TODO: fix Calendar icon style -->
-                                                                  <i class=" icon-calendar small family-date-icon position-absolute" style="right: 25%; top: 50%;" ></i>
-                                                                  <obs conceptId="{followupDate}" class="hasDatepicker" allowFutureDates="false" />
-                                                              </div>
-                                                              <div class="col-md-4">
-                                                                  <label>Wound Status:</label>
-                                                                  <obs conceptId="162912" />
-                                                              </div>
-                                                              <div class="col-md-5 ">
-                                                                  <label>Type of Visit:</label>
-                                                                  <obs conceptId="99702" answerConceptIds="99703,99704,99705" answerLabels="1 - Routine, 2 - Client initiated/unscheduled,3 - Recommended by Physician"
-                                                                       id="99702"
-                                                                       style="dropdown" />
-                                                              </div>
-                                                          </div>
+                              <!-- Presence of AE -->
+                              <div class="row">
+                                  <div class="col-md-12 ">
+                                      <label>Presence of AE </label>
+                                  </div>
+                                  <div class="col-md-3">
+                                      <obs conceptId="99706" answerConceptId="99687" answerLabel="1 - Damage to penis"/>
+                                  </div>
+                                  <div class="col-md-3">
+                                      <obs conceptId="99706" answerConceptId="99688" answerLabel="2 - Excessive bleeding"/>
+                                  </div>
+                                  <div class="col-md-3">
+                                      <obs conceptId="99706" answerConceptId="99707" answerLabel="3 - Pus discharge"/>
+                                  </div>
+                                  <div class="col-md-3">
+                                      <obs conceptId="99706" answerConceptId="99708" answerLabel="4 - Excessive Swelling"/>
+                                  </div>
+                              </div>
 
-                                                          <!-- Presence of AE -->
-                                                          <div class="row div-stripped">
-                                                              <div class="col-md-12 ">
-                                                                  <h5>Presence of AE </h5>
-                                                              </div>
-                                                              <div class="col-md-3">
-                                                                  <obs conceptId="99706" answerConceptId="99687" answerLabel="1 - Damage to penis"/>
-                                                              </div>
-                                                              <div class="col-md-3">
-                                                                  <obs conceptId="99706" answerConceptId="99688" answerLabel="2 - Excessive bleeding"/>
-                                                              </div>
-                                                              <div class="col-md-3">
-                                                                  <obs conceptId="99706" answerConceptId="99707" answerLabel="3 - Pus discharge"/>
-                                                              </div>
-                                                              <div class="col-md-3">
-                                                                  <obs conceptId="99706" answerConceptId="99708" answerLabel="4 - Excessive Swelling"/>
-                                                              </div>
-                                                          </div>
+                              <div class="row div-stripped">
+                                  <div class="col-md-3">
+                                      <obs conceptId="99706" answerConceptId="99709" answerLabel="5 - Infection"/>
+                                  </div>
+                                  <div class="col-md-3">
+                                      <obs conceptId="99706" answerConceptId="162913" answerLabel="6 - Smell"/>
+                                  </div>
+                                  <div class="col-md-3">
+                                      <obs conceptId="99706" answerConceptId="162914" answerLabel="7 - Device displacement"/>
+                                  </div>
+                                  <div class="col-md-3">
+                                      <obs conceptId="99706" answerConceptId="162915" answerLabel="8 - Failure to pass urine"/>
+                                  </div>
+                              </div>
 
-                                                          <div class="row div-stripped">
-                                                              <div class="col-md-3">
-                                                                  <obs conceptId="99706" answerConceptId="99709" answerLabel="5 - Infection"/>
-                                                              </div>
-                                                              <div class="col-md-3">
-                                                                  <obs conceptId="99706" answerConceptId="162913" answerLabel="6 - Smell"/>
-                                                              </div>
-                                                              <div class="col-md-3">
-                                                                  <obs conceptId="99706" answerConceptId="162914" answerLabel="7 - Device displacement"/>
-                                                              </div>
-                                                              <div class="col-md-3">
-                                                                  <obs conceptId="99706" answerConceptId="162915" answerLabel="8 - Failure to pass urine"/>
-                                                              </div>
-                                                          </div>
-
-                                                          <div class="row div-stripped">
-                                                              <div class="col-md-3">
-                                                                  <obs conceptId="99706" answerConceptId="162914" answerLabel="9 - Early Ring Removal"/>
-                                                              </div>
-                                                              <div class="col-md-2">
-                                                                  <obs class="col-md-x4" conceptId="99706" id="smc_presence_of_ae" answerConceptId="90002" answerLabel="(Other Specify)" />
-                                                              </div>
-                                                              <div class="col-md-4">
-                                                                  <obs conceptId="99710" id="smc_presence_of_ae_other"/>
-                                                              </div>
-                                                          </div>
-
-                                                          <!-- severity -->
-                                                          <div class="row ">
-                                                              <div class="col-md-6 ">
-                                                                  <label >Severity</label>
-                                                                  <obs conceptId="99691" answerConceptIds="99562,99561" answerLabels="Moderate, Severe"
-                                                                       style="radio" class="horizontal col-md-6"/>
-                                                              </div>
-                                                          </div>
-
-                                                          <!-- Treatment given -->
-                                                          <div class="row">
-                                                              <div class="col-md-6">
-                                                                  <label>Treatment given:</label>
-                                                                  <obs conceptId="99692" size="50"/>
-                                                              </div>
-                                                          </div>
-
-                                                          <!-- health worker -->
-                                                          <div class="row ">
-                                                              <div class="col-md-12 ">
-                                                                  <label>Attending Health Worker:</label>
-                                                                  <encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f"
-                                                                                            required="required"/>
-                                                              </div>
-                                                          </div>
-
-                                                              </div>
-                                                              </div>
-                                                              </div>
-                                                          </div>
-                                                      </td>
-                                                      <td class="text-nowrap">
-                                                          <a href="#" class="add  add-more-link" title="Add Follow up Visit"><i class= "icon-plus-sign"></i></a>
-                                                          <a href="#" class="remove remove-more-link required" title="Remove Follow up Visit"> <i class="icon-minus"></i></a>
-                                                      </td>
-                                                  </tr>
-                                              </obsgroup>
-                                          </template>
-                                          <render followupDate="99701" tag="followUp1" anchorId="followUpHeading1" heading="Follow Up 1"/>
-                                          <render followupDate="99713" tag="followUp2" anchorId="followUpHeading2" heading="Follow Up 2"/>
-                                          <render followupDate="99719" tag="followUp3" anchorId="followUpHeading3" heading="Follow Up 3"/>
-                                      </repeat>
-                                  </tbody>
-                              </table>
-                          </div>
-                      </div>
-                  </div>
+                              <div class="row div-stripped">
+                                  <div class="col-md-3">
+                                      <obs conceptId="99706" answerConceptId="162914" answerLabel="9 - Early Ring Removal"/>
+                                  </div>
+                                  <div class="col-md-3">
+                                      <obs class="col-md-x4" conceptId="99706" id="smc_presence_of_ae" answerConceptId="90002" answerLabel="Other" />
+                                  </div>
+                                  <div class="col-md-1"><label>Specifiy</label></div>
+                                  <div class="col-md-3">
+                                      <obs conceptId="99710" id="smc_presence_of_ae_other"/>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-3">
+                                  <obs conceptId="99691" answerConceptIds="99562,99561" answerLabels="Moderate, Severe" labelText="Severity" style="radio" class="horizontal"/>
+                                </div>
+                                <label>Treatment given</label>
+                                <div class="col-md-3">
+                                  <obs conceptId="99692" />
+                                </div>
+                                <label>Attending Health Worker:</label>
+                                <div class="col-md-3">
+                                  <encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" required="required"/>
+                                </div>
+                              </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-11"></div>
+                                <div class="col-md-1">
+                                  <div style="font-size: 20px;margin-top: 10px;">
+                                    <a href="#" class="add  add-more-link" title="Add Follow up Visit"><i class="icon-plus-sign"></i></a>
+                                    <a href="#" class="remove remove-more-link required" title="Remove Follow up Visit"><i class="icon-minus"></i></a>
+                                  </div>
+                                </div>
+                            </div>
+                          </obsgroup>
+                        </template>
+                        <render followupDate="99701" tag="followUp1" anchorId="followUpHeading1" heading="Follow Up 1"/>
+                        <render followupDate="99713" tag="followUp2" anchorId="followUpHeading2" heading="Follow Up 2"/>
+                        <render followupDate="99719" tag="followUp3" anchorId="followUpHeading3" heading="Follow Up 3"/>
+                        </repeat>
+                        </div>
+                    </div>
+                  </section>
               </div>
-            </div>
 
           </div>
           </div> 
