@@ -867,14 +867,14 @@
                                   </div>
                               </div>
                               <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                   <obs conceptId="99691" answerConceptIds="99562,99561" answerLabels="Moderate, Severe" labelText="Severity" style="radio" class="horizontal"/>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                 <label>Treatment given</label>
                                   <obs conceptId="99692" />
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                 <label>Attending Health Worker:</label>
                                   <encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" required="required"/>
                                 </div>
