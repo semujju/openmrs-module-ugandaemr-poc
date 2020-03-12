@@ -18,6 +18,9 @@
 				//Block Multiple encounter entry on same date
 				blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
 
+				//Disable missed appointdate field
+                disableEncounterDate();
+
 				<!-- Disable these fields when the form is first loaded -->
 				disable_fields('165398'); //other specified service point
 				disable_fields('165483'); //other medication due for refill
