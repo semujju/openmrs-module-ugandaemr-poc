@@ -22,6 +22,7 @@
 				disable_fields('165398'); //other specified service point
 				disable_fields('165483'); //other medication due for refill
 				disable_fields('165378'); //date returned to care
+				disable_fields('99165');  //date self transferred
 				disable_fields('165485'); //outcome by end of next quarter
 				disable_fields('5002');   // cause of death
 
@@ -165,12 +166,20 @@
 
 				</ifMode>
 
-				<!-- Enable the date of return to care if outcome by end of quarter is client returned to care or self transferred  -->
+				<!-- Enable the date of return to care if outcome by end of quarter is client returned to care --> 
 				jq('#165484').change(function () {
-					if (getValue('165484.value') == 165334 || getValue('165484.value') == 165335)
+					if (getValue('165484.value') == 165334)
 						enable_fields('165378');
 					else
 						disable_fields('165378');
+				});
+
+				<!-- Enable the date of self transfer if outcome by end of quarter is self transferred  -->
+				jq('#165484').change(function () {
+					if (getValue('165484.value') == 165335)
+						enable_fields('99165');
+					else
+						disable_fields('99165');
 				});
 
 				<!-- Enable cause of death if outcome by end of quarter is client died  -->
@@ -364,17 +373,22 @@
 													<obs id="165485" conceptId="165485" answerConceptIds="165334,165335,1363,165486,160034,165368,165369,165370,165371" answerLabels="1 - Returned to care, 2 - Self transferred, 3 - Stopped/Refused, 4 - Migrated/Relocated, 5 - Died, 6 - Unable to be traced, 7 - Tracing attempts initiated but incomplete, 8 - No attempt to trace, 9 - Misclassified as Missed Appointment" class="long-value-select"/>
 												</div>
 												<div class="col-md-3">
-													<label>Date Returned</label>
+													<label>Date Returned to care</label>
 													<i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 53%;"></i>
 													<obs id="165378" conceptId="165378" allowFutureDates="false"/>
 												</div>
 												<div class="col-md-3">
-													<label>Cause of Death</label>
-													<obs id="5002" conceptId="5002" answerConceptIds="58,116030,165374,165375,165376,165377,90001" answerLabels="1 - TB, 2 - Cancer, 3 - Infectious disease other than TB, 4 - HIV Non-infectious disease, 5 - Natural causes, 6 - Non natural causes, 7 - Unknown" />
+													<label>Date Self Transferred</label>
+													<i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 53%;"></i>
+													<obs id="99165" conceptId="99165" allowFutureDates="false"/>
 												</div>
 											</div>
 											<div class="row">
-												<div class="col-md-12">
+												<div class="col-md-3">
+													<label>Cause of Death</label>
+													<obs id="5002" conceptId="5002" answerConceptIds="58,116030,165374,165375,165376,165377,90001" answerLabels="1 - TB, 2 - Cancer, 3 - Infectious disease other than TB, 4 - HIV Non-infectious disease, 5 - Natural causes, 6 - Non natural causes, 7 - Unknown" />
+												</div>
+												<div class="col-md-9">
 													<label>Comment</label>
 													<obs conceptId="159395" style="textarea" />
 												</div>
