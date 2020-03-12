@@ -79,7 +79,7 @@
 						 	disable_fields('99431_'+n);
 						}
 					}
-
+					
 					disableARTclinicandArtnumber();
 
 				<!-- Enable/disable the text box for other service point -->
@@ -373,7 +373,7 @@
 													<obs id="165485" conceptId="165485" answerConceptIds="165334,165335,1363,165486,160034,165368,165369,165370,165371" answerLabels="1 - Returned to care, 2 - Self transferred, 3 - Stopped/Refused, 4 - Migrated/Relocated, 5 - Died, 6 - Unable to be traced, 7 - Tracing attempts initiated but incomplete, 8 - No attempt to trace, 9 - Misclassified as Missed Appointment" class="long-value-select"/>
 												</div>
 												<div class="col-md-3">
-													<label>Date Returned to care</label>
+													<label>Date Returned to Care</label>
 													<i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 53%;"></i>
 													<obs id="165378" conceptId="165378" allowFutureDates="false"/>
 												</div>
