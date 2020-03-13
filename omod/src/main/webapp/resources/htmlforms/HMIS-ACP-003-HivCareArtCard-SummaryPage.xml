@@ -12,7 +12,7 @@
           formLabel="ART Card - Summary Form">
     <script type="text/javascript">
 
-        beforeSubmit.push(function () {
+        beforeSubmit.push(function () {  
             var submitVal = true;
             <!-- Validation rules -->
             <!-- The next appointment date if specified has to be after the encounterDate -->
@@ -854,108 +854,107 @@
     </style>
 
     <!-- Beging of HTML Form -->
-    <div class="poc-page-frame">
+    <div>
         <div class="row">
             <div class="col-md-6">
-                <h3>HIV Care/ART CARD - Summary Page</h3>
+                <h3>HMIS ACP 003: HIV Care/ART CARD - Summary Page</h3>
             </div>
-            <div class="col-md-4"></div>
-            <div class="col-md-2"><submit/></div>
+            <div class="col-md-5"></div>
+            <div class="col-md-1"><submit class="confirm" submitLabel="Save"/></div>
         </div>
-        <div class="row">
+
+            <div class="row">
             <div class="col-md-12">
-                <div>
-                    <div>
-                        <nav>
-                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                <a class="nav-item nav-link active" id="care-entry-section-tab" data-toggle="tab" href="#care-entry-section" role="tab" aria-controls="nav-home" aria-selected="true">Care Entry &amp; Family</a>
-                                <a class="nav-item nav-link" id="art-care-cohort-tab" data-toggle="tab" href="#art-care-cohort-section" role="tab" aria-controls="nav-profile" aria-selected="false">ART Care</a>
-                                <a class="nav-item nav-link" id="prior-art-tab" data-toggle="tab" href="#prior-art-section" role="tab" aria-controls="nav-contact" aria-selected="false">Treatment Interruptions &amp; Outcomes</a>
-                                <a class="nav-item nav-link" id="drug-allergies-and-art-care-tab1" data-toggle="tab" href="#drug-allergies-and-art-care" role="tab" aria-controls="nav-contact" aria-selected="false">Drug Allergies, Conditions and Screening</a>
-                            </div>
-                        </nav>
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="care-entry-section-tab" data-toggle="tab" href="#care-entry-section">Care Entry &amp; Family</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" id="art-care-cohort-tab" href="#art-care-cohort-section">ART Care</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" id="prior-art-tab" href="#prior-art-section">Treatment Interruptions &amp; Outcomes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab"  id="drug-allergies-and-art-care-tab1" href="#drug-allergies-and-art-care">Drug Allergies, Conditions and Screening</a>
+                            </li>
+                        </ul>
                     </div>
-                    <div>
-                        <div class="tab-content art-care-card" id="nav-tabContent">
+                    <div class="card-body">
+                        <div class="tab-content">
 
-                            <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="nav-profile-tab" id="care-entry-section">
-
+                            <div class="tab-pane active" id="care-entry-section">
                               <div class="card">
                                   <div class="card-header">CARE ENTRY &amp; ART START REGISTRATION</div>
                                   <div class="card-body">
-                                      <table class="table table-borderless table-responsive">
-                                          <tbody>
-                                          <tr>
-                                              <td>
-                                                  <label><span class="required">*</span>Attending Clinician:</label>
+                                          <div class="row">
+                                              <div class="col-md-4">
+                                                  <label><span class="required">*</span>Attending Clinician</label>
                                                   <encounterProvider role="Provider" style="autocomplete"/>
                                                   <span style="display: none;">
                                                     <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117"
                                                                        order="629d78e9-93e5-43b0-ad8a-48313fd99117"/>
                                                     </span>
-                                              </td>
-                                              <td>
-                                                  <label>
-                                                      <span class="required">*</span>
-                                                      Pt Clinic #:</label>
-                                                          <patient field="identifier" identifierTypeId="e1731641-30ab-102d-86b0-7a5022ba4115" required="false"/>
-                                              </td>
-                                              <td>
+                                              </div>
+                                              <div class="col-md-4">
+                                                  <label><span class="required">*</span>Pt Clinic #</label>
+                                                  <patient field="identifier" identifierTypeId="e1731641-30ab-102d-86b0-7a5022ba4115" required="false"/>
+                                              </div>
+                                              <div class="col-md-4">
                                                   <includeIf velocityTest="$fn.globalProperty('ugandaemr.showARTPatientNumberIdentifier') == true">
-                                                              <label>ART Patient No.</label>
-                                                              <patient field="identifier" identifierTypeId="3c76abfd-5e2d-4194-b0d4-00b73c7fc1ac"
-                                                                       required="false"/>
+                                                      <label>ART Patient No.</label>
+                                                      <patient field="identifier" identifierTypeId="3c76abfd-5e2d-4194-b0d4-00b73c7fc1ac" 
+                                                      required="false"/>
                                                   </includeIf>
-                                              </td>
-
-                                          </tr>
-                                          <tr>
-                                            <td>
-                                                <label >Enrollment into HIV Care Transfer in from: </label>
+                                              </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-md-4">
+                                                <label >Enrollment into HIV Care Transfer in from</label>
                                                 <div class="right-inner-addon">
                                                     <i class=" icon-calendar small right-inner-addon-row"></i>
                                                     <obs id="165312" conceptId="165312"/>
                                                 </div>
-                                            </td>
-                                            <td>
-                                                <label>Date of registration at this site:</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Date of registration at this site</label>
                                                       <div class="right-inner-addon">
                                                         <i class=" icon-calendar small right-inner-addon-row"></i>
                                                         <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
                                                       </div>
-                                            </td>
-                                            <td>
+                                            </div>
+                                            <div class="col-md-4">
                                                 <div class="right-inner-addon">
-                                                    <label>Date verification HIV test:</label>
+                                                    <label>Date verification HIV test</label>
                                                     <i class=" icon-calendar small right-inner-addon-row"></i>
                                                     <obs id="90267" conceptId="90267"/>
                                                 </div>
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                              <td>
-                                                  <label>Marital Status:</label>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                              <div class="col-md-4">
+                                                  <label>Marital Status</label>
                                                   <lookup expression="personAttributes.get('Marital Status').name"/>
-                                              </td>
-                                              <td>
-                                                  <label>Occupation:</label>
+                                              </div>
+                                              <div class="col-md-4">
+                                                  <label>Occupation</label>
                                                   <lookup expression="personAttributes.get('Occupation')"/>
-                                              </td>
-                                              <td>
+                                              </div>
+                                              <div class="col-md-4">
                                                   <includeIf velocityTest="$patient.age &lt; 20 &amp;&amp; $patient.age &gt;=5">
                                                       <div class="row">
                                                           <div class="col-md-12">
-                                                              <label>In School (5 -19 years):</label>
+                                                              <label>In School (5 -19 years)</label>
 
                                                               <obs conceptId="5629" answerConceptIds="1065,1066"
                                                                    answerLabels="Yes,No"  style="radio"/>
                                                           </div>
                                                       </div>
                                                   </includeIf>
-                                              </td>
-                                          </tr>
-                                          </tbody>
-                                      </table>
+                                              </div>
+                                          </div>
 
                                       <div class="row">
                                           <div class="col-md-6">
@@ -963,7 +962,7 @@
                                                   <div class="col-md-6">
                                                       <div class="row">
                                                           <div class="col-md-12">
-                                                              <label>Test type:</label>
+                                                              <label>Test type</label>
                                                           </div>
                                                       </div>
                                                       <div class="row">
@@ -975,7 +974,7 @@
                                                   <div class="col-md-6">
                                                       <div class="row">
                                                           <div class="col-md-12">
-                                                              <label>Where:</label>
+                                                              <label>Where</label>
                                                           </div>
                                                       </div>
                                                       <div class="row">
@@ -992,7 +991,7 @@
                                                   <div class="col-md-6">
                                                       <div class="row">
                                                           <div class="col-md-12">
-                                                              <label class="text-nowrap">Care Entry Point:</label>
+                                                              <label class="text-nowrap">Care Entry Point</label>
                                                           </div>
                                                       </div>
                                                       <div class="row">
@@ -1009,7 +1008,7 @@
                                                   <div class="col-md-6">
                                                       <div class="row">
                                                           <div class="col-md-12">
-                                                              <label>Other (Specify):</label>
+                                                              <label>Other (Specify)</label>
                                                           </div>
                                                       </div>
                                                       <div class="row">
@@ -1026,7 +1025,7 @@
 
                                       <div class="row">
                                           <div class="col-md-12">
-                                              <b>Special Categories:</b>
+                                              <b>Special Categories</b>
                                           </div>
                                       </div>
                                       <div class="row ARTSpecialCateogryEnableDisable1">
@@ -1086,7 +1085,7 @@
                                                         <div class="col-md-3">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                <label>Medicine pick-up if ill:</label>
+                                                                <label>Medicine pick-up if ill</label>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
@@ -1096,7 +1095,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-3" >
+                                                        <div class="col-md-3">
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                 <label class="text-nowrap">Relationship to index clients</label>
@@ -1121,7 +1120,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-3" >
+                                                        <div class="col-md-3">
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                 <label>Whose</label>
@@ -1129,7 +1128,7 @@
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                <obs conceptId="99118"/>
+                                                                <obs conceptId="99118" />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1142,13 +1141,11 @@
                                 <div class="card">
                                     <div class="card-header">FAMILY TRACKING SECTION</div>
                                     <div class="card-body">
-                                        <table class="table table-striped multi table-borderless">
-                                            <tbody>
                                             <repeat>
                                                 <template>
                                                     <obsgroup groupingConceptId="99075">
-                                                    <tr class="FamilyTrackingEnableDisable">
-                                                        <td>
+                                                    <div class="row FamilyTrackingEnableDisable">
+                                                        <div class="col-md-4">
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                     <label> Name</label>
@@ -1170,8 +1167,8 @@
                                                                                         answerLabels="Spouse,Child,Other relative,Other Sexual partner"  />
                                                                 </div>
                                                                 </div>
-                                                        </td>
-                                                        <td>
+                                                        </div>
+                                                        <div class="col-md-4">
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                     <label>Age</label>
@@ -1193,8 +1190,8 @@
                                                                                   answerLabels="Yes,No" style="radio"/>
                                                                 </div>
                                                                 </div>
-                                                        </td>
-                                                        <td>
+                                                        </div>
+                                                        <div class="col-md-4">
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                 <label>Age Unit</label>
@@ -1218,8 +1215,8 @@
                                                                                   answerLabels="Yes,No" style="radio"/>
                                                                 </div>
                                                                 </div>
-                                                        </td>
-                                                        <td>
+                                                        </div>
+                                                        <div class="col-md-4">
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                 <label>HIV Status</label>
@@ -1241,8 +1238,8 @@
                                                                 <obs id="90263_{n}" conceptId="90263" />
                                                                 </div>
                                                                 </div>
-                                                        </td>
-                                                        <td>
+                                                        </div>
+                                                        <div class="col-md-4">
                                                             <obsgroup groupingConceptId="165277">
                                                             <div class="row text-nowrap">
                                                                 <div class="col-md-12">
@@ -1256,12 +1253,12 @@
                                                                 </div>
                                                                 </div>
                                                             </obsgroup>
-                                                        </td>
-                                                        <td class="text-nowrap">
+                                                        </div>
+                                                        <div class="text-nowrap">
                                                             <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
                                                             <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
-                                                        </td>
-                                                    </tr>
+                                                        </div>
+                                                    </div>
                                                     </obsgroup>
                                                 </template>
                                                 <render n="1"/>
@@ -1274,8 +1271,6 @@
                                                 <render n="8"/>
 
                                             </repeat>
-                                            </tbody>
-                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -1285,59 +1280,57 @@
                                     <div class="card">
                                     <div class="card-header">ART CARE START</div>
                                     <div class="card-body">
-                                        <table id="art-care" class="table table-borderless table-responsive">
-                                            <tbody>
-                                            <tr>
+                                        <div id="art-care" class="table table-borderless table-responsive">
+                                            <div class="row">
                                                 <obsgroup groupingConceptId="99162">
-                                                    <td class="ARTStartEnableDisable1">
+                                                    <div class="col-md-4 ARTStartEnableDisable1">
                                                         <div class="right-inner-addon ">
                                                             <i class=" icon-calendar small start-art-icon"></i>
-                                                            <obs id="99161" conceptId="99161" labelText="At Start ART:"/>
+                                                            <obs id="99161" conceptId="99161" labelText="At Start ART"/>
                                                         </div>
-                                                    </td>
-                                                    <td class="ARTStartEnableDisableChild1">
+                                                    </div>
+                                                    <div class="col-md-4 ARTStartEnableDisableChild1">
                                                         <span class="ArtCareEnableDisable2">
                                                         <obs conceptId="99061"
                                                              answerConceptIds="99005,99006,164979,99015,99016,99039,99040,164977,99041,99042,99884,99885,164978,163017,99143"
                                                              answerLabels="AZT-3TC-NVP, AZT-3TC-EFV,AZT-3TC-DTG, D4T-3TC-NVP, D4T-3TC-EFV, TDF-3TC-NVP, TDF-3TC-EFV, TDF-3TC-DTG, TDF-FTC-NVP, TDF-FTC-EFV,ABC-3TC-NVP,ABC-3TC-EFV,ABC-3TC-DTG,ABC-3TC-LPV/r,OTHER"
                                                              labelText="Start ART 1st Line Initial Regimen"/>
                                                             </span>
-                                                    </td>
-                                                    <td>
+                                                    </div>
+                                                    <div class="col-md-4">
                                                         <span class="ArtCareEnableDisableChild2">
                                                             <obs conceptId="99268" labelText="Others"/>
                                                         </span>
-                                                    </td>
-                                                    <td class="ARTStartEnableDisableChild1">
+                                                    </div>
+                                                    <div class="col-md-4 ARTStartEnableDisableChild1">
                                                         <obs conceptId="99069" labelText="Wt"/>
-                                                    </td>
+                                                    </div>
                                                 </obsgroup>
-                                            </tr>
-                                            <tr>
-                                                <td class="ARTStartEnableDisableChild1">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 ARTStartEnableDisableChild1">
                                                     <obs conceptId="99070" answerConceptIds="1204,1205,1206,1207"
                                                          answerLabels="1,2,3,4" labelText="WHO Clinical Stage" style="dropdown"/>
-                                                </td>
+                                                </div>
 
-                                                <td class="ARTStartEnableDisableChild1">
+                                                <div class="col-md-4 ARTStartEnableDisableChild1">
                                                     <obs conceptId="99071" labelText="CD4"/>
-                                                </td>
-                                                <td class="ARTStartEnableDisableChild1">
+                                                </div>
+                                                <div class="col-md-4 ARTStartEnableDisableChild1">
                                                     <excludeIf velocityTest="$patient.gender =='M' ">
                                                         <obs conceptId="99072" answerConceptIds="90003,90004"
                                                              answerLabels="Yes, No" labelText="Preg"/>
                                                     </excludeIf>
-                                                </td>
+                                                </div>
 
-                                                <td class="ARTStartEnableDisableChild1">
+                                                <div class="col-md-4 ARTStartEnableDisableChild1">
                                                     <excludeIf velocityTest="$patient.gender =='M' ">
                                                         <obs conceptId="99603" answerConceptIds="90003,90004"
                                                              answerLabels="Yes, No" labelText="Lactating"/>
                                                     </excludeIf>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     </div>
                                     <p></p>
@@ -1357,17 +1350,17 @@
                                             <repeat>
                                                 <template>
                                                     <obsgroup groupingConceptId="99065">
-                                                        <tr>
-                                                            <td class="ARTStartEnableDisable2 ">
+                                                        <div class="row">
+                                                            <div class="col-md-4 ARTStartEnableDisable2 ">
                                                                 <div class="right-inner-addon ">
                                                                     <i class=" icon-calendar small"></i>
                                                                     <obs id="99160" conceptId="99160"/>
                                                                 </div>
-                                                            </td>
-                                                            <td class="ARTStartEnableDisableChild2 ">
+                                                            </div>
+                                                            <div class="col-md-4 ARTStartEnableDisableChild2 ">
                                                                 <obs conceptId="90206" />
-                                                            </td>
-                                                            <td class="ARTStartEnableDisableChild2 ">
+                                                            </div>
+                                                            <div class="col-md-4 ARTStartEnableDisableChild2 ">
                                                 <span class="ArtCareEnableDisable1">
                                                 <small>
                                                     <obs conceptId="99064"
@@ -1375,18 +1368,18 @@
                                                          answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-FTC-NVP,TDF-FTC-EFV,TDF-3TC-DTG,ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,ZDV-ddI(250)-LPV/r,ZDV-ddI(400)-LPV/r,ZDV-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,ZDV-ddI-LPV/r,ZDV-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,AZT-3TC-LPV/r,ABC-3TC-DTG,ABC-3TC-LPV/r,Other"/>
                                                 </small>
                                                     </span>
-                                                            </td>
-                                                            <td>
+                                                            </div>
+                                                            <div class="col-md-4">
                                                                 <span class="ArtCareEnableDisableChild1">
                                                                     <obs conceptId="99269"/>
                                                                 </span>
 
-                                                            </td>
-                                                            <td class="text-nowrap" >
+                                                            </div>
+                                                            <div class="col-md-4 text-nowrap" >
                                                                 <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
                                                             <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
-                                                            </td>
-                                                        </tr>
+                                                            </div>
+                                                        </div>
                                                     </obsgroup>
                                                 </template>
                                                 <render/>
@@ -1417,34 +1410,34 @@
                                                         <repeat>
                                                             <template>
                                                                 <obsgroup groupingConceptId="99062">
-                                                                    <tr>
-                                                                        <td class="ARTStartEnableDisable3 col-md-3">
+                                                                    <div class="row">
+                                                                        <div class="col-md-4 ARTStartEnableDisable3 col-md-3">
                                                                             <div class="ARTStartEnableDisableChild1 right-inner-addon ">
                                                                                 <i class=" icon-calendar small"></i>
                                                                                 <obs id="99163_{n}" conceptId="99163"/>
                                                                             </div>
-                                                                        </td>
-                                                                        <td class="ARTStartEnableDisableChild3 col-md-3">
+                                                                        </div>
+                                                                        <div class="col-md-4 ARTStartEnableDisableChild3 col-md-3">
                                                                             <span class="ArtCareEnableDisable3">
                                                                             <obs conceptId="90315"
                                                                                  answerConceptIds="99015,99016,99005,99006,164979,99039,99040,99041,99042,164977,99884,99885,164978,163017,99143"
                                                                                  answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-FTC-NVP,TDF-FTC-EFV,TDF-3TC-DTG,ABC-3TC-NVP,ABC-3TC-EFV,ABC-3TC-DTG,ABC-3CT-LPV/r,Other"/>
                                                                             </span>
-                                                                        </td>
-                                                                        <td>
+                                                                        </div>
+                                                                        <div class="col-md-4">
                                                                             <span class="ArtCareEnableDisableChild3">
                                                                                 <obs  conceptId="99146"/>
                                                                             </span>
-                                                                        </td>
-                                                                        <td colspan="2" class="ARTStartEnableDisableChild3 col-md-3">
+                                                                        </div>
+                                                                        <div class="col-md-4 ARTStartEnableDisableChild3 col-md-3">
                                                                             <obs conceptId="90246" answerConceptIds="90040,90043,90044,90045,90002"
                                                                                  answerLabels="1.Toxi,2.NewTB,3.NewDrug,4.Drug Stock,5.Other"/>
-                                                                        </td>
-                                                                        <td align="center" class="text-nowrap">
+                                                                        </div>
+                                                                        <div class="col-md-4 text-nowrap">
                                                                             <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
                                                                             <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
-                                                                        </td>
-                                                                    </tr>
+                                                                        </div>
+                                                                    </div>
                                                                 </obsgroup>
                                                             </template>
                                                             <render n="1"/>
@@ -1479,19 +1472,19 @@
                                                     <repeat>
                                                         <template>
                                                             <obsgroup groupingConceptId="99063">
-                                                                <tr>
-                                                                    <td class="ARTStartEnableDisableChild10 col-md-3">
+                                                                <div class="row">
+                                                                    <div class="col-md-4 ARTStartEnableDisableChild10 col-md-3">
                                                                         <span class="ARTStartEnableDisableChild1">
                                                                             <obs conceptId="165310" answerConceptIds="1371,1372" answerLabels="Switch, Substitution" style="radio" />
                                                                         </span>
-                                                                    </td>
-                                                                    <td class="ARTStartEnableDisableChild10 col-md-3">
+                                                                    </div>
+                                                                    <div class="col-md-4 ARTStartEnableDisableChild10 col-md-3">
                                                                         <div class="ARTStartEnableDisableChild1 right-inner-addon ">
                                                                             <i class=" icon-calendar small"></i>
                                                                             <obs id="99164_{n}" conceptId="99164"/>
                                                                         </div>
-                                                                    </td>
-                                                                    <td class="ARTStartEnableDisableChild10 col-md-3">
+                                                                    </div>
+                                                                    <div class="col-md-4 ARTStartEnableDisableChild10 col-md-3">
                                                                         <span class="ArtCareEnableDisable7">
                                                                             <small>
                                                                                 <obs conceptId="90315"
@@ -1503,16 +1496,16 @@
                                                                         <span class="ArtCareEnableDisableChild7">
                                                                             <obs  conceptId="99147" />
                                                                         </span>
-                                                                    </td>
-                                                                    <td  class="ARTStartEnableDisableChild10 col-md-3">
+                                                                    </div>
+                                                                    <div class="col-md-3 ARTStartEnableDisableChild10">
                                                                         <obs conceptId="90247" answerConceptIds="90046,90047,99889"
                                                                              answerLabels="6.Clinical, 7.Immuno, 8. Virological"/>
-                                                                    </td>
-                                                                    <td align="center" class="text-nowrap">
+                                                                    </div>
+                                                                    <div class="col-md-4 text-nowrap">
                                                                         <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
                                                                         <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
-                                                                    </td>
-                                                                </tr>
+                                                                    </div>
+                                                                </div>
                                                             </obsgroup>
                                                         </template>
                                                         <render n="1"/>
@@ -1544,21 +1537,21 @@
                                                     <repeat>
                                                         <template>
                                                             <obsgroup groupingConceptId="162988">
-                                                                <tr>
-                                                                    <td class="ARTStart3EnableDisable1">
+                                                                <div class="row">
+                                                                    <div class="col-md-4 ARTStart3EnableDisable1">
                                                                         <span class="ARTStartEnableDisableChild1">
                                                                                 <obs conceptId="165311" answerConceptIds="1371,1372"
                                                                                      answerLabels="Switch, Substitution" style="radio" />
                                                                         </span>
-                                                                    </td>
-                                                                    <td class="ARTStartEnableDisableChild10">
+                                                                    </div>
+                                                                    <div class="col-md-4 ARTStartEnableDisableChild10">
                                                                         <div class="ARTStartEnableDisableChild1 right-inner-addon ">
                                                                             <i class=" icon-calendar small"></i>
                                                                             <obs id="162991_{n}" conceptId="162991"/>
                                                                         </div>
 
-                                                                    </td>
-                                                                    <td class="ARTStartEnableDisableChild10">
+                                                                    </div>
+                                                                    <div class="col-md-4 ARTStartEnableDisableChild10">
                                                                         <span class="ArtCare3EnableDisable10">
                                                                             <small>
                                                                                 <obs conceptId="162990"/>
@@ -1568,16 +1561,16 @@
                                                                         <span class="ArtCareEnableDisableChild10">
                                                                             <obs  conceptId="162989" />
                                                                         </span>
-                                                                    </td>
-                                                                    <td class="ARTStartEnableDisableChild10">
+                                                                    </div>
+                                                                    <div class="col-md-4 ARTStartEnableDisableChild10">
                                                                         <obs conceptId="90247" answerConceptIds="90046,90047,99889"
                                                                              answerLabels="6.Clinical, 7.Immuno, 8. Virological"/>
-                                                                    </td>
-                                                                    <td align="center" class="text-nowrap">
+                                                                    </div>
+                                                                    <div class="col-md-4 text-nowrap">
                                                                         <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
                                                                         <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
-                                                                    </td>
-                                                                </tr>
+                                                                    </div>
+                                                                </div>
                                                             </obsgroup>
                                                         </template>
                                                         <render n="1"/>
@@ -1598,113 +1591,113 @@
                                         <div class="card-body">
                                         <table id="art-history" class="table table-borderless">
                                             <tbody>
-                                            <tr>
-                                                <td>
+                                            <div class="row">
+                                                <div class="col-md-4">
                                                     <label><b>Prior ARV/ART</b></label>
-                                                </td>
-                                                <td class="PriorYesNoEnableDisable1">
+                                                </div>
+                                                <div class="col-md-4 PriorYesNoEnableDisable1">
                                                     <obs conceptId="99055" answerConceptIds="90003,90004"
                                                          answerLabels="Yes,No"/>
-                                                </td>
+                                                </div>
 
-                                            </tr>
-                                            <tr>
-                                                <td>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
 
-                                                </td>
-                                                <td>
+                                                </div>
+                                                <div class="col-md-4">
                                                     <b>Start Date</b>
-                                                </td>
+                                                </div>
 
-                                                <td>
+                                                <div class="col-md-4">
                                                     <b>Duration in Months</b>
-                                                </td>
-                                            </tr>
-                                            <tr class="enableDisable">
+                                                </div>
+                                            </div>
+                                            <div class="row enableDisable">
                                                 <obsgroup groupingConceptId="99066">
-                                                    <td id="trigger" class="PriorYesNoEnableDisableChild1">
+                                                    <div class="col-md-4 PriorYesNoEnableDisableChild1" id="trigger">
                                                         <obs conceptId="99056" answerConceptId="90003" answerLabel="PEP:"
                                                         />
-                                                    </td>
-                                                    <td id="disabled">
+                                                    </div>
+                                                    <div class="col-md-4" id="disabled">
                                                         <div class="right-inner-addon ">
                                                             <i class=" icon-calendar small"></i>
                                                             <obs id="second" conceptId="99154" labelText=""/>
                                                         </div>
-                                                    </td>
-                                                    <td id="disabled">
+                                                    </div>
+                                                    <div class="col-md-4" id="disabled">
                                                         <obs id="third" conceptId="165252"/>
-                                                    </td>
+                                                    </div>
                                                 </obsgroup>
-                                            </tr>
+                                            </div>
 
-                                            <tr class="enableDisable">
-                                                    <td id="trigger" class="PriorYesNoEnableDisableChild1">
-                                                        <obs conceptId="165163" answerConceptId="90003" answerLabel="PreP:"
+                                            <div class="row enableDisable">
+                                                    <div class="col-md-4 PriorYesNoEnableDisableChild1" id="trigger" >
+                                                        <obs conceptId="165163" answerConceptId="90003" answerLabel="PreP"
                                                         />
-                                                    </td>
-                                                    <td id="disabled">
+                                                    </div>
+                                                    <div class="col-md-4" id="disabled">
                                                         <div class="right-inner-addon ">
                                                             <i class=" icon-calendar small"></i>
                                                             <obs id="second" conceptId="165250" labelText=""/>
                                                         </div>
-                                                    </td>
-                                                    <td id="disabled">
+                                                    </div>
+                                                    <div class="col-md-4" id="disabled">
                                                         <obs id="third" conceptId="165251"/>
-                                                    </td>
-                                            </tr>
-                                            <tr class="enableDisable">
+                                                    </div>
+                                            </div>
+                                            <div class="row enableDisable">
                                                 <obsgroup groupingConceptId="99598">
-                                                    <td id="trigger" class="PriorYesNoEnableDisableChild1">
-                                                        <obs conceptId="99594" answerConceptId="90003" answerLabel="Hep-B:"/>
-                                                    </td>
-                                                    <td id="disabled">
+                                                    <div class="col-md-4 PriorYesNoEnableDisableChild1" id="trigger" >
+                                                        <obs conceptId="99594" answerConceptId="90003" answerLabel="Hep-B"/>
+                                                    </div>
+                                                    <div class="col-md-4" id="disabled">
                                                         <div class="right-inner-addon ">
                                                             <i class=" icon-calendar small"></i>
                                                             <obs id="second" conceptId="99595" labelText=""/>
                                                         </div>
-                                                    </td>
-                                                    <td id="disabled">
+                                                    </div>
+                                                    <div class="col-md-4" id="disabled">
                                                         <obs id="third" conceptId="165253"/>
-                                                    </td>
+                                                    </div>
                                                 </obsgroup>
-                                            </tr>
+                                            </div>
                                             <excludeIf velocityTest="$patient.gender =='M' ">
-                                                <tr class="enableDisable">
+                                                <div class="row enableDisable">
                                                     <obsgroup groupingConceptId="99067">
-                                                        <td id="trigger" class="PriorYesNoEnableDisableChild1">
+                                                        <div class="col-md-4 PriorYesNoEnableDisableChild1" id="trigger">
                                                             <obs conceptId="90012" answerConceptId="90003"
                                                                  answerLabel="PMTCT Only:"/>
-                                                        </td>
-                                                        <td id="disabled">
+                                                        </div>
+                                                        <div class="col-md-4" id="disabled">
                                                             <div class="right-inner-addon ">
                                                                 <i class=" icon-calendar small"></i>
                                                                 <obs id="second" conceptId="99155" labelText=""/>
                                                             </div>
-                                                        </td>
-                                                        <td id="disabled">
+                                                        </div>
+                                                        <div class="col-md-4" id="disabled">
                                                             <obs id="third" conceptId="165258"/>
-                                                        </td>
+                                                        </div>
                                                     </obsgroup>
-                                                </tr>
+                                                </div>
                                             </excludeIf>
-                                            <tr class="enableDisable">
+                                            <div class="row enableDisable">
                                                 <obsgroup groupingConceptId="99068">
-                                                    <td id="trigger" class="PriorYesNoEnableDisableChild1">
+                                                    <div class="col-md-4PriorYesNoEnableDisableChild1 PriorYesNoEnableDisableChild1" id="trigger">
                                                         <obs conceptId="99059" answerConceptId="90003"
-                                                             answerLabel="Earlier ARV not transfer:"/>
-                                                    </td>
-                                                    <td id="disabled">
+                                                             answerLabel="Earlier ARV not transfer"/>
+                                                    </div>
+                                                    <div class="col-md-4" id="disabled">
                                                         <div class="right-inner-addon ">
                                                             <i class=" icon-calendar small"></i>
                                                             <obs id="second" conceptId="99156" labelText=""/>
                                                         </div>
-                                                    </td>
-                                                    <td id="disabled">
+                                                    </div>
+                                                    <div class="col-md-4" id="disabled">
                                                         <obs id="third" conceptId="165259"/>
-                                                    </td>
+                                                    </div>
                                                 </obsgroup>
-                                            </tr>
+                                            </div>
                                             </tbody>
                                         </table>
                                         </div>
@@ -1733,44 +1726,44 @@
                                         <repeat>
                                             <template>
                                                 <obsgroup groupingConceptId="165232">
-                                                    <tr>
-                                                        <td>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
                                                             <div class="ARTTreatmentInterruptionEnableDisable1">
 
                                                                 <obs conceptId="165228" answerConceptIds="99132,165225,747,58"
                                                                      answerLabels="ART,TPT,Fluconazole,TB Drugs"/>
                                                             </div>
-                                                        </td>
-                                                        <td >
+                                                        </div>
+                                                        <div class="col-md-4" >
                                                             <span class="ARTTreatmentInterruptionEnableDisable2">
 
                                                                         <obs conceptId="165229" answerConceptIds="1363,99133"
-                                                                             answerLabels="Stopped,  Lost"/>
+                                                                             answerLabels="Stopped, Lost"/>
                                                                     </span>
-                                                        </td>
-                                                        <td>
-                                                            <div class="right-inner-addon ">
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="right-inner-addon">
                                                                 <i class=" icon-calendar small"></i>
                                                                 <obs conceptId="165230" />
                                                             </div>
-                                                        </td>
-                                                        <td>
+                                                        </div>
+                                                        <div class="col-md-4">
                                                                 <obs conceptId="165231" labelText=""
                                                                      answerConceptIds="90040,90046,90158,90050,90045,90051,90052,90066,99289,90002"
                                                                      answerLabels="1.Toxicity/side effects,2.Treatment Failure,3. Poor Adherence, 4.Illness/hospitalization, 5.Drug out of stock, 6.Patient lacks Finances, 7. Other patient decision, 8.Patient Rx interruption intpn, 9.Excluded HIV Infection, 10.Other,"/>
-                                                        </td>
-                                                        <td>
-                                                            <div class="right-inner-addon ">
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="right-inner-addon">
                                                                 <i class=" icon-calendar small"></i>
                                                                 <obs conceptId="160738"/>
                                                             </div>
 
-                                                        </td>
-                                                        <td align="center" class="text-nowrap">
+                                                        </div>
+                                                        <div class="col-md-4 text-nowrap" align="center">
                                                             <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
                                                             <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
-                                                        </td>
-                                                    </tr>
+                                                        </div>
+                                                    </div>
                                                 </obsgroup>
                                             </template>
                                             <render />
@@ -1799,39 +1792,39 @@
                                             <th>Date</th>
                                             <th>Where</th>
                                         </thead>
-                                        <tr class="enableDisable">
+                                        <div class="row enableDisable">
                                             <obsgroup groupingConceptId="99166">
-                                                <td id="trigger">
+                                                <div class="col-md-4" id="trigger">
                                                     <obs id="90306" conceptId="90306" answerConceptId="90003"
-                                                         answerLabel="Transfer out:"/>
-                                                </td>
-                                                <td id="disabled">
+                                                         answerLabel="Transfer out"/>
+                                                </div>
+                                                <div class="col-md-4" id="disabled">
                                                     <div class="right-inner-addon ">
                                                         <i class=" icon-calendar small"></i>
                                                         <obs id="99165" conceptId="99165"/>
                                                     </div>
 
-                                                </td>
-                                                <td id="disabled">
+                                                </div>
+                                                <div class="col-md-4" id="disabled">
                                                     <obs conceptId="90211" />
-                                                </td>
+                                                </div>
                                             </obsgroup>
-                                        </tr>
-                                        <tr class="enableDisable">
+                                        </div>
+                                        <div class="row enableDisable">
                                             <obsgroup groupingConceptId="99167">
-                                                <td id="trigger">
+                                                <div class="col-md-4" id="trigger">
                                                     <obs id="5240" conceptId="5240" answerConceptId="90003"
-                                                         answerLabel="Lost to follow-up (drop):"/>
-                                                </td>
-                                                <td id="disabled">
+                                                         answerLabel="Lost to follow-up (drop)"/>
+                                                </div>
+                                                <div class="col-md-4" id="disabled">
                                                     <div class="right-inner-addon ">
                                                         <i class=" icon-calendar small"></i>
                                                         <obs id="90209" conceptId="90209"/>
                                                     </div>
-                                                </td>
-                                                <td></td>
+                                                </div>
+                                                <div class="col-md-4"></div>
                                             </obsgroup>
-                                        </tr>
+                                        </div>
                                         </tbody>
                                     </table>
                                     </div>
@@ -1884,17 +1877,17 @@
                                                             <tbody>
                                                             <repeat>
                                                                 <template>
-                                                                    <tr>
-                                                                        <td>
+                                                                    <div class="row">
+                                                                        <div class="col-md-4">
                                                                             <obsgroup groupingConceptId="90230">
                                                                                 <obs conceptId="142" />
                                                                             </obsgroup>
-                                                                        </td>
-                                                                        <td align="center" class="text-nowrap">
+                                                                        </div>
+                                                                        <div class="col-md-4 text-nowrap" align="center">
                                                                             <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
                                                                             <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
-                                                                        </td>
-                                                                    </tr>
+                                                                        </div>
+                                                                    </div>
                                                                 </template>
                                                                 <render/>
                                                                 <render/>
@@ -1926,13 +1919,13 @@
                                                         <repeat>
                                                             <template>
                                                                 <obsgroup groupingConceptId="165255">
-                                                                    <tr>
-                                                                        <td class="col-md-3">
+                                                                    <div class="row">
+                                                                        <div class="col-md-4 col-md-3">
                                                                             <div>
                                                                                 Hep-B
                                                                             </div>
-                                                                        </td>
-                                                                        <td class="col-md-3">
+                                                                        </div>
+                                                                        <div class="col-md-4 col-md-3">
                                                                     <span>
                                                                         <div class="right-inner-addon ">
                                                                             <i class=" icon-calendar small"></i>
@@ -1940,16 +1933,16 @@
                                                                         </div>
 
                                                                     </span>
-                                                                        </td>
-                                                                        <td class="col-md-3">
+                                                                        </div>
+                                                                        <div class="col-md-4 col-md-3">
                                                                             <obs conceptId="1322"
                                                                                  answerConceptIds="703,664,1138" />
-                                                                        </td>
-                                                                        <td align="center" class="text-nowrap">
+                                                                        </div>
+                                                                        <div class="col-md-4 text-nowrap" align="center" >
                                                                             <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
                                                                             <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
-                                                                        </td>
-                                                                    </tr>
+                                                                        </div>
+                                                                    </div>
                                                                 </obsgroup>
                                                             </template>
                                                             <render />
@@ -1969,13 +1962,13 @@
                                                         <repeat>
                                                             <template>
                                                                 <obsgroup groupingConceptId="165256">
-                                                                    <tr>
-                                                                        <td class="col-md-3">
+                                                                    <div class="row">
+                                                                        <div class="col-md-4 col-md-3">
                                                                             <div>
                                                                                 Hep-C
                                                                             </div>
-                                                                        </td>
-                                                                        <td class="col-md-3">
+                                                                        </div>
+                                                                        <div class="col-md-4 col-md-3">
                                                                     <span>
                                                                         <div class="right-inner-addon ">
                                                                             <i class=" icon-calendar small"></i>
@@ -1983,16 +1976,16 @@
                                                                         </div>
 
                                                                     </span>
-                                                                        </td>
-                                                                        <td class="col-md-3">
+                                                                        </div>
+                                                                        <div class="col-md-4 col-md-3">
                                                                             <obs conceptId="1325"
                                                                                  answerConceptIds="703,664,1138" />
-                                                                        </td>
-                                                                        <td align="center" class="text-nowrap">
+                                                                        </div>
+                                                                        <div class="col-md-4 text-nowrap" align="center" >
                                                                             <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
-                                                            <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
-                                                                        </td>
-                                                                    </tr>
+                                                                            <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
+                                                                        </div>
+                                                                    </div>
                                                                 </obsgroup>
                                                             </template>
                                                             <render />
@@ -2012,28 +2005,28 @@
                                                         <repeat>
                                                             <template>
                                                                 <obsgroup groupingConceptId="165257">
-                                                                    <tr>
-                                                                        <td class="col-md-3">
+                                                                    <div class="row">
+                                                                        <div class="col-md-4 col-md-3">
                                                                             <div>
                                                                                 Random Blood Sugar
                                                                             </div>
-                                                                        </td>
-                                                                        <td class="col-md-3">
+                                                                        </div>
+                                                                        <div class="col-md-4 col-md-3">
                                                                     <span>
                                                                         <div class="right-inner-addon ">
                                                                             <i class=" icon-calendar small"></i>
                                                                             <obs conceptId="165249" />
                                                                         </div>
                                                                     </span>
-                                                                        </td>
-                                                                        <td class="col-md-3">
+                                                                        </div>
+                                                                        <div class="col-md-4 col-md-3">
                                                                             <obs conceptId="165254"/>
-                                                                        </td>
-                                                                        <td align="center" class="text-nowrap">
+                                                                        </div>
+                                                                        <div class="col-md-4 text-nowrap" align="center">
                                                                             <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
                                                                             <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
-                                                                        </td>
-                                                                    </tr>
+                                                                        </div>
+                                                                    </div>
                                                                 </obsgroup>
                                                             </template>
                                                             <render />
