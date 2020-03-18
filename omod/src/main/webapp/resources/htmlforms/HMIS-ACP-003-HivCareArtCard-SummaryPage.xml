@@ -656,7 +656,7 @@
                     });
                 });
 
-                var $allTables,
+                <!-- var $allTables,
                     $allRows,
                     $otherRows,
                     $firstRow,
@@ -701,10 +701,10 @@
                     if($HIVStatus == 90166){
                         jq(this).find('[id^="165276"]').find("input[type$='text']").focus();
                     }
-                 });
+                 }); -->
 
 
-                $firstRow = jq('table.multi tbody tr:first-of-type');
+                <!-- $firstRow = jq('table.multi tbody tr:first-of-type');
                 $otherRows = jq('table.multi tbody tr:not(:first-of-type)');
 
                 jq('.add').click(function(e) { //Handle add button event
@@ -732,10 +732,350 @@
                         });
                     }
                 });
+ -->
+
+                <!-- Transfer-in add and remove logic-->
+
+                var showAddButtonForLastVisibleRow = function($container) {
+                    $lastVisibleRow = $container.find('div.follow-up:visible:last');
+                    $lastVisibleRow.find('.add').show();
+                };
+
+                var $transferInFirstRow = jq('span.transfer-in:first-of-type');
+                var $transferInOtherRows = jq('span.transfer-in:not(:first-of-type)');
+
+                jq('.add').click(function(e) { //Handle add button event
+                    e.preventDefault();
+                    $transferInThisRow = jq(this).parents('div.transfer-in:first');
+                    $transferInNextRow = $transferInThisRow.next();
+
+                    if ($transferInNextRow.length &gt; 0) {
+                        $transferInNextRow.show('slow');
+                        $transferInThisRow.find('.add').hide();
+                    }
+                });
+
+                jq('.remove').click(function(e) { //Handle remove button event
+                    e.preventDefault();
+                    $transferInThisRow = jq(this).parents('span.transfer-in:first');
+                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
+                        $transferInThisRow = jq(this).parents('span.transfer-in:first');
+                        $transferInLastRow = jq(this).parents('span.transfer-in:last');
+                        $lastVisibleRow = $transferInLastRow.prev();
+
+                        $transferInThisRow.hide('slow', function() {
+                            fieldHelper.clearAllFields($transferInThisRow);
+                            $lastVisibleRow.find('.add').show();
+                        });
+                    }
+                });
+
+                <!-- Add and remove logic for substitution with in 1st line --> 
+
+                var $firstLineSubstitionFirstRow = jq('span.first-line-substitution:first-of-type');
+                var $firstLineSubstitionOtherRows = jq('span.first-line-substitution:not(:first-of-type)');
+
+                jq('.add').click(function(e) { //Handle add button event
+                    e.preventDefault();
+                    $firstLineSubstitionThisRow = jq(this).parents('span.first-line-substitution:first');
+                    $firstLineSubstitionNextRow = $firstLineSubstitionThisRow.next();
+
+                    if ($firstLineSubstitionNextRow.length &gt; 0) {
+                        $firstLineSubstitionNextRow.show('slow');
+                        $firstLineSubstitionThisRow.find('.add').hide();
+                    }
+                });
+
+                jq('.remove').click(function(e) { //Handle remove button event
+                    e.preventDefault();
+                    $firstLineSubstitionThisRow = jq(this).parents('span.first-line-substitution:first');
+                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
+                        $firstLineSubstitionThisRow = jq(this).parents('span.first-line-substitution:first');
+                        $firstLineSubstitionLastRow = jq(this).parents('span.first-line-substitution:last');
+                        $lastVisibleRow = $firstLineSubstitionLastRow.prev();
+
+                        $firstLineSubstitionThisRow.hide('slow', function() {
+                            fieldHelper.clearAllFields($firstLineSubstitionThisRow);
+                            $lastVisibleRow.find('.add').show();
+                        });
+                    }
+                });
+
+                <!-- Add and remove logic for substitution with in 2nd line --> 
+
+                var $secondLineSubstitionFirstRow = jq('span.second-line-substitution:first-of-type');
+                var $secondLineSubstitionOtherRows = jq('span.second-line-substitution:not(:first-of-type)');
+
+                jq('.add').click(function(e) { //Handle add button event
+                    e.preventDefault();
+                    $secondLineSubstitionThisRow = jq(this).parents('span.second-line-substitution:first');
+                    $secondLineSubstitionNextRow = $secondLineSubstitionThisRow.next();
+
+                    if ($secondLineSubstitionNextRow.length &gt; 0) {
+                        $secondLineSubstitionNextRow.show('slow');
+                        $secondLineSubstitionThisRow.find('.add').hide();
+                    }
+                });
+
+                jq('.remove').click(function(e) { //Handle remove button event
+                    e.preventDefault();
+                    $secondLineSubstitionThisRow = jq(this).parents('span.second-line-substitution:first');
+                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
+                        $secondLineSubstitionThisRow = jq(this).parents('span.second-line-substitution:first');
+                        $secondLineSubstitionLastRow = jq(this).parents('span.second-line-substitution:last');
+                        $lastVisibleRow = $secondLineSubstitionLastRow.prev();
+
+                        $secondLineSubstitionThisRow.hide('slow', function() {
+                            fieldHelper.clearAllFields($secondLineSubstitionThisRow);
+                            $lastVisibleRow.find('.add').show();
+                        });
+                    }
+                });
+
+
+                <!-- Add and remove logic for substitution with in 3rd line --> 
+
+                var $thirdLineSubstitionFirstRow = jq('span.third-line-substitution:first-of-type');
+                var $thirdLineSubstitionOtherRows = jq('span.third-line-substitution:not(:first-of-type)');
+
+                jq('.add').click(function(e) { //Handle add button event
+                    e.preventDefault();
+                    $thirdLineSubstitionThisRow = jq(this).parents('span.third-line-substitution:first');
+                    $thirdLineSubstitionNextRow = $thirdLineSubstitionThisRow.next();
+
+                    if ($thirdLineSubstitionNextRow.length &gt; 0) {
+                        $thirdLineSubstitionNextRow.show('slow');
+                        $thirdLineSubstitionThisRow.find('.add').hide();
+                    }
+                });
+
+                jq('.remove').click(function(e) { //Handle remove button event
+                    e.preventDefault();
+                    $thirdLineSubstitionThisRow = jq(this).parents('span.third-line-substitution:first');
+                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
+                        $thirdLineSubstitionThisRow = jq(this).parents('span.third-line-substitution:first');
+                        $thirdLineSubstitionLastRow = jq(this).parents('span.third-line-substitution:last');
+                        $lastVisibleRow = $thirdLineSubstitionLastRow.prev();
+
+                        $thirdLineSubstitionThisRow.hide('slow', function() {
+                            fieldHelper.clearAllFields($thirdLineSubstitionThisRow);
+                            $lastVisibleRow.find('.add').show();
+                        });
+                    }
+                });
+
+
+                <!-- Add/remove logic for treatment interruptions--> 
+
+                var $treatmentInterruptionsFirstRow = jq('span.treatment-interruptions:first-of-type');
+                var $treatmentInterruptionsOtherRows = jq('span.treatment-interruptions:not(:first-of-type)');
+
+                jq('.add').click(function(e) { //Handle add button event
+                    e.preventDefault();
+                    $treatmentInterruptionsThisRow = jq(this).parents('span.treatment-interruptions:first');
+                    $treatmentInterruptionsNextRow = $treatmentInterruptionsThisRow.next();
+
+                    if ($treatmentInterruptionsNextRow.length &gt; 0) {
+                        $treatmentInterruptionsNextRow.show('slow');
+                        $treatmentInterruptionsThisRow.find('.add').hide();
+                    }
+                });
+
+                jq('.remove').click(function(e) { //Handle remove button event
+                    e.preventDefault();
+                    $treatmentInterruptionsThisRow = jq(this).parents('span.treatment-interruptions:first');
+                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
+                        $treatmentInterruptionsThisRow = jq(this).parents('span.treatment-interruptions:first');
+                        $treatmentInterruptionsLastRow = jq(this).parents('span.treatment-interruptions:last');
+                        $lastVisibleRow = $treatmentInterruptionsLastRow.prev();
+
+                        $treatmentInterruptionsThisRow.hide('slow', function() {
+                            fieldHelper.clearAllFields($treatmentInterruptionsThisRow);
+                            $lastVisibleRow.find('.add').show();
+                        });
+                    }
+                });
+
+
+                <!-- Add/remove logic for drug allergies --> 
+
+                var $drugAllergiesFirstRow = jq('span.drug-allergies:first-of-type');
+                var $drugAllergiesOtherRows = jq('span.drug-allergies:not(:first-of-type)');
+
+                jq('.add').click(function(e) { //Handle add button event
+                    e.preventDefault();
+                    $drugAllergiesThisRow = jq(this).parents('span.drug-allergies:first');
+                    $drugAllergiesNextRow = $drugAllergiesThisRow.next();
+
+                    if ($drugAllergiesNextRow.length &gt; 0) {
+                        $drugAllergiesNextRow.show('slow');
+                        $drugAllergiesThisRow.find('.add').hide();
+                    }
+                });
+
+                jq('.remove').click(function(e) { //Handle remove button event
+                    e.preventDefault();
+                    $drugAllergiesThisRow = jq(this).parents('span.third-line-substitution:first');
+                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
+                        $drugAllergiesThisRow = jq(this).parents('span.drug-allergies:first');
+                        $drugAllergiesLastRow = jq(this).parents('span.drug-allergies:last');
+                        $lastVisibleRow = $drugAllergiesLastRow.prev();
+
+                        $drugAllergiesThisRow.hide('slow', function() {
+                            fieldHelper.clearAllFields($drugAllergiesThisRow);
+                            $lastVisibleRow.find('.add').show();
+                        });
+                    }
+                });
+
+
+                 <!-- Add/remove logic for hep B Screening --> 
+
+                var $hepBScreeningFirstRow = jq('span.hepB-screening:first-of-type');
+                var $hepBScreeningOtherRows = jq('span.hepB-screening:not(:first-of-type)');
+
+                jq('.add').click(function(e) { //Handle add button event
+                    e.preventDefault();
+                    $hepBScreeningThisRow = jq(this).parents('span.hepB-screening:first');
+                    $hepBScreeningNextRow = $hepBScreeningThisRow.next();
+
+                    if ($hepBScreeningNextRow.length &gt; 0) {
+                        $hepBScreeningNextRow.show('slow');
+                        $hepBScreeningThisRow.find('.add').hide();
+                    }
+                });
+
+                jq('.remove').click(function(e) { //Handle remove button event
+                    e.preventDefault();
+                    $hepBScreeningThisRow = jq(this).parents('span.hepB-screening:first');
+                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
+                        $hepBScreeningThisRow = jq(this).parents('span.hepB-screening:first');
+                        $hepBScreeningLastRow = jq(this).parents('span.hepB-screening:last');
+                        $lastVisibleRow = $hepBScreeningLastRow.prev();
+
+                        $hepBScreeningThisRow.hide('slow', function() {
+                            fieldHelper.clearAllFields($hepBScreeningThisRow);
+                            $lastVisibleRow.find('.add').show();
+                        });
+                    }
+                });
+
+                 <!-- Add/remove logic for hep C Screening --> 
+
+                var $hepCScreeningFirstRow = jq('span.hepC-screening:first-of-type');
+                var $hepCScreeningOtherRows = jq('span.hepC-Screening:not(:first-of-type)');
+
+                jq('.add').click(function(e) { //Handle add button event
+                    e.preventDefault();
+                    $hepCScreeningThisRow = jq(this).parents('span.hepC-screening:first');
+                    $hepCScreeningNextRow = $hepCScreeningThisRow.next();
+
+                    if ($hepCScreeningNextRow.length &gt; 0) {
+                        $hepCScreeningNextRow.show('slow');
+                        $hepCScreeningThisRow.find('.add').hide();
+                    }
+                });
+
+                jq('.remove').click(function(e) { //Handle remove button event
+                    e.preventDefault();
+                    $hepCScreeningThisRow = jq(this).parents('span.hepC-screening:first');
+                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
+                        $hepCScreeningThisRow = jq(this).parents('span.hepC-screening:first');
+                        $hepCScreeningLastRow = jq(this).parents('span.hepC-screening:last');
+                        $lastVisibleRow = $hepCScreeningLastRow.prev();
+
+                        $hepCScreeningThisRow.hide('slow', function() {
+                            fieldHelper.clearAllFields($hepCScreeningThisRow);
+                            $lastVisibleRow.find('.add').show();
+                        });
+                    }
+                });
+
+                 <!-- Add/remove logic for blood sugar Screening --> 
+
+                var $bloodSugarScreeningFirstRow = jq('span.blood-sugar-screening:first-of-type');
+                var $bloodSugarScreeningOtherRows = jq('span.blood-sugar-Screening:not(:first-of-type)');
+
+                jq('.add').click(function(e) { //Handle add button event
+                    e.preventDefault();
+                    $bloodSugarScreeningThisRow = jq(this).parents('span.blood-sugar-screening:first');
+                    $bloodSugarScreeningNextRow = $bloodSugarScreeningThisRow.next();
+
+                    if ($bloodSugarScreeningNextRow.length &gt; 0) {
+                        $bloodSugarScreeningNextRow.show('slow');
+                        $bloodSugarScreeningThisRow.find('.add').hide();
+                    }
+                });
+
+                jq('.remove').click(function(e) { //Handle remove button event
+                    e.preventDefault();
+                    $bloodSugarScreeningThisRow = jq(this).parents('span.blood-sugar-screening:first');
+                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
+                        $bloodSugarScreeningThisRow = jq(this).parents('span.blood-sugar-screening:first');
+                        $bloodSugarScreeningLastRow = jq(this).parents('span.blood-sugar-screening:last');
+                        $lastVisibleRow = $bloodSugarScreeningLastRow.prev();
+
+                        $bloodSugarScreeningThisRow.hide('slow', function() {
+                            fieldHelper.clearAllFields($bloodSugarScreeningThisRow);
+                            $lastVisibleRow.find('.add').show();
+                        });
+                    }
+                });
+
+                 <!-- Add/remove logic for family tracking --> 
+
+                var $familyTrackingFirstRow = jq('span.family-tracking:first-of-type');
+                var $familyTrackingOtherRows = jq('span.family-tracking:not(:first-of-type)');
+
+                jq('.add').click(function(e) { //Handle add button event
+                    e.preventDefault();
+                    $familyTrackingThisRow = jq(this).parents('span.family-tracking:first');
+                    $familyTrackingNextRow = $familyTrackingThisRow.next();
+
+                    if ($familyTrackingNextRow.length &gt; 0) {
+                        $familyTrackingNextRow.show('slow');
+                        $familyTrackingThisRow.find('.add').hide();
+                    }
+                });
+
+                jq('.remove').click(function(e) { //Handle remove button event
+                    e.preventDefault();
+                    $familyTrackingThisRow = jq(this).parents('span.family-tracking:first');
+                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
+                        $familyTrackingThisRow = jq(this).parents('span.family-tracking:first');
+                        $familyTrackingLastRow = jq(this).parents('span.family-tracking:last');
+                        $lastVisibleRow = $familyTrackingLastRow.prev();
+
+                        $familyTrackingThisRow.hide('slow', function() {
+                            fieldHelper.clearAllFields($familyTrackingThisRow);
+                            $lastVisibleRow.find('.add').show();
+                        });
+                    }
+                });
+
+
 
             <ifMode mode="ENTER">
-                    $otherRows.hide(); //Hide all rows apart from first row if adding new form
-                $firstRow.find('.remove').hide(); //Hide the remove button from the first row
+                $transferInOtherRows.hide(); //Hide all rows apart from first row if adding new form
+                $transferInFirstRow.find('.remove').hide(); //Hide the remove button from the first row
+                $firstLineSubstitionOtherRows.hide(); //Hide all rows apart from first row if adding new form
+                $firstLineSubstitionFirstRow.find('.remove').hide(); //Hide the remove button from the first row
+                $secondLineSubstitionOtherRows.hide(); //Hide all rows apart from first row if adding new form
+                $secondLineSubstitionFirstRow.find('.remove').hide(); //Hide the remove button from the first row
+                $thirdLineSubstitionOtherRows.hide(); //Hide all rows apart from first row if adding new form
+                $thirdLineSubstitionFirstRow.find('.remove').hide(); //Hide the remove button from the first row
+                $treatmentInterruptionsOtherRows.hide();
+                $treatmentInterruptionsFirstRow.find('.remove').hide(); 
+                $drugAllergiesOtherRows.hide();
+                $drugAllergiesFirstRow.find('.remove').hide(); 
+                $hepBScreeningOtherRows.hide();
+                $hepBScreeningFirstRow.find('.remove').hide();
+                $hepCScreeningOtherRows.hide();
+                $hepCScreeningFirstRow.find('.remove').hide();
+                $bloodSugarScreeningOtherRows.hide();
+                $bloodSugarScreeningFirstRow.find('.remove').hide();
+                $familyTrackingOtherRows.hide();
+                $familyTrackingFirstRow.find('.remove').hide();
 
                 jq('.FamilyTrackingEnableDisable').each(function(){
                     jq(this).find('[id^="99881"]').find("input[type$='radio']").attr("disabled",true);
@@ -797,61 +1137,11 @@
                     }
                 });
 
-
             </ifMode>
             });
 
         }
     </script>
-
-    <script type="text/javascript">
-        function val() {
-            document.getElementById("fgh").disabled = "true";
-        }
-    </script>
-
-    <style type="text/css">
-
-        form#htmlform table.table-borderless, form#htmlform table.table-borderless td{
-            border:0;
-        }
-
-         input[type=text],  .hasDatepicker, select {
-            width:100% !important;
-        }
-
-        table.table-borderless tr {
-            border: 0;
-        }
-        .tab-content{
-            margin-top: 10px; ;
-        }
-
-        .right-inner-addon {
-            position: relative;
-        }
-        .right-inner-addon input,.right-inner-addon div input {
-            padding-right: 30px;
-        }
-        .right-inner-addon i, .right-inner-addon div  i {
-            position: absolute;
-            right: 0px;
-            padding: 10px 12px;
-            pointer-events: none;
-        }
-
-        .right-inner-addon-row{
-            padding: 35px 12px !important;
-        }
-        .start-art-icon{
-            padding: 40px 12px !important;
-        }
-
-        .family-date-icon{
-            padding: 15px 20px !important;
-        }
-
-    </style>
 
     <!-- Beging of HTML Form -->
     <div>
@@ -893,7 +1183,7 @@
                                               <div class="col-md-4">
                                                   <label><span class="required">*</span>Attending Clinician</label>
                                                   <encounterProvider role="Provider" style="autocomplete"/>
-                                                  <span style="display: none;">
+                                                    <span style="display: none;">
                                                     <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117"
                                                                        order="629d78e9-93e5-43b0-ad8a-48313fd99117"/>
                                                     </span>
@@ -913,17 +1203,17 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <label >Enrollment into HIV Care Transfer in from</label>
-                                                <i class="icon-calendar small right-addon-row position-absolute" style="right: 5%; top: 50%;"></i>
+                                                <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                 <obs id="165312" conceptId="165312"/>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Date of registration at this site</label>
-                                                <i class="icon-calendar small right-addon-row position-absolute" style="right: 5%; top: 50%;"></i>
+                                                <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                 <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Date verification HIV test</label>
-                                                <i class="icon-calendar small right-addon-row position-absolute" style="right: 5%; top: 50%;"></i>
+                                                <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                 <obs id="90267" conceptId="90267"/>
                                             </div>
                                         </div>
@@ -1064,7 +1354,6 @@
                                               <obs conceptId="165169" id="165169" answerConceptId="90002" answerLabel="12 - Others (specify)" style="checkbox" />
 
                                               <obs id="165184" conceptId="165184" class="ARTSpecialCateogryEnableDisableChild1" />
-
                                           </div>
                                       </div>
                                   </div>
@@ -1135,72 +1424,73 @@
                                 <div class="card">
                                     <div class="card-header">Family Tracking</div>
                                     <div class="card-body">
-                                            <repeat>
-                                                <template>
-                                                    <obsgroup groupingConceptId="99075">
+                                        <repeat>
+                                            <template>
+                                                <span class="family-tracking">
                                                     <div class="row FamilyTrackingEnableDisable">
-                                                        <div class="col-md-3">
-                                                            <label> Name</label>
-                                                            <obs conceptId="99073" />
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <label>Relationship to client</label>
-                                                        <obs id="164352_{n}" conceptId="164352" answerConceptIds="90288,90280,5620,165274"
-                                                                                answerLabels="Spouse,Child,Other relative,Other Sexual partner"  />
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <label>Age</label>
-                                                        <obs id="99074_{n}" conceptId="99074"/>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                        <label>EID Care (Y/N)</label>
-                                                        <obs id="99881_{n}" conceptId="99881" answerConceptIds="90003,90004"
-                                                                          answerLabels="Yes,No" style="radio" class="horizontal"/>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                        <label>Age Unit</label>
-                                                        <obs id="99725_{n}" conceptId="99725"
-                                                                          answerConceptIds="1074,99726"
-                                                                          answerLabels="Yrs,Mths" />
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                        <label>HIV Care (Y/N)</label>
+                                                        <obsgroup groupingConceptId="99075">
+                                                            <div class="col-md-3">
+                                                                <label> Name</label>
+                                                                <obs conceptId="99073" />
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label>Relationship to client</label>
+                                                                <obs id="164352_{n}" conceptId="164352" answerConceptIds="90288,90280,5620,165274"
+                                                                                    answerLabels="Spouse,Child,Other relative,Other Sexual partner" />
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label>Age</label>
+                                                                <obs id="99074_{n}" conceptId="99074"/>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label>EID Care (Y/N)</label>
+                                                                <obs id="99881_{n}" conceptId="99881" answerConceptIds="90003,90004"
+                                                                                  answerLabels="Yes,No" style="radio" class="horizontal" />
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label>Age Unit</label>
+                                                                <obs id="99725_{n}" conceptId="99725"
+                                                                                  answerConceptIds="1074,99726"
+                                                                                  answerLabels="Yrs,Mths" />
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label>HIV Care (Y/N)</label>
                                                                 <obs id="90270_{n}" conceptId="90270" answerConceptIds="90003,90004"
-                                                                                  answerLabels="Yes,No" style="radio" class="horizontal"/>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                        <label>HIV Status</label>
+                                                                                      answerLabels="Yes,No" style="radio" class="horizontal"/>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label>HIV Status</label>
                                                                 <obs id="165275_{n}" conceptId="165275" answerConceptIds="90166,90167,165165"
-                                                                                   answerLabels="Positive,Negative,Unknown"/>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                        <label>EID No./Pt Clinic No.</label>
-                                                            <obs id="90263_{n}" conceptId="90263" />
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <obsgroup groupingConceptId="165277">
-                                                                <label>HIV Status Date</label>
-                                                                <i class="icon-calendar small right-addon-row position-absolute" style="right: 8%; top: 50%;"></i>
-                                                                <obs id="165276" conceptId="165276"/>
-                                                            </obsgroup>
-                                                        </div>
-                                                        <div class="text-nowrap">
-                                                            <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
-                                                            <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
-                                                        </div>
+                                                                                       answerLabels="Positive,Negative,Unknown"/>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label>EID No./Pt Clinic No.</label>
+                                                                <obs id="90263_{n}" conceptId="90263" />
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <obsgroup groupingConceptId="165277">
+                                                                    <label>HIV Status Date</label>
+                                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 26%; top: 50%;"></i>
+                                                                    <obs id="165276" conceptId="165276"/>
+                                                                </obsgroup>
+                                                            </div>
+                                                            <div class="text-nowrap">
+                                                                <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                                <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
+                                                            </div>
+                                                        </obsgroup>
                                                     </div>
-                                                    </obsgroup>
-                                                </template>
-                                                <render n="1"/>
-                                                <render n="2"/>
-                                                <render n="3"/>
-                                                <render n="4"/>
-                                                <render n="5"/>
-                                                <render n="6"/>
-                                                <render n="7"/>
-                                                <render n="8"/>
-
-                                            </repeat>
+                                                </span>
+                                            </template>
+                                            <render n="1"/>
+                                            <render n="2"/>
+                                            <render n="3"/>
+                                            <render n="4"/>
+                                            <render n="5"/>
+                                            <render n="6"/>
+                                            <render n="7"/>
+                                            <render n="8"/>
+                                        </repeat>
                                     </div>
                                 </div>
                             </div>
@@ -1214,7 +1504,7 @@
                                             <div class="row">
                                                 <obsgroup groupingConceptId="99162">
                                                     <div class="col-md-3 ARTStartEnableDisable1">
-                                                        <i class="icon-calendar small right-addon-row position-absolute" style="right: 8%; top: 50%;"></i>
+                                                        <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                                         <obs id="99161" conceptId="99161" labelText="At Start ART"/>
                                                     </div>
                                                     <div class="col-md-3 ARTStartEnableDisableChild1">
@@ -1240,7 +1530,6 @@
                                                     <obs conceptId="99070" answerConceptIds="1204,1205,1206,1207"
                                                          answerLabels="1,2,3,4" labelText="WHO Clinical Stage" style="dropdown"/>
                                                 </div>
-
                                                 <div class="col-md-3 ARTStartEnableDisableChild1">
                                                     <obs conceptId="99071" labelText="CD4"/>
                                                 </div>
@@ -1250,7 +1539,6 @@
                                                              answerLabels="Yes, No" labelText="Preg"/>
                                                     </excludeIf>
                                                 </div>
-
                                                 <div class="col-md-3 ARTStartEnableDisableChild1">
                                                     <excludeIf velocityTest="$patient.gender =='M' ">
                                                         <obs conceptId="99603" answerConceptIds="90003,90004"
@@ -1274,35 +1562,31 @@
                                                 </div>
                                                 <repeat>
                                                     <template>
-                                                        <obsgroup groupingConceptId="99065">
+                                                        <span class="transfer-in">
                                                             <div class="row">
-                                                                <div class="col-md-3 ARTStartEnableDisable2 ">
-                                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 8%; top: 25%;"></i>
-                                                                    <obs id="99160" conceptId="99160"/>
-                                                                </div>
-                                                                <div class="col-md-3 ARTStartEnableDisableChild2 ">
-                                                                    <obs conceptId="90206" />
-                                                                </div>
-                                                                <div class="col-md-3 ARTStartEnableDisableChild2 ">
-                                                                    <span class="ArtCareEnableDisable1">
-                                                                        <small>
-                                                                            <obs conceptId="99064"
-                                                                                 answerConceptIds="99015,99016,99005,99006,164979,99039,99040,99041,99042,164977,99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99046,164978,163017,90002"
-                                                                                 answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-FTC-NVP,TDF-FTC-EFV,TDF-3TC-DTG,ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,ZDV-ddI(250)-LPV/r,ZDV-ddI(400)-LPV/r,ZDV-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,ZDV-ddI-LPV/r,ZDV-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,AZT-3TC-LPV/r,ABC-3TC-DTG,ABC-3TC-LPV/r,Other"/>
-                                                                        </small>
-                                                                    </span>
-                                                                </div>
-                                                                <div class="col-md-2">
-                                                                    <span class="ArtCareEnableDisableChild1">
+                                                                <obsgroup groupingConceptId="99065">
+                                                                    <div class="col-md-3">
+                                                                        <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 20%;"></i>
+                                                                        <obs id="99160" conceptId="99160"/>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <obs conceptId="90206" />
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <obs conceptId="99064"
+                                                                             answerConceptIds="99015,99016,99005,99006,164979,99039,99040,99041,99042,164977,99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99046,164978,163017,90002"
+                                                                             answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-FTC-NVP,TDF-FTC-EFV,TDF-3TC-DTG,ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,ZDV-ddI(250)-LPV/r,ZDV-ddI(400)-LPV/r,ZDV-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,ZDV-ddI-LPV/r,ZDV-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,AZT-3TC-LPV/r,ABC-3TC-DTG,ABC-3TC-LPV/r,Other"/>
+                                                                    </div>
+                                                                    <div class="col-md-2">
                                                                         <obs conceptId="99269"/>
-                                                                    </span>
-                                                                </div>
-                                                                <div class="col-md-1 text-nowrap" >
-                                                                    <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
-                                                                    <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
-                                                                </div>
+                                                                    </div>
+                                                                    <div class="col-md-1 text-nowrap" >
+                                                                        <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                                        <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
+                                                                    </div>
+                                                                </obsgroup>
                                                             </div>
-                                                        </obsgroup>
+                                                        </span>
                                                     </template>
                                                     <render/>
                                                     <render/>
@@ -1324,13 +1608,12 @@
                                                 </div>
                                                     <repeat>
                                                         <template>
-                                                            <obsgroup groupingConceptId="99062">
+                                                            <span class="first-line-substitution">
                                                                 <div class="row">
+                                                                <obsgroup groupingConceptId="99062">
                                                                     <div class="col-md-3 ARTStartEnableDisable3">
-                                                                        <div class="ARTStartEnableDisableChild1 right-inner-addon ">
-                                                                            <i class=" icon-calendar small"></i>
+                                                                        <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 20%;"></i>
                                                                             <obs id="99163_{n}" conceptId="99163"/>
-                                                                        </div>
                                                                     </div>
                                                                     <div class="col-md-3 ARTStartEnableDisableChild3">
                                                                         <span class="ArtCareEnableDisable3">
@@ -1352,8 +1635,9 @@
                                                                         <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
                                                                         <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
                                                                     </div>
+                                                                </obsgroup>
                                                                 </div>
-                                                            </obsgroup>
+                                                            </span>
                                                         </template>
                                                         <render n="1"/>
                                                         <render n="2"/>
@@ -1376,42 +1660,41 @@
                                                 </div>
                                                 <repeat>
                                                     <template>
-                                                        <obsgroup groupingConceptId="99063">
+                                                        <span class="second-line-substitution">
                                                             <div class="row">
-                                                                <div class="col-md-3 ARTStartEnableDisableChild10">
-                                                                    <span class="ARTStartEnableDisableChild1">
-                                                                        <obs conceptId="165310" answerConceptIds="1371,1372" answerLabels="Switch, Substitution" style="radio" class="horizontal"/>
-                                                                    </span>
-                                                                </div>
-                                                                <div class="col-md-3 ARTStartEnableDisableChild10">
-                                                                    <div class="ARTStartEnableDisableChild1 right-inner-addon ">
-                                                                        <i class=" icon-calendar small"></i>
-                                                                        <obs id="99164_{n}" conceptId="99164"/>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3 ARTStartEnableDisableChild10">
-                                                                    <span class="ArtCareEnableDisable7">
-                                                                        <small>
-                                                                            <obs conceptId="90315"
-                                                                                 answerConceptIds="99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99046,99046,99887,99888,99144"
-                                                                                 answerLabels="ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,ZDV-ddI(250)-LPV/r,ZDV-ddI(400)-LPV/r,ZDV-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,ZDV-ddI-LPV/r,ZDV-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,AZT-3TC-LPV/r,TDF-3TC-ATV/r,ABC-3TC-ATV/r,Other"/>
-                                                                        </small>
+                                                                <obsgroup groupingConceptId="99063">
+                                                                    <div class="col-md-3 ARTStartEnableDisableChild10">
+                                                                        <span class="ARTStartEnableDisableChild1">
+                                                                            <obs conceptId="165310" answerConceptIds="1371,1372" answerLabels="Switch, Substitution" style="radio" class="horizontal"/>
                                                                         </span>
-
-                                                                    <span class="ArtCareEnableDisableChild7">
-                                                                        <obs  conceptId="99147" />
-                                                                    </span>
-                                                                </div>
-                                                                <div class="col-md-2 ARTStartEnableDisableChild10">
-                                                                    <obs conceptId="90247" answerConceptIds="90046,90047,99889"
-                                                                         answerLabels="6.Clinical, 7.Immuno, 8. Virological"/>
-                                                                </div>
-                                                                <div class="col-md-1 text-nowrap">
-                                                                    <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
-                                                                    <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
-                                                                </div>
+                                                                    </div>
+                                                                    <div class="col-md-3 ARTStartEnableDisableChild10">
+                                                                        <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 12%;"></i>
+                                                                            <obs id="99164_{n}" conceptId="99164"/>
+                                                                    </div>
+                                                                    <div class="col-md-3 ARTStartEnableDisableChild10">
+                                                                        <span class="ArtCareEnableDisable7">
+                                                                            <small>
+                                                                                <obs conceptId="90315"
+                                                                                     answerConceptIds="99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99046,99046,99887,99888,99144"
+                                                                                     answerLabels="ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,ZDV-ddI(250)-LPV/r,ZDV-ddI(400)-LPV/r,ZDV-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,ZDV-ddI-LPV/r,ZDV-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,AZT-3TC-LPV/r,TDF-3TC-ATV/r,ABC-3TC-ATV/r,Other"/>
+                                                                            </small>
+                                                                            </span>
+                                                                        <span class="ArtCareEnableDisableChild7">
+                                                                            <obs  conceptId="99147" />
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="col-md-2 ARTStartEnableDisableChild10">
+                                                                        <obs conceptId="90247" answerConceptIds="90046,90047,99889"
+                                                                             answerLabels="6.Clinical, 7.Immuno, 8. Virological"/>
+                                                                    </div>
+                                                                    <div class="col-md-1 text-nowrap">
+                                                                        <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                                        <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
+                                                                    </div>
+                                                                </obsgroup>
                                                             </div>
-                                                        </obsgroup>
+                                                        </span>
                                                     </template>
                                                     <render n="1"/>
                                                     <render n="2"/>
@@ -1434,42 +1717,34 @@
                                             </div>
                                             <repeat>
                                                 <template>
-                                                    <obsgroup groupingConceptId="162988">
+                                                    <span class="third-line-substitution">
                                                         <div class="row">
-                                                            <div class="col-md-3 ARTStart3EnableDisable1">
-                                                                <span class="ARTStartEnableDisableChild1">
-                                                                        <obs conceptId="165311" answerConceptIds="1371,1372"
-                                                                             answerLabels="Switch, Substitution" style="radio" class="horizontal"/>
-                                                                </span>
-                                                            </div>
-                                                            <div class="col-md-3 ARTStartEnableDisableChild10">
-                                                                <div class="ARTStartEnableDisableChild1 right-inner-addon ">
-                                                                    <i class=" icon-calendar small"></i>
+                                                            <obsgroup groupingConceptId="162988">
+                                                                <div class="col-md-3 ARTStart3EnableDisable1">
+                                                                    <obs conceptId="165311" answerConceptIds="1371,1372"
+                                                                         answerLabels="Switch, Substitution" style="radio" class="horizontal"/>
+                                                                </div>
+                                                                <div class="col-md-3 ARTStartEnableDisableChild10">
+                                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 12%;"></i>
                                                                     <obs id="162991_{n}" conceptId="162991"/>
                                                                 </div>
-
-                                                            </div>
-                                                            <div class="col-md-3 ARTStartEnableDisableChild10">
-                                                                <span class="ArtCare3EnableDisable10">
-                                                                    <small>
-                                                                        <obs conceptId="162990"/>
-                                                                    </small>
-                                                                </span>
-
-                                                                <span class="ArtCareEnableDisableChild10">
-                                                                    <obs  conceptId="162989" />
-                                                                </span>
-                                                            </div>
-                                                            <div class="col-md-2 ARTStartEnableDisableChild10">
-                                                                <obs conceptId="90247" answerConceptIds="90046,90047,99889"
-                                                                     answerLabels="6.Clinical, 7.Immuno, 8. Virological"/>
-                                                            </div>
-                                                            <div class="col-md-1 text-nowrap">
-                                                                <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
-                                                                <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
-                                                            </div>
+                                                                <div class="col-md-3 ARTStartEnableDisableChild10">
+                                                                    <obs conceptId="162990"/>
+                                                                    <span class="ArtCareEnableDisableChild10">
+                                                                        <obs  conceptId="162989" />
+                                                                    </span>
+                                                                </div>
+                                                                <div class="col-md-2 ARTStartEnableDisableChild10">
+                                                                    <obs conceptId="90247" answerConceptIds="90046,90047,99889"
+                                                                         answerLabels="6.Clinical, 7.Immuno, 8. Virological"/>
+                                                                </div>
+                                                                <div class="col-md-1 text-nowrap">
+                                                                    <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                                    <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
+                                                                </div>
+                                                            </obsgroup>
                                                         </div>
-                                                    </obsgroup>
+                                                    </span>
                                                 </template>
                                                 <render n="1"/>
                                                 <render n="2"/>
@@ -1479,7 +1754,6 @@
                                     </div>
                                     </section>
                                     </section>
-                                        
                                     <section>
                                     <div class="card">
                                         <div class="card-header">Prior Art</div>
@@ -1506,12 +1780,11 @@
                                             <div class="row enableDisable">
                                                 <obsgroup groupingConceptId="99066">
                                                     <div class="col-md-2 PriorYesNoEnableDisableChild1" id="trigger">
-                                                        <obs conceptId="99056" answerConceptId="90003" answerLabel="PEP"
-                                                        />
+                                                        <obs conceptId="99056" answerConceptId="90003" answerLabel="PEP" />
                                                     </div>
                                                     <div class="col-md-2" id="disabled">
-                                                        <i class="icon-calendar small right-addon-row position-absolute" style="right: 8%; top: 25%;"></i>
-                                                            <obs id="second" conceptId="99154" labelText=""/>
+                                                        <i class="icon-calendar small right-addon-row position-absolute" style="right: 25%; top: 19%;"></i>
+                                                        <obs id="second" conceptId="99154" labelText=""/>
                                                     </div>
                                                     <div class="col-md-2" id="disabled">
                                                         <obs id="third" conceptId="165252"/>
@@ -1521,12 +1794,11 @@
 
                                             <div class="row enableDisable">
                                                     <div class="col-md-2 PriorYesNoEnableDisableChild1" id="trigger" >
-                                                        <obs conceptId="165163" answerConceptId="90003" answerLabel="PreP"
-                                                        />
+                                                        <obs conceptId="165163" answerConceptId="90003" answerLabel="PreP" />
                                                     </div>
                                                     <div class="col-md-2" id="disabled">
-                                                        <i class="icon-calendar small right-addon-row position-absolute" style="right: 8%; top: 25%;"></i>
-                                                            <obs id="second" conceptId="165250" labelText=""/>
+                                                        <i class="icon-calendar small right-addon-row position-absolute" style="right: 25%; top: 19%;"></i>
+                                                        <obs id="second" conceptId="165250" labelText=""/>
                                                     </div>
                                                     <div class="col-md-2" id="disabled">
                                                         <obs id="third" conceptId="165251"/>
@@ -1538,8 +1810,8 @@
                                                         <obs conceptId="99594" answerConceptId="90003" answerLabel="Hep-B"/>
                                                     </div>
                                                     <div class="col-md-2" id="disabled">
-                                                        <i class="icon-calendar small right-addon-row position-absolute" style="right: 8%; top: 25%;"></i>
-                                                            <obs id="second" conceptId="99595" labelText=""/>
+                                                        <i class="icon-calendar small right-addon-row position-absolute" style="right: 25%; top: 19%;"></i>
+                                                        <obs id="second" conceptId="99595" labelText=""/>
                                                     </div>
                                                     <div class="col-md-2" id="disabled">
                                                         <obs id="third" conceptId="165253"/>
@@ -1554,8 +1826,8 @@
                                                                  answerLabel="PMTCT Only"/>
                                                         </div>
                                                         <div class="col-md-2" id="disabled">
-                                                            <i class="icon-calendar small right-addon-row position-absolute" style="right: 8%; top: 25%;"></i>
-                                                                <obs id="second" conceptId="99155" labelText=""/>
+                                                            <i class="icon-calendar small right-addon-row position-absolute" style="right: 25%; top: 19%;"></i>
+                                                            <obs id="second" conceptId="99155" labelText=""/>
                                                         </div>
                                                         <div class="col-md-2" id="disabled">
                                                             <obs id="third" conceptId="165258"/>
@@ -1570,8 +1842,8 @@
                                                              answerLabel="Earlier ARV not transfer"/>
                                                     </div>
                                                     <div class="col-md-2 " id="disabled">
-                                                        <i class="icon-calendar small right-addon-row position-absolute" style="right: 8%; top: 25%;"></i>
-                                                            <obs id="second" conceptId="99156" labelText=""/>
+                                                        <i class="icon-calendar small right-addon-row position-absolute" style="right: 25%; top: 19%;"></i>
+                                                        <obs id="second" conceptId="99156" labelText=""/>
                                                     </div>
                                                     <div class="col-md-2" id="disabled">
                                                         <obs id="third" conceptId="165259"/>
@@ -1580,10 +1852,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                </section>
+                                    </section>
                                 </section>
                             </div>
-                            <div class="tab-pane fade" role="tabpanel" aria-labelledby="nav-profile-tab" id="prior-art-section">
+                            <div class="tab-pane fade" id="prior-art-section">
                                 <section>
                                     <div class="card">
                                         <div class="card-header">ART/TPT/Fluconazole/TB Interruptions</div>
@@ -1597,38 +1869,40 @@
                                             </div>
                                             <repeat>
                                                 <template>
-                                                    <obsgroup groupingConceptId="165232">
+                                                    <span class="treatment-interruptions">
                                                         <div class="row">
-                                                            <div class="col-md-2">
-                                                                <div class="ARTTreatmentInterruptionEnableDisable1">
-                                                                    <obs conceptId="165228" answerConceptIds="99132,165225,747,58"
-                                                                         answerLabels="ART,TPT,Fluconazole,TB Drugs"/>
+                                                            <obsgroup groupingConceptId="165232">
+                                                                <div class="col-md-2">
+                                                                    <div class="ARTTreatmentInterruptionEnableDisable1">
+                                                                        <obs conceptId="165228" answerConceptIds="99132,165225,747,58"
+                                                                             answerLabels="ART,TPT,Fluconazole,TB Drugs"/>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <span class="ARTTreatmentInterruptionEnableDisable2">
-                                                                    <obs conceptId="165229" answerConceptIds="1363,99133"                                                                             answerLabels="Stopped, Lost"/>
-                                                                </span>
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <i class="icon-calendar small right-addon-row position-absolute" style="right: 8%; top: 25%;"></i>
-                                                                <obs conceptId="165230" />
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <obs conceptId="165231"
-                                                                     answerConceptIds="90040,90046,90158,90050,90045,90051,90052,90066,99289,90002"
-                                                                     answerLabels="1.Toxicity/side effects,2.Treatment Failure,3. Poor Adherence, 4.Illness/hospitalization, 5.Drug out of stock, 6.Patient lacks Finances, 7. Other patient decision, 8.Patient Rx interruption intpn, 9.Excluded HIV Infection, 10.Other,"/>
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <i class="icon-calendar small right-addon-row position-absolute" style="right: 8%; top: 25%;"></i>
-                                                                <obs conceptId="160738"/>
-                                                            </div>
-                                                            <div class="col-md-1 text-nowrap" align="center">
-                                                                <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
-                                                                <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
-                                                            </div>
+                                                                <div class="col-md-2">
+                                                                    <span class="ARTTreatmentInterruptionEnableDisable2">
+                                                                        <obs conceptId="165229" answerConceptIds="1363,99133"                                                                            answerLabels="Stopped, Lost"/>
+                                                                    </span>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 25%; top: 23%;"></i>
+                                                                    <obs conceptId="165230" />
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <obs conceptId="165231"
+                                                                         answerConceptIds="90040,90046,90158,90050,90045,90051,90052,90066,99289,90002"
+                                                                         answerLabels="1.Toxicity/side effects,2.Treatment Failure,3. Poor Adherence, 4.Illness/hospitalization, 5.Drug out of stock, 6.Patient lacks Finances, 7. Other patient decision, 8.Patient Rx interruption intpn, 9.Excluded HIV Infection, 10.Other,"/>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 23%;"></i>
+                                                                    <obs conceptId="160738"/>
+                                                                </div>
+                                                                <div class="col-md-1 text-nowrap" align="center">
+                                                                    <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                                    <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
+                                                                </div>
+                                                            </obsgroup>
                                                         </div>
-                                                    </obsgroup>
+                                                    </span>
                                                 </template>
                                                 <render />
                                                 <render />
@@ -1657,7 +1931,7 @@
                                                          answerLabel="Transfer out"/>
                                                 </div>
                                                 <div class="col-md-3" id="disabled">
-                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 8%; top: 25%;"></i>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 25%;"></i>
                                                     <obs id="99165" conceptId="99165"/>
                                                 </div>
                                                 <div class="col-md-3" id="disabled">
@@ -1672,7 +1946,7 @@
                                                          answerLabel="Lost to follow-up (drop)"/>
                                                 </div>
                                                 <div class="col-md-3" id="disabled">
-                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 8%; top: 25%;"></i>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 25%;"></i>
                                                         <obs id="90209" conceptId="90209"/>
                                                 </div>
                                             </obsgroup>
@@ -1690,12 +1964,12 @@
                                     <div class="row card-body TPTEnableDisable">
                                         <div class="col-md-4">
                                             <label>Date TPT started</label>
-                                            <i class="icon-calendar small right-addon-row position-absolute" style="right: 5%; top: 53%;"></i>
+                                            <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                             <obs id="165226" conceptId="165226"/>
                                         </div>
                                         <div class="col-md-4">
                                             <label>Date TPT Completed</label>
-                                            <i class="icon-calendar small right-addon-row position-absolute" style="right: 5%; top: 53%;"></i>
+                                            <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
                                             <obs id="165227" conceptId="165227"/>
                                         </div>
                                     </div>
@@ -1716,17 +1990,19 @@
                                                 <div class="card-body">
                                                     <repeat>
                                                         <template>
-                                                            <div class="row">
-                                                                <div class="col-md-4">
-                                                                    <obsgroup groupingConceptId="90230">
-                                                                        <obs conceptId="142" />
-                                                                    </obsgroup>
+                                                            <span class="drug-allergies">
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        <obsgroup groupingConceptId="90230">
+                                                                            <obs conceptId="142" />
+                                                                        </obsgroup>
+                                                                    </div>
+                                                                    <div class="col-md-1 text-nowrap" align="center">
+                                                                        <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                                        <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-md-1 text-nowrap" align="center">
-                                                                    <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
-                                                                    <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
-                                                                </div>
-                                                            </div>
+                                                            </span>
                                                         </template>
                                                         <render/>
                                                         <render/>
@@ -1737,29 +2013,29 @@
                                             </div>
                                         </div>
                                     </div>
-                                        <div class="card">
-                                            <div class="card-header">Periodic Screening (Semi Annal)</div>
-                                            <div class="card-body">
-
-                                                <div class="row">
-                                                    <div class="col-md-2"></div>
-                                                    <div class="col-md-3">Date Tested </div>
-                                                    <div class="col-md-3">Result</div>
-                                                    <div class="col-md-1"></div>
-                                                </div>
-                                                <repeat>
-                                                    <template>
-                                                        <obsgroup groupingConceptId="165255">
-                                                            <div class="row">
+                                    
+                                    <div class="card">
+                                        <div class="card-header">Periodic Screening (Semi Annal)</div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-2"></div>
+                                                <div class="col-md-3">Date Tested </div>
+                                                <div class="col-md-3">Result</div>
+                                                <div class="col-md-1"></div>
+                                            </div>
+                                            <!-- <repeat>
+                                                <template>
+                                                    <span class="hepB-screening">
+                                                        <div class="row">
+                                                            <obsgroup groupingConceptId="165255">
                                                                 <div class="col-md-2">
                                                                     <label>Hep-B</label>
                                                                 </div>
                                                                 <div class="col-md-3">
-                                                                <span>
-                                                                <i class="icon-calendar small right-addon-row position-absolute" style="right: 5%; top: 25%;"></i>
-                                                                <obs conceptId="165247"/>
-
-                                                                </span>
+                                                                    <span>
+                                                                        <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 20%;"></i>
+                                                                        <obs conceptId="165247"/>
+                                                                    </span>
                                                                 </div>
                                                                 <div class="col-md-3">
                                                                     <obs conceptId="1322"
@@ -1769,61 +2045,65 @@
                                                                     <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
                                                                     <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
                                                                 </div>
-                                                            </div>
-                                                        </obsgroup>
-                                                    </template>
-                                                    <render />
-                                                    <render />
-                                                    <render />
-                                                    <render />
-                                                    <render />
-                                                    <render />
-                                                </repeat>
+                                                            </obsgroup>
+                                                        </div>
+                                                    </span>
+                                                </template>
+                                                <render />
+                                                <render />
+                                                <render />
+                                                <render />
+                                                <render />
+                                                <render />
+                                            </repeat> -->
 
-                                                <repeat>
-                                                    <template>
-                                                        <obsgroup groupingConceptId="165256">
-                                                            <div class="row">
+                                            <repeat>
+                                                <template>
+                                                    <span class="hepC-screening">
+                                                        <div class="row">
+                                                            <obsgroup groupingConceptId="165256">
                                                                 <div class="col-md-2">
                                                                     <label>Hep-C</label>
                                                                 </div>
                                                                 <div class="col-md-3">
-                                                            <span>
-                                                                <i class="icon-calendar small right-addon-row position-absolute" style="right: 5%; top: 25%;"></i>
-                                                                <obs conceptId="165248" />
-                                                            </span>
+                                                                    <span>
+                                                                        <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 20%;"></i>
+                                                                        <obs conceptId="165248" />
+                                                                    </span>
                                                                 </div>
                                                                 <div class="col-md-3">
                                                                     <obs conceptId="1325"
                                                                          answerConceptIds="703,664,1138" />
                                                                 </div>
                                                                 <div class="col-md-1 text-nowrap">
-                                                                    <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
-                                                                    <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
+                                                                    <a href="#" class="add add-more-link"><i class="icon-plus-sign"></i></a>
+                                                                    <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
                                                                 </div>
-                                                            </div>
-                                                        </obsgroup>
-                                                    </template>
-                                                    <render />
-                                                    <render />
-                                                    <render />
-                                                    <render />
-                                                    <render />
-                                                    <render />
-                                                </repeat>
-
-                                                <repeat>
-                                                    <template>
-                                                        <obsgroup groupingConceptId="165257">
-                                                            <div class="row">
+                                                            </obsgroup>
+                                                        </div>
+                                                    </span>
+                                                </template>
+                                                <render />
+                                                <render />
+                                                <render />
+                                                <render />
+                                                <render />
+                                                <render />
+                                            </repeat>
+<!-- 
+                                            <repeat>
+                                                <template>
+                                                    <span class="blood-sugar-screening">
+                                                        <div class="row">
+                                                            <obsgroup groupingConceptId="165257">
                                                                 <div class="col-md-2">
                                                                     <label>Random Blood Sugar</label>
                                                                 </div>
                                                                 <div class="col-md-3">
-                                                            <span>
-                                                                <i class="icon-calendar small right-addon-row position-absolute" style="right: 5%; top: 25%;"></i>
-                                                                <obs conceptId="165249"/>
-                                                            </span>
+                                                                    <span>
+                                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 20%;"></i>
+                                                                    <obs conceptId="165249"/>
+                                                                    </span>
                                                                 </div>
                                                                 <div class="col-md-3">
                                                                     <obs conceptId="165254"/>
@@ -1832,24 +2112,25 @@
                                                                     <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
                                                                     <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
                                                                 </div>
-                                                            </div>
-                                                        </obsgroup>
-                                                    </template>
-                                                    <render />
-                                                    <render />
-                                                    <render />
-                                                    <render />
-                                                    <render />
-                                                    <render />
-                                                </repeat>
-                                            </div>
+                                                            </obsgroup>
+                                                        </div>
+                                                    </span>
+                                                </template>
+                                                <render />
+                                                <render />
+                                                <render />
+                                                <render />
+                                                <render />
+                                                <render />
+                                            </repeat> -->
                                         </div>
+                                    </div>
                                 </section>
                             </div>
                         </div>
                     </div>
                 </div>
-        <postSubmissionAction class="org.openmrs.module.aijar.htmlformentry.DSDSProgramSubmissionAction"/>
+            <postSubmissionAction class="org.openmrs.module.aijar.htmlformentry.DSDSProgramSubmissionAction"/>
             </div>
         </div>
     </div>
