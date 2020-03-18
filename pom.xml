@@ -3,7 +3,7 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>ugandaemrpoc</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>UgandaEMRPOC</name>
 	<description>This module introduces point of care to UgandaEMR</description>
@@ -55,10 +55,10 @@
 		<legacyuiVersion>1.6.0</legacyuiVersion>
 		<locationbasedaccessVersion>0.1.1</locationbasedaccessVersion>
 		<metadatadeployVersion>1.11.0</metadatadeployVersion>
-		<ugandaemrVersion>3.0.0-SNAPSHOT</ugandaemrVersion>
+		<ugandaemrVersion>3.0.1</ugandaemrVersion>
 		<uiframeworkVersion>3.16.0</uiframeworkVersion>
 		<patientqueueingVersion>1.0.0</patientqueueingVersion>
-        <ugandaemrSyncVersion>1.0.1-SNAPSHOT</ugandaemrSyncVersion>
+        <ugandaemrSyncVersion>1.0.1</ugandaemrSyncVersion>
         <ugandaemrfingerprintVersion>1.0.11</ugandaemrfingerprintVersion>
 	</properties>
 
@@ -139,13 +139,6 @@
                 <version>${emrapiVersion}</version>
                 <scope>provided</scope>
             </dependency>
-
-			<dependency>
-				<groupId>org.openmrs.module</groupId>
-				<artifactId>htmlformentry-api</artifactId>
-				<version>${htmlformentryVersion}</version>
-				<scope>provided</scope>
-			</dependency>
 
 			<dependency>
 				<groupId>org.openmrs.module</groupId>
