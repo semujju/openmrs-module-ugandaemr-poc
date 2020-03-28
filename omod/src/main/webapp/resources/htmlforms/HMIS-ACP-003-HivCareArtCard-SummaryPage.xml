@@ -774,362 +774,62 @@
                 disable_fields("165227"); // date TPT completed
                 
 
-               <!--  
-                
-                disable_fields("90315");
-                disable_fields("");
-                disable_fields("");
-                disable_fields(""); -->
-                <!-- Transfer-in add and remove logic-->
 
-                var showAddButtonForLastVisibleRow = function($container) {
-                    $lastVisibleRow = $container.find('div.follow-up:visible:last');
-                    $lastVisibleRow.find('.add').show();
+                var addRemoveRow = function($identifier) {
+                    
+                    var $firstRow = jq('span.'+$identifier+':first-of-type');
+                    var $otherRows = jq('span.'+$identifier+':not(:first-of-type)');
+
+                    jq('.add').click(function(e) { //Handle add button event
+                        e.preventDefault();
+                        $thisRow = jq(this).parents('span.'+$identifier+':first');
+                        $nextRow = $thisRow.next().attr('style', 'display:inline');
+
+                        if ($nextRow.length &gt; 0) {
+                            $nextRow.show('slow');
+                            $thisRow.find('.add').hide();
+                        }
+                    });
+
+                    jq('.remove').click(function(e) { //Handle remove button event
+                        e.preventDefault();
+                        $thisRow = jq(this).parents('span.'+$identifier+':first');
+                        if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
+                            $thisRow = jq(this).parents('span.'+$identifier+':first');
+                            $lastRow = jq(this).parents('span.'+$identifier+':last');
+                            $lastVisibleRow = $lastRow.prev().attr('style', 'display:inline');
+
+                            $thisRow.hide('slow', function() {
+                                fieldHelper.clearAllFields($thisRow);
+                                $lastVisibleRow.find('.add').show();
+                            });
+                        }
+                    });
+
+
+                    $otherRows.hide(); //Hide all rows apart from first row if adding new form
+                    $firstRow.find('.remove').hide(); //Hide the remove button from the first row
+
                 };
 
-                var $transferInFirstRow = jq('span.transfer-in:first-of-type');
-                var $transferInOtherRows = jq('span.transfer-in:not(:first-of-type)');
-
-                jq('.add').click(function(e) { //Handle add button event
-                    e.preventDefault();
-                    $transferInThisRow = jq(this).parents('div.transfer-in:first');
-                    $transferInNextRow = $transferInThisRow.next();
-
-                    if ($transferInNextRow.length &gt; 0) {
-                        $transferInNextRow.show('slow');
-                        $transferInThisRow.find('.add').hide();
-                    }
-                });
-
-                jq('.remove').click(function(e) { //Handle remove button event
-                    e.preventDefault();
-                    $transferInThisRow = jq(this).parents('span.transfer-in:first');
-                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
-                        $transferInThisRow = jq(this).parents('span.transfer-in:first');
-                        $transferInLastRow = jq(this).parents('span.transfer-in:last');
-                        $lastVisibleRow = $transferInLastRow.prev();
-
-                        $transferInThisRow.hide('slow', function() {
-                            fieldHelper.clearAllFields($transferInThisRow);
-                            $lastVisibleRow.find('.add').show();
-                        });
-                    }
-                });
-
-                <!-- Add and remove logic for substitution with in 1st line --> 
-
-                var $firstLineSubstitionFirstRow = jq('span.first-line-substitution:first-of-type');
-                var $firstLineSubstitionOtherRows = jq('span.first-line-substitution:not(:first-of-type)');
-
-                jq('.add').click(function(e) { //Handle add button event
-                    e.preventDefault();
-                    $firstLineSubstitionThisRow = jq(this).parents('span.first-line-substitution:first');
-                    $firstLineSubstitionNextRow = $firstLineSubstitionThisRow.next();
-
-                    if ($firstLineSubstitionNextRow.length &gt; 0) {
-                        $firstLineSubstitionNextRow.show('slow');
-                        $firstLineSubstitionThisRow.find('.add').hide();
-                    }
-                });
-
-                jq('.remove').click(function(e) { //Handle remove button event
-                    e.preventDefault();
-                    $firstLineSubstitionThisRow = jq(this).parents('span.first-line-substitution:first');
-                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
-                        $firstLineSubstitionThisRow = jq(this).parents('span.first-line-substitution:first');
-                        $firstLineSubstitionLastRow = jq(this).parents('span.first-line-substitution:last');
-                        $lastVisibleRow = $firstLineSubstitionLastRow.prev();
-
-                        $firstLineSubstitionThisRow.hide('slow', function() {
-                            fieldHelper.clearAllFields($firstLineSubstitionThisRow);
-                            $lastVisibleRow.find('.add').show();
-                        });
-                    }
-                });
-
-                <!-- Add and remove logic for substitution with in 2nd line --> 
-
-                var $secondLineSubstitionFirstRow = jq('span.second-line-substitution:first-of-type');
-                var $secondLineSubstitionOtherRows = jq('span.second-line-substitution:not(:first-of-type)');
-
-                jq('.add').click(function(e) { //Handle add button event
-                    e.preventDefault();
-                    $secondLineSubstitionThisRow = jq(this).parents('span.second-line-substitution:first');
-                    $secondLineSubstitionNextRow = $secondLineSubstitionThisRow.next();
-
-                    if ($secondLineSubstitionNextRow.length &gt; 0) {
-                        $secondLineSubstitionNextRow.show('slow');
-                        $secondLineSubstitionThisRow.find('.add').hide();
-                    }
-                });
-
-                jq('.remove').click(function(e) { //Handle remove button event
-                    e.preventDefault();
-                    $secondLineSubstitionThisRow = jq(this).parents('span.second-line-substitution:first');
-                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
-                        $secondLineSubstitionThisRow = jq(this).parents('span.second-line-substitution:first');
-                        $secondLineSubstitionLastRow = jq(this).parents('span.second-line-substitution:last');
-                        $lastVisibleRow = $secondLineSubstitionLastRow.prev();
-
-                        $secondLineSubstitionThisRow.hide('slow', function() {
-                            fieldHelper.clearAllFields($secondLineSubstitionThisRow);
-                            $lastVisibleRow.find('.add').show();
-                        });
-                    }
-                });
-
-
-                <!-- Add and remove logic for substitution with in 3rd line --> 
-
-                var $thirdLineSubstitionFirstRow = jq('span.third-line-substitution:first-of-type');
-                var $thirdLineSubstitionOtherRows = jq('span.third-line-substitution:not(:first-of-type)');
-
-                jq('.add').click(function(e) { //Handle add button event
-                    e.preventDefault();
-                    $thirdLineSubstitionThisRow = jq(this).parents('span.third-line-substitution:first');
-                    $thirdLineSubstitionNextRow = $thirdLineSubstitionThisRow.next();
-
-                    if ($thirdLineSubstitionNextRow.length &gt; 0) {
-                        $thirdLineSubstitionNextRow.show('slow');
-                        $thirdLineSubstitionThisRow.find('.add').hide();
-                    }
-                });
-
-                jq('.remove').click(function(e) { //Handle remove button event
-                    e.preventDefault();
-                    $thirdLineSubstitionThisRow = jq(this).parents('span.third-line-substitution:first');
-                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
-                        $thirdLineSubstitionThisRow = jq(this).parents('span.third-line-substitution:first');
-                        $thirdLineSubstitionLastRow = jq(this).parents('span.third-line-substitution:last');
-                        $lastVisibleRow = $thirdLineSubstitionLastRow.prev();
-
-                        $thirdLineSubstitionThisRow.hide('slow', function() {
-                            fieldHelper.clearAllFields($thirdLineSubstitionThisRow);
-                            $lastVisibleRow.find('.add').show();
-                        });
-                    }
-                });
-
-
-                <!-- Add/remove logic for treatment interruptions--> 
-
-                var $treatmentInterruptionsFirstRow = jq('span.treatment-interruptions:first-of-type');
-                var $treatmentInterruptionsOtherRows = jq('span.treatment-interruptions:not(:first-of-type)');
-
-                jq('.add').click(function(e) { //Handle add button event
-                    e.preventDefault();
-                    $treatmentInterruptionsThisRow = jq(this).parents('span.treatment-interruptions:first');
-                    $treatmentInterruptionsNextRow = $treatmentInterruptionsThisRow.next();
-
-                    if ($treatmentInterruptionsNextRow.length &gt; 0) {
-                        $treatmentInterruptionsNextRow.show('slow');
-                        $treatmentInterruptionsThisRow.find('.add').hide();
-                    }
-                });
-
-                jq('.remove').click(function(e) { //Handle remove button event
-                    e.preventDefault();
-                    $treatmentInterruptionsThisRow = jq(this).parents('span.treatment-interruptions:first');
-                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
-                        $treatmentInterruptionsThisRow = jq(this).parents('span.treatment-interruptions:first');
-                        $treatmentInterruptionsLastRow = jq(this).parents('span.treatment-interruptions:last');
-                        $lastVisibleRow = $treatmentInterruptionsLastRow.prev();
-
-                        $treatmentInterruptionsThisRow.hide('slow', function() {
-                            fieldHelper.clearAllFields($treatmentInterruptionsThisRow);
-                            $lastVisibleRow.find('.add').show();
-                        });
-                    }
-                });
-
-
-                <!-- Add/remove logic for drug allergies --> 
-
-                var $drugAllergiesFirstRow = jq('span.drug-allergies:first-of-type');
-                var $drugAllergiesOtherRows = jq('span.drug-allergies:not(:first-of-type)');
-
-                jq('.add').click(function(e) { //Handle add button event
-                    e.preventDefault();
-                    $drugAllergiesThisRow = jq(this).parents('span.drug-allergies:first');
-                    $drugAllergiesNextRow = $drugAllergiesThisRow.next();
-
-                    if ($drugAllergiesNextRow.length &gt; 0) {
-                        $drugAllergiesNextRow.show('slow');
-                        $drugAllergiesThisRow.find('.add').hide();
-                    }
-                });
-
-                jq('.remove').click(function(e) { //Handle remove button event
-                    e.preventDefault();
-                    $drugAllergiesThisRow = jq(this).parents('span.third-line-substitution:first');
-                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
-                        $drugAllergiesThisRow = jq(this).parents('span.drug-allergies:first');
-                        $drugAllergiesLastRow = jq(this).parents('span.drug-allergies:last');
-                        $lastVisibleRow = $drugAllergiesLastRow.prev();
-
-                        $drugAllergiesThisRow.hide('slow', function() {
-                            fieldHelper.clearAllFields($drugAllergiesThisRow);
-                            $lastVisibleRow.find('.add').show();
-                        });
-                    }
-                });
-
-
-                 <!-- Add/remove logic for hep B Screening --> 
-
-                var $hepBScreeningFirstRow = jq('span.hepB-screening:first-of-type');
-                var $hepBScreeningOtherRows = jq('span.hepB-screening:not(:first-of-type)');
-
-                jq('.add').click(function(e) { //Handle add button event
-                    e.preventDefault();
-                    $hepBScreeningThisRow = jq(this).parents('span.hepB-screening:first');
-                    $hepBScreeningNextRow = $hepBScreeningThisRow.next();
-
-                    if ($hepBScreeningNextRow.length &gt; 0) {
-                        $hepBScreeningNextRow.show('slow');
-                        $hepBScreeningThisRow.find('.add').hide();
-                    }
-                });
-
-                jq('.remove').click(function(e) { //Handle remove button event
-                    e.preventDefault();
-                    $hepBScreeningThisRow = jq(this).parents('span.hepB-screening:first');
-                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
-                        $hepBScreeningThisRow = jq(this).parents('span.hepB-screening:first');
-                        $hepBScreeningLastRow = jq(this).parents('span.hepB-screening:last');
-                        $lastVisibleRow = $hepBScreeningLastRow.prev();
-
-                        $hepBScreeningThisRow.hide('slow', function() {
-                            fieldHelper.clearAllFields($hepBScreeningThisRow);
-                            $lastVisibleRow.find('.add').show();
-                        });
-                    }
-                });
-
-                 <!-- Add/remove logic for hep C Screening --> 
-
-                var $hepCScreeningFirstRow = jq('span.hepC-screening:first-of-type');
-                var $hepCScreeningOtherRows = jq('span.hepC-screening:not(:first-of-type)');
-
-                jq('.add').click(function(e) { //Handle add button event
-                    e.preventDefault();
-                    $hepCScreeningThisRow = jq(this).parents('span.hepC-screening:first');
-                    $hepCScreeningNextRow = $hepCScreeningThisRow.next();
-
-                    if ($hepCScreeningNextRow.length &gt; 0) {
-                        $hepCScreeningNextRow.show('slow');
-                        $hepCScreeningThisRow.find('.add').hide();
-                    }
-                });
-
-                jq('.remove').click(function(e) { //Handle remove button event
-                    e.preventDefault();
-                    $hepCScreeningThisRow = jq(this).parents('span.hepC-screening:first');
-                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
-                        $hepCScreeningThisRow = jq(this).parents('span.hepC-screening:first');
-                        $hepCScreeningLastRow = jq(this).parents('span.hepC-screening:last');
-                        $lastVisibleRow = $hepCScreeningLastRow.prev();
-
-                        $hepCScreeningThisRow.hide('slow', function() {
-                            fieldHelper.clearAllFields($hepCScreeningThisRow);
-                            $lastVisibleRow.find('.add').show();
-                        });
-                    }
-                });
-
-
-                 <!-- Add/remove logic for blood sugar Screening --> 
-
-                var $bloodSugarScreeningFirstRow = jq('span.blood-sugar-screening:first-of-type');
-                var $bloodSugarScreeningOtherRows = jq('span.blood-sugar-screening:not(:first-of-type)');
-
-                jq('.add').click(function(e) { //Handle add button event
-                    e.preventDefault();
-                    $bloodSugarScreeningThisRow = jq(this).parents('span.blood-sugar-screening:first');
-                    $bloodSugarScreeningNextRow = $bloodSugarScreeningThisRow.next();
-
-                    if ($bloodSugarScreeningNextRow.length &gt; 0) {
-                        $bloodSugarScreeningNextRow.show('slow');
-                        $bloodSugarScreeningThisRow.find('.add').hide();
-                    }
-                });
-
-                jq('.remove').click(function(e) { //Handle remove button event
-                    e.preventDefault();
-                    $bloodSugarScreeningThisRow = jq(this).parents('span.blood-sugar-screening:first');
-                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
-                        $bloodSugarScreeningThisRow = jq(this).parents('span.blood-sugar-screening:first');
-                        $bloodSugarScreeningLastRow = jq(this).parents('span.blood-sugar-screening:last');
-                        $lastVisibleRow = $bloodSugarScreeningLastRow.prev();
-
-                        $bloodSugarScreeningThisRow.hide('slow', function() {
-                            fieldHelper.clearAllFields($bloodSugarScreeningThisRow);
-                            $lastVisibleRow.find('.add').show();
-                        });
-                    }
-                });
-
-
-                 <!-- Add/remove logic for family tracking --> 
-
-                var $familyTrackingFirstRow = jq('span.family-tracking:first-of-type');
-                var $familyTrackingOtherRows = jq('span.family-tracking:not(:first-of-type)');
-
-                jq('.add').click(function(e) { //Handle add button event
-                    e.preventDefault();
-                    $familyTrackingThisRow = jq(this).parents('span.family-tracking:first');
-                    $familyTrackingNextRow = $familyTrackingThisRow.next();
-
-                    if ($familyTrackingNextRow.length &gt; 0) {
-                        $familyTrackingNextRow.show('slow');
-                        $familyTrackingThisRow.find('.add').hide();
-                    }
-                });
-
-                jq('.remove').click(function(e) { //Handle remove button event
-                    e.preventDefault();
-                    $familyTrackingThisRow = jq(this).parents('span.family-tracking:first');
-                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
-                        $familyTrackingThisRow = jq(this).parents('span.family-tracking:first');
-                        $familyTrackingLastRow = jq(this).parents('span.family-tracking:last');
-                        $lastVisibleRow = $familyTrackingLastRow.prev();
-
-                        $familyTrackingThisRow.hide('slow', function() {
-                            fieldHelper.clearAllFields($familyTrackingThisRow);
-                            $lastVisibleRow.find('.add').show();
-                        });
-                    }
-                });
-
-
-
             <ifMode mode="ENTER">
-                $transferInOtherRows.hide(); //Hide all rows apart from first row if adding new form
-                $transferInFirstRow.find('.remove').hide(); //Hide the remove button from the first row
-                $firstLineSubstitionOtherRows.hide(); //Hide all rows apart from first row if adding new form
-                $firstLineSubstitionFirstRow.find('.remove').hide(); //Hide the remove button from the first row
-                $secondLineSubstitionOtherRows.hide(); //Hide all rows apart from first row if adding new form
-                $secondLineSubstitionFirstRow.find('.remove').hide(); //Hide the remove button from the first row
-                $thirdLineSubstitionOtherRows.hide(); //Hide all rows apart from first row if adding new form
-                $thirdLineSubstitionFirstRow.find('.remove').hide(); //Hide the remove button from the first row
-                $treatmentInterruptionsOtherRows.hide();
-                $treatmentInterruptionsFirstRow.find('.remove').hide(); 
-                $drugAllergiesOtherRows.hide();
-                $drugAllergiesFirstRow.find('.remove').hide(); 
-                $hepBScreeningOtherRows.hide();
-                $hepBScreeningFirstRow.find('.remove').hide();
-                $hepCScreeningOtherRows.hide();
-                $hepCScreeningFirstRow.find('.remove').hide();
-                $bloodSugarScreeningOtherRows.hide();
-                $bloodSugarScreeningFirstRow.find('.remove').hide();
-                $familyTrackingOtherRows.hide();
-                $familyTrackingFirstRow.find('.remove').hide();
 
+                addRemoveRow('transfer-in');
+                addRemoveRow('first-line-substitution');
+                addRemoveRow('second-line-substitution');
+                addRemoveRow('third-line-substitution');
+                addRemoveRow('treatment-interruptions');
+                addRemoveRow('hepB-screening');
+                addRemoveRow('hepC-screening');
+                addRemoveRow('blood-sugar-screening');
+                addRemoveRow('family-tracking');
+             
                 jq('.FamilyTrackingEnableDisable').each(function(){
                     jq(this).find('[id^="99881"]').find("input[type$='radio']").attr("disabled",true);
                     jq(this).find('[id^="90270"]').find("input[type$='radio']").attr("disabled",true);
                     jq(this).find('[id^="90263"]').find("input[type$='text']").attr("disabled",true);
                 });
+
             </ifMode>
 
                 <ifMode mode="EDIT">
@@ -1365,7 +1065,7 @@
                                     </div>
                                 </section>
                             </div>
-                            <div class="tab-pane fade" role="tabpanel" aria-labelledby="nav-profile-tab" id="art-care-cohort-section">
+                            <div class="tab-pane" id="art-care-cohort-section">
                                 <section>
                                     <div class="card">
                                     <div class="card-header">Art Care Start</div>
@@ -1469,37 +1169,38 @@
                                                 <div class="col-md-3">New Regimen</div>
                                                 <div class="col-md-3">Other Regimen</div>
                                                 <div class="col-md-2">Why</div>
+                                                <div class="col-md-1"></div>
                                             </div>
                                                 <repeat>
                                                     <template>
-                                                        <span class="first-line-substitution">
-                                                            <div class="row">
                                                             <obsgroup groupingConceptId="99062">
-                                                                <div class="col-md-3">
-                                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 20%;"></i>
-                                                                        <obs id="99163_{n}" conceptId="99163"/>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <obs conceptId="90315"
-                                                                         answerConceptIds="99015,99016,99005,99006,164979,99039,99040,99041,99042,164977,99884,99885,164978,163017,99143"
-                                                                         answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-FTC-NVP,TDF-FTC-EFV,TDF-3TC-DTG,ABC-3TC-NVP,ABC-3TC-EFV,ABC-3TC-DTG,ABC-3CT-LPV/r,Other"
-                                                                         class="long-value-select"
-                                                                         id="90315"/>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <obs  conceptId="99146" id="99146"/>
-                                                                </div>
-                                                                <div class="col-md-2">
-                                                                    <obs conceptId="90246" answerConceptIds="90040,90043,90044,90045,90002"
-                                                                         answerLabels="1.Toxi,2.NewTB,3.NewDrug,4.Drug Stock,5.Other" id="90246"/>
-                                                                </div>
-                                                                <div class="col-md-1 text-nowrap">
-                                                                    <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
-                                                                    <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
-                                                                </div>
+                                                                <span class="first-line-substitution">
+                                                                    <div class="row">
+                                                                        <div class="col-md-3">
+                                                                            <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 20%;"></i>
+                                                                            <obs id="99163_{n}" conceptId="99163"/>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <obs conceptId="90315"
+                                                                                 answerConceptIds="99015,99016,99005,99006,164979,99039,99040,99041,99042,164977,99884,99885,164978,163017,99143"
+                                                                                 answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-FTC-NVP,TDF-FTC-EFV,TDF-3TC-DTG,ABC-3TC-NVP,ABC-3TC-EFV,ABC-3TC-DTG,ABC-3CT-LPV/r,Other"
+                                                                                 class="long-value-select"
+                                                                                 id="90315"/>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <obs conceptId="99146" id="99146"/>
+                                                                        </div>
+                                                                        <div class="col-md-2">
+                                                                            <obs conceptId="90246" answerConceptIds="90040,90043,90044,90045,90002"
+                                                                                 answerLabels="1.Toxi,2.NewTB,3.NewDrug,4.Drug Stock,5.Other" id="90246"/>
+                                                                        </div>
+                                                                        <div class="col-md-1">
+                                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
+                                                                        </div>
+                                                                    </div>
+                                                                </span>
                                                             </obsgroup>
-                                                            </div>
-                                                        </span>
                                                     </template>
                                                     <render n="1"/>
                                                     <render n="2"/>
@@ -1765,7 +1466,7 @@
                                 </section>
                             </div>
 
-                            <div class="tab-pane fade" id="family-tracking-section">
+                            <div class="tab-pane" id="family-tracking-section">
                                 <section>
                                     <div class="card">
                                         <div class="card-header">Family Tracking</div>
@@ -1843,7 +1544,7 @@
                                 </section>
                             </div>
 
-                            <div class="tab-pane fade" id="prior-art-section">
+                            <div class="tab-pane" id="prior-art-section">
                                 <section>
                                     <div class="card">
                                         <div class="card-header">Prior Art</div>
@@ -1868,24 +1569,23 @@
                                             </div>
                                             <div class="row">
                                                 <obsgroup groupingConceptId="99066">
-                                                    <div class="col-md-2" id="trigger">
+                                                    <div class="col-md-2">
                                                         <obs id="99056" conceptId="99056" answerConceptId="90003" answerLabel="PEP" />
                                                     </div>
-                                                    <div class="col-md-2" id="disabled">
+                                                    <div class="col-md-2">
                                                         <i class="icon-calendar small right-addon-row position-absolute" style="right: 25%; top: 19%;"></i>
-                                                        <obs id="99154" conceptId="99154" />
+                                                        <obs id="99154" conceptId="99154"/>
                                                     </div>
-                                                    <div class="col-md-2" id="disabled">
+                                                    <div class="col-md-2">
                                                         <obs id="165252" conceptId="165252"/>
                                                     </div>
                                                 </obsgroup>
                                             </div>
-
                                             <div class="row">
-                                                    <div class="col-md-2" id="trigger" >
+                                                    <div class="col-md-2">
                                                         <obs conceptId="165163" answerConceptId="90003" answerLabel="PreP" />
                                                     </div>
-                                                    <div class="col-md-2" id="disabled">
+                                                    <div class="col-md-2">
                                                         <i class="icon-calendar small right-addon-row position-absolute" style="right: 25%; top: 19%;"></i>
                                                         <obs id="165250" conceptId="165250" />
                                                     </div>
@@ -1898,11 +1598,11 @@
                                                     <div class="col-md-2">
                                                         <obs id="99594" conceptId="99594" answerConceptId="90003" answerLabel="Hep-B"/>
                                                     </div>
-                                                    <div class="col-md-2" id="disabled">
+                                                    <div class="col-md-2">
                                                         <i class="icon-calendar small right-addon-row position-absolute" style="right: 25%; top: 19%;"></i>
                                                         <obs id="99595" conceptId="99595" />
                                                     </div>
-                                                    <div class="col-md-2" id="disabled">
+                                                    <div class="col-md-2" >
                                                         <obs id="165253" conceptId="165253"/>
                                                     </div>
                                                 </obsgroup>
@@ -1934,7 +1634,7 @@
                                                         <i class="icon-calendar small right-addon-row position-absolute" style="right: 25%; top: 19%;"></i>
                                                         <obs id="99156" conceptId="99156" />
                                                     </div>
-                                                    <div class="col-md-2" id="disabled">
+                                                    <div class="col-md-2" >
                                                         <obs id="165259" conceptId="165259"/>
                                                     </div>
                                                 </obsgroup>
