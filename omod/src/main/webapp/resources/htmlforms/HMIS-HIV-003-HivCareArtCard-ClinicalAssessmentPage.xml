@@ -44,108 +44,7 @@
     </ifMode>
     <!-- jquery loaded for nonessential purposes. -->
 
-    <restrictByRole exclude="Data Clerk">
-        <style>
-            .nav-link-1 {
-                background-color: #015f6b;
-            }
-
-            .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-                color: #FFFFFF;
-                background-color: #000000;
-                border-radius: 5px;
-            }
-
-            form .lablex2 span {
-                min-width: 50%;
-                float: left;
-                margin: 1px 0px;
-            }
-
-            form .lablex3 span {
-                min-width: 31%;
-                float: left;
-                margin: 1px 0px;
-            }
-
-            form .lablex4 span {
-                min-width: 25%;
-                float: left;
-                margin: 1px 0px;
-            }
-
-            a {
-                color: #f9f9f9;
-                text-decoration: none;
-            }
-
-            i a {
-                color: #f9f9f9;
-                text-decoration: none;
-            }
-
-            .nav-tabs .nav-link {
-                border: 1px solid #02aec3;
-                border-top-left-radius: .25rem;
-                border-top-right-radius: .25rem;
-                color: blue
-            }
-
-            #final-out-come {
-                margin-top: 26px;
-            }
-
-            .customSubmit {
-                font-weight: bold;
-                width: 70%;
-            }
-
-            .submission-section {
-                width: 100%;
-                align-items: center;
-
-            }
-
-            .encounter-details {
-                margin-top: 68px;
-                margin-left: 120px;
-                width: 70%;
-            }
-
-            .submitButton {
-                width: 50%;
-            }
-
-            form select[disabled], .form select[disabled] {
-                background: #EEE;
-                border: #1dacbd 1px solid;
-                color: #060606;
-                font-style: normal;
-            }
-
-            form select, .form select {
-                min-width: 100%;
-                max-width: 100%;
-            }
-
-            form input {
-                min-width: 100%;
-                max-width: 100%;
-            }
-
-            .add-more-link {
-                color: dodgerblue;
-            }
-
-            .remove-more-link {
-                color: darkred;
-            }
-            .add-entry{
-                font-size: 25px;
-                margin-top: 26px;
-            }
-        </style>
-    </restrictByRole>
+    
     <script type="text/javascript">
 
         if (jQuery) {
@@ -348,38 +247,59 @@
                     }
                 });
 
-                //disable TB start date, TB stop date and district number
+                //disable TB start date and district number
                 disable_fields("tb-start-date");
-                disable_fields("tb-stop-date");
                 disable_fields("district-tb-no");
 
-                //enable start date if client is on TbRx
+                //enable start date and district number if client is on TbRx
                 jq("#tb-status").change(function () {
                     if (jq(this).find("select").find(":selected").val() == "90071") {
                         enable_fields("tb-start-date");
-                        enable_fields("tb-stop-date");
                         enable_fields("district-tb-no");
                     } else {
                         disable_fields("tb-start-date");
-                        disable_fields("tb-stop-date");
                         disable_fields("district-tb-no");
                     }
                 });
 
-                /*enable disable tpt prescription */
-                disable_fields("no-tpt-pills");
-                disable_fields("no-b6-pills");
-                disable_fields("inh-no-days");
+
+                //disable/enable TB stop date if client has completed TB treatment
+                disable_fields("tb-stop-date");
+
+                jq("#tb-status").change(function () {
+                    if (jq(this).find("select").find(":selected").val() == "99421") {
+                        enable_fields("tb-stop-date");
+                    } else {
+                        disable_fields("tb-stop-date");
+                    }
+                });
+
+                /*enable disable tpt attributes*/
+                disable_fields("tpt-initiation-date");
+                disable_fields("tpt-completion-date");
+                disable_fields("tpt-side-effects");
 
                 jq("#tpt-status").change(function () {
                     if (jq(this).find("select").find(":selected").val() == "90072") {
-                        enable_fields("no-tpt-pills");
-                        enable_fields("no-b6-pills");
-                        enable_fields("inh-no-days");
+                        enable_fields("tpt-initiation-date");
                     } else {
-                        disable_fields("no-tpt-pills");
-                        disable_fields("no-b6-pills");
-                        disable_fields("inh-no-days");
+                        disable_fields("tpt-initiation-date");
+                    }
+                });
+
+                jq("#tpt-status").change(function () {
+                    if (jq(this).find("select").find(":selected").val() == "160035") {
+                        enable_fields("tpt-completion-date");
+                    } else {
+                        disable_fields("tpt-completion-date");
+                    }
+                });
+
+                jq("#tpt-status").change(function () {
+                    if (jq(this).find("select").find(":selected").val() == "90040") {
+                        enable_fields("tpt-side-effects");
+                    } else {
+                        disable_fields("tpt-side-effects");
                     }
                 });
 
@@ -394,6 +314,34 @@
                     } else {
                         disable_fields("no-of-dapsone-pills");
                         disable_fields("no-of-dapsone-pills-days");
+                    }
+                });
+
+                /*enable disable isoniazid prescription*/
+                disable_fields("no-of-isoniazid");
+                disable_fields("duration-on-isoniazid");
+
+                jq("#isoniazid").click(function () {
+                    if (jq(this).find("input[type='radio']:checked").val() == "78280") {
+                        enable_fields("no-of-isoniazid");
+                        enable_fields("duration-on-isoniazid");
+                    } else {
+                        disable_fields("no-of-isoniazid");
+                        disable_fields("duration-on-isoniazid");
+                    }
+                });
+
+                /*enable disable vitamin-b6 prescription*/
+                disable_fields("no-of-vitamin-b6");
+                disable_fields("duration-on-vitamin-b6");
+
+                jq("#vitamin-b6").click(function () {
+                    if (jq(this).find("input[type='radio']:checked").val() == "82912") {
+                        enable_fields("no-of-vitamin-b6");
+                        enable_fields("duration-on-vitamin-b6");
+                    } else {
+                        disable_fields("no-of-vitamin-b6");
+                        disable_fields("duration-on-vitamin-b6");
                     }
                 });
 
@@ -763,7 +711,7 @@
 
     <!-- This section contains lookup tags that pick data from other forms-->
 
-    <lookup complexExpression="#set($art_start_regimen='null') #set($other_art_start_regimen='null') #set($art_transfer_regimen='null') #set($other_art_transfer_regimen='null')"/>
+    <!-- <lookup complexExpression="#set($art_start_regimen='null') #set($other_art_start_regimen='null') #set($art_transfer_regimen='null') #set($other_art_transfer_regimen='null')"/>
 
     <lookup complexExpression="#set($first_second_line_regimen='null') #set($other_first_second_line_regimen='null')"/>
 
@@ -811,7 +759,7 @@
     </span>
 
 
-    <!-- This section contains lookup tags that pick data from other forms-->
+     This section contains lookup tags that pick data from other forms
 
     <lookup complexExpression="#set($art_start_regimen='null') #set($other_art_start_regimen='null') #set($art_transfer_regimen='null') #set($other_art_transfer_regimen='null')"/>
 
@@ -858,50 +806,47 @@
     <span class="hidden" id="otherThirdLineRegimen">
         <lookup
                 complexExpression="#foreach($other_third_line_regimen in $fn.allObs(162989)) $other_first_second_line_regimen.valueText #end"/>
-    </span>
+    </span> -->
 
-    <restrictByRole exclude="HIV Clinic">
+    <!-- <restrictByRole exclude="HIV Clinic"> -->
         <div>
             <div class="row">
-                <div class="col-md-6">
-                    <h1>HMIS HIV 003:HIV CARE/ART CARD - CLINICAL ASSESSMENT</h1>
+                <div class="col-md-7">
+                    <h1>HMIS HIV 003:HIV Care/ART Card - Clinical Assessment</h1>
                 </div>
-                <div class="col-md-5"></div>
-                <div class="col-md-1">
-                    <span class="submitButton">
-                        <postSubmissionAction
-                                class="org.openmrs.module.aijar.htmlformentry.DSDSProgramSubmissionAction"/>
-                        <submit class="confirm" submitLabel="Save"/>
-                    </span>
+                <div class="col-md-3"></div>
+                <div class="col-md-2 submitButton">
+                    <postSubmissionAction
+                            class="org.openmrs.module.aijar.htmlformentry.DSDSProgramSubmissionAction"/>
+                    <submit class="confirm" submitLabel="Save"/>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header header-success">
-                            <ul class="nav nav-tabs card-header-tabs nav-fill nav-success">
+                        <div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#appointment-vitals-nutrition">
                                         Appointment/ Vitals/ Nutrition Assessment
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#pregnancy-fp">Pregnancy/ Family
-                                        Planning
+                                    <a class="nav-link" data-toggle="tab" href="#pregnancy-fp">
+                                        Pregnancy/ Family Planning
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#tb-treatment-clinical-assessment">TB
-                                        Treatment/ Clinical Assessment
+                                    <a class="nav-link" data-toggle="tab" href="#tb-treatment-clinical-assessment">
+                                        TB Treatment/ Clinical Assessment
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#medication">Medication</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#investigations">Tests/Investigations
-                                        and
-                                        DSDM
+                                    <a class="nav-link" data-toggle="tab" href="#investigations">
+                                        Tests/Investigations and DSDM
                                     </a>
                                 </li>
                             </ul>
@@ -975,9 +920,8 @@
                                                         <obs conceptId="90069" labelText="Visit on Schedule"
                                                              style="checkbox"/>
                                                     </div>
-                                                    <label><span class="required">*</span>Attending Clinician
-                                                    </label>
                                                     <div class="col-md-3">
+                                                    <label><span class="required">*</span>Attending Clinician</label>
                                                         <encounterProvider role="Provider" style="autocomplete"/>
                                                     </div>
                                                 </div>
@@ -1253,18 +1197,12 @@
                                                     <div class="col-md-3">
                                                         <label>Tb Status</label>
                                                         <obs id="tb-status" class="long-value-select" conceptId="90216"
-                                                             answerConceptIds="90079,90073, 165295, 165296, 165297, 165298, 165299,165300,90071"
-                                                             answerLabels="1 - No signs,2 - Presumptive, 3C - TB Diagnosed - Clinically diagnosed,  3G - TB Diagnosed - Gene Xpert, 3L - TB Diagnosed - TB LAM,
-                                                         3M - TB Diagnosed -TB Microscopy, 3X - TB Diagnosed - Chest Xray, 3O - TB Diagnosed - Others, 4 - Tb Rx"/>
+                                                             answerConceptIds="90079,90073, 165295, 165296, 165297, 165298, 165299,165300,90071,99421"
+                                                             answerLabels="1 - No signs,2 - Presumptive, 3C - TB Diagnosed - Clinically diagnosed,  3G - TB Diagnosed - Gene Xpert, 3L - TB Diagnosed - TB LAM,3M - TB Diagnosed -TB Microscopy, 3X - TB Diagnosed - Chest Xray, 3O - TB Diagnosed - Others, 4 - Tb Rx - Currently on TB treatment, 5 - Completed TB Treatment"/>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label>TB Start Date</label>
                                                         <obs id="tb-start-date" conceptId="90217"/>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label>TB Stop Date</label>
-                                                        <obs id="tb-stop-date" conceptId="90310"
-                                                             allowFutureDates="true"/>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label>Reg No.</label>
@@ -1272,28 +1210,77 @@
                                                             <obs conceptId="99031"/>
                                                         </span>
                                                     </div>
+                                                    <div class="col-md-3">
+                                                        <label>TB Stop Date</label>
+                                                        <obs id="tb-stop-date" conceptId="90310"
+                                                             allowFutureDates="true"/>
+                                                    </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-3">
                                                         <label>TPT Status</label>
-                                                        <obs id="tpt-status" conceptId="165288"
-                                                             answerConceptIds="1090,90072,165307,90040,160035"
-                                                             answerLabels="H0-Never Initiated,H1-On INH,H2-Defaulted,H3-Taken off due to side effects,H4-Completed"/>
+                                                    <obs id="tpt-status" conceptId="165288"
+                                                         answerConceptIds="1090,90072,165307,90040,160035"
+                                                         answerLabels="H0-Never Initiated,H1-On INH,H2-Defaulted,H3-Taken off due to side effects,H4-Completed"/>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <label>No. TPT Pills</label>
-                                                        <obs id="no-tpt-pills" conceptId="165278"/>
+                                                        <label>TPT date initiated</label>
+                                                        <obs id="tpt-initiation-date" conceptId="165226"/>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <label>No. B6 Pills</label>
-                                                        <obs id="no-b6-pills" conceptId="165279"/>
+                                                        <label>TPT date completed</label>
+                                                        <obs id="tpt-completion-date" conceptId="165227"/>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <label>No. of days</label>
-                                                        <obs id="inh-no-days" conceptId="99605"/>
+                                                        <label>TPT Side Effects</label>
+                                                        <obs id="tpt-side-effects" conceptId="165792"/>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        <div class="card">
+                                            <div class="card-header">
+                                                TPT/B6
+                                            </div>
+                                            <div class="card-body">
+                                                <obsgroup groupingConceptId="165305">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <br/>
+                                                            <obs conceptId="1282" answerConceptSetIds="160021"
+                                                                 style="radio"
+                                                                 answerConceptIds="78280" answerLabels="Isoniazid"
+                                                                 class="horizontal" id="isoniazid"/>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label>No. of Pills</label>
+                                                            <obs conceptId="160856" id="no-of-isoniazid"/>
+                                                        </div>
+                                                        <div class="col-md-3 duration">
+                                                            <label>No. of Days</label>
+                                                            <obs conceptId="159368" id="duration-on-isoniazid" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <br/>
+                                                            <obs conceptId="1282" answerConceptSetIds="160021"
+                                                                 style="radio"
+                                                                 answerConceptIds="82912" answerLabels="Vitamin B6"
+                                                                 class="horizontal" id="vitamin-b6"/>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label>No. of Pills</label>
+                                                            <obs conceptId="160856" id="no-of-vitamin-b6"/>
+                                                        </div>
+                                                        <div class="col-md-3 duration">
+                                                            <label>No. of Days</label>
+                                                            <obs conceptId="159368" id="duration-on-vitamin-b6"/>
+                                                        </div>
+                                                    </div>
+                                                </obsgroup>
+                                            </div>  
                                         </div>
 
                                         <div class="card">
@@ -1361,7 +1348,7 @@
                                         <div class="card ">
                                             <div class="card-header">Side effects of ART</div>
                                             <div class="card-body">
-                                                <div class="row">
+                                                <div class="row"> 
                                                     <div class="col-md-3">
                                                         <obs conceptId="90227" answerConceptId="90091"
                                                              answerLabel="Nausea"/>
@@ -1475,22 +1462,23 @@
                                     <section>
                                         <div class="card">
                                             <div class="card-header">
-                                                CTX/DAPSONE
+                                                Ctx/Dapsone
                                             </div>
                                             <div class="card-body">
                                                 <obsgroup groupingConceptId="165304">
                                                     <div class="row">
-                                                        <div class="col-md-5">
+                                                        <div class="col-md-3">
                                                             <br/>
                                                             <obs conceptId="1282" class="horizontal"
                                                                  answerConceptSetIds="1157"
-                                                                 answerConceptIds="92,90168" style="radio"/>
+                                                                 answerConceptIds="92,90168" 
+                                                                 answerLabels="Dapsone,Cotrimoxazole"   style="radio"/>
                                                         </div>
-                                                        <div class="col-md-3">
+                                                        <div class="col-md-4">
                                                             <obs labelText="Number of Pills" conceptId="160856"/>
                                                         </div>
 
-                                                        <div class="col-3 duration">
+                                                        <div class="col-md-4 duration">
                                                             <label>Number of Days</label>
                                                             <obs conceptId="159368"/>
                                                         </div>
@@ -1506,10 +1494,12 @@
                                             <div class="card-body">
                                                 <obsgroup groupingConceptId="165306">
                                                     <div class="row">
-                                                        <div class="col-md-3">
+                                                        <div class="col-md-2">
                                                             <br/>
                                                             <obs conceptId="1282" answerConceptSetIds="165308"
-                                                                 answerConceptIds="747" style="radio"
+                                                                 answerConceptIds="747" 
+                                                                 answerLabels="Fluconazole"
+                                                                 style="radio"
                                                                  class="horizontal"/>
                                                         </div>
                                                         <div class="col-md-2">
@@ -1532,7 +1522,7 @@
                                         <div class="card">
                                             <div class="card">
                                                 <div class="card-header">
-                                                    <label>OTHER MEDICATIONS</label>
+                                                    <label>Other Medications</label>
                                                 </div>
                                                 <div class="card-body">
                                                     <div>
@@ -1558,12 +1548,8 @@
                                                                         </div>
                                                                         <div class="col-2">
                                                                             <div class="add-entry">
-                                                                                <a href="#" id="{id}-addEntry"
-                                                                                   class="addEntry add-more-link"><i
-                                                                                        class="icon-plus-sign"></i></a> <a href="#"
-                                                                                                                           class="removeEntry remove-more-link"
-                                                                                                                           id="{id}-removeEntry">
-                                                                                <i class="icon-minus"> </i></a>
+                                                                                <a href="#" id="{id}-addEntry" class="addEntry add-more-link"><i class="icon-plus-sign"></i></a> 
+                                                                                <a href="#" class="removeEntry remove-more-link" id="{id}-removeEntry"><i class="icon-minus"></i></a>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1585,10 +1571,10 @@
                                             </div>
                                         </div>
                                         <div class="card">
-                                            <div class="card-header">ART</div>
+                                            <div class="card-header">Art</div>
                                             <div class="card-body">
                                                 <div class="row">
-                                                    Adherence
+                                                    <label>Adherence</label>
                                                     <div class="col-md-6">
                                                         <span id="art-adherence" class="ART-adherence horizontal">
                                                             <obs conceptId="90221" answerConceptIds="90156,90157,90158"
@@ -1596,7 +1582,7 @@
                                                         </span>
                                                     </div>
                                                 </div>
-                                                why Poor/Fair Adherence
+                                                <label>why Poor/Fair Adherence</label>
                                                 <div class="fair-or-poor-art-adherence-reason">
                                                     <div class="row">
                                                         <div class="col-md-3">
@@ -1672,22 +1658,21 @@
 
                                 <div class="tab-pane fade" id="investigations">
                                     <section>
-                                        <div class="table">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="card">
-                                                        <div class="card-header">CD4/CD4%</div>
-                                                        <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="card">
+                                                    <div class="card-header">CD4</div>
+                                                    <div class="card-body">
+                                                        <div class="row">
                                                             <obsgroup groupingConceptId="657">
-                                                                <div>
+                                                                <div class="col-md-6">
                                                                     <label>CD4 Count</label>
-                                                                    <obs id="" conceptId="5497"
+                                                                    <obs conceptId="5497"
                                                                          allowFutureDates="false"/>
                                                                 </div>
-                                                                <div>
+                                                                <div class="col-md-6">
                                                                     <label>CD4%</label>
-                                                                    <obs
-                                                                         conceptId="730"
+                                                                    <obs conceptId="730"
                                                                          answerConceptIds="1301,1306,1304"
                                                                          answerLabels="Detected,Not Detected, Sample Rejected"/>
                                                                 </div>
@@ -1695,103 +1680,117 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <div class="col-md-4">
-                                                    <div class="card">
-                                                        <div class="card-header">Crag</div>
-                                                        <div class="card-body">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="card">
+                                                    <div class="card-header">Crag</div>
+                                                    <div class="card-body">
+                                                        <div class="row">
                                                             <obsgroup groupingConceptId="165418">
-                                                                <div>
+                                                                <div class="col-md-6">
                                                                     <label>Crag Results</label>
-                                                                    <obs id="" conceptId="165290"/>
+                                                                    <obs conceptId="165290" 
+                                                                         answerConceptIds="703,664,1118,1175" 
+                                                                         answerLabels="Positive, Negative, Not Done, Not Applicable" />
                                                                 </div>
                                                             </obsgroup>
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <div class="col-md-4">
-                                                    <div class="card">
-                                                        <div class="card-header">Rapid plasma reagin Test (RPR)</div>
-                                                        <div class="card-body">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="card">
+                                                    <div class="card-header">Rapid plasma reagin Test (RPR)</div>
+                                                    <div class="card-body">
+                                                        <div class="row">
                                                             <obsgroup groupingConceptId="165417">
-                                                                <div>
+                                                                <div class="col-md-6">
                                                                     <label>RPR Results</label>
-                                                                    <obs id="" conceptId="165289"
-                                                                         answerConceptIds="1228,1229,1118,1175"/>
+                                                                    <obs conceptId="165289"
+                                                                         answerConceptIds="1228,1229,1118,1175" 
+                                                                         answerLabels="Reactive, Non-reactive, Not Done, Not Applicable" />
                                                                 </div>
                                                             </obsgroup>
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <div class="col-md-4">
-                                                    <div class="card">
-                                                        <div class="card-header">TB LAM</div>
-                                                        <div class="card-body">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="card">
+                                                    <div class="card-header">TB LAM</div>
+                                                    <div class="card-body">
+                                                        <div class="row">
                                                             <obsgroup groupingConceptId="165416">
-                                                                <div>
+                                                                <div class="col-md-6">
                                                                     <label>TB LAM Results</label>
-                                                                    <obs id="" conceptId="165291"/>
+                                                                    <obs conceptId="165291" 
+                                                                         answerConceptIds="703,664,1118,1175" 
+                                                                         answerLabels="Positive, Negative, Not Done, Not Applicable" />
                                                                 </div>
                                                             </obsgroup>
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
 
-                                                <div class="col-md-4">
-                                                    <div class="card">
-                                                        <div class="card-header">Gene Xpert</div>
-                                                        <div class="card-body">
+                                            <div class="col-md-4">
+                                                <div class="card">
+                                                    <div class="card-header">Gene Xpert</div>
+                                                    <div class="card-body">
+                                                        <div class="row">
                                                             <obsgroup groupingConceptId="165413">
-                                                                <div>
+                                                                <div class="col-md-6">
                                                                     <label>Gene xpert results</label>
-                                                                    <obs id="" conceptId="162202"
-                                                                         answerConceptIds="703,664,1118"/>
+                                                                    <obs conceptId="162202"
+                                                                         answerConceptIds="703,664,1118"
+                                                                         answerLabels="Positive, Negative, Not Done" />
                                                                 </div>
                                                             </obsgroup>
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <div class="col-md-4">
-                                                    <div class="card">
-                                                        <div class="card-header">Microscopy</div>
-                                                        <div class="card-body">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="card">
+                                                    <div class="card-header">Microscopy</div>
+                                                    <div class="card-body">
+                                                        <div class="row">
                                                             <obsgroup groupingConceptId="165415">
-                                                                <div>
+                                                                <div class="col-md-6">
                                                                     <label>Microscopy Results</label>
                                                                     <obs id="" conceptId="165414"
-                                                                         answerConceptIds="703,664"/>
+                                                                         answerConceptIds="703,664"
+                                                                         answerLabels="Positive, Negative" />
                                                                 </div>
                                                             </obsgroup>
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <div class="col-md-4">
-                                                    <div class="card">
-                                                        <div class="card-header">Viral Load</div>
-                                                        <div class="card-body">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="card">
+                                                    <div class="card-header">Viral Load</div>
+                                                    <div class="card-body">
+                                                        <div class="row">
                                                             <obsgroup groupingConceptId="165412">
-                                                                <div>
+                                                                <div class="col-md-6">
                                                                     <label>Date Viral Load Taken</label>
                                                                     <obs id="date-viral-load-taken" conceptId="163023"
                                                                          allowFutureDates="false"/>
                                                                 </div>
-                                                                <div>
+                                                                <div class="col-md-6">
                                                                     <label>Viral Load Results</label>
                                                                     <obs id="viral-load-results-qualitative"
                                                                          conceptId="1305"
                                                                          answerConceptIds="1301,1306,1304"
                                                                          answerLabels="Detected,Not Detected, Sample Rejected"/>
                                                                 </div>
-                                                                <div>
+                                                                <div class="col-md-6">
                                                                     <label>Viral Load (copies/ml)</label>
                                                                     <obs id="viral-load-results-copies"
                                                                          conceptId="856"/>
                                                                 </div>
-                                                                <div>
+                                                                <div class="col-md-6">
                                                                     <label>Viral Load Status</label>
                                                                     <span id="viral-load-status"></span>
                                                                 </div>
@@ -1799,12 +1798,15 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <div class="col-md-4">
-                                                    <div class="card">
-                                                        <div class="card-header">Other Investigations</div>
-                                                        <div class="card-body">
-                                                            <obs conceptId="99114" style="textarea"/>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card">
+                                                    <div class="card-header">Other Investigations</div>
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <obs conceptId="99114" style="textarea" rows="4" />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1817,30 +1819,23 @@
                                                     <div class="hidden">
                                                         <uiInclude provider="aijar" fragment="patientStability"/>
                                                     </div>
-                                                    <div class="col-md-2">
+                                                    <div class="col-md-3">
                                                         <label>Duration on Current Regimen</label>
-                                                    </div>
-                                                    <div class="col-md-2">
                                                         <obs id="duration-on-current-regimen" conceptId="99025"/>
                                                     </div>
+                                                    <div class="col-md-3">
                                                     <label>Duration on ART</label>
-                                                    <div class="col-md-2">
                                                         <obs id="duration-on-art" conceptId="99024"/>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-2">
+                                                    <div class="col-md-3">
                                                         <label>Patient Categorization</label>
                                                         <obs id="patient-categorization" conceptId="165144"
                                                              answerConceptIds="90003,90004"
                                                              answerLabels="S - Stable, US - Unstable"
                                                              class="horizontal"/>
                                                     </div>
-
-                                                    <div class="col-md-1">
+                                                    <div class="col-md-3">
                                                         <label>Approach</label>
-                                                    </div>
-                                                    <div class="col-md-2">
                                                         <obs id="165143" conceptId="165143"
                                                              answerConceptIds="165138,165140,165139,165142,165141"
                                                              answerLabels="FBIM - Facility Based Individual Management, FBG - Facility Based Group, FTDR - Fast-Track Drug Refills, CDDP - Community Drug Distribution Point, CCLAD - Community Client-Led ART Delivery"
@@ -1867,9 +1862,9 @@
                 </div>
             </div>
         </div>
-    </restrictByRole>
+    <!-- </restrictByRole> -->
 
-    <restrictByRole exclude="Data Clerk,System Developer">
+    <!-- <restrictByRole exclude="Data Clerk,System Developer">
         <div class="row">
             <div class="col-md-3">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -2945,5 +2940,5 @@
                 </div>
             </div>
         </div>
-    </restrictByRole>
+    </restrictByRole> -->
 </htmlform>
