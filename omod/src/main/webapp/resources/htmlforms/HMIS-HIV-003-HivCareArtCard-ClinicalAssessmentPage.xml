@@ -44,6 +44,96 @@
     </ifMode>
     <!-- jquery loaded for nonessential purposes. -->
 
+
+    <style>
+            .nav-link-1 {
+                background-color: #015f6b;
+            }
+
+            .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+                color: #FFFFFF;
+                background-color: #000000;
+                border-radius: 5px;
+            }
+
+            form .lablex2 span {
+                min-width: 50%;
+                float: left;
+                margin: 1px 0px;
+            }
+
+            form .lablex3 span {
+                min-width: 31%;
+                float: left;
+                margin: 1px 0px;
+            }
+
+            form .lablex4 span {
+                min-width: 25%;
+                float: left;
+                margin: 1px 0px;
+            }
+
+            a {
+                color: #f9f9f9;
+                text-decoration: none;
+            }
+
+            i a {
+                color: #f9f9f9;
+                text-decoration: none;
+            }
+
+            .nav-tabs .nav-link {
+                border-top-left-radius: .25rem;
+                border-top-right-radius: .25rem;
+                color: #008ae6;
+            }
+
+            #final-out-come {
+                margin-top: 26px;
+            }
+
+            .customSubmit {
+                font-weight: bold;
+                width: 70%;
+            }
+
+            .submission-section {
+                width: 100%;
+                align-items: center;
+
+            }
+
+            .encounter-details {
+                margin-top: 68px;
+                margin-left: 120px;
+                width: 70%;
+            }
+
+            form select[disabled], .form select[disabled] {
+                background: #EEE;
+                border: #1dacbd 1px solid;
+                color: #060606;
+                font-style: normal;
+            }
+
+            form select, .form select {
+                min-width: 100%;
+                max-width: 100%;
+            }
+
+            form input {
+                min-width: 100%;
+                max-width: 100%;
+            }
+
+            .add-entry{
+                font-size: 25px;
+                margin-top: 26px;
+            }
+        </style>
+
     
     <script type="text/javascript">
 
@@ -811,11 +901,11 @@
     <!-- <restrictByRole exclude="HIV Clinic"> -->
         <div>
             <div class="row">
-                <div class="col-md-7">
+                <div class="col-md-6">
                     <h1>HMIS HIV 003:HIV Care/ART Card - Clinical Assessment</h1>
                 </div>
-                <div class="col-md-3"></div>
-                <div class="col-md-2 submitButton">
+                <div class="col-md-5"></div>
+                <div class="col-md-1 submitButton">
                     <postSubmissionAction
                             class="org.openmrs.module.aijar.htmlformentry.DSDSProgramSubmissionAction"/>
                     <submit class="confirm" submitLabel="Save"/>
@@ -825,7 +915,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <ul class="nav nav-tabs card-header-tabs">
+                            <ul class="nav nav-tabs card-header-tabs nav-fill">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#appointment-vitals-nutrition">
                                         Appointment/ Vitals/ Nutrition Assessment
@@ -1224,11 +1314,11 @@
                                                          answerLabels="H0-Never Initiated,H1-On INH,H2-Defaulted,H3-Taken off due to side effects,H4-Completed"/>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <label>TPT date initiated</label>
+                                                        <label>TPT Date Initiated</label>
                                                         <obs id="tpt-initiation-date" conceptId="165226"/>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <label>TPT date completed</label>
+                                                        <label>TPT Date Completed</label>
                                                         <obs id="tpt-completion-date" conceptId="165227"/>
                                                     </div>
                                                     <div class="col-md-3">
@@ -2318,7 +2408,7 @@
                                                     <div>
                                                         <div class="row">
                                                             <div class="col-md-5">
-                                                                <label>TPT date initiated</label>
+                                                                <label>TPT Date Initiated</label>
                                                             </div>
                                                             <div class="col-md-7">
                                                                 <obs conceptId="165226"/>
@@ -2328,7 +2418,7 @@
                                                     <div>
                                                         <div class="row">
                                                             <div class="col-md-5">
-                                                                <label>TPT date completed</label>
+                                                                <label>TPT Date Completed</label>
                                                             </div>
                                                             <div class="col-md-7">
                                                                 <obs conceptId="165227"/>
