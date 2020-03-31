@@ -1864,7 +1864,7 @@
         </div>
     <!-- </restrictByRole> -->
 
-    <!-- <restrictByRole exclude="Data Clerk,System Developer">
+    <!-- <restrictByRole exclude="Data Clerk,System Developer"> -->
         <div class="row">
             <div class="col-md-3">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -2940,5 +2940,5 @@
                 </div>
             </div>
         </div>
-    </restrictByRole> -->
+    <!-- </restrictByRole> -->
 </htmlform>
