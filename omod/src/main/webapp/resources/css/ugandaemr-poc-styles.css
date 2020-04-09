@@ -258,3 +258,14 @@ span.time-box-horizontal select {
     background-color: #FFF;
     border: 1px solid #dddddd;
 }
+
+
+.vertical-menu-poc {
+    background-color: #015f6b;
+}
+
+.vertical-menu-poc .nav-pills .nav-link.active {
+    color: #FFFFFF;
+    background-color: #000000;
+    
+}
