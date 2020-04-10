@@ -651,15 +651,6 @@
 
             });
 
-           
-
-                        
-
-
-            
-
-
-            <!-- Validation rules -->
             beforeSubmit.push(function () {
                 <!-- clear the previous errors -->
                 setValue('returndate.error', '');
@@ -791,7 +782,7 @@
 
     <!-- This section contains lookup tags that pick data from other forms-->
 
-    <!-- <lookup complexExpression="#set($art_start_regimen='null') #set($other_art_start_regimen='null') #set($art_transfer_regimen='null') #set($other_art_transfer_regimen='null')"/>
+    <lookup complexExpression="#set($art_start_regimen='null') #set($other_art_start_regimen='null') #set($art_transfer_regimen='null') #set($other_art_transfer_regimen='null')"/>
 
     <lookup complexExpression="#set($first_second_line_regimen='null') #set($other_first_second_line_regimen='null')"/>
 
@@ -839,7 +830,7 @@
     </span>
 
 
-     This section contains lookup tags that pick data from other forms
+     <!-- This section contains lookup tags that pick data from other forms -->
 
     <lookup complexExpression="#set($art_start_regimen='null') #set($other_art_start_regimen='null') #set($art_transfer_regimen='null') #set($other_art_transfer_regimen='null')"/>
 
@@ -886,9 +877,9 @@
     <span class="hidden" id="otherThirdLineRegimen">
         <lookup
                 complexExpression="#foreach($other_third_line_regimen in $fn.allObs(162989)) $other_first_second_line_regimen.valueText #end"/>
-    </span> -->
+    </span>
 
-    <!-- <restrictByRole exclude="HIV Clinic"> -->
+    <restrictByRole exclude="HIV Clinic">
         <div>
             <div class="row">
                 <div class="col-md-6">
@@ -1942,9 +1933,9 @@
                 </div>
             </div>
         </div>
-    <!-- </restrictByRole> -->
+    </restrictByRole>
 
-    <!-- <restrictByRole exclude="Data Clerk,System Developer"> -->
+    <restrictByRole exclude="Data Clerk,System Developer">
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -2987,5 +2978,5 @@
             </div>
         </div>
     </div>
-    <!-- </restrictByRole> -->
+    </restrictByRole>
 </htmlform>
