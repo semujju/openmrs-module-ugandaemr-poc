@@ -1936,33 +1936,34 @@
     </restrictByRole>
 
     <restrictByRole exclude="Data Clerk,System Developer">
-    <div class="card">
+    <div class="card poc-art-form">
         <div class="card-body">
             <div class="row">
                 <div class="col-md-3">
 
-                    <div class="card vertical-menu-poc">
-                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical" >
-                            <a class="nav-link active" data-toggle="pill" id="clinical-encounter-menu-poc" href="#encounter-card-poc" role="tab" aria-selected="true">
-                                Clinical Encounter
+                    <div class="card">
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <a class="nav-link nav-link-1 links active active-1" id="clinical-encounter-menu-poc" href="#encounter-card-poc" data-toggle="pill"
+                               role="tab" aria-selected="true">Clinical Encounter
                             </a>
-                            <a class="nav-link" data-toggle="pill" id="investigations-menu-poc" href="#investigation-reports-poc" role="tab" aria-selected="false">
-                                Investigation Reports
+                            <a class="nav-link links nav-link-1" id="investigations-menu-poc" href="#investigation-reports-poc" data-toggle="pill"
+                               role="tab" aria-selected="false">Investigation Reports
                             </a>
-                            <a class="nav-link" data-toggle="pill" id="diagnosis-menu-poc" href="#diagnosis-poc" role="tab"  aria-selected="false">
-                                Diagnosis
+                            <a class="nav-link links nav-link-1" id="diagnosis-menu-poc" href="#diagnosis-poc" data-toggle="pill" 
+                               role="tab" aria-selected="false">Diagnosis
                             </a>
-                            <a class="nav-link" data-toggle="pill" id="medication-menu-poc" href="#medication-poc" role="tab" aria-selected="false">
-                                Medication
+                            <a class="nav-link links nav-link-1" id="medication-menu-poc" href="#medication-poc" data-toggle="pill"
+                               role="tab" aria-selected="false">Medication
                             </a>
-                            <a class="nav-link" data-toggle="pill" id="dsdm-menu-poc" href="#programing-dsdm-poc" role="tab" aria-selected="false">
-                                Programming ie DSDM
+                            <a class="nav-link links nav-link-1" id="dsdm-menu-poc" href="#programing-dsdm-poc" data-toggle="pill"
+                               role="tab" aria-selected="false">Programming ie DSDM
                             </a>
-                            <a class="nav-link" data-toggle="pill" id="course-of-action-menu-poc" href="#next-course-of-action" role="tab" aria-selected="false">
-                                Next Course of Action
+                            <a class="nav-link links nav-link-1" id="course-of-action-menu-poc" href="#next-course-of-action" data-toggle="pill"
+                               role="tab" aria-selected="false">Next Course of Action
                             </a>
                         </div>
                     </div>
+
                     <div class="encounter-details">
                         <div class="hidden">
                             <label>Encounter Date</label>
@@ -1981,6 +1982,7 @@
                                     class="org.openmrs.module.ugandaemrpoc.htmlformentry.HIVClinicalAssessmentSubmissionAction"/>
                         </div>
                     </div>
+
                 </div>
 
                 <div class="col-md-9">
@@ -2193,7 +2195,7 @@
                                                 <div class="card">
                                                     <div class="card-header">Presenting Signs and Symptoms</div>
                                                     <div class="card-body">
-                                                        <span>
+                                                        <span class="lablex2">
                                                             <repeat with="['90139','Oral or anal ulcers'],['206',' New seizure'],['165285','Weak arms or legs'],['90094','Headache'],['16','Diarrhea'],['165286',' Acting unusual'],['90135','Weight loss in last month'],['165287','Difficulty walking'],['5953','Double or Blurry vision'],['861','Decreased hearing'],['90130','Whites spots/thrush in mouth'],['118789','Difficulty or painful swallowing'],['90116','Fever, chills or night sweats'],['79','Red/purple or dark spots on skin'],['122936 ','Unable to walk without assisstance'],['90132','Cough or shortness of breath > 1 week']">
                                                                 <obs id="{0}" conceptId="90251" answerConceptId="{0}"
                                                                      answerLabel="{1}" style="checkbox"/>
@@ -2201,11 +2203,10 @@
                                                             <span id="trigger">
                                                                 <obs id="enable-disable-signs-and-symptoms" conceptId="90251"
                                                                      answerConceptId="90002"
-                                                                     answerLabel="Other specify:"/>
+                                                                     answerLabel="Other specify"/>
                                                             </span>
                                                             <span id="disabled">
-                                                                <obs id="signs-and-symptoms-enabled" conceptId="99032" size="17"
-                                                                     labelText=""/>
+                                                                <obs id="signs-and-symptoms-enabled" conceptId="99032" size="17" />
                                                             </span>
                                                         </span>
                                                     </div>
@@ -2213,17 +2214,17 @@
                                                 <div class="card">
                                                     <div class="card-header">Side Effects of ART</div>
                                                     <div class="card-body">
-                                                        <span>
+                                                        <span class="lablex2">
                                                             <repeat with="['90091','Nausea'],['90098','Rash'],['90092','Diarrhoea'],['90099','Anaemia'],['90093','Fatigue'],['90100','Abdominal pain'],['90094','Headache'],['90116','FAT'],['90115','Jaundice'],['122983','Vomiting'],['90095','BN - Burning/Numb/Tingling'],['90117','CNS - Dizzy, anxiety, nightmare, depression']">
                                                                 <obs id="{0}" conceptId="90227" answerConceptId="{0}"
                                                                      answerLabel="{1}" style="checkbox"/>
                                                             </repeat>
                                                             <span id="enable-disable-side-effects-of-art">
                                                                 <obs conceptId="90227" answerConceptId="90002"
-                                                                     answerLabel="Other specify:"/>
+                                                                     answerLabel="Other specify"/>
                                                             </span>
                                                             <span id="side-effects-of-art-enabled">
-                                                                <obs conceptId="99113" size="17" labelText=""/>
+                                                                <obs conceptId="99113" size="17"/>
                                                             </span>
                                                         </span>
                                                     </div>
@@ -2409,11 +2410,14 @@
                                                     <label>Laboratory Tests</label>
                                                 </div>
                                                 <div class="card-body">
-                                                    <div class="investigations">
-                                                        <repeat with="['165418','CrAg'],['165417','RPR'],['165416','TB LAM'],['165413','GeneXpert'],['165415','Microscopy'],['1019','CBC'],['657','Cd4'],['165412','VL']">
-                                                            <obs id="{0}" conceptId="1271" answerConceptId="{0}"
-                                                                 answerLabel="{1}" style="checkbox"/>
-                                                        </repeat>
+                                                    <div class="row investigations">
+                                                        <span class="lablex2">
+                                                            <repeat with="['165418','CrAg'],['165417','RPR'],['165416','TB LAM'],['165413','GeneXpert'],['165415','Microscopy'],['1019','CBC'],['657','Cd4'],['165412','VL']">
+                                                                <obs id="{0}" conceptId="1271" answerConceptId="{0}"
+                                                                     answerLabel="{1}" style="checkbox"/>
+                                                            </repeat>
+                                                        </span>
+                                                       
                                                     </div>
                                                 </div>
                                             </div>
@@ -2846,12 +2850,8 @@
                                                                 </div>
                                                                 <div class="col-2">
                                                                     <div class="add-entry">
-                                                                        <a href="#" id="{id}-addEntry"
-                                                                           class="addEntry add-more-link"><i
-                                                                                class="icon-plus-sign"></i></a> <a href="#"
-                                                                                                                   class="removeEntry remove-more-link"
-                                                                                                                   id="{id}-removeEntry">
-                                                                        <i class="icon-minus"> </i></a>
+                                                                        <a href="#" id="{id}-addEntry" class="addEntry add-more-link"><i class="icon-plus-sign"></i></a> 
+                                                                        <a href="#" class="removeEntry remove-more-link" id="{id}-removeEntry"><i class="icon-minus"> </i></a>
                                                                     </div>
                                                                 </div>
                                                             </div>
