@@ -774,6 +774,36 @@
                 disable_fields("165227"); // date TPT completed
                 
 
+                //enable care entry for a particular test type
+
+                jq("#99080").click(function () {
+                    var testType = jq(this).find("input[type='radio']:checked").val();
+                    if(testType == 99079 || testType == 163006) { 
+                        enable_fields("99081");
+                    } else {
+                        disable_fields("99081");
+                    }
+                });
+
+                //enable other special category
+
+                jq(".165169").click(function () {
+                if (jq(this).find('#90002').find(':checkbox').prop('checked')) {
+                        enable_fields("165184");
+                    } else {
+                        disable_fields("165184");
+                    }
+                });
+
+                //enable other care entry point 
+
+                jq("#90200").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "90002") {
+                        enable_fields("99115");
+                    } else {
+                        disable_fields("99115")
+                    }
+                });
 
                 var addRemoveRow = function($identifier) {
                     
@@ -1003,7 +1033,7 @@
                                                    <label>Test type</label>
                                                 </div>
                                                 <div class="col-md-2">
-                                                  <obs conceptId="99080" answerConceptIds="99079,99080" answerLabels="Ab,PCR" style="radio" class="horizontal"/>
+                                                  <obs id="99080" conceptId="99080" answerConceptIds="99079,163006" answerLabels="Ab,PCR" style="radio" class="horizontal"/>
                                                 </div>
                                                 <div class="col-md-1">
                                                   <label>Where</label>
@@ -1017,21 +1047,20 @@
                                     <div class="card">
                                         <div class="card-header">Special Categories</div>
                                         <div class="card-body">
-                                            <div class="row">
+                                            <div class="row 165169">
                                                 <obs conceptId="165169" answerConceptId="165125" answerLabel="1 - Uniformed Forces" style="checkbox" class="col-md-3"/>
                                                 <obs conceptId="165169" answerConceptId="165132" answerLabel="2 - AGYW" style="checkbox" class="col-md-3"/>
-                                                <obs conceptId="165169" answerConceptId="159674" answerLabel="3 - Fisher Folk" style="checkbox" class="col-md-3"/>
+                                                <obs conceptId="165169" answerConceptId="159674" answerLabel="3 - Fisher Folk" style="checkbox" class="col-md-6"/>
                                                 <obs conceptId="165169" answerConceptId="162198" answerLabel="4 - Long Distance Diver" style="checkbox" class="col-md-3"/>
                                                 <obs conceptId="165169" answerConceptId="165126" answerLabel="5 - Migrant worker" style="checkbox" class="col-md-3"/>
-                                                <obs conceptId="165169" answerConceptId="162277" answerLabel="6 - Prisoners" style="checkbox" class="col-md-3"/>
+                                                <obs conceptId="165169" answerConceptId="162277" answerLabel="6 - Prisoners" style="checkbox" class="col-md-6"/>
                                                 <obs conceptId="165169" answerConceptId="165127" answerLabel="7 - Refugee" style="checkbox" class="col-md-3"/>
                                                 <obs conceptId="165169" answerConceptId="162558" answerLabel="8 - People with Disabilities" style="checkbox" class="col-md-3"/>
-                                                <obs conceptId="165169" answerConceptId="160666" answerLabel="9 - PWIDs" style="checkbox" class="col-md-3"/>
+                                                <obs conceptId="165169" answerConceptId="160666" answerLabel="9 - PWIDs" style="checkbox" class="col-md-6"/>
                                                 <obs conceptId="165169" answerConceptId="90041" answerLabel="10 - Pregnant" style="checkbox" class="col-md-3"/>
                                                 <obs conceptId="165169" answerConceptId="99601" answerLabel="11 - Breastfeeding" style="checkbox" class="col-md-3"/>
-                                                <obs conceptId="165169" id="165169" answerConceptId="90002" answerLabel="12 - Others" style="checkbox" class="col-md-3"/>
-                                            </div>
-                                            <div class="row">
+                                                <obs conceptId="165169" answerConceptId="90002" answerLabel="12 - Others" style="checkbox" id="90002" class="col-md-2" />
+                                            
                                                 <div class="col-md-1">
                                                     <label>Specify</label>
                                                 </div>
@@ -1052,7 +1081,8 @@
                                                 <div class="col-md-3">
                                                     <obs conceptId="90200"
                                                          answerConceptIds="90012,90016,99593,99610,90019,90013,90015,90018,165224,90002"
-                                                         answerLabels="eMTCT,TB,YCC,SMC,Outreach,Out Patient,STI,Inpatient,KP Clinic,Other" />
+                                                         answerLabels="eMTCT,TB,YCC,SMC,Outreach,Out Patient,STI,Inpatient,KP Clinic,Other" 
+                                                         id="90200"/>
                                                 </div>
                                                 <div class="col-md-1">
                                                     <label>Specify</label>
