@@ -268,11 +268,6 @@ span.time-box-horizontal select {
     text-decoration: none;
 }
 
-.poc-art-form a i {
-    color: #f9f9f9;
-    text-decoration: none;
-}
-
 .poc-art-form .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #FFFFFF;
     background-color: #000000; 
@@ -296,17 +291,13 @@ form .lablex4 span {
     margin: 1px 0px;
 }
 
-.poc-art-form .add-more-link {
-    background-color: dodgerblue;
-}
-
 .poc-art-form .remove-more-link {
-    background-color: darkred;
+    color: darkred;
 }
 
 .poc-art-form .add-entry {
-    font-size: 18px;
-    margin-top: 35px;
+    font-size: 22px;
+    margin-top: 25px;
 }
 
 

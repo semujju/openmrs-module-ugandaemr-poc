@@ -43,7 +43,7 @@
         </includeIf>
     </ifMode>
     <!-- jquery loaded for nonessential purposes. -->
- 
+
     <script type="text/javascript">
 
         if (jQuery) {
@@ -879,7 +879,7 @@
                 complexExpression="#foreach($other_third_line_regimen in $fn.allObs(162989)) $other_first_second_line_regimen.valueText #end"/>
     </span>
 
-    <restrictByRole exclude="HIV Clinic">
+    <restrictByRole exclude="Data Clerk,System Developer">
         <div>
             <div class="row">
                 <div class="col-md-6">
@@ -2832,26 +2832,24 @@
                                                     <template>
                                                         <obsgroup groupingConceptId="160741">
                                                             <div class="row multi-drug" id="{id}-toggleContainer">
-                                                                <div class="col-2">
+                                                                <div class="col-md-3">
                                                                     <obs labelText="Drug" conceptId="1282" answerClasses="Drug" style="autocomplete" class="fullwidth"/>
                                                                 </div>
-                                                                <div class="col-2">
-                                                                    <obs labelText="Quantity" conceptId="160856"/>
-                                                                </div>
-                                                                <div class="col-2">
+                                                               
+                                                                <div class="col-md-3">
                                                                     <obs labelText="Qty unit" conceptId="165791" answerConceptSetIds="162402,162384"/>
                                                                 </div>
-                                                                <div class="col-2 duration">
+                                                                <div class="col-md-2 duration">
                                                                     <label>Duration</label>
                                                                     <obs conceptId="159368"/>
                                                                 </div>
-                                                                <div class="col-2">
+                                                                <div class="col-md-3">
                                                                     <obs conceptId="1732" labelText="Duration unit"/>
                                                                 </div>
-                                                                <div class="col-2">
+                                                                <div class="col-md-1">
                                                                     <div class="add-entry">
                                                                         <a href="#" id="{id}-addEntry" class="addEntry add-more-link"><i class="icon-plus-sign"></i></a> 
-                                                                        <a href="#" class="removeEntry remove-more-link" id="{id}-removeEntry"><i class="icon-minus"> </i></a>
+                                                                        <a href="#" class="removeEntry remove-more-link" id="{id}-removeEntry"><i class="icon-minus"></i></a>
                                                                     </div>
                                                                 </div>
                                                             </div>
