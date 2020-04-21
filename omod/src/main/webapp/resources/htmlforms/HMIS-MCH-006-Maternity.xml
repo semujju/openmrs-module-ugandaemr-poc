@@ -533,7 +533,7 @@
 																		<obs conceptId="165447" labelText="Duration of NVP syrup"/> 
 																	</div>
 																	<div class="col-md-4">
-																		<obs conceptId="984" answerConceptIds="886,783" answerLabels="BCG,Polio" 
+																		<obs conceptId="165794" answerConceptIds="1065,1066" answerLabels="Yes,No" 
 																			 labelText="Immunisation (BCG/POLIO 0)" style="radio" class="horizontal" />
 																	</div>
 																</div>
