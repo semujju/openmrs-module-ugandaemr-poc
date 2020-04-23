@@ -178,7 +178,10 @@
                     <div class="card-header">
                         <ul class="nav nav-tabs card-header-tabs nav-fill">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#mother-info"> Mother's Information </a>
+                                <a class="nav-link active" data-toggle="tab" href="#father-info"> Father's Information </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#mother-info"> Mother's Information </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#infant-info"> Infant Information </a>
@@ -187,7 +190,17 @@
                     </div>
                 <div class="card-body">
                     <div class="tab-content">
-                        <div class="tab-pane active" id="mother-info" >
+                        <div class="tab-pane active" id="father-info" >
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label>Father`s Name</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <obs conceptId="1594" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="mother-info" >
                             <div class="card">
                                 <div class="card-header">
                                     Visit Summary
