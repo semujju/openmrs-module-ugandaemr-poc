@@ -17,8 +17,8 @@
 
             jq(document).ready(function () { 
 
-                blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
                 //Block Multiple encounter entry on same date
+                blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
 
                 var motherAge  = <lookup complexExpression="$patient.age" />;
 
