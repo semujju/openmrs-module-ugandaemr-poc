@@ -788,7 +788,7 @@
                 //enable other special category
 
                 jq(".165169").click(function () {
-                if (jq(this).find('#90002').find(':checkbox').prop('checked')) {
+                    if (jq(this).find('#90002').find(':checkbox').prop('checked')) {
                         enable_fields("165184");
                     } else {
                         disable_fields("165184");
@@ -804,6 +804,211 @@
                         disable_fields("99115")
                     }
                 });
+
+                //enable start first line regimen
+
+                jq("#99161").change(function () {
+                    if (jq(this).find("input[type=hidden]").val() != "") {
+                        enable_fields("99061");
+                        enable_fields("99069");
+                        enable_fields("99070");
+                        enable_fields("99071");
+                        enable_fields("99072");
+                        enable_fields("99603");
+                    } else {
+                        disable_fields("99061")
+                        disable_fields("99069");
+                        disable_fields("99070");
+                        disable_fields("99071");
+                        disable_fields("99072");
+                        disable_fields("99603");
+                    }
+                });
+
+                //enable other first line regimens
+
+                jq("#99061").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "99143") {
+                        enable_fields("99268");
+                    } else {
+                        disable_fields("99268")
+                    }
+                });
+
+                //enable other ARVs
+
+                jq("#99064").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "90002") {
+                        enable_fields("99269");
+                    } else {
+                        disable_fields("99269")
+                    }
+                });
+
+                //enable new regimens (within first line)
+
+                jq("#99163").change(function () {
+                    if (jq(this).find("input[type=hidden]").val() != "") {
+                        enable_fields("90315");
+                        enable_fields("90246");
+                    } else {
+                        disable_fields("90315")
+                        disable_fields("90246");
+                    }
+                });
+
+                //enable other new regimen (within first line)
+
+                jq("#90315").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "99143") {
+                        enable_fields("99146");
+                    } else {
+                        disable_fields("99146")
+                    }
+                });
+
+
+                //enable new regimens (within second line)
+
+                jq("#99163").change(function () {
+                    if (jq(this).find("input[type=hidden]").val() != "") {
+                        enable_fields("90315");
+                        enable_fields("90246");
+                    } else {
+                        disable_fields("90315")
+                        disable_fields("90246");
+                    }
+                });
+
+                //enable other new regimen (within second line)
+
+                jq("#90315").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "99143") {
+                        enable_fields("99146");
+                    } else {
+                        disable_fields("99146")
+                    }
+                });
+
+                 //enable new regimens (within third line)
+
+                jq("#99163").change(function () { // change this concept
+                    if (jq(this).find("input[type=hidden]").val() != "") {
+                        enable_fields("162991");
+                        enable_fields("162990");
+                    } else {
+                        disable_fields("162991")
+                        disable_fields("162990");
+                    }
+                });
+
+                //enable other new regimen (within third line)
+
+                jq("#162990").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "99143") {
+                        enable_fields("162989");
+                    } else {
+                        disable_fields("162989")
+                    }
+                });
+
+                //enable options if prior to ARV/ART is true
+
+                jq("#99055").click(function () {
+                    var priorToART = jq(this).find("input[type='radio']:checked").val();
+                    if (priorToART == 90003) { //if yes
+                        enable_fields("99056");
+                        enable_fields("165163");
+                        enable_fields("99594");
+                        enable_fields("99059");
+                    } else {
+                        disable_fields("99056");
+                        disable_fields("165163");
+                        disable_fields("99594");
+                        disable_fields("99059");
+                    }
+                });         
+
+                //enable start date and duration in months for patients on PEP 
+
+                jq("#99056").change(function () {
+                    if (jq(this).find(':checkbox').prop('checked')) {
+                        enable_fields("99154");
+                        enable_fields("165252")
+                    } else {
+                        disable_fields("99154");
+                        disable_fields("165252")
+                    }
+                });
+
+                //enable start date and duration in months for patients on PreP
+
+                jq("#165163").change(function () {
+                    if (jq(this).find(':checkbox').prop('checked')) {
+                        enable_fields("165250");
+                        enable_fields("165251")
+                    } else {
+                        disable_fields("165250");
+                        disable_fields("165251")
+                    }
+                });
+
+                //enable start date and duration in months for patients on hep-B 
+
+                jq("#99594").change(function () {
+                    if (jq(this).find(':checkbox').prop('checked')) {
+                        enable_fields("99595");
+                        enable_fields("165253")
+                    } else {
+                        disable_fields("99595");
+                        disable_fields("165253")
+                    }
+                });
+
+                //enable start date and duration in months for patients whose Earlier ARV not transfer
+
+                jq("#99059").change(function () {
+                    if (jq(this).find(':checkbox').prop('checked')) {
+                        enable_fields("99156");
+                        enable_fields("165259")
+                    } else {
+                        disable_fields("99156");
+                        disable_fields("165259")
+                    }
+                });
+
+                //enable TPT Completion Dates if Initiation date is provided
+
+                jq("#165226").change(function () {
+                    if (jq(this).find("input[type=hidden]").val() != "") {
+                        enable_fields("165227");
+                    } else {
+                        disable_fields("165227")
+                    }
+                });
+
+                //interruptions and outcomes, enable date and where for transferred out patients 
+
+                jq("#90306").click(function () {
+                    if (jq(this).find(':checkbox').prop('checked')) {
+                        enable_fields("99165");
+                        enable_fields("90211");
+                    } else {
+                        disable_fields("99165");
+                        disable_fields("90211");
+                    }
+                });
+
+                //interruptions and outcomes, enable lost to followup date
+                jq("#5240").click(function () {
+                    if (jq(this).find(':checkbox').prop('checked')) {
+                        enable_fields("90209");
+                    } else {
+                        disable_fields("90209");
+                    }
+                });
+
+
 
                 var addRemoveRow = function($identifier) {
                     
@@ -836,7 +1041,6 @@
                         }
                     });
 
-
                     $otherRows.hide(); //Hide all rows apart from first row if adding new form
                     $firstRow.find('.remove').hide(); //Hide the remove button from the first row
 
@@ -846,7 +1050,7 @@
 
                 addRemoveRow('transfer-in');
                 addRemoveRow('first-line-substitution');
-                addRemoveRow('second-line-substitution');
+                addRemoveRow('second-line-substitution'); 
                 addRemoveRow('third-line-substitution');
                 addRemoveRow('treatment-interruptions');
                 addRemoveRow('hepB-screening');
@@ -1110,7 +1314,7 @@
                                                         <div class="col-md-3">
                                                             <obs conceptId="99061"
                                                                  answerConceptIds="99005,99006,164979,99015,99016,99039,99040,164977,99041,99042,99884,99885,164978,163017,99143"
-                                                                 answerLabels="AZT-3TC-NVP, AZT-3TC-EFV,AZT-3TC-DTG, D4T-3TC-NVP, D4T-3TC-EFV, TDF-3TC-NVP, TDF-3TC-EFV, TDF-3TC-DTG, TDF-FTC-NVP, TDF-FTC-EFV,ABC-3TC-NVP,ABC-3TC-EFV,ABC-3TC-DTG,ABC-3TC-LPV/r,OTHER"
+                                                                 answerLabels="AZT-3TC-NVP, AZT-3TC-EFV, AZT-3TC-DTG, D4T-3TC-NVP, D4T-3TC-EFV, TDF-3TC-NVP, TDF-3TC-EFV, TDF-3TC-DTG, TDF-FTC-NVP, TDF-FTC-EFV, ABC-3TC-NVP, ABC-3TC-EFV, ABC-3TC-DTG, ABC-3TC-LPV/r, Other"
                                                                  labelText="Start ART 1st Line Initial Regimen" id="99061"/>
                                                         </div>
                                                         <div class="col-md-3">
@@ -1168,7 +1372,7 @@
                                                                     <obs conceptId="90206" />
                                                                 </div>
                                                                 <div class="col-md-3">
-                                                                    <obs conceptId="99064"
+                                                                    <obs id="99064" conceptId="99064"
                                                                          answerConceptIds="99015,99016,99005,99006,164979,99039,99040,99041,99042,164977,99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99046,164978,163017,90002"
                                                                          answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-FTC-NVP,TDF-FTC-EFV,TDF-3TC-DTG,ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,ZDV-ddI(250)-LPV/r,ZDV-ddI(400)-LPV/r,ZDV-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,ZDV-ddI-LPV/r,ZDV-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,AZT-3TC-LPV/r,ABC-3TC-DTG,ABC-3TC-LPV/r,Other"/>
                                                                 </div>
@@ -1208,7 +1412,7 @@
                                                                     <div class="row">
                                                                         <div class="col-md-3">
                                                                             <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 20%;"></i>
-                                                                            <obs id="99163_{n}" conceptId="99163"/>
+                                                                            <obs id="99163" conceptId="99163"/>
                                                                         </div>
                                                                         <div class="col-md-3">
                                                                             <obs conceptId="90315"
@@ -1322,7 +1526,7 @@
                                                                         <obs  conceptId="162989" id="162989"/>
                                                                     </div>
                                                                     <div class="col-md-2">
-                                                                        <obs conceptId="90247" answerConceptIds="90046,90047,99889"
+                                                                        <obs id="90247" conceptId="90247" answerConceptIds="90046,90047,99889"
                                                                              answerLabels="6.Clinical, 7.Immuno, 8. Virological"/>
                                                                     </div>
                                                                     <div class="col-md-1 text-nowrap">
@@ -1584,7 +1788,7 @@
                                                     <label>Prior ARV/ART</label>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <obs conceptId="99055" answerConceptIds="90003,90004"
+                                                    <obs id="99055" conceptId="99055" answerConceptIds="90003,90004"
                                                          answerLabels="Yes,No" style="radio" class="horizontal"/>
                                                 </div>
                                             </div>
@@ -1613,7 +1817,7 @@
                                             </div>
                                             <div class="row">
                                                     <div class="col-md-2">
-                                                        <obs conceptId="165163" answerConceptId="90003" answerLabel="PreP" />
+                                                        <obs id="165163" conceptId="165163" answerConceptId="90003" answerLabel="PreP" />
                                                     </div>
                                                     <div class="col-md-2">
                                                         <i class="icon-calendar small right-addon-row position-absolute" style="right: 25%; top: 19%;"></i>
@@ -1708,7 +1912,7 @@
                                                         <div class="col-md-6">
                                                             <label>Date TPT Completed</label>
                                                             <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
-                                                            <obs id="165227" conceptId="165227"/>
+                                                            <obs id="165227" conceptId="165227"/> 
                                                         </div>
                                                     </div>
                                                     </div>
