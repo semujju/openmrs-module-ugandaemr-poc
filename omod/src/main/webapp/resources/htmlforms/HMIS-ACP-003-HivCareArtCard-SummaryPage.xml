@@ -773,6 +773,17 @@
                 disable_fields("90209");  // lost to follow up date
                 disable_fields("165227"); // date TPT completed
                 
+                <!-- Disable art clinic and art number if client is self reffered-->    
+                    function disableARTclinicandArtnumber () {
+                        var n;
+                        for (n = 1; n &lt;= 10; n++) {
+                            disable_fields('99164_'+n);
+                            disable_fields('162991_'+n);
+                            disable_fields('164352_'+n);
+                        }
+                    }
+                    
+                    disableARTclinicandArtnumber();
 
                 //enable care entry for a particular test type
 
@@ -1628,7 +1639,7 @@
                                                                          answerLabels="ART,TPT,Fluconazole,TB Drugs"/>
                                                                 </div>
                                                                 <div class="col-md-2">
-                                                                    <obs conceptId="165229" answerConceptIds="1363,99133"                                                                            answerLabels="Stopped, Lost"/>
+                                                                    <obs conceptId="165229" answerConceptIds="1363,99133" answerLabels="Stopped, Lost"/>
                                                                 </div>
                                                                 <div class="col-md-2">
                                                                     <i class="icon-calendar small right-addon-row position-absolute" style="right: 25%; top: 23%;"></i>
