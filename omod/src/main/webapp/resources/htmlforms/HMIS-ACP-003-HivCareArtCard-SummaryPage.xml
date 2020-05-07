@@ -76,663 +76,10 @@
         });
 
 
-        function enable_disable_ac(selected_option) {
-
-            var class_name = jq(selected_option).attr("class");
-
-            var length = class_name.length;
-
-            var class_id = parseInt(class_name.substring(length - 1, length));
-
-            var row_id = class_id;
-
-            var disable = true;
-
-            var row_1 = '[class^="ArtCare"][class*="Child1"]';
-            var row_2 = '[class^="ArtCare"][class*="Child2"]';
-            var row_3 = '[class^="ArtCare"][class*="Child3"]';
-            var row_4 = '[class^="ArtCare"][class*="Child4"]';
-            var row_5 = '[class^="ArtCare"][class*="Child5"]';
-            var row_6 = '[class^="ArtCare"][class*="Child6"]';
-            var row_7 = '[class^="ArtCare"][class*="Child7"]';
-            var row_8 = '[class^="ArtCare"][class*="Child8"]';
-            var row_9 = '[class^="ArtCare"][class*="Child9"]';
-            var row_10 = '[class^="ArtCare"][class*="Child10"]';
-            var row_11 = '[class^="ArtCare"][class*="Child11"]';
-            var row_12 = '[class^="ArtCare"][class*="Child12"]';
-            var row_13 = '[class^="ArtCare"][class*="Child13"]';
-
-            var xx = row_1;
-            var selected_value = jq(selected_option).find(":selected").text();
-
-            selected_value = selected_value.trim().toLowerCase();
-
-            if (selected_value == "other" || selected_value == "other specify") {
-                disable = false;
-            }
-
-            switch (row_id) {
-                case 1:
-                    xx = row_1;
-                    break;
-                case 2:
-                    xx = row_2;
-                    break;
-                case 3:
-                    xx = row_3;
-                    break;
-                case 4:
-                    xx = row_4;
-                    break;
-                case 5:
-                    xx = row_5;
-                    break;
-                case 6:
-                    xx = row_6;
-                    break;
-                case 7:
-                    xx = row_7;
-                    break;
-                case 8:
-                    xx = row_8;
-                    break;
-                case 9:
-                    xx = row_9;
-                    break;
-                case 10:
-                    xx = row_10;
-                    break;
-                case 11:
-                    xx = row_11;
-                    break;
-                case 12:
-                    xx = row_12;
-                    break;
-                case 13:
-                    xx = row_13;
-                    break;
-            }
-
-
-            jq(xx).each(function () {
-                var group = jq(this);
-                if (class_name.indexOf('Child') == -1) {
-                    /* group.find("input").attr("value", "");*/
-                    group.find("input").attr("disabled", disable);
-
-                    if (disable) {
-                        /* fade out the fields that are disabled*/
-                        group.find("input").fadeTo(250, 0.25);
-                    } else {
-                        /* remove the fade on the fields*/
-                        group.find("input").fadeTo(250, 1);
-                    }
-                }
-            });
-        }
-
-
-        function enable_disable_art_start(selected_option) {
-
-            var class_name = jq(selected_option).attr("class");
-
-            var length = class_name.length;
-
-            var class_id = parseInt(class_name.substring(length - 1, length));
-
-            var row_id = class_id;
-
-            var disable = true;
-
-            var row_1 = '[class^="ARTStart"][class*="Child1"]';
-            var row_2 = '[class^="ARTStart"][class*="Child2"]';
-            var row_3 = '[class^="ARTStart"][class*="Child3"]';
-            var row_4 = '[class^="ARTStart"][class*="Child4"]';
-            var row_5 = '[class^="ARTStart"][class*="Child5"]';
-            var row_6 = '[class^="ARTStart"][class*="Child6"]';
-            var row_7 = '[class^="ARTStart"][class*="Child7"]';
-            var row_8 = '[class^="ARTStart"][class*="Child8"]';
-            var row_9 = '[class^="ARTStart"][class*="Child9"]';
-            var row_10 = '[class^="ARTStart"][class*="Child10"]';
-            var row_11 = '[class^="ARTStart"][class*="Child11"]';
-            var row_12 = '[class^="ARTStart"][class*="Child12"]';
-
-            var xx = row_1;
-            var selected_value = jq(selected_option).find("input[type=hidden]").val();
-
-            if (selected_value != "") {
-                disable = false;
-            }
-
-            switch (row_id) {
-                case 1:
-                    xx = row_1;
-                    break;
-                case 2:
-                    xx = row_2;
-                    break;
-                case 3:
-                    xx = row_3;
-                    break;
-                case 4:
-                    xx = row_4;
-                    break;
-                case 5:
-                    xx = row_5;
-                    break;
-                case 6:
-                    xx = row_6;
-                    break;
-                case 7:
-                    xx = row_7;
-                    break;
-                case 8:
-                    xx = row_8;
-                    break;
-                case 9:
-                    xx = row_9;
-                    break;
-                case 10:
-                    xx = row_10;
-                    break;
-                case 11:
-                    xx = row_11;
-                    break;
-                case 12:
-                    xx = row_12;
-                    break;
-            }
-
-
-            jq(xx).each(function () {
-                var group = jq(this);
-                if (class_name.indexOf('Child') == -1) {
-                    /* group.find("input").attr("value", "");*/
-                    group.find("input").attr("disabled", disable);
-                    group.find("select").attr("disabled", disable);
-
-                    if (disable) {
-                        /* fade out the fields that are disabled*/
-                        group.find("input").fadeTo(250, 0.25);
-                    } else {
-                        /* remove the fade on the fields*/
-                        group.find("input").fadeTo(250, 1);
-                    }
-                }
-            });
-        }
-
-
-        function enable_disable_art_start3(selected_option) {
-
-            var class_name = jq(selected_option).attr("class");
-
-            var length = class_name.length;
-
-            var class_id = parseInt(class_name.substring(length - 1, length));
-
-            var row_id = class_id;
-
-            var disable = true;
-
-            var row_1 = '[class^="ARTStart3"][class*="Child1"]';
-            var row_2 = '[class^="ARTStart3"][class*="Child2"]';
-            var row_3 = '[class^="ARTStart3"][class*="Child3"]';
-
-            var xx = row_1;
-            var selected_value = jq(selected_option).find("input[type=hidden]").val();
-
-            if (selected_value != "") {
-                disable = false;
-            }
-
-            switch (row_id) {
-                case 1:
-                    xx = row_1;
-                    break;
-                case 2:
-                    xx = row_2;
-                    break;
-                case 3:
-                    xx = row_3;
-                    break;
-            }
-
-
-            jq(xx).each(function () {
-                var group = jq(this);
-                if (class_name.indexOf('Child') == -1) {
-                    /* group.find("input").attr("value", "");*/
-                    group.find("input").attr("disabled", disable);
-                    group.find("select").attr("disabled", disable);
-
-                    if (disable) {
-                        /* fade out the fields that are disabled*/
-                        group.find("input").fadeTo(250, 0.25);
-                    } else {
-                        /* remove the fade on the fields*/
-                        group.find("input").fadeTo(250, 1);
-                    }
-                }
-            });
-        }
-
-
-        function enable_disable_hiv_care(selected_option) {
-
-            var class_name = jq(selected_option).attr("class");
-
-            var length = class_name.length;
-
-            var class_id = parseInt(class_name.substring(length - 1, length));
-
-            var row_id = class_id;
-
-            var disable = true;
-
-            var row_1 = '[class^="HIVCare"][class*="Child1"]';
-            var row_2 = '[class^="HIVCare"][class*="Child2"]';
-            var row_3 = '[class^="HIVCare"][class*="Child3"]';
-            var row_4 = '[class^="HIVCare"][class*="Child4"]';
-            var row_5 = '[class^="HIVCare"][class*="Child5"]';
-            var row_6 = '[class^="HIVCare"][class*="Child6"]';
-            var row_7 = '[class^="HIVCare"][class*="Child7"]';
-            var row_8 = '[class^="HIVCare"][class*="Child8"]';
-            var row_9 = '[class^="HIVCare"][class*="Child9"]';
-            var row_10 = '[class^="HIVCare"][class*="Child10"]';
-            var row_11 = '[class^="HIVCare"][class*="Child11"]';
-            var row_12 = '[class^="HIVCare"][class*="Child12"]';
-
-            var xx = row_1;
-            var selected_value = jq(selected_option).find("input").val();
-
-            selected_value = selected_value.trim().toLowerCase();
-
-            if (selected_value != "") {
-                disable = false;
-            }
-
-            switch (row_id) {
-                case 1:
-                    xx = row_1;
-                    break;
-                case 2:
-                    xx = row_2;
-                    break;
-                case 3:
-                    xx = row_3;
-                    break;
-                case 4:
-                    xx = row_4;
-                    break;
-                case 5:
-                    xx = row_5;
-                    break;
-                case 6:
-                    xx = row_6;
-                    break;
-                case 7:
-                    xx = row_7;
-                    break;
-                case 8:
-                    xx = row_8;
-                    break;
-                case 9:
-                    xx = row_9;
-                    break;
-                case 10:
-                    xx = row_10;
-                    break;
-                case 11:
-                    xx = row_11;
-                    break;
-                case 12:
-                    xx = row_12;
-                    break;
-            }
-
-
-            jq(xx).each(function () {
-                var group = jq(this);
-                if (class_name.indexOf('Child') == -1) {
-                    /* group.find("input").attr("value", "");*/
-                    group.find("input").attr("disabled", disable);
-
-                    if (disable) {
-                        /* fade out the fields that are disabled*/
-                        group.find("input").fadeTo(250, 0.25);
-                    } else {
-                        /* remove the fade on the fields*/
-                        group.find("input").fadeTo(250, 1);
-                    }
-                }
-            });
-        }
-
-
-        function enable_disable_ati(selected_option) {
-
-            var class_name = jq(selected_option).attr("class");
-
-            var length = class_name.length;
-
-            var class_id = parseInt(class_name.substring(length - 1, length));
-
-            var row_id = class_id;
-
-            var disable = true;
-            var disable2 = true;
-
-            var row_1 = '[class^="ARTTreatmentInterruption"][class*="Child1"]';
-            var row_2 = '[class^="ARTTreatmentInterruption"][class*="Child2"]';
-            var row_3 = '[class^="ARTTreatmentInterruption"][class*="Child3"]';
-            var row_4 = '[class^="ARTTreatmentInterruption"][class*="Child4"]';
-            var row_5 = '[class^="ARTTreatmentInterruption"][class*="Child5"]';
-            var row_6 = '[class^="ARTTreatmentInterruption"][class*="Child6"]';
-
-            var xx = row_1;
-            var selected_value = jq(selected_option).find(":selected").text();
-
-            var selected_value2 = jq(selected_option).find("input[type=hidden]").val();
-
-            selected_value = selected_value.trim().toLowerCase();
-
-            if (selected_value == "stopped" || selected_value == "lost") {
-                disable = false;
-            }
-
-            if (selected_value == "stopped") {
-                disable2 = false;
-            }
-
-            if (selected_value == "" &amp;&amp; selected_value2 != "") {
-                disable2 = false;
-            }
-
-
-            switch (row_id) {
-                case 1:
-                    xx = row_1;
-                    break;
-                case 2:
-                    xx = row_2;
-                    break;
-                case 3:
-                    xx = row_3;
-                    break;
-                case 4:
-                    xx = row_4;
-                    break;
-
-                case 5:
-                    xx = row_5;
-                    break;
-                case 6:
-                    xx = row_6;
-                    break;
-
-            }
-
-            jq(xx).each(function () {
-                var group = jq(this);
-                if (class_name.indexOf('Child') == -1) {
-                    group.find("input").attr("disabled", disable);
-
-                    if (disable) {
-                        /* fade out the fields that are disabled*/
-                        group.find("input").fadeTo(250, 0.25);
-                    } else {
-                        /* remove the fade on the fields*/
-                        group.find("input").fadeTo(250, 1);
-                    }
-                }
-                if (class_name.indexOf('GrandChild') == -1) {
-                    /* group.find("input").attr("value", "");*/
-                    /* group.find('select').prop("selectedIndex", 0);*/
-                    group.find('select').attr("disabled", disable2);
-
-                    if (disable2) {
-                        /* fade out the fields that are disabled*/
-                        group.find('select').fadeTo(250, 0.25);
-                    } else {
-                        /* remove the fade on the fields*/
-                        group.find('select').fadeTo(250, 1);
-                    }
-                }
-            });
-        }
-
-
-
         if (jQuery) {
             jq(document).ready(function () {
 
-                /* add JQuery validator classes and rules*/
-                jq("#90278 input").addClass("ugphone");
-
-                disable_fields(165184);
-
-                disable_fields(165227);
-
-                /* add the validator on the beforeSubmit*/
-                beforeSubmit.push(function () {
-                        jq("#htmlform").validate();
-                        return jq("#htmlform").valid();
-                    }
-                );
-
-                var gender = jq("span.gender").html();
-                var age = jq("span.age").html();
-
-                jq('[class^="FamilyMemberEnableDisable"]').change(function () {
-                    enable_disable_fm(jq(this));
-                });
-
-                jq('[class^="FamilyMemberEnableDisable"]').each(function () {
-                    enable_disable_fm(jq(this));
-                });
-
-
-                jq('[class^="ArtCareEnableDisable"]').change(function () {
-                    enable_disable_ac(jq(this));
-                });
-
-
-                jq('[class^="ArtCareEnableDisable"]').each(function () {
-                    enable_disable_ac(jq(this))
-                });
-
-                jq('[class^="HIVCareEnableDisable"]').change(function () {
-                    enable_disable_hiv_care(jq(this));
-                });
-
-                jq('[class^="ARTCareEntryPointEnableDisable"]').change(function () {
-                    enable_disable(jq(this), "ARTCareEntryPoint", 'selected_value == "other"', "select");
-                });
-
-                jq('[class^="ARTCareEntryPointEnableDisable"]').each(function () {
-                    enable_disable(jq(this), "ARTCareEntryPoint", 'selected_value == "other"', "select");
-                });
-
-                jq('#165169').change(function () {
-                    if(!jq('#165169').find(':checkbox').prop('checked')){
-                        jq("#165184").find("input[type$='text']").attr("disabled",true);
-                        jq("#165184").find("input[type$='text']").val("");
-                    }else{
-                        jq("#165184").find("input[type$='text']").attr("disabled",false); }
-                });
-
-                jq('#165226').change(function () {
-                    if(!jq("#165226").find("input[type$='text']").val()== ''){
-                        enable_fields('165227');
-                    }else{
-                        disable_fields('165227');
-                    }
-                });
-
-                jq('#165226').each(function () {
-                    if(!jq("#165226").find("input[type$='text']").val()== ''){
-                        enable_fields('165227');
-                    }else{
-                        disable_fields('165227');
-                    }
-                });
-
-                jq('[class^="HIVCareEnableDisable"]').each(function () {
-                    enable_disable_hiv_care(jq(this))
-                });
-
-                jq('[class^="ARTStartEnableDisable"]').change(function () {
-                    enable_disable_art_start(jq(this));
-                });
-
-
-                jq('[class^="ARTStartEnableDisable"]').each(function () {
-                    enable_disable_art_start(jq(this))
-                });
-
-                if(getValue("99161" + '.value') != ""){
-                    enable_disable_art_start(jq('#99161').parent().parent());
-                }
-
-                jq('[class^="ARTStart3EnableDisable"]').change(function () {
-                    enable_disable_art_start3(jq(this));
-                });
-
-
-                jq('[class^="ARTStart3EnableDisable"]').each(function () {
-                    enable_disable_art_start3(jq(this))
-                });
-
-
-                jq('[class^="ARTTreatmentInterruptionEnableDisable"]').change(function () {
-                    enable_disable_ati(jq(this));
-                });
-
-
-                jq('[class^="ARTTreatmentInterruptionEnableDisable"]').each(function () {
-                    enable_disable_ati(jq(this))
-                });
-
-                jq('[class^="PriorYesNoEnableDisable"]').change(function () {
-                    enable_disable(jq(this), "PriorYesNo", 'selected_value == "yes"', "select");
-                });
-
-                jq('[class^="PriorYesNoEnableDisable"]').each(function () {
-                    enable_disable(jq(this), "PriorYesNo", 'selected_value == "yes"', "select");
-                });
-
-                jq("#165143").addClass('hidden');
-
-                jq(".enableDisable").each(function () {
-                    var group = jq(this);
-
-                    function disableFn() {
-                        // group.children("#disabled").fadeTo(250, 0.25);
-                        /*  group.children("#disabled").find(":checkbox").attr("checked", false); //uncheck*/
-                        group.children("#disabled").find("input").attr("disabled", true);
-                        /*disable*/
-                        group.children("#disabled").find("select").attr("disabled", true);
-                    }
-
-                    function enableFn() {
-                        group.children("#disabled").fadeTo(250, 1);
-                        group.children("#disabled").find("input").attr("disabled", false);
-                        group.children("#disabled").find("select").attr("disabled", false);
-
-                    }
-
-                    if (!jq(this).children("#trigger").find(":checkbox:first").prop('checked')) {
-                        disableFn();
-                    }
-
-                    jq(this).children("#trigger").find(":checkbox:first").change(function () {
-                        var checked = jq(this).attr("checked");
-                        if (jq(this).prop('checked')) {
-                            enableFn();
-                        } else {
-                            disableFn();
-                        }
-                    });
-                });
-
-                <!-- var $allTables,
-                    $allRows,
-                    $otherRows,
-                    $firstRow,
-                    $thisRow,
-                    $nextRow,
-                    $hiddenRows,
-                    $lastVisibleRow,
-                    $nonEmptyBoxes;
-                var showAddButtonForLastVisibleRow = function($container) {
-                    $lastVisibleRow = $container.find('tr:visible:last');
-                    $lastVisibleRow.find('.add').show();
-                };
-
-                jq('.FamilyTrackingEnableDisable').change(function(){
-                   $age = jq(this).find('[id^="99074"]').find("input[type$='text']").val();
-                   $ageUnit=  jq(this).find('[id^="99725"]').find(":selected").val();
-                   $HIVStatus= jq(this).find('[id^="165275"]').find(":selected").val();
-                   $EIDCare= jq(this).find('[id^="99881"]').find("input[type$='radio']:checked").val();
-                   $HIVCare= jq(this).find('[id^="90270"]').find("input[type$='radio']:checked").val();
-                    /** checking if Patient is infant and positive
-                     */
-                   if($HIVStatus == 90166 &amp;&amp; $ageUnit==99726 &amp;&amp; $age &lt; 25){
-                        jq(this).find('[id^="99881"]').find("input[type$='radio']").attr("disabled",false);
-                   }else{
-                       jq(this).find('[id^="99881"]').find("input[type$='radio']").attr("disabled",true);
-                   }
-                    /* checking if patient is not infant and positive
-                     */
-                   if($HIVStatus == 90166 &amp;&amp; $ageUnit==1074){
-                        jq(this).find('[id^="90270"]').find("input[type$='radio']").attr("disabled",false);
-                   }else{
-                       jq(this).find('[id^="90270"]').find("input[type$='radio']").attr("disabled",true);
-                   }
-
-                   /* enabling the patient no field if patient is in care  */
-                    if($EIDCare == 90003 || $HIVCare== 90003){
-                        jq(this).find('[id^="90263"]').find("input[type$='text']").attr("disabled",false);
-                    }else{
-                        jq(this).find('[id^="90263"]').find("input[type$='text']").attr("disabled",true);
-                    }
-
-                    if($HIVStatus == 90166){
-                        jq(this).find('[id^="165276"]').find("input[type$='text']").focus();
-                    }
-                 }); -->
-
-
-                <!-- $firstRow = jq('table.multi tbody tr:first-of-type');
-                $otherRows = jq('table.multi tbody tr:not(:first-of-type)');
-
-                jq('.add').click(function(e) { //Handle add button event
-                    e.preventDefault();
-                    $thisRow = jq(this).parents('tr:first');
-                    $nextRow = $thisRow.next();
-
-                    if ($nextRow.length &gt; 0) {
-                        $nextRow.show('slow');
-                        $thisRow.find('.add').hide();
-                    }
-
-                    showAddButtonForLastVisibleRow($thisRow.parents('table:first'));
-                });
-
-                jq('.remove').click(function(e) { //Handle remove button event
-                    e.preventDefault();
-                    $thisRow = jq(this).parents('tr:first');
-                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
-                        $thisRow = jq(this).parents('tr:first');
-
-                        $thisRow.hide('slow', function() {
-                            showAddButtonForLastVisibleRow($thisRow.parents('table:first'));
-                            fieldHelper.clearAllFields($thisRow);
-                        });
-                    }
-                });
- -->
+                <ifMode mode="ENTER">
                 <!-- disable the following fields on form load -->
                 disable_fields("99081");  // test type facility
                 disable_fields("165184"); // other special category
@@ -740,14 +87,14 @@
                 disable_fields("90263_"); // Eid/pt clinic no.  //implement the counter
                 disable_fields("99061");  // Start ART 1st line regimen
                 disable_fields("99268");  // other first line regimens
-                disable_fields("99147");  // other second line regimen
+                //disable_fields("99147");  // other second line regimen
                 disable_fields("99069");  // wt
                 disable_fields("99070");  // who clinical stage
                 disable_fields("99071");  // CD4
                 disable_fields("99072");  // pregnant
                 disable_fields("99603");  // lactating
-                disable_fields("99269");  // other ARVs
-                disable_fields("90315");  // new line regimen
+                //disable_fields("99269");  // other ARVs
+                //disable_fields("90315");  // new line regimen
                 disable_fields("99146");  // other new line regimen
                 disable_fields("90246");  // why new line regimen
                 disable_fields("90247");  // why second line regimen
@@ -773,17 +120,25 @@
                 disable_fields("90209");  // lost to follow up date
                 disable_fields("165227"); // date TPT completed
                 
-                <!-- Disable art clinic and art number if client is self reffered-->    
-                    function disableARTclinicandArtnumber () {
-                        var n;
-                        for (n = 1; n &lt;= 10; n++) {
-                            disable_fields('99164_'+n);
-                            disable_fields('162991_'+n);
-                            disable_fields('164352_'+n);
-                        }
+                <!-- Disable art regimen fields -->    
+                function disableARTFields () {
+                    var n;
+                    for (n = 1; n &lt;= 10; n++) {
+                        disable_fields('99269_'+n);
+                        disable_fields('164352_'+n);
+                        disable_fields('90315_'+n);
+                        disable_fields('99146_'+n);
+                        disable_fields('90246_'+n);
+                        disable_fields('99147_'+n);
+                        disable_fields('162990_'+n);
+                        disable_fields('90247_'+n);
+                        disable_fields('162989_'+n);
                     }
+                }
                     
-                    disableARTclinicandArtnumber();
+                disableARTFields();
+
+            </ifMode>
 
                 //enable care entry for a particular test type
 
@@ -848,78 +203,212 @@
 
                 //enable other ARVs
 
-                jq("#99064").change(function () {
+                jq("#99064_1").change(function () {
                     if(jq(this).find("select").find(":selected").val() == "90002") {
-                        enable_fields("99269");
+                        enable_fields("99269_1");
                     } else {
-                        disable_fields("99269")
+                        disable_fields("99269_1")
                     }
                 });
 
+                jq("#99064_2").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "90002") {
+                        enable_fields("99269_2");
+                    } else {
+                        disable_fields("99269_2")
+                    }
+                });
+
+                jq("#99064_3").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "90002") {
+                        enable_fields("99269_3");
+                    } else {
+                        disable_fields("99269_3")
+                    }
+                });
+
+                jq("#99064_4").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "90002") {
+                        enable_fields("99269_4");
+                    } else {
+                        disable_fields("99269_4")
+                    }
+                });
+
+                jq("#99064_5").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "90002") {
+                        enable_fields("99269_5");
+                    } else {
+                        disable_fields("99269_5")
+                    }
+                });
+
+
                 //enable new regimens (within first line)
 
-                jq("#99163").change(function () {
+                jq("#99163_1").change(function () {
                     if (jq(this).find("input[type=hidden]").val() != "") {
-                        enable_fields("90315");
-                        enable_fields("90246");
+                        enable_fields("90315_1");
+                        enable_fields("90246_1");
                     } else {
-                        disable_fields("90315")
-                        disable_fields("90246");
+                        disable_fields("90315_1")
+                        disable_fields("90246_1");
+                    }
+                });
+
+                jq("#99163_2").change(function () {
+                    if (jq(this).find("input[type=hidden]").val() != "") {
+                        enable_fields("90315_2");
+                        enable_fields("90246_2");
+                    } else {
+                        disable_fields("90315_2")
+                        disable_fields("90246_2");
+                    }
+                });
+
+                jq("#99163_3").change(function () {
+                    if (jq(this).find("input[type=hidden]").val() != "") {
+                        enable_fields("90315_3");
+                        enable_fields("90246_3");
+                    } else {
+                        disable_fields("90315_3")
+                        disable_fields("90246_3");
+                    }
+                });
+
+                jq("#99163_4").change(function () {
+                    if (jq(this).find("input[type=hidden]").val() != "") {
+                        enable_fields("90315_4");
+                        enable_fields("90246_4");
+                    } else {
+                        disable_fields("90315_4")
+                        disable_fields("90246_4");
                     }
                 });
 
                 //enable other new regimen (within first line)
 
-                jq("#90315").change(function () {
+                jq("#90315_1").change(function () {
                     if(jq(this).find("select").find(":selected").val() == "99143") {
-                        enable_fields("99146");
+                        enable_fields("99146_1");
                     } else {
-                        disable_fields("99146")
+                        disable_fields("99146_1")
                     }
                 });
 
-
-                //enable new regimens (within second line)
-
-                jq("#99163").change(function () {
-                    if (jq(this).find("input[type=hidden]").val() != "") {
-                        enable_fields("90315");
-                        enable_fields("90246");
+                jq("#90315_2").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "99143") {
+                        enable_fields("99146_2");
                     } else {
-                        disable_fields("90315")
-                        disable_fields("90246");
+                        disable_fields("99146_2")
+                    }
+                });
+
+                jq("#90315_3").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "99143") {
+                        enable_fields("99146_3");
+                    } else {
+                        disable_fields("99146_3")
+                    }
+                });
+
+                jq("#90315_4").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "99143") {
+                        enable_fields("99146_4");
+                    } else {
+                        disable_fields("99146_4")
                     }
                 });
 
                 //enable other new regimen (within second line)
 
-                jq("#90315").change(function () {
-                    if(jq(this).find("select").find(":selected").val() == "99143") {
-                        enable_fields("99146");
+                jq("#second_regimen_1").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "99144") {
+                        enable_fields("99147_1");
                     } else {
-                        disable_fields("99146")
+                        disable_fields("99147_1")
                     }
                 });
 
-                 //enable new regimens (within third line)
-
-                jq("#99163").change(function () { // change this concept
-                    if (jq(this).find("input[type=hidden]").val() != "") {
-                        enable_fields("162991");
-                        enable_fields("162990");
+                jq("#second_regimen_2").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "99144") {
+                        enable_fields("99147_2");
                     } else {
-                        disable_fields("162991")
-                        disable_fields("162990");
+                        disable_fields("99147_2")
+                    }
+                });
+
+                jq("#second_regimen_3").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "99144") {
+                        enable_fields("99147_3");
+                    } else {
+                        disable_fields("99147_3")
+                    }
+                });
+
+                jq("#second_regimen_4").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "99144") {
+                        enable_fields("99147_4");
+                    } else {
+                        disable_fields("99147_4")
+                    }
+                });
+
+                //enable new regimens (within third line)
+
+                jq("#162991_1").change(function () {
+                    if (jq(this).find("input[type=hidden]").val() != "") {
+                        enable_fields("162990_1");
+                        enable_fields("90247_1");
+                    } else {
+                        disable_fields("162990_1")
+                        disable_fields("90247_1");
+                    }
+                });
+
+                jq("#162991_2").change(function () {
+                    if (jq(this).find("input[type=hidden]").val() != "") {
+                        enable_fields("162990_2");
+                        enable_fields("90247_2");
+                    } else {
+                        disable_fields("162990_2")
+                        disable_fields("90247_2");
+                    }
+                });
+
+                jq("#162991_3").change(function () {
+                    if (jq(this).find("input[type=hidden]").val() != "") {
+                        enable_fields("162990_3");
+                        enable_fields("90247_3");
+                    } else {
+                        disable_fields("162990_3")
+                        disable_fields("90247_3");
                     }
                 });
 
                 //enable other new regimen (within third line)
 
-                jq("#162990").change(function () {
-                    if(jq(this).find("select").find(":selected").val() == "99143") {
-                        enable_fields("162989");
+                jq("#162990_1").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "162987") {
+                        enable_fields("162989_1");
                     } else {
-                        disable_fields("162989")
+                        disable_fields("162989_1")
+                    }
+                });
+
+                jq("#162990_2").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "162987") {
+                        enable_fields("162989_2");
+                    } else {
+                        disable_fields("162989_2")
+                    }
+                });
+
+                jq("#162990_3").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "162987") {
+                        enable_fields("162989_3");
+                    } else {
+                        disable_fields("162989_3")
                     }
                 });
 
@@ -1057,25 +546,6 @@
 
                 };
 
-            <ifMode mode="ENTER">
-
-                addRemoveRow('transfer-in');
-                addRemoveRow('first-line-substitution');
-                addRemoveRow('second-line-substitution'); 
-                addRemoveRow('third-line-substitution');
-                addRemoveRow('treatment-interruptions');
-                addRemoveRow('hepB-screening');
-                addRemoveRow('hepC-screening');
-                addRemoveRow('blood-sugar-screening');
-                addRemoveRow('family-tracking');
-             
-                jq('.FamilyTrackingEnableDisable').each(function(){
-                    jq(this).find('[id^="99881"]').find("input[type$='radio']").attr("disabled",true);
-                    jq(this).find('[id^="90270"]').find("input[type$='radio']").attr("disabled",true);
-                    jq(this).find('[id^="90263"]').find("input[type$='text']").attr("disabled",true);
-                });
-
-            </ifMode>
 
                 <ifMode mode="EDIT">
 
@@ -1383,12 +853,12 @@
                                                                     <obs conceptId="90206" />
                                                                 </div>
                                                                 <div class="col-md-3">
-                                                                    <obs id="99064" conceptId="99064"
+                                                                    <obs id="99064_{n}" conceptId="99064"
                                                                          answerConceptIds="99015,99016,99005,99006,164979,99039,99040,99041,99042,164977,99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99046,164978,163017,90002"
                                                                          answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-FTC-NVP,TDF-FTC-EFV,TDF-3TC-DTG,ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,ZDV-ddI(250)-LPV/r,ZDV-ddI(400)-LPV/r,ZDV-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,ZDV-ddI-LPV/r,ZDV-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,AZT-3TC-LPV/r,ABC-3TC-DTG,ABC-3TC-LPV/r,Other"/>
                                                                 </div>
                                                                 <div class="col-md-2">
-                                                                    <obs conceptId="99269" id="99269"/>
+                                                                    <obs conceptId="99269" id="99269_{n}"/>
                                                                 </div>
                                                                 <div class="col-md-1 text-nowrap" >
                                                                     <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
@@ -1398,11 +868,11 @@
                                                         </div>
                                                     </span>
                                                 </template>
-                                                <render/>
-                                                <render/>
-                                                <render/>
-                                                <render/>
-                                                <render/>
+                                                <render n="1"/>
+                                                <render n="2"/>
+                                                <render n="3"/>
+                                                <render n="4"/>
+                                                <render n="5"/>
                                             </repeat>
                                         </div>
                                     </div>
@@ -1423,21 +893,21 @@
                                                                     <div class="row">
                                                                         <div class="col-md-3">
                                                                             <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 20%;"></i>
-                                                                            <obs id="99163" conceptId="99163"/>
+                                                                            <obs id="99163_{n}" conceptId="99163"/>
                                                                         </div>
                                                                         <div class="col-md-3">
                                                                             <obs conceptId="90315"
                                                                                  answerConceptIds="99015,99016,99005,99006,164979,99039,99040,99041,99042,164977,99884,99885,164978,163017,99143"
                                                                                  answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-FTC-NVP,TDF-FTC-EFV,TDF-3TC-DTG,ABC-3TC-NVP,ABC-3TC-EFV,ABC-3TC-DTG,ABC-3CT-LPV/r,Other"
                                                                                  class="long-value-select"
-                                                                                 id="90315"/>
+                                                                                 id="90315_{n}"/>
                                                                         </div>
                                                                         <div class="col-md-3">
-                                                                            <obs conceptId="99146" id="99146"/>
+                                                                            <obs conceptId="99146" id="99146_{n}"/>
                                                                         </div>
                                                                         <div class="col-md-2">
                                                                             <obs conceptId="90246" answerConceptIds="90040,90043,90044,90045,90002"
-                                                                                 answerLabels="1.Toxi,2.NewTB,3.NewDrug,4.Drug Stock,5.Other" id="90246"/>
+                                                                                 answerLabels="1 - Toxi,2 - New TB,3 - New Drug,4 - Drug Stock,5 - Other" id="90246_{n}"/>
                                                                         </div>
                                                                         <div class="col-md-1">
                                                                             <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
@@ -1479,17 +949,17 @@
                                                                     </div>
                                                                     <div class="col-md-2">
                                                                         <obs conceptId="90315"
-                                                                             answerConceptIds="99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99046,99046,99887,99888,99144"
-                                                                             answerLabels="ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,ZDV-ddI(250)-LPV/r,ZDV-ddI(400)-LPV/r,ZDV-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,ZDV-ddI-LPV/r,ZDV-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,AZT-3TC-LPV/r,TDF-3TC-ATV/r,ABC-3TC-ATV/r,Other" 
+                                                                             answerConceptIds="99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99887,99888,99144"
+                                                                             answerLabels="ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,AZT-ddI(250)-LPV/r,AZT-ddI(400)-LPV/r,AZT-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,AZT-ddI-LPV/r,AZT-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,TDF-3TC-ATV/r,ABC-3TC-ATV/r,Other" 
                                                                              class="long-value-select"
-                                                                             id="90315"/>
+                                                                             id="second_regimen_{n}"/>
                                                                     </div>
                                                                     <div class="col-md-2">
-                                                                        <obs conceptId="99147" id="99147"/>
+                                                                        <obs conceptId="99147" id="99147_{n}"/>
                                                                     </div>
                                                                     <div class="col-md-2">
-                                                                        <obs conceptId="90247" answerConceptIds="90046,90047,99889"
-                                                                             answerLabels="6.Clinical, 7.Immuno, 8. Virological"/>
+                                                                        <obs conceptId="90247" answerConceptIds="90046,90047,90048"
+                                                                             answerLabels="Clinical,Immuno,Virological"/>
                                                                     </div>
                                                                     <div class="col-md-1 text-nowrap">
                                                                         <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
@@ -1531,14 +1001,16 @@
                                                                         <obs id="162991_{n}" conceptId="162991"/>
                                                                     </div>
                                                                     <div class="col-md-2">
-                                                                        <obs conceptId="162990" id="162990" class="long-value-select"/>
+                                                                        <obs id="162990_{n}" conceptId="162990" answerConceptIds="162986,162987"
+                                                                             answerLabels="Darunavir/Ritonavir+Raltegravir+3TC+AZT, Other" 
+                                                                            class="long-value-select"/>
                                                                     </div>
                                                                     <div class="col-md-2">
-                                                                        <obs  conceptId="162989" id="162989"/>
+                                                                        <obs  conceptId="162989" id="162989_{n}"/>
                                                                     </div>
                                                                     <div class="col-md-2">
-                                                                        <obs id="90247" conceptId="90247" answerConceptIds="90046,90047,99889"
-                                                                             answerLabels="6.Clinical, 7.Immuno, 8. Virological"/>
+                                                                        <obs id="90247_{n}" conceptId="90247" answerConceptIds="90046,90047,90048"
+                                                                             answerLabels="Clinical,Immuno,Virological"/>
                                                                     </div>
                                                                     <div class="col-md-1 text-nowrap">
                                                                         <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
