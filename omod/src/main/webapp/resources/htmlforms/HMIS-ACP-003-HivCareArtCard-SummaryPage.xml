@@ -79,7 +79,6 @@
         if (jQuery) {
             jq(document).ready(function () {
 
-                <ifMode mode="ENTER">
                 <!-- disable the following fields on form load -->
                 disable_fields("99081");  // test type facility
                 disable_fields("165184"); // other special category
@@ -137,8 +136,6 @@
                 }
                     
                 disableARTFields();
-
-            </ifMode>
 
                 //enable care entry for a particular test type
 
@@ -548,102 +545,10 @@
                     }
                 });
 
-                <!-- <ifMode mode="ENTER">
-
-                    $otherRows.hide(); //Hide all rows apart from first row if adding new form
-                    $firstRow.find('.remove').hide(); //Hide the remove button from the first row -->
-
-                var addRemoveRow = function($identifier) {
-                    
-                    var $firstRow = jq('span.'+$identifier+':first-of-type');
-                    var $otherRows = jq('span.'+$identifier+':not(:first-of-type)');
-
-                    jq('.add').click(function(e) { //Handle add button event
-                        e.preventDefault();
-                        $thisRow = jq(this).parents('span.'+$identifier+':first');
-                        $nextRow = $thisRow.next().attr('style', 'display:inline');
-
-                        if ($nextRow.length &gt; 0) {
-                            $nextRow.show('slow');
-                            $thisRow.find('.add').hide();
-                        }
-                    });
-
-                    jq('.remove').click(function(e) { //Handle remove button event
-                        e.preventDefault();
-                        $thisRow = jq(this).parents('span.'+$identifier+':first');
-                        if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
-                            $thisRow = jq(this).parents('span.'+$identifier+':first');
-                            $lastRow = jq(this).parents('span.'+$identifier+':last');
-                            $lastVisibleRow = $lastRow.prev().attr('style', 'display:inline');
-
-                            $thisRow.hide('slow', function() {
-                                fieldHelper.clearAllFields($thisRow);
-                                $lastVisibleRow.find('.add').show();
-                            });
-                        }
-                    });
-
+                <ifMode mode="ENTER">
                     $otherRows.hide(); //Hide all rows apart from first row if adding new form
                     $firstRow.find('.remove').hide(); //Hide the remove button from the first row
-
-                };
-
-
-                <ifMode mode="EDIT">
-
-                /*Handle loading of existing obs */
-                $allTables = jq('table.multi');
-                $allTables.each(function() {
-                    $allRows = jq(this).find('tbody &gt; tr');
-                    $allRows.hide();
-                    $nonEmptyBoxes = jq(this).find('tbody tr input[type=text],tbody tr select').filter(function() {
-                        return this.value.length &gt; 0;
-                    });
-
-                    if ($nonEmptyBoxes.length &gt; 0 ) {
-                        $nonEmptyBoxes.each(function() {
-                            $thisRow = jq(this).parents('tr:first');
-                            $thisRow.show();
-                            if ($thisRow.is($firstRow)) {
-                                $firstRow.find('.remove').hide();
-                            }
-                        });
-
-                        if ($nonEmptyBoxes.length == 1) {
-                            $nonEmptyBoxes.parents('tr:first').find('.remove').hide(); //Hide the remove button if there is only one visible row
-                        }
-                    } else {
-                        $firstRow.show();
-                        $firstRow.find('.remove').hide();
-                    }
-                });
-
-                    jq('.FamilyTrackingEnableDisable').each(function(){
-                    $EIDCare= jq(this).find('[id^="99881"]').find("input[type$='radio']:checked");
-                    $HIVCare= jq(this).find('[id^="90270"]').find("input[type$='radio']:checked");
-                    $HIVNo= jq(this).find('[id^="90263"]').find("input[type$='text']").val();
-
-                    if($EIDCare){
-                        jq(this).find('[id^="99881"]').find("input[type$='radio']").attr("disabled",false);
-                    }else{
-                        jq(this).find('[id^="99881"]').find("input[type$='radio']").attr("disabled",true);
-                    }
-
-                    if($HIVCare){
-                        jq(this).find('[id^="90270"]').find("input[type$='radio']").attr("disabled",false);
-                    }else{
-                        jq(this).find('[id^="90270"]').find("input[type$='radio']").attr("disabled",true);
-                    }
-
-                    if(! $HIVNo == ''){
-                        jq(this).find('[id^="90263"]').find("input[type$='text']").attr("disabled",false);
-                    }else{
-                        jq(this).find('[id^="90263"]').find("input[type$='text']").attr("disabled",true);
-                    }
-                });
-
-            </ifMode>
+                </ifMode>
             });
 
         }
@@ -885,7 +790,7 @@
                                             </div>
                                             <repeat>
                                                 <template>
-                                                    <span class="transfer-in">
+                                                    <span class="transfer-in follow-up">
                                                         <div class="row">
                                                             <obsgroup groupingConceptId="99065">
                                                                 <div class="col-md-3">
@@ -908,7 +813,7 @@
                                                                     <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
                                                                 </div>
                                                             </obsgroup>
-                                                        </div>
+                                                    </div>
                                                     </span>
                                                 </template>
                                                 <render n="1"/>
