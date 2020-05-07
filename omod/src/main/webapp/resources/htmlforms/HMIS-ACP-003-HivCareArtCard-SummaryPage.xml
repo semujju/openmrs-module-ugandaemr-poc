@@ -508,7 +508,50 @@
                     }
                 });
 
+                                <!-- Add/remove logic for followup section-->
+                var $otherRows,
+                    $firstRow,
+                    $thisRow,
+                    $nextRow,
+                    $lastVisibleRow;
+                var showAddButtonForLastVisibleRow = function($container) {
+                    $lastVisibleRow = $container.find('div.follow-up:visible:last');
+                    $lastVisibleRow.find('.add').show();
+                };
 
+                $firstRow = jq('div.follow-up:first-of-type');
+                $otherRows = jq('div.follow-up:not(:first-of-type)');
+
+                jq('.add').click(function(e) { //Handle add button event
+                    e.preventDefault();
+                    $thisRow = jq(this).parents('div.follow-up:first');
+                    $nextRow = $thisRow.next();
+
+                    if ($nextRow.length &gt; 0) {
+                        $nextRow.show('slow');
+                        $thisRow.find('.add').hide();
+                    }
+                });
+
+                jq('.remove').click(function(e) { //Handle remove button event
+                    e.preventDefault();
+                    $thisRow = jq(this).parents('div.follow-up:first');
+                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
+                        $thisRow = jq(this).parents('div.follow-up:first');
+                        $lastRow = jq(this).parents('div.follow-up:last');
+                        $lastVisibleRow = $lastRow.prev();
+
+                        $thisRow.hide('slow', function() {
+                            fieldHelper.clearAllFields($thisRow);
+                            $lastVisibleRow.find('.add').show();
+                        });
+                    }
+                });
+
+                <!-- <ifMode mode="ENTER">
+
+                    $otherRows.hide(); //Hide all rows apart from first row if adding new form
+                    $firstRow.find('.remove').hide(); //Hide the remove button from the first row -->
 
                 var addRemoveRow = function($identifier) {
                     
