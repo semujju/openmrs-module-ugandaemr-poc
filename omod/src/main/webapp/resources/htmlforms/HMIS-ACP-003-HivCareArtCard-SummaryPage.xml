@@ -505,23 +505,25 @@
                     }
                 });
 
-                                <!-- Add/remove logic for followup section-->
+
+
+                <!-- Add/remove logic for followup section-->
                 var $otherRows,
                     $firstRow,
                     $thisRow,
                     $nextRow,
                     $lastVisibleRow;
                 var showAddButtonForLastVisibleRow = function($container) {
-                    $lastVisibleRow = $container.find('div.follow-up:visible:last');
+                    $lastVisibleRow = $container.find('span.follow-up:visible:last');
                     $lastVisibleRow.find('.add').show();
                 };
 
-                $firstRow = jq('div.follow-up:first-of-type');
-                $otherRows = jq('div.follow-up:not(:first-of-type)');
+                $firstRow = jq('span.follow-up:first-of-type');
+                $otherRows = jq('span.follow-up:not(:first-of-type)');
 
                 jq('.add').click(function(e) { //Handle add button event
                     e.preventDefault();
-                    $thisRow = jq(this).parents('div.follow-up:first');
+                    $thisRow = jq(this).parents('span.follow-up:first');
                     $nextRow = $thisRow.next();
 
                     if ($nextRow.length &gt; 0) {
@@ -532,10 +534,10 @@
 
                 jq('.remove').click(function(e) { //Handle remove button event
                     e.preventDefault();
-                    $thisRow = jq(this).parents('div.follow-up:first');
+                    $thisRow = jq(this).parents('span.follow-up:first');
                     if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
-                        $thisRow = jq(this).parents('div.follow-up:first');
-                        $lastRow = jq(this).parents('div.follow-up:last');
+                        $thisRow = jq(this).parents('span.follow-up:first');
+                        $lastRow = jq(this).parents('span.follow-up:last');
                         $lastVisibleRow = $lastRow.prev();
 
                         $thisRow.hide('slow', function() {
@@ -549,6 +551,64 @@
                     $otherRows.hide(); //Hide all rows apart from first row if adding new form
                     $firstRow.find('.remove').hide(); //Hide the remove button from the first row
                 </ifMode>
+
+
+
+
+                <ifMode mode="EDIT">
+
+                /*Handle loading of existing obs */
+                $allTables = jq('table.multi');
+                $allTables.each(function() {
+                    $allRows = jq(this).find('tbody &gt; tr');
+                    $allRows.hide();
+                    $nonEmptyBoxes = jq(this).find('tbody tr input[type=text],tbody tr select').filter(function() {
+                        return this.value.length &gt; 0;
+                    });
+
+                    if ($nonEmptyBoxes.length &gt; 0 ) {
+                        $nonEmptyBoxes.each(function() {
+                            $thisRow = jq(this).parents('tr:first');
+                            $thisRow.show();
+                            if ($thisRow.is($firstRow)) {
+                                $firstRow.find('.remove').hide();
+                            }
+                        });
+
+                        if ($nonEmptyBoxes.length == 1) {
+                            $nonEmptyBoxes.parents('tr:first').find('.remove').hide(); //Hide the remove button if there is only one visible row
+                        }
+                    } else {
+                        $firstRow.show();
+                        $firstRow.find('.remove').hide();
+                    }
+                });
+
+                    jq('.FamilyTrackingEnableDisable').each(function(){
+                    $EIDCare= jq(this).find('[id^="99881"]').find("input[type$='radio']:checked");
+                    $HIVCare= jq(this).find('[id^="90270"]').find("input[type$='radio']:checked");
+                    $HIVNo= jq(this).find('[id^="90263"]').find("input[type$='text']").val();
+
+                    if($EIDCare){
+                        jq(this).find('[id^="99881"]').find("input[type$='radio']").attr("disabled",false);
+                    }else{
+                        jq(this).find('[id^="99881"]').find("input[type$='radio']").attr("disabled",true);
+                    }
+
+                    if($HIVCare){
+                        jq(this).find('[id^="90270"]').find("input[type$='radio']").attr("disabled",false);
+                    }else{
+                        jq(this).find('[id^="90270"]').find("input[type$='radio']").attr("disabled",true);
+                    }
+
+                    if(! $HIVNo == ''){
+                        jq(this).find('[id^="90263"]').find("input[type$='text']").attr("disabled",false);
+                    }else{
+                        jq(this).find('[id^="90263"]').find("input[type$='text']").attr("disabled",true);
+                    }
+                });
+
+            </ifMode>
             });
 
         }
@@ -790,31 +850,29 @@
                                             </div>
                                             <repeat>
                                                 <template>
-                                                    <span class="transfer-in follow-up">
-                                                        <div class="row">
-                                                            <obsgroup groupingConceptId="99065">
-                                                                <div class="col-md-3">
-                                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 20%;"></i>
-                                                                    <obs id="99160" conceptId="99160"/>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <obs conceptId="90206" />
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <obs id="99064_{n}" conceptId="99064"
-                                                                         answerConceptIds="99015,99016,99005,99006,164979,99039,99040,99041,99042,164977,99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99046,164978,163017,90002"
-                                                                         answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-FTC-NVP,TDF-FTC-EFV,TDF-3TC-DTG,ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,ZDV-ddI(250)-LPV/r,ZDV-ddI(400)-LPV/r,ZDV-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,ZDV-ddI-LPV/r,ZDV-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,AZT-3TC-LPV/r,ABC-3TC-DTG,ABC-3TC-LPV/r,Other"/>
-                                                                </div>
-                                                                <div class="col-md-2">
-                                                                    <obs conceptId="99269" id="99269_{n}"/>
-                                                                </div>
-                                                                <div class="col-md-1 text-nowrap" >
-                                                                    <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
-                                                                    <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
-                                                                </div>
-                                                            </obsgroup>
-                                                    </div>
-                                                    </span>
+                                                    <obsgroup groupingConceptId="99065">
+                                                        <span class="row follow-up">
+                                                            <div class="col-md-3">
+                                                                <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 20%;"></i>
+                                                                <obs id="99160" conceptId="99160"/>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <obs conceptId="90206" />
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <obs id="99064_{n}" conceptId="99064"
+                                                                     answerConceptIds="99015,99016,99005,99006,164979,99039,99040,99041,99042,164977,99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99046,164978,163017,90002"
+                                                                     answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-FTC-NVP,TDF-FTC-EFV,TDF-3TC-DTG,ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,ZDV-ddI(250)-LPV/r,ZDV-ddI(400)-LPV/r,ZDV-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,ZDV-ddI-LPV/r,ZDV-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,AZT-3TC-LPV/r,ABC-3TC-DTG,ABC-3TC-LPV/r,Other"/>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <obs conceptId="99269" id="99269_{n}"/>
+                                                            </div>
+                                                            <div class="col-md-1 text-nowrap" >
+                                                                <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                                <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
+                                                            </div>
+                                                        </span>
+                                                    </obsgroup>
                                                 </template>
                                                 <render n="1"/>
                                                 <render n="2"/>
@@ -837,30 +895,28 @@
                                                 <repeat>
                                                     <template>
                                                             <obsgroup groupingConceptId="99062">
-                                                                <span class="first-line-substitution">
-                                                                    <div class="row">
-                                                                        <div class="col-md-3">
-                                                                            <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 20%;"></i>
-                                                                            <obs id="99163_{n}" conceptId="99163"/>
-                                                                        </div>
-                                                                        <div class="col-md-3">
-                                                                            <obs conceptId="90315"
-                                                                                 answerConceptIds="99015,99016,99005,99006,164979,99039,99040,99041,99042,164977,99884,99885,164978,163017,99143"
-                                                                                 answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-FTC-NVP,TDF-FTC-EFV,TDF-3TC-DTG,ABC-3TC-NVP,ABC-3TC-EFV,ABC-3TC-DTG,ABC-3CT-LPV/r,Other"
-                                                                                 class="long-value-select"
-                                                                                 id="90315_{n}"/>
-                                                                        </div>
-                                                                        <div class="col-md-3">
-                                                                            <obs conceptId="99146" id="99146_{n}"/>
-                                                                        </div>
-                                                                        <div class="col-md-2">
-                                                                            <obs conceptId="90246" answerConceptIds="90040,90043,90044,90045,90002"
-                                                                                 answerLabels="1 - Toxi,2 - New TB,3 - New Drug,4 - Drug Stock,5 - Other" id="90246_{n}"/>
-                                                                        </div>
-                                                                        <div class="col-md-1">
-                                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
-                                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
-                                                                        </div>
+                                                                <span class="row follow-up">
+                                                                    <div class="col-md-3">
+                                                                        <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 20%;"></i>
+                                                                        <obs id="99163_{n}" conceptId="99163"/>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <obs conceptId="90315"
+                                                                             answerConceptIds="99015,99016,99005,99006,164979,99039,99040,99041,99042,164977,99884,99885,164978,163017,99143"
+                                                                             answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-FTC-NVP,TDF-FTC-EFV,TDF-3TC-DTG,ABC-3TC-NVP,ABC-3TC-EFV,ABC-3TC-DTG,ABC-3CT-LPV/r,Other"
+                                                                             class="long-value-select"
+                                                                             id="90315_{n}"/>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <obs conceptId="99146" id="99146_{n}"/>
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <obs conceptId="90246" answerConceptIds="90040,90043,90044,90045,90002"
+                                                                             answerLabels="1 - Toxi,2 - New TB,3 - New Drug,4 - Drug Stock,5 - Other" id="90246_{n}"/>
+                                                                    </div>
+                                                                    <div class="col-md-1">
+                                                                        <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                                        <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
                                                                     </div>
                                                                 </span>
                                                             </obsgroup>
@@ -885,37 +941,35 @@
                                                 </div>
                                                 <repeat>
                                                     <template>
-                                                        <span class="second-line-substitution">
-                                                            <div class="row">
-                                                                <obsgroup groupingConceptId="99063">
-                                                                    <div class="col-md-2">
-                                                                        <obs conceptId="165310" answerConceptIds="1371,1372" answerLabels="Switch, Substitution" style="radio" class="horizontal"/>
-                                                                    </div>
-                                                                    <div class="col-md-3">
-                                                                        <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 12%;"></i>
-                                                                            <obs id="99164_{n}" conceptId="99164"/>
-                                                                    </div>
-                                                                    <div class="col-md-2">
-                                                                        <obs conceptId="90315"
-                                                                             answerConceptIds="99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99887,99888,99144"
-                                                                             answerLabels="ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,AZT-ddI(250)-LPV/r,AZT-ddI(400)-LPV/r,AZT-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,AZT-ddI-LPV/r,AZT-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,TDF-3TC-ATV/r,ABC-3TC-ATV/r,Other" 
-                                                                             class="long-value-select"
-                                                                             id="second_regimen_{n}"/>
-                                                                    </div>
-                                                                    <div class="col-md-2">
-                                                                        <obs conceptId="99147" id="99147_{n}"/>
-                                                                    </div>
-                                                                    <div class="col-md-2">
-                                                                        <obs conceptId="90247" answerConceptIds="90046,90047,90048"
-                                                                             answerLabels="Clinical,Immuno,Virological"/>
-                                                                    </div>
-                                                                    <div class="col-md-1 text-nowrap">
-                                                                        <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
-                                                                        <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
-                                                                    </div>
-                                                                </obsgroup>
-                                                            </div>
-                                                        </span>
+                                                        <obsgroup groupingConceptId="99063">
+                                                            <span class="row follow-up">
+                                                                <div class="col-md-2">
+                                                                    <obs conceptId="165310" answerConceptIds="1371,1372" answerLabels="Switch, Substitution" style="radio" class="horizontal"/>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 12%;"></i>
+                                                                        <obs id="99164_{n}" conceptId="99164"/>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <obs conceptId="90315"
+                                                                         answerConceptIds="99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99887,99888,99144"
+                                                                         answerLabels="ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,AZT-ddI(250)-LPV/r,AZT-ddI(400)-LPV/r,AZT-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,AZT-ddI-LPV/r,AZT-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,TDF-3TC-ATV/r,ABC-3TC-ATV/r,Other" 
+                                                                         class="long-value-select"
+                                                                         id="second_regimen_{n}"/>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <obs conceptId="99147" id="99147_{n}"/>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <obs conceptId="90247" answerConceptIds="90046,90047,90048"
+                                                                         answerLabels="Clinical,Immuno,Virological"/>
+                                                                </div>
+                                                                <div class="col-md-1 text-nowrap">
+                                                                    <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                                    <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
+                                                                </div>
+                                                            </span>
+                                                        </obsgroup>
                                                     </template>
                                                     <render n="1"/>
                                                     <render n="2"/>
@@ -937,36 +991,34 @@
                                                 </div>
                                                 <repeat>
                                                     <template>
-                                                        <span class="third-line-substitution">
-                                                            <div class="row">
-                                                                <obsgroup groupingConceptId="162988">
-                                                                    <div class="col-md-2">
-                                                                        <obs conceptId="165311" answerConceptIds="1371,1372"
-                                                                             answerLabels="Switch, Substitution" style="radio" class="horizontal"/>
-                                                                    </div>
-                                                                    <div class="col-md-3">
-                                                                        <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 12%;"></i>
-                                                                        <obs id="162991_{n}" conceptId="162991"/>
-                                                                    </div>
-                                                                    <div class="col-md-2">
-                                                                        <obs id="162990_{n}" conceptId="162990" answerConceptIds="162986,162987"
-                                                                             answerLabels="Darunavir/Ritonavir+Raltegravir+3TC+AZT, Other" 
-                                                                            class="long-value-select"/>
-                                                                    </div>
-                                                                    <div class="col-md-2">
-                                                                        <obs  conceptId="162989" id="162989_{n}"/>
-                                                                    </div>
-                                                                    <div class="col-md-2">
-                                                                        <obs id="90247_{n}" conceptId="90247" answerConceptIds="90046,90047,90048"
-                                                                             answerLabels="Clinical,Immuno,Virological"/>
-                                                                    </div>
-                                                                    <div class="col-md-1 text-nowrap">
-                                                                        <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
-                                                                        <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
-                                                                    </div>
-                                                                </obsgroup>
-                                                            </div>
-                                                        </span>
+                                                        <obsgroup groupingConceptId="162988">
+                                                            <span class="row follow-up">
+                                                                <div class="col-md-2">
+                                                                    <obs conceptId="165311" answerConceptIds="1371,1372"
+                                                                         answerLabels="Switch, Substitution" style="radio" class="horizontal"/>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 12%;"></i>
+                                                                    <obs id="162991_{n}" conceptId="162991"/>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <obs id="162990_{n}" conceptId="162990" answerConceptIds="162986,162987"
+                                                                         answerLabels="Darunavir/Ritonavir+Raltegravir+3TC+AZT, Other" 
+                                                                        class="long-value-select"/>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <obs  conceptId="162989" id="162989_{n}"/>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <obs id="90247_{n}" conceptId="90247" answerConceptIds="90046,90047,90048"
+                                                                         answerLabels="Clinical,Immuno,Virological"/>
+                                                                </div>
+                                                                <div class="col-md-1 text-nowrap">
+                                                                    <a href="#" class="add  add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                                    <a href="#" class="remove remove-more-link required"> <i class="icon-minus"></i></a>
+                                                                </div>
+                                                            </span>
+                                                        </obsgroup>
                                                     </template>
                                                     <render n="1"/>
                                                     <render n="2"/>
