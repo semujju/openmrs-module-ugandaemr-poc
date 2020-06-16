@@ -1,0 +1,421 @@
+<htmlform formName="HMIS TB 003: TB Client Card Encounter Page" formDescription="Admission into a clinic for a pregnant woman to give birth" formEncounterType="a9f11592-22e7-45fc-904d-dfe24cb1fc67" formUuid="0b946c41-957c-4aeb-9b1a-da3983c0d163" formVersion="3.0.0" formAddMetadata="yes" formUILocation="patientDashboard.visitActions" formOrder="9" formIcon="icon-medkit" formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.gender=='F' &amp;&amp;sessionLocation.uuid=='e9bc61b5-69ff-414b-9cf0-0c22d6dfca2b'" formDisplayStyle="Standard" formLabel="HMIS-TB-003-TB CLIENT CARD - ENCOUNTER PAGE">
+
+	<script type="text/javascript">
+		if (jQuery) {
+
+		    jq(document).ready(function () {
+
+				//Block Multiple encounter entry on same date
+				blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
+
+				// Validate MUAC
+                var age  = <lookup complexExpression="$patient.age" />; 
+                getMUACCodeFromMUACScoreByAge(age, "muac-score", "muac-code");
+
+                disable_fields("other-complications-of-pregnancy");
+                disable_fields("other-management-procedure");
+                disable_fields("other-source-of-warmth");
+                disable_fields("other-ward-or-department");
+                disable_fields("transferred-by");
+                disable_fields("other-mode-of-delivery");
+
+                //enable/disable other management procedure
+                jq("#165443").change(function () {
+	                if(jq(this).find("select").find(":selected").val() == "5622") {
+	                    enable_fields("other-management-procedure");
+                    } else {
+                    	disable_fields("other-management-procedure");
+                    }
+                });
+
+                //enable/disable other source of warmth
+                jq("#165446").change(function () {
+	                if(jq(this).find("select").find(":selected").val() == "90002") {
+	                    enable_fields("other-source-of-warmth");
+                    } else {
+                    	disable_fields("other-source-of-warmth");
+                    }
+                }); 
+			});
+		}
+	</script>
+
+	<div>
+		<div class="row">
+			<div class="col-md-8">
+				<H1>HMIS TB 003: TB Client Card - Encounter Page</H1>
+			</div>
+			<div class="col-md-3"></div>
+			<div>
+				<div class="col-md-1">
+					<submit class="confirm" submitLabel="Save" submitStyle="customSubmit" />
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header">
+						<ul class="nav nav-tabs card-header-tabs">
+							<li class="nav-item">
+								<a class="nav-link active" data-toggle="tab" href="#symptoms-nutrition-assesment-section">Symptoms and Nutrition Assesment</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#treatmeant-hiv-status-section">Treatment and HIV Status</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#lab-xray-investigation-section">Lab and X-ray Investigations</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#outcome-appointment-section-referal-transfers-and-outcomes-section">Outcome and Appointment</a>
+							</li>
+						</ul>
+					</div>
+					<div class="card-body">
+						<div class="tab-content">
+							<div class="tab-pane active" id="symptoms-nutrition-assesment-section">
+								<div class="card">
+                                    <div class="card-header">Symptoms</div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <span class="signs-and-symptoms">
+                                                    <obs conceptId="90251" answerConceptId="90139"
+                                                         answerLabel="1 - Oral or anal ulcers"/>
+                                                    <obs conceptId="90251" answerConceptId="16"
+                                                         answerLabel="5 - Diarrhea > 1 week"/>
+                                                    <obs conceptId="90251" answerConceptId="5953"
+                                                         answerLabel="9 - Double or Blurry vision"/>
+                                                    <obs conceptId="90251" answerConceptId="90132"
+                                                         answerLabel="13 - Cough or shortness of breath > 1 week"/>
+                                                </span>
+                                                <span id="enable-disable-signs-and-symptoms">
+                                                    <obs conceptId="90251" answerConceptId="90002"
+                                                         answerLabel="17 - Other specify"/>
+                                                </span>
+                                                <span id="signs-and-symptoms-enabled">
+                                                    <obs conceptId="99113"/>
+                                                </span>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <span class="signs-and-symptoms">
+                                                    <obs conceptId="90251" answerConceptId="206"
+                                                         answerLabel="2 - New seizure"/>
+                                                    <obs conceptId="90251" answerConceptId="165286"
+                                                         answerLabel="6 - Acting unusual"/>
+                                                    <obs conceptId="90251" answerConceptId="861"
+                                                         answerLabel="10 - Decreased hearing"/>
+                                                    <obs conceptId="90251" answerConceptId="90116"
+                                                         answerLabel="14 - Fever, chills or night sweats > 1 week"/>
+                                                </span>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <span class="signs-and-symptoms">
+                                                    <obs conceptId="90251" answerConceptId="165285"
+                                                         answerLabel="3 - Weak arms or legs"/>
+                                                    <obs conceptId="90251" answerConceptId="90135"
+                                                         answerLabel="7 - Weight loss in last month"/>
+                                                    <obs conceptId="90251" answerConceptId="90130"
+                                                         answerLabel="11 - Whites spots/thrush in mouth"/>
+                                                    <obs conceptId="90251" answerConceptId="79"
+                                                         answerLabel="15 - Red/purple or dark spots on skin"/>
+                                                </span>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <span class="signs-and-symptoms">
+                                                    <obs conceptId="90251" answerConceptId="90094"
+                                                         answerLabel="4 - Headache"/>
+                                                    <obs conceptId="90251" answerConceptId="165287"
+                                                         answerLabel="8 - Difficulty walking"/>
+                                                    <obs conceptId="90251" answerConceptId="118789"
+                                                         answerLabel="12 - Difficulty or painful swallowing"/>
+                                                    <obs conceptId="90251" answerConceptId="122936"
+                                                         answerLabel="16 - Unable to walk without assisstance"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+								<div class="card">
+                                    <div class="card-header">Nutrition Assessment</div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Weight (kg)</label>
+                                                <obs conceptId="CIEL:5089" id="weight"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Ht/ Length (cm)</label>
+                                                <obs conceptId="CIEL:5090" id="height"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <!-- only show BMI if patient is more than 5 years old (on the encounterDate) -->
+                                                <includeIf
+                                                        velocityTest="$patient.getAge($encounter.getEncounterDatetime()) > 5">
+                                                    <label>BMI (Calculated)</label>
+                                                    <span id="calculated-bmi-wrapper">
+                                                        <ifMode mode="VIEW" include="false">
+                                                            <span id='calculated-bmi'></span>
+                                                        </ifMode>
+                                                    </span>
+                                                    <p id="calculated-bmi-continue">
+                                                        <input type="hidden" name="focus-in-bmi-question"
+                                                               id="hidden-calculated-bmi"/>
+                                                    </p>
+
+                                                </includeIf>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>MUAC Score (cm)</label>
+                                                <obs conceptId="CIEL:1343" id="1343"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <span class="muac">
+                                                    <includeIf velocityTest="$patient.age &lt; 5">
+                                                        <label>MUAC Color Code</label>
+                                                        <obs id="99030" conceptId="99030"
+                                                             answerConceptIds="99028,99029,99027"
+                                                             answerLabels="Red &lt; 11.5cm, Yellow 11.5cm - &lt;12.5cm,Green &gt;= 12.5cm"/>
+                                                    </includeIf>
+                                                    <includeIf
+                                                            velocityTest="$patient.age &lt; 10 &amp;&amp; $patient.age &gt;=5">
+                                                        <label>MUAC Color Code</label>
+                                                        <obs id="99030" conceptId="99030"
+                                                             answerConceptIds="99028,99029,99027"
+                                                             answerLabels="Red &lt; 13.5cm,Yellow 13.5cm - &lt;14.5cm,Green &gt;=14.5cm"/>
+                                                    </includeIf>
+                                                    <includeIf
+                                                            velocityTest="$patient.age &lt; 18 &amp;&amp; $patient.age &gt;=10">
+                                                        <label>MUAC Color Code</label>
+                                                        <obs id="99030" conceptId="99030"
+                                                             answerConceptIds="99028,99029,99027"
+                                                             answerLabels="Red &lt; 16.5cm, Yellow 16.5cm - &lt;19.0cm,Green &gt;=19.0cm"/>
+                                                    </includeIf>
+                                                    <includeIf velocityTest="$patient.age &gt;=18">
+                                                        <label>MUAC Color Code</label>
+                                                        <obs id="99030" conceptId="99030"
+                                                             answerConceptIds="99028,99029,99027"
+                                                             answerLabels="Red &lt;19.0cm , Yellow 19.0cm - &lt;22.0cm,Green &gt;=22.0cm"/>
+                                                    </includeIf>
+                                                </span>
+                                            </div>
+                                            <excludeIf velocityTest="$patient.age &gt; 11">
+                                                <div class="col-md-3">
+                                                    <label>Z-Scores</label>
+                                                    <obs conceptId="99800"
+                                                         answerConceptIds="99803,99804,99805,99806,99807"
+                                                         answerLabels="&#60;-3,-3_&#60;-1,-1_1,&#62;1_3,&#62;3"/>
+                                                </div>
+                                            </excludeIf>
+                                            <div class="col-md-3">
+                                                <label>Nutrition Status</label>
+                                                <obs conceptId="165050" class="long-value-select"
+                                                     answerConceptIds="1115, 99271, 99272, 99273, 5277"
+                                                     answerLabels="N - Normal, MAM - Moderate Acute Malnutrition, SAM - Severe Acute Malnutrition,
+                                                 SAMO - Severe Acute Malnutrition with Oedema, O - Overweight/Obese"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Nutrition Support</label>
+                                                <obs conceptId="99054" class="long-value-select"
+                                                     answerConceptIds="99053,99050,99051,99052"
+                                                     answerLabels="TF - Therapeutic Feeding (F75 F100 RUTF), SF - Supplementary Feeding,
+                                                 IYCF - Infant and Young Child Feeding Counselling ( &lt; 2yrs), NC - Nutrition Counselling only (if &gt; 2yrs)"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>INR No.</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+							<div class="tab-pane" id="treatmeant-hiv-status-section">
+								<div class="card">
+									<div class="card-body">
+										<div class="row">
+												<div class="col-md-2">
+													<label>Regimen</label>
+													<obs conceptId="99374" answerConceptIds="99373,99372,164960,164958,99371,164961" conceptAnswers="2SRHZE/RHZE/5RHE, 2RHZ/4RH, 2RHZE/10RH, 2RHZE/4H, 2RHZE/6EH, 2RHZE/4RH" class="horizontal"/>
+												</div>
+												<div class="col-md-2">
+													<label>No. of pills</label>
+													<obs conceptId="165460"  />
+												</div>
+												<div class="col-md-2">
+													<label>No. of Days</label>
+													<obs conceptId="165460"  />
+												</div>
+											<div class="col-md-3">
+												<label>Treatment Model</label>
+												<obs id="emtct-code-woman" conceptId="99317" answerConceptIds="99313, 99734, 99314, 99315, 99735, 99736, 99739, 99741"
+                                                 	 answerLabels="C - Counseled but declined HIV testing,
+	                                                               T - Counseled and tested but didn't receive results,
+	                                                               TR - Counseled tested and results given - Client tested HIV Negative in Maternity,
+	                                                               TRR - Counseled tested and results given - Client tested HIV Positive in Maternity,
+	                                                               TR+ - Client tested HIV Negative on a re-test,
+	                                                               TRR+ - Client tested HIV Positive on a re-test,
+	                                                               TRK; - Clients tested previously with known HIV Negative status,
+	                                                               TRRK; - Revisit ANC clients who were tested for HIV on a previous visit with known HIV positive status"
+	                                                               class="long-value-select" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card">
+	                                <div class="card-header">
+	                                    HIV Status
+	                                </div>
+	                                <div class="card-body">
+	                                    <div class="row">
+	                                        <div class="col-md-3">
+	                                            <label>HIV Status</label>
+	                                            <obs conceptId="90253" answerConceptIds="90166, 90167, 90001"
+	                                                answerLabels="Positive, Negative, Unknown" />
+	                                        </div>
+	                                        <div class="col-md-3">
+	                                        	<label>CPT/Dapson</label>
+	                                            <obs id="99413" conceptId="99413" answerConceptIds="1065,1066" class="horizontal" style="radio"/>
+	                                        </div>
+	                                        <div class="col-md-3">
+	                                        	<label>ARV Drugs</label>
+	                                            <obs id="99413" conceptId="99413" answerConceptIds="1065,1066" class="horizontal" style="radio"/>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+							</div>
+
+							<div class="tab-pane" role="tabpanel" aria-leballebdy="nav-profile-tab" id="lab-xray-investigation-section">
+								<div class="row">
+									<div class="col-md-7">
+										<div class="card">
+											<div class="card-header">
+			                                    Laboratory Tests
+			                                </div>
+											<div class="card-body">
+												<div class="row">
+													<obs conceptId="1271" answerConceptId="165418" answerLabel="CrAg" class="col-md-2"/>
+		                                            <obs conceptId="1271" answerConceptId="165417" answerLabel="RPR"  class="col-md-2"/>
+		                                            <obs conceptId="1271" answerConceptId="165416" answerLabel="TB LAM" class="col-md-2"/>
+		                                            <obs conceptId="1271" answerConceptId="165413" answerLabel="GeneXpert" class="col-md-2"/>
+		                                            <obs conceptId="1271" answerConceptId="165415" answerLabel="Microscopy" class="col-md-2"/>
+		                                            <obs conceptId="1271" answerConceptId="1019"   answerLabel="CBC" class="col-md-2"/>
+		                                            <obs conceptId="1271" answerConceptId="657"    answerLabel="Cd4" class="col-md-2"/>
+		                                            <obs conceptId="1271" answerConceptId="165412" answerLabel="VL" class="col-md-2"/>
+												</div>
+											</div>
+										</div>
+									</div>
+								<div class="col-md-5">
+									<div class="card">
+										<div class="card-header">
+		                                    Radiology
+		                                </div>
+										<div class="card-body">
+											<div class="row">
+												<div class="col-md-2">
+													<repeat with="['12','CXR']">
+	                                                    <obs id="{0}" conceptId="1271" answerConceptId="{0}"
+	                                                         answerLabel="{1}" style="checkbox"/>
+	                                                </repeat>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+								<div class="card">
+									<div class="card-header">
+	                                   Test Results
+	                                </div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-md-6">
+											<label>Date</label>
+												<obs conceptId="99431"/>
+											</div>
+											<div class="col-md-3">
+	                                        	<label>Test</label>
+	                                            <obs id="art-no-woman" conceptId="99431" />
+	                                        </div>
+	                                        <div class="col-md-3">
+	                                        	<label>Results</label>
+	                                            <obs id="art-no-woman" conceptId="99431" />
+	                                        </div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane" id="outcome-appointment-section">
+								<div class="card">
+									<div class="card-header">
+	                                	Appointment
+	                             	</div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-md-3">
+												<label>Next Date of Appointment</label>
+												<obs id="returndate" conceptId="5096" allowFutureDates="true"/>
+											</div>
+										</div>
+										<div class="col-md-3">
+											<label>Comments</label> <!-- get new concept -->
+											<obs conceptId="99256" class="commenttextarea" style="textarea"/>
+										</div>
+									</div>
+								</div>
+								<div class="card">
+									<div class="card-header">
+	                                	Treatment Outcome
+	                             	</div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-md-3">
+											<label>Date</label> <!-- get new concept -->
+												<obs conceptId="5630" answerConceptIds="1170,163005,1171,1172,5622" answerLabels="Normal Vaginal Delivery, Vaccum Extraction,
+	                                                    Caesarean Section, Breech, Other" id="5630"/>
+											</div>
+											<div class="col-md-2">
+												<label>Outcome</label> <!-- get new concept -->
+												<obs conceptId="165461" id="other-mode-of-delivery"/>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card">
+									<div class="card-header">
+	                                	Transfer Out
+	                             	</div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-md-3">
+												<label>Transfer Out </label>
+												<obs conceptId="90306" answerConceptIds="90003,90004" 
+													 answerLabels="Yes,No" id="90306"/>
+											</div>
+											<div class="col-md-3">
+												<label>Health Facility</label>
+												<obs conceptId="90211"/>
+											</div>
+											<div class="col-md-3">
+												<label>District</label>
+												<obs conceptId="165443" answerConceptIds="164921,1637,164920,90090,5622" 
+													 answerLabels="Manual Vacuum Aspiration,Dilatation and Curettage,Laparotomy,Hysterectomy,Others" id="165443"/>
+											</div>
+											<div class="col-md-3">
+												<label>Phone Contact of receiving Health Unit</label>
+												<obs conceptId="165443" answerConceptIds="164921,1637,164920,90090,5622" 
+													 answerLabels="Manual Vacuum Aspiration,Dilatation and Curettage,Laparotomy,Hysterectomy,Others" id="165443"/>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</htmlform>
