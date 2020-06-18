@@ -83,21 +83,21 @@
 													<span class="required">*</span>
 													District TB No.
 												</label>
-												<obs conceptId="99727" />
+												<obs conceptId="99031" />
 											</div>
 											<div class="col-md-3">
 												<label>
 													<span class="required">*</span>
 													Unit TB No.
 												</label>
-												<obs conceptId="99727" />
+												<obs conceptId="99727" /> <!--get concept -->
 											</div>
 											<div class="col-md-3">
 												<label>Treatment Supporter</label>
-												<obs conceptId="1646" />
+												<obs conceptId="1646" /> <!-- clarify with sam -->
 											</div>
 											<div class="col-md-3">
-												<label>Treatment Supporter Type</label>
+												<label>Treatment Supporter Type</label> <!--get concept -->
 												<obs conceptId="5624" />
 											</div>
 										</div>
@@ -114,7 +114,7 @@
 										<div class="row">
 											<div class="col-md-10">
 												<label>Patient Type</label>
-												<obs conceptId="161033" answerConceptIds="1395,129218,1395,129218,1395" answerLabels="New, Relapse, Treament after lost to follow up, Treament after failure, Treament history unknown" class="horizontal" style="checkbox"/>
+												<obs conceptId="99386" answerConceptIds="99380,99381,99383,129218,1395" answerLabels="New, Relapse, Treament after lost to follow up, Treament after failure, Treament history unknown" class="horizontal" style="checkbox"/> <!-- last 3 missing in dictionary-->
 											</div>
 										</div>
 									</div>
