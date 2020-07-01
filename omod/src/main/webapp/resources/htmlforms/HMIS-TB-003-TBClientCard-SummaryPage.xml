@@ -264,7 +264,7 @@
 												<obs conceptId="165844" answerConceptIds="90225,165413,165416,12,90002" answerLabels="Smear, GeneXpert, LAM, X-ray, Other" />
 											</div>
 											<div class="col-md-3">
-												<label>Results</label> <!-- ask sam -->
+												<label>Results</label> <!-- to be populated based on test -->
 												<obs conceptId="99340"/>
 											</div>
 											<div class="col-md-4">
