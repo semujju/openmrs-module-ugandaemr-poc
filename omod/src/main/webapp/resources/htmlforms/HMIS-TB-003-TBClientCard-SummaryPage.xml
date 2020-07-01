@@ -1,4 +1,4 @@
-<htmlform formName="HMIS TB 003: TB Client Card Summary Page" formDescription="Admission into a clinic for a pregnant woman to give birth" formEncounterType="a9f11592-22e7-45fc-904d-dfe24cb1fc67" formUuid="b00452b6-bb7c-11ea-b3de-0242ac130004" formVersion="3.0.0" formAddMetadata="yes" formUILocation="patientDashboard.visitActions" formOrder="13" formIcon="icon-medkit" formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp;sessionLocation.uuid=='e9bc61b5-69ff-414b-9cf0-0c22d6dfca2b'" formDisplayStyle="Standard" formLabel="HMIS-TB-003-TB CLIENT CARD - SUMMARY PAGE">
+<htmlform formName="HMIS TB 003: TB Client Card Summary Page" formDescription="Admission into a clinic for a pregnant woman to give birth" formEncounterType="a9f11592-22e7-45fc-904d-dfe24cb1fc67" formUuid="b00452b6-bb7c-11ea-b3de-0242ac130004" formVersion="3.0.0" formAddMetadata="yes" formUILocation="patientDashboard.visitActions" formOrder="13" formIcon="icon-medkit" formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp;sessionLocation.uuid==' 8ab22b55-9a17-4121-bf08-6134a9a2439f '" formDisplayStyle="Standard" formLabel="HMIS-TB-003-TB CLIENT CARD - SUMMARY PAGE">
 
 	<script type="text/javascript">
 		if (jQuery) {
@@ -134,7 +134,7 @@
 												</div>
 												<div class="col-md-2">
 													<label>Date Started</label>
-													<obs conceptId="165838" />
+													<obs conceptId="165838" allowTime="false"/>
 												</div>
 											<div class="col-md-3">
 												<label>Drug Susceptible Tb</label>
@@ -155,12 +155,12 @@
 	                                <div class="card-body">
 	                                    <div class="row">
 	                                        <div class="col-md-3">
-	                                            <label>Diagnosed with TB</label>
-	                                            <obs conceptId="90216" answerConceptIds="90078" style="checkbox" />
+	                                            <!-- <label>Diagnosed with TB</label> -->
+	                                            <obs conceptId="90216" answerConceptIds="90078" style="radio" />
 	                                        </div>
 	                                        <div class="col-md-3">
 	                                        	<label>Date</label>
-	                                            <obs conceptId="165840" />
+	                                            <obs conceptId="165840" allowTime="false"/>
 	                                        </div>
 	                                    </div>
 	                                   	<div class="row">
@@ -257,7 +257,7 @@
 										<div class="row">
 											<div class="col-md-3">
 												<label>Date Test Done</label>
-												<obs conceptId="164431"/>
+												<obs conceptId="164431" allowTime="false"/>
 											</div>
 											<div class="col-md-2">
 												<label>Test</label>
@@ -308,7 +308,7 @@
 										<div class="row">
 											<div class="col-md-4">
 												<label>Date</label>
-												<obs conceptId="165858"/>
+												<obs conceptId="165858" allowTime="false"/>
 											</div>
 										</div>
 										<div class="row">
@@ -330,7 +330,7 @@
 										<div class="row">
 											<div class="col-md-4">
 												<label>Date</label>
-												<obs conceptId="165854"/>
+												<obs conceptId="165854" allowTime="false"/>
 											</div>
 											<div class="col-md-4">
 												<label>Referral Type</label>
@@ -358,7 +358,7 @@
 										<div class="row">
 											<div class="col-md-3">
 												<label>Date</label>
-												<obs conceptId="165872" />
+												<obs conceptId="165872" allowTime="false"/>
 											</div>
 											<div class="col-md-3">
 												<label>Outcome</label>
