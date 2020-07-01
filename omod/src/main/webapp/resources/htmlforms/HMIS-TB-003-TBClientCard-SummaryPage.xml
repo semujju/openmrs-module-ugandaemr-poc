@@ -237,6 +237,8 @@
 											<obs conceptId="165169" answerConceptId="99338" answerLabel="Refugee" style="checkbox" class="col-md-2" />
 											<!-- get concept -->
 											<obs conceptId="165169" answerConceptId="165125" answerLabel="Uniformed/Armed Personnel" style="checkbox" class="col-md-3" />
+										</div>
+										<div class="row">
 											<obs conceptId="165169" answerConceptId="159674" answerLabel="Fisher Folk" style="checkbox" class="col-md-2" />
 											<obs conceptId="165169" answerConceptId="99338" answerLabel="Miner" style="checkbox" class="col-md-2" /> <!-- get concept -->
 											<obs conceptId="165169" answerConceptId="99339" answerLabel="Tobacco User" style="checkbox" class="col-md-2" />
@@ -259,15 +261,14 @@
 												<label>Date Test Done</label>
 												<obs conceptId="164431" allowTime="false"/>
 											</div>
-											<div class="col-md-2">
+											<div class="col-md-3">
 												<label>Test</label>
 												<obs conceptId="165844" answerConceptIds="90225,165413,165416,12,90002" answerLabels="Smear, GeneXpert, LAM, X-ray, Other" />
 											</div>
 											<div class="col-md-3">
 												<label>Results</label> <!-- to be populated based on test -->
-												<obs conceptId="99340"/>
 											</div>
-											<div class="col-md-4">
+											<div class="col-md-3">
 			                                	<label>Lab No.</label>
 												<obs conceptId="165845" />
 											</div>
@@ -324,7 +325,7 @@
 								</div>
 								<div class="card">
 									<div class="card-header">
-	                                	Referred In/Transferred In/Transferred Out
+	                                	Referral and Transfer
 	                             	</div>
 									<div class="card-body">
 										<div class="row">
@@ -339,6 +340,8 @@
 											<div class="col-md-4">
 												<label>Health Facility</label> <!-- available concept not working -->
 											</div>
+										</div>
+										<div class="row">
 											<div class="col-md-4">
 			                                	<label>District</label>
 												<obs conceptId="165853"/>
