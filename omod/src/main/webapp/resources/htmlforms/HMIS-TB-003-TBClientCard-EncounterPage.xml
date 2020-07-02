@@ -67,7 +67,7 @@
 								<a class="nav-link" data-toggle="tab" href="#lab-xray-investigation-section">Lab and X-ray Investigations</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" data-toggle="tab" href="#outcome-appointment-section-referal-transfers-and-outcomes-section">Outcome and Appointment</a>
+								<a class="nav-link" data-toggle="tab" href="#outcome-appointment-section">Outcome and Appointment</a>
 							</li>
 						</ul>
 					</div>
@@ -225,6 +225,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <label>INR No.</label>
+                                                <obs conceptId="99733"/>
                                             </div>
                                         </div>
                                     </div>
@@ -248,16 +249,8 @@
 												</div>
 											<div class="col-md-3">
 												<label>Treatment Model</label>
-												<obs id="emtct-code-woman" conceptId="99317" answerConceptIds="99313, 99734, 99314, 99315, 99735, 99736, 99739, 99741"
-                                                 	 answerLabels="C - Counseled but declined HIV testing,
-	                                                               T - Counseled and tested but didn't receive results,
-	                                                               TR - Counseled tested and results given - Client tested HIV Negative in Maternity,
-	                                                               TRR - Counseled tested and results given - Client tested HIV Positive in Maternity,
-	                                                               TR+ - Client tested HIV Negative on a re-test,
-	                                                               TRR+ - Client tested HIV Positive on a re-test,
-	                                                               TRK; - Clients tested previously with known HIV Negative status,
-	                                                               TRRK; - Revisit ANC clients who were tested for HIV on a previous visit with known HIV positive status"
-	                                                               class="long-value-select" />
+												<obs conceptId="165869" 
+	                                                 class="long-value-select" />
 											</div>
 										</div>
 									</div>
@@ -268,18 +261,19 @@
 	                                </div>
 	                                <div class="card-body">
 	                                    <div class="row">
-	                                        <div class="col-md-3">
+	                                        <div class="col-md-2">
 	                                            <label>HIV Status</label>
-	                                            <obs conceptId="90253" answerConceptIds="90166, 90167, 90001"
-	                                                answerLabels="Positive, Negative, Unknown" />
+	                                            <obs conceptId="165396" answerConceptIds="90167,165397,165350,90001"
+                                                     answerLabels="Negative, Newly Tested Positive, Known Positive, Unknown" 
+                                                     class="long-value-select" id="165396"/>
 	                                        </div>
-	                                        <div class="col-md-3">
+	                                        <div class="col-md-2">
 	                                        	<label>CPT/Dapson</label>
 	                                            <obs id="99413" conceptId="99413" answerConceptIds="1065,1066" class="horizontal" style="radio"/>
 	                                        </div>
-	                                        <div class="col-md-3">
+	                                        <div class="col-md-2">
 	                                        	<label>ARV Drugs</label>
-	                                            <obs id="99413" conceptId="99413" answerConceptIds="1065,1066" class="horizontal" style="radio"/>
+	                                            <obs id="165871" conceptId="165871" style="checkbox"/>
 	                                        </div>
 	                                    </div>
 	                                </div>
@@ -324,26 +318,29 @@
 										</div>
 									</div>
 								</div>
-							</div>
+							    </div>
 								<div class="card">
 									<div class="card-header">
 	                                   Test Results
 	                                </div>
 									<div class="card-body">
-										<div class="row">
-											<div class="col-md-6">
-											<label>Date</label>
-												<obs conceptId="99431"/>
-											</div>
-											<div class="col-md-3">
-	                                        	<label>Test</label>
-	                                            <obs id="art-no-woman" conceptId="99431" />
-	                                        </div>
-	                                        <div class="col-md-3">
-	                                        	<label>Results</label>
-	                                            <obs id="art-no-woman" conceptId="99431" />
-	                                        </div>
-										</div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Date Test Done</label>
+                                                <obs conceptId="164431" allowTime="false"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Test</label>
+                                                <obs conceptId="165844" answerConceptIds="90225,165413,165416,12,90002" answerLabels="Smear, GeneXpert, LAM, X-ray, Other" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Results</label> <!-- to be populated based on test -->
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Lab No.</label>
+                                                <obs conceptId="165845" />
+                                            </div>
+                                        </div>
 									</div>
 								</div>
 							</div>
@@ -354,15 +351,17 @@
 	                             	</div>
 									<div class="card-body">
 										<div class="row">
-											<div class="col-md-3">
+											<div class="col-md-4">
 												<label>Next Date of Appointment</label>
 												<obs id="returndate" conceptId="5096" allowFutureDates="true"/>
 											</div>
 										</div>
-										<div class="col-md-3">
-											<label>Comments</label> <!-- get new concept -->
-											<obs conceptId="99256" class="commenttextarea" style="textarea"/>
-										</div>
+                                        <div class="row">
+    										<div class="col-md-10">
+    											<label>Comments</label> <!-- get new concept -->
+    											<obs conceptId="99256" class="commenttextarea" style="textarea"/>
+    										</div>
+                                        </div>
 									</div>
 								</div>
 								<div class="card">
@@ -370,17 +369,17 @@
 	                                	Treatment Outcome
 	                             	</div>
 									<div class="card-body">
-										<div class="row">
-											<div class="col-md-3">
-											<label>Date</label> <!-- get new concept -->
-												<obs conceptId="5630" answerConceptIds="1170,163005,1171,1172,5622" answerLabels="Normal Vaginal Delivery, Vaccum Extraction,
-	                                                    Caesarean Section, Breech, Other" id="5630"/>
-											</div>
-											<div class="col-md-2">
-												<label>Outcome</label> <!-- get new concept -->
-												<obs conceptId="165461" id="other-mode-of-delivery"/>
-											</div>
-										</div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Date</label>
+                                                <obs conceptId="165872" allowTime="false"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Outcome</label>
+                                                <obs conceptId="99423" answerConceptIds="159791,99421,159874,5240,160737,160034" 
+                                                     answerLabels="Cured, Treatment completed, Treatment failure, Lost to follow up, Not evaluated, Died" />
+                                            </div>
+                                        </div>
 									</div>
 								</div>
 								<div class="card">
@@ -396,17 +395,15 @@
 											</div>
 											<div class="col-md-3">
 												<label>Health Facility</label>
-												<obs conceptId="90211"/>
+												<obs conceptId="90211" />
 											</div>
 											<div class="col-md-3">
 												<label>District</label>
-												<obs conceptId="165443" answerConceptIds="164921,1637,164920,90090,5622" 
-													 answerLabels="Manual Vacuum Aspiration,Dilatation and Curettage,Laparotomy,Hysterectomy,Others" id="165443"/>
+												<obs conceptId="165853" />
 											</div>
 											<div class="col-md-3">
 												<label>Phone Contact of receiving Health Unit</label>
-												<obs conceptId="165443" answerConceptIds="164921,1637,164920,90090,5622" 
-													 answerLabels="Manual Vacuum Aspiration,Dilatation and Curettage,Laparotomy,Hysterectomy,Others" id="165443"/>
+												<obs conceptId="159635" />
 											</div>
 										</div>
 									</div>
