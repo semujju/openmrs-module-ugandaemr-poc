@@ -43,33 +43,147 @@
                 });
 
                 //change results for a selected test
-                jq("#165844").change(function () {
+                jq("#165844_1").change(function () {
 
                     if(jq(this).find("select").find(":selected").val() == "90225") {
-                        jq("#smear-results").removeClass('hidden'); 
+                        jq("#smear-results_1").removeClass('hidden'); 
                     } else {
-                        jq("#smear-results").addClass('hidden');
+                        jq("#smear-results_1").addClass('hidden');
                     }
 
                     if(jq(this).find("select").find(":selected").val() == "165413") {
-                        jq("#geneexper-results").removeClass('hidden'); 
+                        jq("#geneexper-results_1").removeClass('hidden'); 
                     } else {
-                        jq("#geneexper-results").addClass('hidden');
+                        jq("#geneexper-results_1").addClass('hidden');
                     }
 
                      if(jq(this).find("select").find(":selected").val() == "165416") {
-                        jq("#tblam-results").removeClass('hidden'); 
+                        jq("#tblam-results_1").removeClass('hidden'); 
                     } else {
-                        jq("#tblam-results").addClass('hidden');
+                        jq("#tblam-results_1").addClass('hidden');
                     }
 
                     if(jq(this).find("select").find(":selected").val() == "12") {
-                        jq("#xray-results").removeClass('hidden'); 
+                        jq("#xray-results_1").removeClass('hidden'); 
                     } else {
-                        jq("#xray-results").addClass('hidden');
+                        jq("#xray-results_1").addClass('hidden');
                     }
 
                 });
+
+                jq("#165844_2").change(function () {
+
+                    if(jq(this).find("select").find(":selected").val() == "90225") {
+                        jq("#smear-results_2").removeClass('hidden'); 
+                    } else {
+                        jq("#smear-results_2").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "165413") {
+                        jq("#geneexper-results_2").removeClass('hidden'); 
+                    } else {
+                        jq("#geneexper-results_2").addClass('hidden');
+                    }
+
+                     if(jq(this).find("select").find(":selected").val() == "165416") {
+                        jq("#tblam-results_2").removeClass('hidden'); 
+                    } else {
+                        jq("#tblam-results_2").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "12") {
+                        jq("#xray-results_2").removeClass('hidden'); 
+                    } else {
+                        jq("#xray-results_2").addClass('hidden');
+                    }
+
+                });
+
+                jq("#165844_3").change(function () {
+
+                    if(jq(this).find("select").find(":selected").val() == "90225") {
+                        jq("#smear-results_3").removeClass('hidden'); 
+                    } else {
+                        jq("#smear-results_3").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "165413") {
+                        jq("#geneexper-results_3").removeClass('hidden'); 
+                    } else {
+                        jq("#geneexper-results_3").addClass('hidden');
+                    }
+
+                     if(jq(this).find("select").find(":selected").val() == "165416") {
+                        jq("#tblam-results_3").removeClass('hidden'); 
+                    } else {
+                        jq("#tblam-results_3").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "12") {
+                        jq("#xray-results_3").removeClass('hidden'); 
+                    } else {
+                        jq("#xray-results_3").addClass('hidden');
+                    }
+
+                });
+
+                jq("#165844_4").change(function () {
+
+                    if(jq(this).find("select").find(":selected").val() == "90225") {
+                        jq("#smear-results_4").removeClass('hidden'); 
+                    } else {
+                        jq("#smear-results_4").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "165413") {
+                        jq("#geneexper-results_4").removeClass('hidden'); 
+                    } else {
+                        jq("#geneexper-results_4").addClass('hidden');
+                    }
+
+                     if(jq(this).find("select").find(":selected").val() == "165416") {
+                        jq("#tblam-results_4").removeClass('hidden'); 
+                    } else {
+                        jq("#tblam-results_4").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "12") {
+                        jq("#xray-results_4").removeClass('hidden'); 
+                    } else {
+                        jq("#xray-results_4").addClass('hidden');
+                    }
+
+                });
+
+                jq("#165844_5").change(function () {
+
+                    if(jq(this).find("select").find(":selected").val() == "90225") {
+                        jq("#smear-results_5").removeClass('hidden'); 
+                    } else {
+                        jq("#smear-results_5").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "165413") {
+                        jq("#geneexper-results_5").removeClass('hidden'); 
+                    } else {
+                        jq("#geneexper-results_5").addClass('hidden');
+                    }
+
+                     if(jq(this).find("select").find(":selected").val() == "165416") {
+                        jq("#tblam-results_5").removeClass('hidden'); 
+                    } else {
+                        jq("#tblam-results_5").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "12") {
+                        jq("#xray-results_5").removeClass('hidden'); 
+                    } else {
+                        jq("#xray-results_5").addClass('hidden');
+                    }
+
+                });
+
+
 
                 <!-- Add/remove logic for followup section-->
                 var $otherRows,
@@ -335,7 +449,7 @@
 													<span class="row add-remove-section">
 														<div class="col-md-3">
 															<label>Date Test Done</label>
-															<obs conceptId="164431" allowTime="false" id="baseline_test_date_{n}"/>
+															<obs conceptId="164431" allowTime="false" id="baseline_test_date"/>
 														</div>
 														<div class="col-md-3">
 															<label>Test</label>
@@ -343,7 +457,7 @@
 																 answerLabels="Smear, GeneXpert, LAM, X-ray, Other" id="165844_{n}"/>
 														</div>
 														<div class="col-md-3">
-															<label>Results</label> <!-- to be populated based on test -->
+															<label>Results</label>
 															<obs conceptId="90225"  id="smear-results_{n}" class="hidden" />
 															<obs conceptId="162202" id="geneexper-results_{n}" class="long-value-select hidden" />
 															<obs conceptId="165291" id="tblam-results_{n}" class="hidden" />
@@ -351,7 +465,7 @@
 														</div>
 														<div class="col-md-2">
 						                                	<label>Lab No.</label>
-															<obs conceptId="165845" id="165845_{n}"/>
+															<obs conceptId="165845" id="165845"/>
 														</div>
 														<div class="col-md-1">
 															<br/>
@@ -418,26 +532,29 @@
 										<repeat>
 											<template>
 												<obsgroup groupingConceptId="99062">
-													<span class="add-remove-section">
-														<div class="row">
-															<div class="col-md-4">
-																<label>Date</label>
-																<obs conceptId="165858" allowTime="false"/>
-															</div>
+													<span class="row add-remove-section">
+														<div class="col-md-1">
+															<label>Date</label>
 														</div>
-														<div class="row">
-															<obs conceptId="165864" answerConceptId="165859" answerLabel="TB/HIV relationship" style="checkbox" class="col-md-2" />
-															<obs conceptId="165864" answerConceptId="165862" answerLabel="TB transmission" style="checkbox" class="col-md-2" /> 
-															<obs conceptId="165864" answerConceptId="165860" answerLabel="TB Prevention" style="checkbox" class="col-md-2"/>
+														<obs conceptId="165858" allowTime="false" class="col-md-2"/>
+														<div class="col-md-8">
+															<div class="row">
+															<obs conceptId="165864" answerConceptId="165859" answerLabel="TB/HIV relationship" style="checkbox"     class="col-md-3" />
+															<obs conceptId="165864" answerConceptId="165862" answerLabel="TB transmission" style="checkbox" 
+																 class="col-md-3" /> 
+															<obs conceptId="165864" answerConceptId="165860" answerLabel="TB Prevention" style="checkbox" 
+																 class="col-md-3" />
 															<!-- <obs conceptId="165864" answerConceptId="99338" answerLabel="Treatment and Adherence" style="checkbox" class="col-md-2" /> -->
 															<!-- get concept -->
-															<obs conceptId="165864" answerConceptId="165863" answerLabel="Importance of DOTS" style="checkbox" class="col-md-2" />
-															<obs conceptId="165864" answerConceptId="165861" answerLabel="Pre-treatment counselling" style="checkbox" class="col-md-2" />
-															<div class="col-md-1">
-	                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
-	                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
-	                                                        </div>
+															<obs conceptId="165864" answerConceptId="165863" answerLabel="Importance of DOTS" style="checkbox"     class="col-md-3" />
+															<obs conceptId="165864" answerConceptId="165861" answerLabel="Pre-treatment counselling" 
+																 style="checkbox" class="col-md-3"/>
+															</div>
 														</div>
+														<div class="col-md-1">
+                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
+                                                        </div>
 													</span>
 												</obsgroup>
 											</template>
@@ -456,8 +573,7 @@
 										<repeat>
 											<template>
 												<obsgroup groupingConceptId="99062">
-													<span class="add-remove-section">
-														<div class="row">
+													<span class="row add-remove-section">
 															<div class="col-md-4">
 																<label>Date</label>
 																<obs conceptId="165854" allowTime="false"/>
@@ -470,8 +586,6 @@
 																<label>Health Facility</label>
 																<obs conceptId="90211"/>
 															</div>
-														</div>
-														<div class="row">
 															<div class="col-md-4">
 							                                	<label>District</label>
 																<obs conceptId="165853"/>
@@ -485,7 +599,6 @@
 	                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
 	                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
 	                                                        </div>
-														</div>
 													</span>
 												</obsgroup>
 											</template>
