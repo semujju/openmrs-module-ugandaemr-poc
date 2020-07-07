@@ -42,6 +42,35 @@
                     }
                 });
 
+                //change results for a selected test
+                jq("#165844").change(function () {
+
+                    if(jq(this).find("select").find(":selected").val() == "90225") {
+                        jq("#smear-results").removeClass('hidden'); 
+                    } else {
+                        jq("#smear-results").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "165413") {
+                        jq("#geneexper-results").removeClass('hidden'); 
+                    } else {
+                        jq("#geneexper-results").addClass('hidden');
+                    }
+
+                     if(jq(this).find("select").find(":selected").val() == "165416") {
+                        jq("#tblam-results").removeClass('hidden'); 
+                    } else {
+                        jq("#tblam-results").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "12") {
+                        jq("#xray-results").removeClass('hidden'); 
+                    } else {
+                        jq("#xray-results").addClass('hidden');
+                    }
+
+                });
+
                 <!-- Add/remove logic for followup section-->
                 var $otherRows,
                     $firstRow,
@@ -300,23 +329,44 @@
                                     	Baseline Examination
                                  	</div>
 									<div class="card-body">
-										<div class="row">
-											<div class="col-md-3">
-												<label>Date Test Done</label>
-												<obs conceptId="164431" allowTime="false"/>
-											</div>
-											<div class="col-md-3">
-												<label>Test</label>
-												<obs conceptId="165844" answerConceptIds="90225,165413,165416,12,90002" answerLabels="Smear, GeneXpert, LAM, X-ray, Other" />
-											</div>
-											<div class="col-md-3">
-												<label>Results</label> <!-- to be populated based on test -->
-											</div>
-											<div class="col-md-3">
-			                                	<label>Lab No.</label>
-												<obs conceptId="165845" />
-											</div>
-										</div>
+										<repeat>
+											<template>
+												<obsgroup groupingConceptId="99062">
+													<span class="row add-remove-section">
+														<div class="col-md-3">
+															<label>Date Test Done</label>
+															<obs conceptId="164431" allowTime="false" id="baseline_test_date_{n}"/>
+														</div>
+														<div class="col-md-3">
+															<label>Test</label>
+															<obs conceptId="165844" answerConceptIds="90225,165413,165416,12,90002" 
+																 answerLabels="Smear, GeneXpert, LAM, X-ray, Other" id="165844_{n}"/>
+														</div>
+														<div class="col-md-3">
+															<label>Results</label> <!-- to be populated based on test -->
+															<obs conceptId="90225"  id="smear-results_{n}" class="hidden" />
+															<obs conceptId="162202" id="geneexper-results_{n}" class="long-value-select hidden" />
+															<obs conceptId="165291" id="tblam-results_{n}" class="hidden" />
+															<obs conceptId="12" 	id="xray-results_{n}" class="hidden" />
+														</div>
+														<div class="col-md-2">
+						                                	<label>Lab No.</label>
+															<obs conceptId="165845" id="165845_{n}"/>
+														</div>
+														<div class="col-md-1">
+															<br/>
+                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
+                                                        </div>
+													</span>
+												</obsgroup>
+											</template>
+											<render n="1"/>
+                                            <render n="2"/>
+                                            <render n="3"/>
+                                            <render n="4"/>
+                                            <render n="5"/>
+										</repeat>
 									</div>
 								</div>
 								<div class="card">
@@ -324,22 +374,37 @@
                                     	Diabetes Monitoring
                                  	</div>
 									<div class="card-body">
-										<div class="row">
-											<div class="col-md-3">
-												<label>Date Test Done</label>
-												<obs conceptId="164431"/>
-											</div>
-											<div class="col-md-3">
-												<label>Test</label>
-												<obs conceptId="165851" answerConceptIds="165850, 165849" answerLabels="FBS, RBS" 
-													 style="checkbox" class="horizontal"/>
-											</div>
-											<div class="col-md-3">
-												<label>Result</label>
-												<obs conceptId="165852" answerConceptIds="165847, 165848" answerLabels="NDM, KDM" 
-													 style="checkbox" class="horizontal"/>
-											</div>
-										</div>
+										<repeat>
+											<template>
+												<obsgroup groupingConceptId="99062">
+													<span class="row add-remove-section">
+														<div class="col-md-3">
+															<label>Date Test Done</label>
+															<obs conceptId="164431"/>
+														</div>
+														<div class="col-md-3">
+															<label>Test</label>
+															<obs conceptId="165851" answerConceptIds="165850, 165849" answerLabels="FBS, RBS" 
+																 style="checkbox" class="horizontal"/>
+														</div>
+														<div class="col-md-3">
+															<label>Result</label>
+															<obs conceptId="165852" answerConceptIds="165847, 165848" answerLabels="NDM, KDM" 
+																 style="checkbox" class="horizontal"/>
+														</div>
+														<div class="col-md-1">
+															<br/>
+                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
+                                                        </div>
+													</span>
+												</obsgroup>
+											</template>
+											<render n="1"/>
+                                            <render n="2"/>
+                                            <render n="3"/>
+                                            <render n="4"/>
+										</repeat>
 									</div>
 								</div>
 							</div>
@@ -350,21 +415,37 @@
 	                                	IEC
 	                             	</div>
 									<div class="card-body">
-										<div class="row">
-											<div class="col-md-4">
-												<label>Date</label>
-												<obs conceptId="165858" allowTime="false"/>
-											</div>
-										</div>
-										<div class="row">
-											<obs conceptId="165864" answerConceptId="165859" answerLabel="TB/HIV relationship" style="checkbox" class="col-md-2" />
-											<obs conceptId="165864" answerConceptId="165862" answerLabel="TB transmission" style="checkbox" class="col-md-2" /> 
-											<obs conceptId="165864" answerConceptId="165860" answerLabel="TB Prevention" style="checkbox" class="col-md-2"/>
-											<!-- <obs conceptId="165864" answerConceptId="99338" answerLabel="Treatment and Adherence" style="checkbox" class="col-md-2" /> -->
-											<!-- get concept -->
-											<obs conceptId="165864" answerConceptId="165863" answerLabel="Importance of DOTS" style="checkbox" class="col-md-2" />
-											<obs conceptId="165864" answerConceptId="165861" answerLabel="Pre-treatment counselling" style="checkbox" class="col-md-2" />
-										</div>
+										<repeat>
+											<template>
+												<obsgroup groupingConceptId="99062">
+													<span class="add-remove-section">
+														<div class="row">
+															<div class="col-md-4">
+																<label>Date</label>
+																<obs conceptId="165858" allowTime="false"/>
+															</div>
+														</div>
+														<div class="row">
+															<obs conceptId="165864" answerConceptId="165859" answerLabel="TB/HIV relationship" style="checkbox" class="col-md-2" />
+															<obs conceptId="165864" answerConceptId="165862" answerLabel="TB transmission" style="checkbox" class="col-md-2" /> 
+															<obs conceptId="165864" answerConceptId="165860" answerLabel="TB Prevention" style="checkbox" class="col-md-2"/>
+															<!-- <obs conceptId="165864" answerConceptId="99338" answerLabel="Treatment and Adherence" style="checkbox" class="col-md-2" /> -->
+															<!-- get concept -->
+															<obs conceptId="165864" answerConceptId="165863" answerLabel="Importance of DOTS" style="checkbox" class="col-md-2" />
+															<obs conceptId="165864" answerConceptId="165861" answerLabel="Pre-treatment counselling" style="checkbox" class="col-md-2" />
+															<div class="col-md-1">
+	                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+	                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
+	                                                        </div>
+														</div>
+													</span>
+												</obsgroup>
+											</template>
+											<render n="1"/>
+                                            <render n="2"/>
+                                            <render n="3"/>
+                                            <render n="4"/>
+										</repeat>
 									</div>
 								</div>
 								<div class="card">
@@ -372,30 +453,47 @@
 	                                	Referral and Transfer
 	                             	</div>
 									<div class="card-body">
-										<div class="row">
-											<div class="col-md-4">
-												<label>Date</label>
-												<obs conceptId="165854" allowTime="false"/>
-											</div>
-											<div class="col-md-4">
-												<label>Referral Type</label>
-												<obs conceptId="165855" answerConceptIds="99764,99110,160036" answerLabels="Referred In, Transferred In, Transferred Out"/>
-											</div>
-											<div class="col-md-4">
-												<label>Health Facility</label>
-												<obs conceptId="90211"/>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-4">
-			                                	<label>District</label>
-												<obs conceptId="165853"/>
-											</div>
-											<div class="col-md-4">
-												<label>Phone Contact of recieving Health Unit</label>
-												<obs conceptId="159635"/>
-											</div>
-										</div>
+										<repeat>
+											<template>
+												<obsgroup groupingConceptId="99062">
+													<span class="add-remove-section">
+														<div class="row">
+															<div class="col-md-4">
+																<label>Date</label>
+																<obs conceptId="165854" allowTime="false"/>
+															</div>
+															<div class="col-md-4">
+																<label>Referral Type</label>
+																<obs conceptId="165855" answerConceptIds="99764,99110,160036" answerLabels="Referred In, Transferred In, Transferred Out"/>
+															</div>
+															<div class="col-md-4">
+																<label>Health Facility</label>
+																<obs conceptId="90211"/>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-md-4">
+							                                	<label>District</label>
+																<obs conceptId="165853"/>
+															</div>
+															<div class="col-md-4">
+																<label>Phone Contact of recieving Health Unit</label>
+																<obs conceptId="159635"/>
+															</div>
+															<div class="col-md-1">
+																<br/>
+	                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+	                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
+	                                                        </div>
+														</div>
+													</span>
+												</obsgroup>
+											</template>
+											<render n="1"/>
+                                            <render n="2"/>
+                                            <render n="3"/>
+                                            <render n="4"/>
+										</repeat>
 									</div>
 								</div>
 								<div class="card">
