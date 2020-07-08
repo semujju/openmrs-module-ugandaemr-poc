@@ -8,34 +8,190 @@
 				//Block Multiple encounter entry on same date
 				blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
 
-				// Validate MUAC
-                var age  = <lookup complexExpression="$patient.age" />; 
-                getMUACCodeFromMUACScoreByAge(age, "muac-score", "muac-code");
+				//change results for a selected test
+                jq("#165844_1").change(function () {
 
-                disable_fields("other-complications-of-pregnancy");
-                disable_fields("other-management-procedure");
-                disable_fields("other-source-of-warmth");
-                disable_fields("other-ward-or-department");
-                disable_fields("transferred-by");
-                disable_fields("other-mode-of-delivery");
-
-                //enable/disable other management procedure
-                jq("#165443").change(function () {
-	                if(jq(this).find("select").find(":selected").val() == "5622") {
-	                    enable_fields("other-management-procedure");
+                    if(jq(this).find("select").find(":selected").val() == "90225") {
+                        jq("#smear-results_1").removeClass('hidden'); 
                     } else {
-                    	disable_fields("other-management-procedure");
+                        jq("#smear-results_1").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "165413") {
+                        jq("#geneexper-results_1").removeClass('hidden'); 
+                    } else {
+                        jq("#geneexper-results_1").addClass('hidden');
+                    }
+
+                     if(jq(this).find("select").find(":selected").val() == "165416") {
+                        jq("#tblam-results_1").removeClass('hidden'); 
+                    } else {
+                        jq("#tblam-results_1").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "12") {
+                        jq("#xray-results_1").removeClass('hidden'); 
+                    } else {
+                        jq("#xray-results_1").addClass('hidden');
+                    }
+
+                });
+
+                jq("#165844_2").change(function () {
+
+                    if(jq(this).find("select").find(":selected").val() == "90225") {
+                        jq("#smear-results_2").removeClass('hidden'); 
+                    } else {
+                        jq("#smear-results_2").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "165413") {
+                        jq("#geneexper-results_2").removeClass('hidden'); 
+                    } else {
+                        jq("#geneexper-results_2").addClass('hidden');
+                    }
+
+                     if(jq(this).find("select").find(":selected").val() == "165416") {
+                        jq("#tblam-results_2").removeClass('hidden'); 
+                    } else {
+                        jq("#tblam-results_2").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "12") {
+                        jq("#xray-results_2").removeClass('hidden'); 
+                    } else {
+                        jq("#xray-results_2").addClass('hidden');
+                    }
+
+                });
+
+                jq("#165844_3").change(function () {
+
+                    if(jq(this).find("select").find(":selected").val() == "90225") {
+                        jq("#smear-results_3").removeClass('hidden'); 
+                    } else {
+                        jq("#smear-results_3").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "165413") {
+                        jq("#geneexper-results_3").removeClass('hidden'); 
+                    } else {
+                        jq("#geneexper-results_3").addClass('hidden');
+                    }
+
+                     if(jq(this).find("select").find(":selected").val() == "165416") {
+                        jq("#tblam-results_3").removeClass('hidden'); 
+                    } else {
+                        jq("#tblam-results_3").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "12") {
+                        jq("#xray-results_3").removeClass('hidden'); 
+                    } else {
+                        jq("#xray-results_3").addClass('hidden');
+                    }
+
+                });
+
+                jq("#165844_4").change(function () {
+
+                    if(jq(this).find("select").find(":selected").val() == "90225") {
+                        jq("#smear-results_4").removeClass('hidden'); 
+                    } else {
+                        jq("#smear-results_4").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "165413") {
+                        jq("#geneexper-results_4").removeClass('hidden'); 
+                    } else {
+                        jq("#geneexper-results_4").addClass('hidden');
+                    }
+
+                     if(jq(this).find("select").find(":selected").val() == "165416") {
+                        jq("#tblam-results_4").removeClass('hidden'); 
+                    } else {
+                        jq("#tblam-results_4").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "12") {
+                        jq("#xray-results_4").removeClass('hidden'); 
+                    } else {
+                        jq("#xray-results_4").addClass('hidden');
+                    }
+
+                });
+
+                jq("#165844_5").change(function () {
+
+                    if(jq(this).find("select").find(":selected").val() == "90225") {
+                        jq("#smear-results_5").removeClass('hidden'); 
+                    } else {
+                        jq("#smear-results_5").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "165413") {
+                        jq("#geneexper-results_5").removeClass('hidden'); 
+                    } else {
+                        jq("#geneexper-results_5").addClass('hidden');
+                    }
+
+                     if(jq(this).find("select").find(":selected").val() == "165416") {
+                        jq("#tblam-results_5").removeClass('hidden'); 
+                    } else {
+                        jq("#tblam-results_5").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "12") {
+                        jq("#xray-results_5").removeClass('hidden'); 
+                    } else {
+                        jq("#xray-results_5").addClass('hidden');
+                    }
+
+                });
+
+                <!-- Add/remove tests and results-->
+                var $otherRows,
+                    $firstRow,
+                    $thisRow,
+                    $nextRow,
+                    $lastVisibleRow;
+                var showAddButtonForLastVisibleRow = function($container) {
+                    $lastVisibleRow = $container.find('span.add-remove-section:visible:last');
+                    $lastVisibleRow.find('.add').show();
+                };
+
+                $firstRow = jq('span.add-remove-section:first-of-type');
+                $otherRows = jq('span.add-remove-section:not(:first-of-type)');
+
+                jq('.add').click(function(e) { //Handle add button event
+                    e.preventDefault();
+                    $thisRow = jq(this).parents('span.add-remove-section:first');
+                    $nextRow = $thisRow.next();
+
+                    if ($nextRow.length &gt; 0) {
+                        $nextRow.show('slow');
+                        $thisRow.find('.add').hide();
                     }
                 });
 
-                //enable/disable other source of warmth
-                jq("#165446").change(function () {
-	                if(jq(this).find("select").find(":selected").val() == "90002") {
-	                    enable_fields("other-source-of-warmth");
-                    } else {
-                    	disable_fields("other-source-of-warmth");
+                jq('.remove').click(function(e) { //Handle remove button event
+                    e.preventDefault();
+                    $thisRow = jq(this).parents('span.add-remove-section:first');
+                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
+                        $thisRow = jq(this).parents('span.add-remove-section:first');
+                        $lastRow = jq(this).parents('span.add-remove-section:last');
+                        $lastVisibleRow = $lastRow.prev();
+
+                        $thisRow.hide('slow', function() {
+                            fieldHelper.clearAllFields($thisRow);
+                            $lastVisibleRow.find('.add').show();
+                        });
                     }
-                }); 
+                });
+
+               
+                    $otherRows.hide(); //Hide all rows apart from first row if adding new form
+                    $firstRow.find('.remove').hide(); //Hide the remove button from the first row 
 			});
 		}
 	</script>
@@ -319,30 +475,51 @@
 									</div>
 								</div>
 							    </div>
-								<div class="card">
-									<div class="card-header">
-	                                   Test Results
-	                                </div>
-									<div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <label>Date Test Done</label>
-                                                <obs conceptId="164431" allowTime="false"/>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Test</label>
-                                                <obs conceptId="165844" answerConceptIds="90225,165413,165416,12,90002" answerLabels="Smear, GeneXpert, LAM, X-ray, Other" />
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Results</label> <!-- to be populated based on test -->
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Lab No.</label>
-                                                <obs conceptId="165845" />
-                                            </div>
-                                        </div>
-									</div>
-								</div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        Test Results
+                                    </div>
+                                    <div class="card-body">
+                                        <repeat>
+                                            <template>
+                                                <obsgroup groupingConceptId="99062">
+                                                    <span class="row add-remove-section">
+                                                        <div class="col-md-3">
+                                                            <label>Date Test Done</label>
+                                                            <obs conceptId="164431" allowTime="false" id="baseline_test_date"/>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label>Test</label>
+                                                            <obs conceptId="165844" answerConceptIds="90225,165413,165416,12,90002" 
+                                                                 answerLabels="Smear, GeneXpert, LAM, X-ray, Other" id="165844_{n}"/>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label>Results</label>
+                                                            <obs conceptId="90225"  id="smear-results_{n}" class="hidden" />
+                                                            <obs conceptId="162202" id="geneexper-results_{n}" class="long-value-select hidden" />
+                                                            <obs conceptId="165291" id="tblam-results_{n}" class="hidden" />
+                                                            <obs conceptId="12"     id="xray-results_{n}" class="hidden" />
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label>Lab No.</label>
+                                                            <obs conceptId="165845" id="165845"/>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <br/>
+                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
+                                                        </div>
+                                                    </span>
+                                                </obsgroup>
+                                            </template>
+                                            <render n="1"/>
+                                            <render n="2"/>
+                                            <render n="3"/>
+                                            <render n="4"/>
+                                            <render n="5"/>
+                                        </repeat>
+                                    </div>
+                                </div>
 							</div>
 							<div class="tab-pane" id="outcome-appointment-section">
 								<div class="card">
