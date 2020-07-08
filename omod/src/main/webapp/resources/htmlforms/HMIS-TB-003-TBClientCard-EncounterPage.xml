@@ -190,7 +190,7 @@
                 });
 
                
-                    $otherRows.hide(); //Hide all rows apart from first row if adding new form
+                    //$otherRows.hide(); //Hide all rows apart from first row if adding new form
                     $firstRow.find('.remove').hide(); //Hide the remove button from the first row 
 			});
 		}
