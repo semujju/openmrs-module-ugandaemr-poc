@@ -1,4 +1,4 @@
-<htmlform formName="HMIS TB 003: TB Client Card Summary Page" formDescription="Admission into a clinic for a pregnant woman to give birth" formEncounterType="334bf97e-28e2-4a27-8727-a5ce31c7cd66" formUuid="b00452b6-bb7c-11ea-b3de-0242ac130004" formVersion="3.0.0" formAddMetadata="yes" formUILocation="patientDashboard.visitActions" formOrder="13" formIcon="icon-medkit" formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp;sessionLocation.uuid==' 8ab22b55-9a17-4121-bf08-6134a9a2439f '" formDisplayStyle="Standard" formLabel="HMIS-TB-003-TB CLIENT CARD - SUMMARY PAGE">
+<htmlform formName="HMIS TB 003: TB Client Card Summary Page" formDescription="This is a summary of the TB Treatment program" formEncounterType="334bf97e-28e2-4a27-8727-a5ce31c7cd66" formUuid="b00452b6-bb7c-11ea-b3de-0242ac130004" formVersion="3.0.0" formAddMetadata="yes" formUILocation="patientDashboard.visitActions" formOrder="13" formIcon="icon-medkit" formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp;sessionLocation.uuid=='8ab22b55-9a17-4121-bf08-6134a9a2439f'" formDisplayStyle="Standard" formLabel="HMIS-TB-003-TB CLIENT CARD - SUMMARY PAGE">
 
 	<script type="text/javascript">
 		if (jQuery) {
@@ -183,9 +183,6 @@
 
                 });
 
-
-
-                <!-- Add/remove logic for followup section-->
                 var $otherRows,
                     $firstRow,
                     $thisRow,
@@ -225,10 +222,15 @@
                     }
                 });
 
-               
-                    $otherRows.hide(); //Hide all rows apart from first row if adding new form
-                    $firstRow.find('.remove').hide(); //Hide the remove button from the first row
+                $otherRows.hide(); //Hide all rows apart from first row if adding new form
+                $firstRow.find('.remove').hide(); //Hide the remove button from the first row
 
+				<ifMode mode="EDIT">
+					enable_fields("165836"); //other Drug Susceptible Tb
+	                enable_fields("hiv-test-date"); //hiv test date
+	                enable_fields("99161"); // art initiation date
+	                enable_fields("99431"); //art number
+				</ifMode>
 			});
 		}
 	</script>
@@ -271,40 +273,49 @@
 									<div class="card-header">Case Summary - Patient Type</div>
 									<div class="card-body">
 										<div class="row">
-											<div class="col-md-3">
+											<div class="col-md-4 html-form-entry-disabled-field">
+                                                <label>Encounter Date</label>
+                                                <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
+                                            </div>
+											<div class="col-md-4">
 												<label>
 													District TB No.
 												</label>
 												<obs conceptId="99031" />
 											</div>
-											<div class="col-md-3">
+											<div class="col-md-4">
 												<label>
 													Unit TB No.
 												</label>
 												<obs conceptId="165826" />
 											</div>
-											<div class="col-md-3">
+										</div>
+										<div class="row">
+											<div class="col-md-4">
 												<label>Treatment Supporter Name</label>
 												<obs conceptId="99142" />
 											</div>
-											<div class="col-md-3">
+											<div class="col-md-4">
 												<label>Treatment Supporter Type</label>
 												<obs conceptId="165828" answerConceptIds="5619,165827,99420" 
 													 answerLabels="Health Worker, Family Member, Community Volunteer"/>
 											</div>
 										</div>
 										<div class="row">
-											<div class="col-md-7">
+											<div class="col-md-9">
 												<label>Disease Classification</label>
 												<obs conceptId="99379" answerConceptIds="165829,165830,165831" answerLabels="Pulmonary Bacteriologically Comfirmed PTB, Pulmonary Clinically Diagnosed PTB, Extra Pulmonary PTB" class="horizontal" style="radio"/>
 											</div>
-											<div class="col-md-2">
+											<div class="col-md-3">
 												<label>Indicate Site</label>
 												<obs conceptId="165832" />
 											</div>
-											<div class="col-md-3">
+										</div>
+										<div class="row">
+											<div class="col-md-4">
 												<label>Patient Type</label>
-												<obs conceptId="99386" answerConceptIds="99380,99381,165833,165834,165835" answerLabels="New, Relapse, Treament after lost to follow up, Treament after failure, Treament history unknown" style="checkbox"/>
+												<obs conceptId="99386" answerConceptIds="99380,99381,165833,165834,165835" 
+													 answerLabels="New, Relapse, Treament after lost to follow up, Treament after failure, Treament history unknown" style="checkbox"/>
 											</div>
 										</div>
 									</div>
@@ -315,11 +326,11 @@
 									<div class="card-header">Regimen</div>
 									<div class="card-body">
 										<div class="row">
-												<div class="col-md-2">
-													<label>Started on First Regimen</label>
-													<obs conceptId="165837" style="checkbox" />
+												<div class="col-md-3">
+													<br/>
+													<obs conceptId="165837" style="checkbox" labelText="Started on First Regimen"/>
 												</div>
-												<div class="col-md-2">
+												<div class="col-md-3">
 													<label>Date Started</label>
 													<obs conceptId="165838" allowTime="false"/>
 												</div>
@@ -341,25 +352,25 @@
 	                                </div>
 	                                <div class="card-body">
 	                                    <div class="row">
-	                                        <div class="col-md-3">
-	                                            <!-- <label>Diagnosed with TB</label> -->
-	                                            <obs conceptId="90216" answerConceptIds="90078" style="radio" />
+	                                        <div class="col-md-4">
+	                                        	<br/>
+	                                            <obs conceptId="90216" answerConceptId="90078" style="radio" />
 	                                        </div>
-	                                        <div class="col-md-3">
+	                                        <div class="col-md-4">
 	                                        	<label>Date</label>
 	                                            <obs conceptId="165840" allowTime="false"/>
 	                                        </div>
 	                                    </div>
 	                                   	<div class="row">
-	                                        <div class="col-md-3">
-	                                            <label>Started on DRTB Treatment</label>
-	                                            <obs conceptId="165842" style="checkbox" />
+	                                        <div class="col-md-4">
+	                                        	<br/>
+	                                            <obs conceptId="165842" style="checkbox" labelText="Started on DRTB Treatment"/>
 	                                        </div>
-	                                        <div class="col-md-3">
+	                                        <div class="col-md-4">
 	                                            <label>Date</label>
 	                                            <obs conceptId="165841" />
 	                                        </div>
-	                                        <div class="col-md-3">
+	                                        <div class="col-md-4">
 	                                        	<label>DRTB No.</label>
 	                                            <obs conceptId="165843" />
 	                                        </div>
@@ -372,39 +383,39 @@
 	                                </div>
 	                                <div class="card-body">
 	                                    <div class="row">
-	                                        <div class="col-md-3">
+	                                        <div class="col-md-4">
 	                                            <label>HIV Status</label>
 	                                            <obs conceptId="165396" answerConceptIds="90167,165397,165350,90001"
 	                                                 answerLabels="Negative, Newly Tested Positive, Known Positive, Unknown" 
 	                                                 class="long-value-select" id="165396"/>
 	                                        </div>
-	                                        <div class="col-md-3">
+	                                        <div class="col-md-4">
 	                                        	<label>Date</label>
 	                                            <obs conceptId="164431" id="hiv-test-date"/>
 	                                        </div>
 	                                    </div>
 	                                   	<div class="row">
-	                                        <div class="col-md-3">
+	                                        <div class="col-md-4">
 	                                            <label>ART Status</label>
 	                                            <obs conceptId="1358" answerConceptIds="1362,1367" 
 	                                            	 answerLabels="Initiated on ART, Already on ART" 
 	                                            	 class="long-value-select" id="1358"/>
 	                                        </div>
-	                                        <div class="col-md-3">
+	                                        <div class="col-md-4">
 	                                            <label>Date</label>
 	                                            <obs conceptId="99161" id="99161" />
 	                                        </div>
-	                                        <div class="col-md-3">
+	                                        <div class="col-md-4">
 	                                        	<label>ART No.</label>
 	                                            <obs conceptId="99431" id="99431" />
 	                                        </div>
 	                                    </div>
 	                                    <div class="row">
-	                                        <div class="col-md-3">
+	                                        <div class="col-md-4">
 	                                            <label>CPT/Dapson</label> <!-- missing concept -->
 	                                            
 	                                        </div>
-	                                        <div class="col-md-3">
+	                                        <div class="col-md-4">
 	                                        	<label>Date</label> <!-- missing concept -->
 	                                            <obs conceptId="164431" />
 	                                        </div>
@@ -539,19 +550,20 @@
 														<obs conceptId="165858" allowTime="false" class="col-md-2"/>
 														<div class="col-md-8">
 															<div class="row">
-															<obs conceptId="165864" answerConceptId="165859" answerLabel="TB/HIV relationship" style="checkbox"     class="col-md-3" />
+															<obs conceptId="165864" answerConceptId="165859" answerLabel="TB/HIV relationship" style="checkbox"     class="col-md-4" />
 															<obs conceptId="165864" answerConceptId="165862" answerLabel="TB transmission" style="checkbox" 
-																 class="col-md-3" /> 
+																 class="col-md-4" /> 
 															<obs conceptId="165864" answerConceptId="165860" answerLabel="TB Prevention" style="checkbox" 
-																 class="col-md-3" />
+																 class="col-md-4" />
 															<!-- <obs conceptId="165864" answerConceptId="99338" answerLabel="Treatment and Adherence" style="checkbox" class="col-md-2" /> -->
 															<!-- get concept -->
-															<obs conceptId="165864" answerConceptId="165863" answerLabel="Importance of DOTS" style="checkbox"     class="col-md-3" />
+															<obs conceptId="165864" answerConceptId="165863" answerLabel="Importance of DOTS" style="checkbox"     class="col-md-4" />
 															<obs conceptId="165864" answerConceptId="165861" answerLabel="Pre-treatment counselling" 
-																 style="checkbox" class="col-md-3"/>
+																 style="checkbox" class="col-md-6"/>
 															</div>
 														</div>
 														<div class="col-md-1">
+															<br/>
                                                             <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
                                                             <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
                                                         </div>
@@ -575,24 +587,24 @@
 											<template>
 												<obsgroup groupingConceptId="99062">
 													<span class="row add-remove-section">
-															<div class="col-md-4">
+															<div class="col-md-2">
 																<label>Date</label>
 																<obs conceptId="165854" allowTime="false"/>
 															</div>
-															<div class="col-md-4">
+															<div class="col-md-2">
 																<label>Referral Type</label>
 																<obs conceptId="165855" answerConceptIds="99764,99110,160036" answerLabels="Referred In, Transferred In, Transferred Out"/>
 															</div>
-															<div class="col-md-4">
+															<div class="col-md-2">
 																<label>Health Facility</label>
 																<obs conceptId="90211"/>
 															</div>
-															<div class="col-md-4">
+															<div class="col-md-2">
 							                                	<label>District</label>
 																<obs conceptId="165853"/>
 															</div>
-															<div class="col-md-4">
-																<label>Phone Contact of recieving Health Unit</label>
+															<div class="col-md-3">
+																<label>Phone no. of recieving Health Unit</label>
 																<obs conceptId="159635"/>
 															</div>
 															<div class="col-md-1">
