@@ -412,7 +412,10 @@
 	                                    </div>
 	                                    <div class="row">
 	                                        <div class="col-md-4">
-	                                            <label>CPT/Dapson</label> <!-- missing concept -->
+	                                            <label>CPT/Dapson</label>
+	                                            <obs conceptId="90171" answerConceptIds="99022,1193" 
+	                                            	 answerLabels="Initiated on CPT, Already on CPT" 
+	                                            	 class="long-value-select" id="90171"/>
 	                                            
 	                                        </div>
 	                                        <div class="col-md-4">
@@ -429,20 +432,17 @@
 	                                <div class="card-body">
 	                                    <div class="row">
 		                                    <!-- get conceptID -->
-											<obs conceptId="165169" answerConceptId="99338" answerLabel="Health Worker" style="checkbox" class="col-md-2"/> <!-- get concept -->
+											<obs conceptId="165169" answerConceptId="5619" answerLabel="Health Worker" style="checkbox" class="col-md-2"/> 
 											<obs conceptId="165169" answerConceptId="99339" answerLabel="TB Contact" style="checkbox" class="col-md-2" /> <!-- get concept -->
 											<obs conceptId="165169" answerConceptId="162277" answerLabel="Prisoner" style="checkbox" class="col-md-2" />
-											<obs conceptId="165169" answerConceptId="99338" answerLabel="Refugee" style="checkbox" class="col-md-2" />
-											<!-- get concept -->
+											<obs conceptId="165169" answerConceptId="165127" answerLabel="Refugee" style="checkbox" class="col-md-2" />
 											<obs conceptId="165169" answerConceptId="165125" answerLabel="Uniformed/Armed Personnel" style="checkbox" class="col-md-3" />
 										</div>
 										<div class="row">
 											<obs conceptId="165169" answerConceptId="159674" answerLabel="Fisher Folk" style="checkbox" class="col-md-2" />
 											<obs conceptId="165169" answerConceptId="99338" answerLabel="Miner" style="checkbox" class="col-md-2" /> <!-- get concept -->
-											<obs conceptId="165169" answerConceptId="99339" answerLabel="Tobacco User" style="checkbox" class="col-md-2" />
-											<!-- get concept -->
-											<obs conceptId="165169" answerConceptId="99337" answerLabel="Mentally Ill" style="checkbox" class="col-md-2" />
-											<!-- get concept -->
+											<obs conceptId="165169" answerConceptId="1455" answerLabel="Tobacco User" style="checkbox" class="col-md-2" />
+											<obs conceptId="165169" answerConceptId="134337" answerLabel="Mentally Ill" style="checkbox" class="col-md-2" />
 	                                	</div>
 	                                </div>
 	                            </div>
@@ -555,8 +555,7 @@
 																 class="col-md-4" /> 
 															<obs conceptId="165864" answerConceptId="165860" answerLabel="TB Prevention" style="checkbox" 
 																 class="col-md-4" />
-															<!-- <obs conceptId="165864" answerConceptId="99338" answerLabel="Treatment and Adherence" style="checkbox" class="col-md-2" /> -->
-															<!-- get concept -->
+															<obs conceptId="165864" answerConceptId="6077" answerLabel="Treatment and Adherence" style="checkbox" class="col-md-2" />
 															<obs conceptId="165864" answerConceptId="165863" answerLabel="Importance of DOTS" style="checkbox"     class="col-md-4" />
 															<obs conceptId="165864" answerConceptId="165861" answerLabel="Pre-treatment counselling" 
 																 style="checkbox" class="col-md-6"/>
