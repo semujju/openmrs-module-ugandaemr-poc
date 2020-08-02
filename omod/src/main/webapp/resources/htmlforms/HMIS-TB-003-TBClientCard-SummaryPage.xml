@@ -1,4 +1,14 @@
-<htmlform formName="HMIS TB 003: TB Client Card Summary Page" formDescription="This is a summary of the TB Treatment program" formEncounterType="334bf97e-28e2-4a27-8727-a5ce31c7cd66" formUuid="b00452b6-bb7c-11ea-b3de-0242ac130004" formVersion="3.0.0" formAddMetadata="yes" formUILocation="patientDashboard.visitActions" formOrder="13" formIcon="icon-medkit" formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp;sessionLocation.uuid=='8ab22b55-9a17-4121-bf08-6134a9a2439f'" formDisplayStyle="Standard" formLabel="HMIS-TB-003-TB CLIENT CARD - SUMMARY PAGE">
+<htmlform 
+	formName="HMIS TB 003: TB Client Card Summary Page" 
+	formDescription="This is a summary of the TB Treatment program" 
+	formEncounterType="334bf97e-28e2-4a27-8727-a5ce31c7cd66" 
+	formUuid="b00452b6-bb7c-11ea-b3de-0242ac130004" 
+	formVersion="3.0.0" 
+	formAddMetadata="yes" 
+	formUILocation="patientDashboard.visitActions" 
+	formOrder="13" formIcon="icon-medkit" 
+	formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp;sessionLocation.uuid=='8ab22b55-9a17-4121-bf08-6134a9a2439f'" formDisplayStyle="Standard" 
+	formLabel="HMIS-TB-003-TB CLIENT CARD - SUMMARY PAGE">
 
 	<script type="text/javascript">
 		if (jQuery) {
@@ -413,14 +423,14 @@
 	                                    <div class="row">
 	                                        <div class="col-md-4">
 	                                            <label>CPT/Dapson</label>
-	                                            <obs conceptId="90171" answerConceptIds="99022,1193" 
+	                                            <obs conceptId="92" answerConceptIds="1193,1263" 
 	                                            	 answerLabels="Initiated on CPT, Already on CPT" 
-	                                            	 class="long-value-select" id="90171"/>
+	                                            	 class="long-value-select" id="92"/>
 	                                            
 	                                        </div>
 	                                        <div class="col-md-4">
-	                                        	<label>Date</label> <!-- missing concept -->
-	                                            <obs conceptId="164431" />
+	                                        	<label>Date</label>
+	                                            <obs conceptId="165881" />
 	                                        </div>
 	                                    </div>
 	                                </div>
