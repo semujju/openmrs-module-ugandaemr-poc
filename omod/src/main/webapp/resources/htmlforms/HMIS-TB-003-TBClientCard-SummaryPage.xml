@@ -6,8 +6,10 @@
 	formVersion="3.0.0" 
 	formAddMetadata="yes" 
 	formUILocation="patientDashboard.visitActions" 
-	formOrder="13" formIcon="icon-medkit" 
-	formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp;sessionLocation.uuid=='8ab22b55-9a17-4121-bf08-6134a9a2439f'" formDisplayStyle="Standard" 
+	formOrder="13" 
+	formIcon="icon-medkit" 
+	formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp;sessionLocation.uuid=='8ab22b55-9a17-4121-bf08-6134a9a2439f'" 
+	formDisplayStyle="Standard" 
 	formLabel="HMIS-TB-003-TB CLIENT CARD - SUMMARY PAGE">
 
 	<script type="text/javascript">
