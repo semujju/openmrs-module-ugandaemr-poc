@@ -1,6 +1,6 @@
 <htmlform 
     formName="HMIS TB 003: TB Client Card Encounter Page" 
-    formDescription="Admission into a clinic for a pregnant woman to give birth" 
+    formDescription="TB Encounter" 
     formEncounterType="455bad1f-5e97-4ee9-9558-ff1df8808732" 
     formUuid="0248cd00-bc53-11ea-b3de-0242ac130004" 
     formVersion="3.0.0" 
@@ -8,9 +8,9 @@
     formUILocation="patientDashboard.visitActions" 
     formOrder="9" 
     formIcon="icon-medkit" 
-    formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.gender=='F' &amp;&amp;sessionLocation.uuid=='e9bc61b5-69ff-414b-9cf0-0c22d6dfca2b'" 
+    formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; sessionLocation.uuid=='8ab22b55-9a17-4121-bf08-6134a9a2439f'" 
     formDisplayStyle="Standard" 
-    formLabel="HMIS-TB-003-TB CLIENT CARD - ENCOUNTER PAGE">
+    formLabel="HMIS-TB-003-TB CLIENT CARD - ENCOUNTER PAGE"> 
 
 	<script type="text/javascript">
 		if (jQuery) {
