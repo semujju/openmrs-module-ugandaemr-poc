@@ -1,4 +1,16 @@
-<htmlform formName="HMIS TB 003: TB Client Card Encounter Page" formDescription="Admission into a clinic for a pregnant woman to give birth" formEncounterType="a9f11592-22e7-45fc-904d-dfe24cb1fc67" formUuid="0248cd00-bc53-11ea-b3de-0242ac130004" formVersion="3.0.0" formAddMetadata="yes" formUILocation="patientDashboard.visitActions" formOrder="9" formIcon="icon-medkit" formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.gender=='F' &amp;&amp;sessionLocation.uuid=='e9bc61b5-69ff-414b-9cf0-0c22d6dfca2b'" formDisplayStyle="Standard" formLabel="HMIS-TB-003-TB CLIENT CARD - ENCOUNTER PAGE">
+<htmlform 
+    formName="HMIS TB 003: TB Client Card Encounter Page" 
+    formDescription="Admission into a clinic for a pregnant woman to give birth" 
+    formEncounterType="455bad1f-5e97-4ee9-9558-ff1df8808732" 
+    formUuid="0248cd00-bc53-11ea-b3de-0242ac130004" 
+    formVersion="3.0.0" 
+    formAddMetadata="yes" 
+    formUILocation="patientDashboard.visitActions" 
+    formOrder="9" 
+    formIcon="icon-medkit" 
+    formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.gender=='F' &amp;&amp;sessionLocation.uuid=='e9bc61b5-69ff-414b-9cf0-0c22d6dfca2b'" 
+    formDisplayStyle="Standard" 
+    formLabel="HMIS-TB-003-TB CLIENT CARD - ENCOUNTER PAGE">
 
 	<script type="text/javascript">
 		if (jQuery) {
@@ -213,8 +225,11 @@
 				<div class="card">
 					<div class="card-header">
 						<ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#treatmeant-phase-section">Treatment Phase</a>
+                            </li>
 							<li class="nav-item">
-								<a class="nav-link active" data-toggle="tab" href="#symptoms-nutrition-assesment-section">Symptoms and Nutrition Assesment</a>
+								<a class="nav-link" data-toggle="tab" href="#symptoms-nutrition-assesment-section">Symptoms and Nutrition Assesment</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" data-toggle="tab" href="#treatmeant-hiv-status-section">Treatment and HIV Status</a>
@@ -229,7 +244,20 @@
 					</div>
 					<div class="card-body">
 						<div class="tab-content">
-							<div class="tab-pane active" id="symptoms-nutrition-assesment-section">
+							<div class="tab-pane active" id="treatmeant-phase-section">
+                                <div class="card">
+                                    <div class="card-header">Treatment Phase</div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4 html-form-entry-disabled-field">
+                                                <label>Encounter Date</label>
+                                                <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
+                                            </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="symptoms-nutrition-assesment-section">
 								<div class="card">
                                     <div class="card-header">Symptoms</div>
                                     <div class="card-body">
@@ -391,15 +419,15 @@
 								<div class="card">
 									<div class="card-body">
 										<div class="row">
-												<div class="col-md-2">
+												<div class="col-md-3">
 													<label>Regimen</label>
 													<obs conceptId="99374" answerConceptIds="99373,99372,164960,164958,99371,164961" conceptAnswers="2SRHZE/RHZE/5RHE, 2RHZ/4RH, 2RHZE/10RH, 2RHZE/4H, 2RHZE/6EH, 2RHZE/4RH" class="horizontal"/>
 												</div>
-												<div class="col-md-2">
+												<div class="col-md-3">
 													<label>No. of pills</label>
 													<obs conceptId="165460"  />
 												</div>
-												<div class="col-md-2">
+												<div class="col-md-3">
 													<label>No. of Days</label>
 													<obs conceptId="165460"  />
 												</div>
@@ -417,17 +445,18 @@
 	                                </div>
 	                                <div class="card-body">
 	                                    <div class="row">
-	                                        <div class="col-md-2">
+	                                        <div class="col-md-3">
 	                                            <label>HIV Status</label>
 	                                            <obs conceptId="165396" answerConceptIds="90167,165397,165350,90001"
                                                      answerLabels="Negative, Newly Tested Positive, Known Positive, Unknown" 
                                                      class="long-value-select" id="165396"/>
 	                                        </div>
-	                                        <div class="col-md-2">
+                                            <div class="col-md-2"></div>
+	                                        <div class="col-md-3">
 	                                        	<label>CPT/Dapson</label>
 	                                            <obs id="99413" conceptId="99413" answerConceptIds="1065,1066" class="horizontal" style="radio"/>
 	                                        </div>
-	                                        <div class="col-md-2">
+	                                        <div class="col-md-3">
 	                                        	<label>ARV Drugs</label>
 	                                            <obs id="165871" conceptId="165871" style="checkbox"/>
 	                                        </div>
@@ -528,15 +557,15 @@
 	                             	</div>
 									<div class="card-body">
 										<div class="row">
-											<div class="col-md-4">
+											<div class="col-md-4">   
 												<label>Next Date of Appointment</label>
 												<obs id="returndate" conceptId="5096" allowFutureDates="true"/>
 											</div>
 										</div>
                                         <div class="row">
     										<div class="col-md-10">
-    											<label>Comments</label> <!-- get new concept -->
-    											<obs conceptId="99256" class="commenttextarea" style="textarea"/>
+    											<label>Comments</label>
+    											<obs conceptId="165873" class="commenttextarea" style="textarea"/>
     										</div>
                                         </div>
 									</div>
