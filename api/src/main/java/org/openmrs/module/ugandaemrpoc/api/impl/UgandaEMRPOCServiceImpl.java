@@ -4,7 +4,24 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.openmrs.*;
+import org.openmrs.Order;
+import org.openmrs.DrugOrder;
+import org.openmrs.TestOrder;
+import org.openmrs.OrderType;
+import org.openmrs.Encounter;
+import org.openmrs.Concept;
+import org.openmrs.ConceptNumeric;
+import org.openmrs.CareSetting;
+import org.openmrs.EncounterRole;
+import org.openmrs.Visit;
+import org.openmrs.Obs;
+import org.openmrs.Patient;
+import org.openmrs.Person;
+import org.openmrs.ProgramAttributeType;
+import org.openmrs.PatientProgramAttribute;
+import org.openmrs.PatientProgram;
+import org.openmrs.Location;
+import org.openmrs.Provider;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.EncounterService;
 import org.openmrs.api.OrderService;
@@ -83,6 +100,9 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
             patientQueueVisitMapper.setAge(patientQueue.getPatient().getAge().toString());
             patientQueueVisitMapper.setGender(patientQueue.getPatient().getGender());
             patientQueueVisitMapper.setDateCreated(patientQueue.getDateCreated().toString());
+            if (patientQueue.getDateChanged() != null) {
+                patientQueueVisitMapper.setDateChanged(patientQueue.getDateChanged().toString());
+            }
             patientQueueMappers.add(patientQueueVisitMapper);
         }
         return patientQueueMappers;
@@ -289,6 +309,7 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
                 drugOrderMapper.setNumRefills(drugOrder.getNumRefills());
                 drugOrderMapper.setQuantity(drugOrder.getQuantity());
                 drugOrderMapper.setQuantityUnits(drugOrder.getQuantityUnits().getDisplayString());
+                drugOrderMapper.setStrength(getDrugStrength(drugOrder));
                 drugOrderMapper.setRoute(drugOrder.getRoute().getDisplayString());
                 drugOrderMapper.setAccessionNumber(drugOrder.getAccessionNumber());
                 drugOrderMapper.setCareSetting(drugOrder.getCareSetting().getName());
@@ -313,6 +334,33 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
             }
         }
         return orderMappers;
+    }
+
+
+    /**
+     * Get Medication Strength from the drug order
+     * @param drugOrder the drug order where the drug strength has to be picked
+     * @return the
+     */
+    private String getDrugStrength(DrugOrder drugOrder){
+        List<Concept> concepts=new ArrayList<>();
+        List<Encounter> encounters= new ArrayList<>();
+        List<Person> personList=new ArrayList<>();
+        personList.add(drugOrder.getPatient().getPerson());
+        concepts.add(drugOrder.getConcept());
+        encounters.add(drugOrder.getEncounter());
+        String medicationStrength="";
+        List<Obs> obs= Context.getObsService().getObservations(personList,encounters,null,concepts,null,null,null,null,null,null,null,false);
+        if(!obs.isEmpty()){
+            Set<Obs> groupMembers=obs.get(0).getObsGroup().getGroupMembers();
+            for (Obs groupMember:groupMembers) {
+                if(groupMember.getConcept().getConceptId()==MEDICATION_STRENGTH_CONCEPT_ID){
+                    medicationStrength=groupMember.getValueText();
+                    return medicationStrength;
+                }
+            }
+        }
+        return medicationStrength;
     }
 
     /**
@@ -440,6 +488,9 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
                 labQueueMapper.setStatus(patientQueue.getStatus().name());
                 labQueueMapper.setAge(patientQueue.getPatient().getAge().toString());
                 labQueueMapper.setDateCreated(patientQueue.getDateCreated().toString());
+                if (patientQueue.getDateChanged() != null) {
+                    labQueueMapper.setDateChanged(patientQueue.getDateChanged().toString());
+                }
                 labQueueMapper.setEncounterId(patientQueue.getEncounter().getEncounterId().toString());
                 labQueueMapper.setVisitNumber(patientQueue.getVisitNumber());
                 if (patientQueue.getEncounter() != null) {
@@ -484,11 +535,16 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
             pharmacyMapper.setAge(patientQueue.getPatient().getAge().toString());
             pharmacyMapper.setDateCreated(patientQueue.getDateCreated().toString());
 
+            if (patientQueue.getDateChanged() != null) {
+                pharmacyMapper.setDateChanged(patientQueue.getDateChanged().toString());
+            }
+
             Visit visit = getPatientCurrentVisit(patientQueue.getPatient());
 
             if (visit != null) {
                 pharmacyMapper.setVisitId(visit.getVisitId());
             }
+
 
             if (patientQueue.getEncounter() != null) {
                 pharmacyMapper.setEncounterId(patientQueue.getEncounter().getEncounterId().toString());
@@ -730,6 +786,7 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
 
     /**
      * This Validates a drug order
+     *
      * @param drugOrder the drug order to validate
      * @return returns true or false basing on the validation
      */
@@ -1018,5 +1075,29 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
                 }
             }
         }
+    }
+    /**
+     * @see org.openmrs.module.ugandaemrpoc.api.UgandaEMRPOCService#generatePatientProgramAttribute(org.openmrs.ProgramAttributeType, org.openmrs.PatientProgram, java.lang.String)
+     */
+    public PatientProgramAttribute generatePatientProgramAttribute(ProgramAttributeType programAttributeType, PatientProgram patientProgram, String value) {
+        PatientProgramAttribute patientProgramAttribute = new PatientProgramAttribute();
+        patientProgramAttribute.setAttributeType(programAttributeType);
+        patientProgramAttribute.setValueReferenceInternal(value);
+
+        return patientProgramAttribute;
+    }
+
+    /**
+     * @see org.openmrs.module.ugandaemrpoc.api.UgandaEMRPOCService#generatePatientProgramAttributeFromObservation(org.openmrs.PatientProgram, java.util.Set, java.lang.Integer, java.lang.String)
+     */
+    public PatientProgramAttribute generatePatientProgramAttributeFromObservation(PatientProgram patientProgram, Set<Obs> observations, Integer conceptID, String programAttributeUUID) {
+        UgandaEMRPOCService ugandaEMRPOCService = Context.getService(UgandaEMRPOCService.class);
+        for (Obs obs : observations) {
+            if (conceptID.equals(obs.getConcept().getConceptId())) {
+                ProgramAttributeType programAttributeType = Context.getProgramWorkflowService().getProgramAttributeTypeByUuid(programAttributeUUID);
+                return ugandaEMRPOCService.generatePatientProgramAttribute(programAttributeType, patientProgram, obs.getValueAsString(Locale.ENGLISH));
+            }
+        }
+        return null;
     }
 }

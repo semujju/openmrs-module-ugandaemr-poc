@@ -47,7 +47,83 @@
     <script type="text/javascript">
 
         if (jQuery) {
-            jq(document).ready(function () {
+           jq(document).ready(function () {
+                $allRows_other = jq(this).find('.multi-drug-other');
+                $allRows_other.hide();
+                jq('#1-removeEntry-other').remove();
+                jq('#10-addEntry-other').remove();
+                jq('#1-toggleContainer-other').show();
+
+                jq('#11-removeEntry-other').remove();
+                jq('#20-addEntry-other').remove();
+                jq('#11-toggleContainer-other').show();
+                });
+
+           jq(document).ready(function () {
+                jq('.addEntry-other').on("click", function () {
+                var correctedAddButtonId = parseFloat(this.id) + 1;
+                var contentAddId = "#" + correctedAddButtonId + "-toggleContainer-other";
+                jq(contentAddId).toggle(true);
+                jq('#' + this.id).toggle(false);
+                jq('#' + parseFloat(this.id) + '-removeEntry-other').toggle(true);
+                return false;
+                });
+                });
+
+           jq(document).ready(function () {
+                jq('.removeEntry-other').on("click", function () {
+                var correctedRemoveButtonId = parseFloat(this.id) - 1;
+                var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer-other";
+                jq(contentAddId).toggle(false);
+                jq(':input:not(:button)', contentAddId).val([]);
+                jq('#' + correctedRemoveButtonId + '-addEntry-other').toggle(true);
+                jq('#' + correctedRemoveButtonId + '-removeEntry-other').toggle(true);
+
+                return false;
+                });
+
+                });
+
+           jq(document).ready(function () {
+                $allRows = jq(this).find('.multi-arv-drug');
+                $allRows.hide();
+                jq('#1-removeEntry1-other').remove();
+                jq('#10-addEntry1-other').remove();
+                jq('#1-toggleContainer1-other').show();
+
+                jq('#11-removeEntry').remove();
+                jq('#20-addEntry1-other').remove();
+                jq('#11-toggleContainer1-other').show();
+                });
+
+           jq(document).ready(function () {
+                jq('.addEntry-other1').on("click", function () {
+                var correctedAddButtonId = parseFloat(this.id) + 1;
+                var contentAddId = "#" + correctedAddButtonId + "-toggleContainer1-other";
+                jq(contentAddId).toggle(true);
+                jq('#' + this.id).toggle(false);
+                jq('#' + parseFloat(this.id) + '-removeEntry1-other').toggle(true);
+                return false;
+                });
+                });
+
+           jq(document).ready(function () {
+                jq('.removeEntry-other1').on("click", function () {
+                var correctedRemoveButtonId = parseFloat(this.id) - 1;
+                var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer1-other";
+                jq(contentAddId).toggle(false);
+                jq(':input:not(:button)', contentAddId).val([]);
+                jq('#' + correctedRemoveButtonId + '-addEntry1-other').toggle(true);
+                jq('#' + correctedRemoveButtonId + '-removeEntry1-other').toggle(true);
+                return false;
+                });
+
+        });
+
+
+
+
+        jq(document).ready(function () {
                 $allRows = jq(this).find('.multi-drug');
                 $allRows.hide();
                 jq('#1-removeEntry').remove();
@@ -85,6 +161,40 @@
 
             });
 
+            jq(document).ready(function () {
+                $allRows = jq(this).find('.multi-test');
+                $allRows.hide();
+                jq('#1-removeEntry3').remove();
+                jq('#10-addEntry3').remove();
+                jq('#1-toggleContainer3').show();
+
+                jq('#11-removeEntry').remove();
+                jq('#20-addEntry3').remove();
+                jq('#11-toggleContainer3').show();
+            });
+
+            jq(document).ready(function () {
+                jq('.addEntry3').on("click", function () {
+                    var correctedAddButtonId = parseFloat(this.id) + 1;
+                    var contentAddId = "#" + correctedAddButtonId + "-toggleContainer3";
+                    jq(contentAddId).toggle(true);
+                    jq('#' + this.id).toggle(false);
+                    jq('#' + parseFloat(this.id) + '-removeEntry3').toggle(true);
+                    return false;
+                });
+            });
+
+            jq(document).ready(function () {
+                jq('.removeEntry3').on("click", function () {
+                    var correctedRemoveButtonId = parseFloat(this.id) - 1;
+                    var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer3";
+                    jq(contentAddId).toggle(false);
+                    jq(':input:not(:button)', contentAddId).val([]);
+                    jq('#' + correctedRemoveButtonId + '-addEntry3').toggle(true);
+                    jq('#' + correctedRemoveButtonId + '-removeEntry3').toggle(true);
+                    return false;
+                });
+            });
 
 
             jq(document).ready(function () {
@@ -97,11 +207,7 @@
                 jq('#11-removeEntry').remove();
                 jq('#20-addEntry1').remove();
                 jq('#11-toggleContainer1').show();
-            });
 
-
-
-            jq(document).ready(function () {
                 jq('.addEntry1').on("click", function () {
                     var correctedAddButtonId = parseFloat(this.id) + 1;
                     var contentAddId = "#" + correctedAddButtonId + "-toggleContainer1";
@@ -110,9 +216,7 @@
                     jq('#' + parseFloat(this.id) + '-removeEntry1').toggle(true);
                     return false;
                 });
-            });
 
-            jq(document).ready(function () {
                 jq('.removeEntry1').on("click", function () {
                     var correctedRemoveButtonId = parseFloat(this.id) - 1;
                     var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer1";
@@ -124,7 +228,54 @@
                     return false;
                 });
 
+            })
+        <ifMode mode = "EDIT" >
+            jq(document).ready(function () {
+                $allRows = jq(this).find('.multi-drug');
+                $allRows.hide();
+                jq('#1-removeEntry').remove();
+                jq('#10-addEntry').remove();
+                jq('#1-toggleContainer').show();
+                jq('#11-removeEntry').remove();
+                jq('#20-addEntry').remove();
+                jq('#11-toggleContainer').show();
+                for (let x = 0; x&lt;= 10; x++) {
+                     if (jq(this).find('#' +x+ '-drug').find("input[type$='text']").val()!='')
+                     {
+                         jq(this).find('#' +x+ '-toggleContainer').show();
+                          jq(this).find('#' +x+ '-addEntry').hide();
+                     }
+                    else {
+                            x-=1;
+                            jq(this).find('#' +x+ '-addEntry').show();
+                            break;
+                    }
+                }
             });
+
+            jq(document).ready(function () {
+                $allRows_other = jq(this).find('.multi-drug-other');
+                $allRows_other.hide();
+                jq('#1-removeEntry-other').remove();
+                jq('#10-addEntry-other').remove();
+                jq('#1-toggleContainer-other').show();
+                jq('#11-removeEntry-other').remove();
+                jq('#20-addEntry-other').remove();
+                jq('#11-toggleContainer-other').show();
+                for (let x = 0; x&lt;= 10; x++) {
+                    if (jq(this).find('#' +x+ '-drugother').find("input[type$='text']").val()!='')
+                    {
+                      jq(this).find('#' +x+ '-toggleContainer-other').show();
+                      jq(this).find('#' +x+ '-addEntry-other').hide();
+                    }
+                    else {
+                        x-=1;
+                        jq(this).find('#' +x+ '-addEntry-other').show();
+                        break;
+                    }
+                }
+            });
+        </ifMode>
 
             var instabilityCause = "";
 
@@ -216,7 +367,7 @@
                     DSDMStabilityCheck();
                 });
 
-                disable_fields("other-reason-for-next-appointment");
+
                 jq("#reason-for-next-appointment").change(function () {
                     if (jq(this).find("select").find(":selected").val() == "90002") {
                         enable_fields("other-reason-for-next-appointment");
@@ -226,9 +377,7 @@
                     }
                 });
 
-                disable_fields("99413-target");
-                disable_fields("160856");
-                disable_fields("159368");
+
                 jq("#99413").change(function () {
                     if (jq(this).find("input[type='radio']:checked").val() == "1065") {
                         enable_fields("99413-target");
@@ -241,11 +390,168 @@
                         disable_fields("159368");
                     }
                 });
-
+                <ifMode mode="ENTER">
                 disable_fields("edd");
                 disable_fields("emtct");
                 disable_fields("age-in-months");
                 disable_fields("anc_no");
+
+                /* disable family planning options*/
+                jq(".family-planning-methods").find("input[type$='checkbox']").attr('disabled', true);
+                jq(".family-planning-methods").addClass("html-form-entry-disabled-field");
+
+                disable_fields("signs-and-symptoms-enabled");
+
+                //disable TB start date and district number
+                disable_fields("tb-start-date");
+                disable_fields("district-tb-no");
+
+                //disable/enable TB stop date if client has completed TB treatment
+                disable_fields("tb-stop-date");
+
+                /*enable disable tpt attributes*/
+                disable_fields("tpt-initiation-date");
+                disable_fields("tpt-completion-date");
+                disable_fields("tpt-side-effects");
+
+                disable_fields("side-effects-of-art-enabled");
+                jq(".hepB-results").find("input[type$='radio']").attr('disabled', true);
+
+                 /* disable Art adherence*/
+                 jq(".fair-or-poor-art-adherence-reason").find("input[type$='checkbox']").attr('disabled', true);
+                 jq(".fair-or-poor-art-adherence-reason").addClass("html-form-entry-disabled-field");
+
+                 /* enabling and disabling other reasons for poor art adherence*/
+                 jq("#other-poor-art-adherence-reason-enabled").find("input[type$='text']").attr("disabled", true);
+                 jq("#other-poor-art-adherence-reason-enabled").addClass("html-form-entry-disabled-field");
+
+                 disable_fields("no-of-art-pills");
+                 disable_fields("no-of-art-pills-days");
+                 disable_fields("split-regimen");
+
+                    /* disabling isonaziad fields  */
+                 disable_fields("no-of-isoniazid");
+                 disable_fields("duration-on-isoniazid");
+
+                 disable_fields("no-of-dapsone-pills");
+                 disable_fields("no-of-dapsone-pills-days");
+
+                    /* disabling vitamin b6 fields  */
+                 disable_fields("no-of-vitamin-b6");
+                 disable_fields("duration-on-vitamin-b6");
+
+                 disable_fields("fluconazole-stop-date");
+                 disable_fields("no-of-fluconazole-pills");
+                 disable_fields("no-of-fluconazole-pills-days");
+
+                 disable_fields("other-regimen");
+
+                 disable_fields("other-reason-for-next-appointment");
+
+                 disable_fields("99413-target");
+                 disable_fields("160856");
+                 disable_fields("159368");
+                </ifMode>
+
+                <ifMode mode="EDIT">
+                    disable_enable_on_edit_mode("edd");
+                    disable_enable_on_edit_mode("emtct");
+                    disable_enable_on_edit_mode("age-in-months");
+                    disable_enable_on_edit_mode("anc_no");
+
+                    /* enable disable family planning options on edit */
+                    if(!jq(".family-planning-methods").find(':checkbox').prop('checked')){
+                        jq(".family-planning-methods").find("input[type$='checkbox']").attr('disabled', true);
+                        jq(".family-planning-methods").addClass("html-form-entry-disabled-field");
+                    }
+                    else{
+                    jq(".family-planning-methods").find("input[type$='checkbox']").attr('disabled', false);
+                    jq(".family-planning-methods").removeClass("html-form-entry-disabled-field");
+                    }
+
+                    disable_enable_on_edit_mode("signs-and-symptoms-enabled");
+                    disable_enable_on_edit_mode("tb-start-date");
+                    disable_enable_on_edit_mode("district-tb-no");
+                    disable_enable_on_edit_mode("tb-stop-date");
+
+                    disable_enable_on_edit_mode("tpt-initiation-date");
+                    disable_enable_on_edit_mode("tpt-completion-date");
+                    disable_enable_on_edit_mode("tpt-side-effects");
+
+                    /* enable disable side-effects-of-art */
+                    if(!jq(".hepB-status").find("input[type='radio']:checked")){
+                         jq(".hepB-results").find("input[type$='radio']").attr('disabled', true);
+                    }
+                    else{
+                         jq(".hepB-results").find("input[type$='radio']").attr('disabled', false);
+                    }
+
+                    /*enable disable Art adherence on edit */
+
+                    var adherence = jq("#art-adherence").find("input[type='radio']:checked").val();
+                    if (adherence == 90157 || adherence == 90158) {
+                        jq(".fair-or-poor-art-adherence-reason").find("input[type$='checkbox']").attr('disabled', false);
+                        jq(".fair-or-poor-art-adherence-reason").removeClass("html-form-entry-disabled-field");
+                    } else {
+                        jq(".fair-or-poor-art-adherence-reason").find("input[type$='checkbox']").prop("checked", false);
+                        jq(".fair-or-poor-art-adherence-reason").find("input[type$='checkbox']").attr('disabled', true);
+                        jq(".fair-or-poor-art-adherence-reason").addClass("html-form-entry-disabled-field");
+                    }
+                    if (jq("#enable-disable-other-poor-art-adherence-reason").find(':checkbox').prop('checked')) {
+                        jq("#other-poor-art-adherence-reason-enabled").find("input[type$='text']").attr("disabled", false);
+                        jq("#other-poor-art-adherence-reason-enabled").removeClass("html-form-entry-disabled-field");
+                    } else {
+                        jq("#other-poor-art-adherence-reason-enabled").find("input[type$='text']").attr("disabled", true);
+                        jq("#other-poor-art-adherence-reason-enabled").addClass("html-form-entry-disabled-field");
+                    }
+
+                    /* enable art prescription on edit */
+                    if (jq("#art-regimen").find("select").find(":selected").val() !== " ") {
+                        enable_fields("no-of-art-pills");
+                        enable_fields("no-of-art-pills-days");
+                        enable_fields("split-regimen");
+                    } else {
+                        disable_fields("no-of-art-pills");
+                        disable_fields("no-of-art-pills-days");
+                        disable_fields("split-regimen");
+                    }
+
+                    if (jq("#isoniazid").find("input[type='radio']:checked")) {
+                        enable_fields("no-of-isoniazid");
+                        enable_fields("duration-on-isoniazid");
+                    } else {
+                        disable_fields("no-of-isoniazid");
+                        disable_fields("duration-on-isoniazid");
+                    }
+
+                    if ( jq("#is-taking-dapsone").find("input[type='radio']:checked")) {
+                        enable_fields("no-of-dapsone-pills");
+                        enable_fields("no-of-dapsone-pills-days");
+                    } else {
+                        disable_fields("no-of-dapsone-pills");
+                        disable_fields("no-of-dapsone-pills-days");
+                    }
+
+                    if (jq("#vitamin-b6").find("input[type='radio']:checked").val() == "82912") {
+                        enable_fields("no-of-vitamin-b6");
+                        enable_fields("duration-on-vitamin-b6");
+                    } else {
+                        disable_fields("no-of-vitamin-b6");
+                        disable_fields("duration-on-vitamin-b6");
+                    }
+
+                    disable_enable_on_edit_mode("fluconazole-stop-date");
+                    disable_enable_on_edit_mode("no-of-fluconazole-pills");
+                    disable_enable_on_edit_mode("no-of-fluconazole-pills-days");
+
+                    /* other regimen enable disable on edit*/
+                    disable_enable_on_edit_mode("other-regimen");
+
+                    disable_enable_on_edit_mode("other-reason-for-next-appointment");
+                   disable_enable_on_edit_mode("99413-target");
+                   disable_enable_on_edit_mode("160856");
+                   disable_enable_on_edit_mode("159368");
+                </ifMode>
 
                 /* enable the edd,emtct,age in months and ANC no. fields in case the client is pregnant */
 
@@ -302,9 +608,6 @@
 
                 /*enable disable family planning options*/
 
-                jq(".family-planning-methods").find("input[type$='checkbox']").attr('disabled', true);
-                jq(".family-planning-methods").addClass("html-form-entry-disabled-field");
-
                 jq("#enable-disable-family-planning-methods").change(function () {
                     if (jq(this).find("input[type='radio']:checked").val() == 90082) {
                         jq(".family-planning-methods").find("input[type$='checkbox']").attr('disabled', false);
@@ -316,13 +619,11 @@
                     }
                 });
 
-                //disable TB start date and district number
-                disable_fields("tb-start-date");
-                disable_fields("district-tb-no");
+
 
                 //enable start date and district number if client is on TbRx
                 jq("#tb-status").change(function () {
-                    if (jq(this).find("select").find(":selected").val() == "90071") {
+                    if (jq(this).find("select").find(":selected").val() == "90071" || jq(this).find("select").find(":selected").val() == "165295" || jq(this).find("select").find(":selected").val() == "165296" || jq(this).find("select").find(":selected").val() == "165297" || jq(this).find("select").find(":selected").val() == "165298" || jq(this).find("select").find(":selected").val() == "165299" || jq(this).find("select").find(":selected").val() == "165300" ) {
                         enable_fields("tb-start-date");
                         enable_fields("district-tb-no");
                     } else {
@@ -332,9 +633,6 @@
                 });
 
 
-                //disable/enable TB stop date if client has completed TB treatment
-                disable_fields("tb-stop-date");
-
                 jq("#tb-status").change(function () {
                     if (jq(this).find("select").find(":selected").val() == "99421") {
                         enable_fields("tb-stop-date");
@@ -343,10 +641,7 @@
                     }
                 });
 
-                /*enable disable tpt attributes*/
-                disable_fields("tpt-initiation-date");
-                disable_fields("tpt-completion-date");
-                disable_fields("tpt-side-effects");
+
 
                 jq("#tpt-status").change(function () {
                     if (jq(this).find("select").find(":selected").val() == "90072") {
@@ -373,8 +668,6 @@
                 });
 
                 /*enable disable dapsone prescription*/
-                disable_fields("no-of-dapsone-pills");
-                disable_fields("no-of-dapsone-pills-days");
 
                 jq("#is-taking-dapsone").change(function () {
                     if (jq(this).find("input[type='radio']:checked").val() == "1065") {
@@ -387,8 +680,7 @@
                 });
 
                 /*enable disable isoniazid prescription*/
-                disable_fields("no-of-isoniazid");
-                disable_fields("duration-on-isoniazid");
+
 
                 jq("#isoniazid").click(function () {
                     if (jq(this).find("input[type='radio']:checked").val() == "78280") {
@@ -401,8 +693,7 @@
                 });
 
                 /*enable disable vitamin-b6 prescription*/
-                disable_fields("no-of-vitamin-b6");
-                disable_fields("duration-on-vitamin-b6");
+
 
                 jq("#vitamin-b6").click(function () {
                     if (jq(this).find("input[type='radio']:checked").val() == "82912") {
@@ -416,9 +707,7 @@
 
                 /*disable fluconazole prescription*/
 
-                disable_fields("fluconazole-stop-date");
-                disable_fields("no-of-fluconazole-pills");
-                disable_fields("no-of-fluconazole-pills-days");
+
 
                 // enable number of fluconazole stop date if fluconazole start date is defined
                 jq("#fluconazole-start-date").change(function () {
@@ -434,7 +723,7 @@
                 });
 
                 /* enable or disable other art regimens */
-                disable_fields("other-regimen");
+
                 jq("#art-regimen").change(function () {
                     if (jq(this).find("select").find(":selected").val() == "90002") {
                         enable_fields("other-regimen");
@@ -443,9 +732,7 @@
                     }
                 });
 
-                disable_fields("no-of-art-pills");
-                disable_fields("no-of-art-pills-days");
-                disable_fields("split-regimen");
+
 
                 /* enable art prescription */
                 jq("#art-regimen").change(function () {
@@ -512,9 +799,6 @@
 
                 /*enable disable Art adherence*/
 
-                jq(".fair-or-poor-art-adherence-reason").find("input[type$='checkbox']").attr('disabled', true);
-                jq(".fair-or-poor-art-adherence-reason").addClass("html-form-entry-disabled-field");
-
                 jq("#art-adherence").change(function () {
                     var adherence = jq(this).find("input[type='radio']:checked").val();
                     if (adherence == 90157 || adherence == 90158) {
@@ -529,7 +813,7 @@
 
                 /*enable disable Hepatitis B status*/
 
-                jq(".hepB-results").find("input[type$='radio']").attr('disabled', true);
+
 
                 jq(".hepB-status").change(function () {
                     var hepStatus = jq(this).find("input[type='radio']:checked").val();
@@ -606,40 +890,25 @@
                 }
 
                 /* enabling and disabling other signs and symptoms */
-                jq("#signs-and-symptoms-enabled").find("input[type$='text']").attr("disabled", true);
-                jq("#signs-and-symptoms-enabled").addClass("html-form-entry-disabled-field");
-                jq("#signs-and-symptoms").addClass("html-form-entry-disabled-field");
 
                 jq("#enable-disable-signs-and-symptoms").change(function () {
                     if (jq(this).find(':checkbox').prop('checked')) {
-                        jq(".signs-and-symptoms").find("input[type$='checkbox']").prop("checked", false);
-                        jq("#signs-and-symptoms-enabled").find("input[type$='text']").attr("disabled", false);
-                        jq("#signs-and-symptoms-enabled").removeClass("html-form-entry-disabled-field");
-                        jq(".signs-and-symptoms").removeClass("html-form-entry-disabled-field");
+                         enable_fields("signs-and-symptoms-enabled");
                     } else {
-                        jq("#signs-and-symptoms-enabled").find("input[type$='text']").attr("disabled", true);
-                        jq("#signs-and-symptoms-enabled").addClass("html-form-entry-disabled-field");
-                        jq(".signs-and-symptoms").addClass("html-form-entry-disabled-field");
+                        disable_fields("signs-and-symptoms-enabled");
                     }
                 });
 
                 /* enabling and disabling other side effects of art*/
-                jq("#side-effects-of-art-enabled").find("input[type$='text']").attr("disabled", true);
-                jq("#side-effects-of-art-enabled").addClass("html-form-entry-disabled-field");
-
                 jq("#enable-disable-side-effects-of-art").change(function () {
                     if (jq('#enable-disable-side-effects-of-art').find(':checkbox').prop('checked')) {
-                        jq("#side-effects-of-art-enabled").find("input[type$='text']").attr("disabled", false);
-                        jq("#side-effects-of-art-enabled").removeClass("html-form-entry-disabled-field");
+                        enable_fields("side-effects-of-art-enabled");
                     } else {
-                        jq("#side-effects-of-art-enabled").find("input[type$='text']").attr("disabled", true);
-                        jq("#side-effects-of-art-enabled").addClass("html-form-entry-disabled-field");
+                         disable_fields("side-effects-of-art-enabled");
                     }
                 });
 
-                /* enabling and disabling other reasons for poor art adherence*/
-                jq("#other-poor-art-adherence-reason-enabled").find("input[type$='text']").attr("disabled", true);
-                jq("#other-poor-art-adherence-reason-enabled").addClass("html-form-entry-disabled-field");
+
 
                 jq("#enable-disable-other-poor-art-adherence-reason").change(function () {
                     if (jq(this).find(':checkbox').prop('checked')) {
@@ -775,6 +1044,7 @@
                     return false;
                 }
 
+
                 /* if DSDM is not FBIM or FTR or Empty and patient is not stable should not save.*/
                 if (jq("#patient-categorization").find("select").find(":selected").val() !== "90003" &amp;&amp; (jq("#165143").find("select").find(":selected").val() !== "165138" &amp;&amp; jq("#165143").find("select").find(":selected").val() !== "165140" &amp;&amp; jq("#165143").find("select").find(":selected").val() !== "")) {
                     getField('165143.error').html('Patient Not Stable due to ' + instabilityCause + '. \n Only Stable Patients can be enrolled in ' + jq("#165143").find("select").find(":selected").text()).show();
@@ -782,8 +1052,55 @@
                     jq().toastmessage('showErrorToast', " Patient Not Stable " + instabilityCause + ". \n Only Stable Patients can be enrolled in " + jq("#165143").find("select").find(":selected").text());
                     return false;
                 }
-                return true;
+
+                <!--Not to exceed number of booking for a specific return date. Default is 100 clients-->
+                <!-- formatting date String from YYYY-MM-DD to DD/MM/YYYY to pass in the Url-->
+                var selectedDate = getValue('returndate.value');
+
+                var formattedDate = changeFieldDateToJavascriptDate(selectedDate);
+                var appointmentCountURL = window.location.origin + '/' + OPENMRS_CONTEXT_PATH + '/ws/rest/v1/ugandaemr/appointmentcount?nextAppointmentDate=' + formattedDate.replace(/['"]+/g, '') + '&amp;encounterType=8d5b2be0-c2cc-11de-8d13-0010c6dffd0f';
+
+                isValid = true;
+                var maxNumberOfBooked =  jq("#numberOfPatients").html();
+                jq.ajax({
+                     type: 'GET',
+                     dataType: 'json',
+                     url: appointmentCountURL,
+                     async:false,
+                     success: function(response){
+                         if(response.appointmentcount &gt;= maxNumberOfBooked){
+                            getField('returndate.error').html('The patient cannot be scheduled on ' + formattedDate + ' because the limit of ' + maxNumberOfBooked + ' has been reached').show();
+                             isValid = false;
+                         }
+                     },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                           getField('returndate.error').html('Unable to determine the number of patients scheduled on ' + formattedDate + ' due to ' + textStatus ).show();
+                            isValid = false;
+                    }
+                });
+                 <!--Not to book on a public holiday-->
+                var publicHolidayURL = window.location.origin + '/' + OPENMRS_CONTEXT_PATH + '/ws/rest/v1/ugandaemr/publicHoliday?date=' + formattedDate ;
+
+                jq.ajax({
+                     type: 'GET',
+                     url: publicHolidayURL,
+                     async:false,
+                     success: function(response){
+                         if(response.results.length){
+                            getField('returndate.error').html('The patient cannot be scheduled on ' + formattedDate + ' which is a public holiday, ' + response.results[0].name).show();
+                             isValid = false;
+                         }
+                     },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                          getField('returndate.error').html('Unable to determine if ' + formattedDate + ' is a public Holiday').show();
+                            isValid  = false;
+                        }
+                });
+
+                // check the appointment dates
+                return isValid;
             });
+
         }
 
         <!-- only show BMI if patient is more than 5 years old (on the encounterDate) -->
@@ -849,7 +1166,11 @@
                     jq(form).find('#hidden-calculated-bmi').val(bmi.toFixed(1));
                 }
             });
+
+
         </ifMode>
+
+
         </includeIf>
 
     </script>
@@ -975,6 +1296,7 @@
         <lookup
                 complexExpression="#foreach($other_third_line_regimen in $fn.allObs(162989)) $other_first_second_line_regimen.valueText #end"/>
     </span>
+    <span class="hidden" id="numberOfPatients"><lookup expression="fn.globalProperty('ugandaemr.maximumPatientsPerDay')"/></span>
 
     <restrictByRole exclude="HIV Clinic">
         <div>
@@ -1610,7 +1932,7 @@
                                                     </div>
                                                     <label>Hep B Results (if tested)</label>
                                                     <div class="col-md-3">
-                                                        <obs conceptId="1322" answerConceptIds="703,664"
+                                                        <obs id="1322" conceptId="1322" answerConceptIds="703,664"
                                                              answerLabels="Neg - Negative, Pos - Positive" style="radio"
                                                              class="hepB-results horizontal"/>
                                                     </div>
@@ -1693,9 +2015,8 @@
                                             </div>
                                         </div>
                                         <div class="card">
-                                            <div class="card">
                                                 <div class="card-header">
-                                                    <label>Other Medications</label>
+                                                    <label>Essential Medications</label>
                                                 </div>
                                                 <div class="card-body">
                                                     <div>
@@ -1704,7 +2025,7 @@
                                                                 <obsgroup groupingConceptId="160741">
                                                                     <div class="row multi-drug" id="{id}-toggleContainer">
                                                                         <div class="col-2">
-                                                                            <obs labelText="Drug" conceptId="1282" answerClasses="Drug" style="autocomplete" class="fullwidth"/>
+                                                                            <obs labelText="Drugs"  id="{id}-drug" conceptId="1282" answerClasses="Drug" style="autocomplete" class="fullwidth"/>
                                                                         </div>
                                                                         <div class="col-2">
                                                                             <obs labelText="Quantity" conceptId="160856"/>
@@ -1741,8 +2062,57 @@
                                                         </repeat>
                                                     </div>
                                                 </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <label>Other Medications</label>
+                                            </div>
+                                            <div class="card-body">
+                                                <div>
+                                                    <repeat>
+                                                        <template>
+                                                            <obsgroup groupingConceptId="165874">
+                                                                <div class="row multi-drug-other" id="{id}-toggleContainer-other">
+                                                                    <div class="col-2">
+                                                                        <obs labelText="Drug" id="{id}-drugother" conceptId="99035" class="fullwidth"/>
+                                                                    </div>
+                                                                    <div class="col-2">
+                                                                        <obs labelText="Quantity" conceptId="160856"/>
+                                                                    </div>
+                                                                    <div class="col-2">
+                                                                        <obs labelText="Qty unit" conceptId="165791" answerConceptSetIds="162402,162384"/>
+                                                                    </div>
+                                                                    <div class="col-2 duration">
+                                                                        <label>Duration</label>
+                                                                        <obs conceptId="159368"/>
+                                                                    </div>
+                                                                    <div class="col-2">
+                                                                        <obs conceptId="1732" labelText="Duration unit"/>
+                                                                    </div>
+                                                                    <div class="col-2">
+                                                                        <div class="add-entry">
+                                                                            <a href="#" id="{id}-addEntry-other" class="addEntry-other add-more-link"><i class="icon-plus-sign"></i></a>
+                                                                            <a href="#" class="removeEntry-other remove-more-link" id="{id}-removeEntry-other"><i class="icon-minus"></i></a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </obsgroup>
+                                                        </template>
+                                                        <render id="1"/>
+                                                        <render id="2"/>
+                                                        <render id="3"/>
+                                                        <render id="4"/>
+                                                        <render id="5"/>
+                                                        <render id="6"/>
+                                                        <render id="7"/>
+                                                        <render id="8"/>
+                                                        <render id="9"/>
+                                                        <render id="10"/>
+                                                    </repeat>
+                                                </div>
                                             </div>
                                         </div>
+
                                         <div class="card">
                                             <div class="card-header">Art</div>
                                             <div class="card-body">
@@ -1972,14 +2342,42 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!--here the implementation for other tests-->
                                             <div class="col-md-8">
                                                 <div class="card">
                                                     <div class="card-header">Other Investigations</div>
                                                     <div class="card-body">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <obs conceptId="99114" style="textarea" rows="4" />
-                                                            </div>
+                                                        <div>
+                                                            <repeat>
+                                                                <template>
+                                                                    <obsgroup groupingConceptId="165877">
+                                                                        <div class="row multi-test" id="{id}-toggleContainer3">
+                                                                            <div class="col-md-3">
+                                                                                <obs labelText="Test Name" conceptId="165875"/>
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                <obs labelText="Results" conceptId="165876"/>
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                <div class="add-entry3">
+                                                                                    <a href="#" id="{id}-addEntry3" class="addEntry3 add-more-link"><i class="icon-plus-sign"></i></a>
+                                                                                    <a href="#" class="removeEntry3 remove-more-link" id="{id}-removeEntry3"><i class="icon-minus"></i></a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </obsgroup>
+                                                                </template>
+                                                                <render id="1"/>
+                                                                <render id="2"/>
+                                                                <render id="3"/>
+                                                                <render id="4"/>
+                                                                <render id="5"/>
+                                                                <render id="6"/>
+                                                                <render id="7"/>
+                                                                <render id="8"/>
+                                                                <render id="9"/>
+                                                                <render id="10"/>
+                                                            </repeat>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2792,20 +3190,23 @@
                                         <div class="card-body">
                                             <obsgroup groupingConceptId="165430">
                                                 <div class="row arv-regimen">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <obs id="art-regimen" conceptId="90315" labelText="Regimen"
                                                              answerConceptIds="99015,99016,99005,99006,164979,99039,99040,164977,99041,99042,99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99884,99885,164978,99888,163017,99887,165797,165796,165795,165808,165807,165806,165805,165804,165803,165802,165801,165800,165799,165798,90002"
                                                              answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-3TC-DTG,TDF-FTC-NVP,TDF-FTC-EFV,ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,ZDV-ddI(250)-LPV/r,ZDV-ddI(400)-LPV/r,AZT-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,ZDV-ddI-LPV/r,AZT-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,ABC-3TC-NVP,ABC-3TC-EFV,ABC-3TC-DTG,ABC-3TC-ATV/r,ABC-3TC-LPV/r,TDF-3TC-ATV/r,AZT/3TC/RAL,ABC/3TC/AZT,TDF/3TC/AZT,DRV/RTV/RAL/ABC/3TC,DRV/RTV/ETV/ABC/3TC,DRV/RTV/RAL/TDF/3TC,DRV/RTV/RAL/AZT/3TC,DRV/RTV/RAL,DRV/RTV/ETV/TDF/3TC,DRV/RTV/ETV/AZT/3TC,DRV/RTV/ETV,DRV/RTV/DTG/TDF/3TC,DRV/RTV/DTG/AZT/3TC,DRV/RTV/DTG,Other"/>
                                                     </div>
-                                                    <div class="col-md-3">
-                                                        <obs id="no-of-art-pills" conceptId="99038" labelText="No. of Pills"/>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <obs id="no-of-art-pills-days" conceptId="99036" labelText="No. of Days"/>
-                                                    </div>
                                                     <div class="col-md-2">
                                                         <br/>
                                                         <obs id="split-regimen" conceptId="165809" labelText="Split" style="checkbox"/>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <obs class="drug-strength" conceptId="1444" labelText="Strength"/>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <obs id="no-of-art-pills" conceptId="99038" labelText="No. of Pills"/>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <obs id="no-of-art-pills-days" conceptId="99036" labelText="No. of Days"/>
                                                     </div>
                                                 </div>
                                             </obsgroup>
@@ -2819,13 +3220,17 @@
                                                             </div>
 
                                                             <div class="col-md-3">
+                                                                <obs class="drug-strength" conceptId="1444" labelText="Strength"/>
+                                                            </div>
+
+                                                            <div class="col-md-2">
                                                                 <obs labelText="No. of Pills" conceptId="160856"/>
                                                             </div>
 
-                                                            <div class="col-md-3 duration">
+                                                            <div class="col-md-2 duration">
                                                                 <obs conceptId="159368" labelText="No. of Days"/>
                                                             </div>
-                                                            <div class="col-md-2">
+                                                            <div class="col-md-1">
                                                                 <br/>
                                                                 <div class="add-entry1">
                                                                     <a href="#" id="{id}-addEntry1" class="addEntry1 add-more-link"><i class="icon-plus-sign"></i></a>
@@ -2856,34 +3261,40 @@
                                         <div class="card-body">
                                             <obsgroup groupingConceptId="165305">
                                                 <div class="row">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <br/>
                                                         <obs conceptId="1282" answerConceptSetIds="160021"
                                                              style="radio"
                                                              answerConceptIds="78280" answerLabels="Isoniazid"/>
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
+                                                        <obs class="drug-strength" conceptId="1444" labelText="Strength"/>
+                                                    </div>
+                                                    <div class="col-md-3">
                                                         <label>No. of Pills</label>
                                                         <obs conceptId="160856"/>
                                                     </div>
-                                                    <div class="col-4 duration">
+                                                    <div class="col-md-3 duration">
                                                         <label>No. of Days</label>
                                                         <obs conceptId="159368"/>
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <br/>
                                                         <obs conceptId="1282" answerConceptSetIds="160021"
                                                              style="radio"
                                                              answerConceptIds="82912" answerLabels="Vitamin B6"/>
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
+                                                        <obs conceptId="1444" labelText="Strength"/>
+                                                    </div>
+                                                    <div class="col-md-3">
                                                         <label>No. of Pills</label>
                                                         <obs conceptId="160856"/>
                                                     </div>
 
-                                                    <div class="col-4 duration">
+                                                    <div class="col-md-3 duration">
                                                         <label>No. of Days</label>
                                                         <obs conceptId="159368"/>
                                                     </div>
@@ -2914,12 +3325,13 @@
                                                 </div>
                                             </div>
                                                 <div class="row">
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-4">
+                                                        <obs class="drug-strength" conceptId="1444" labelText="Strength"/>
+                                                    </div>
+                                                    <div class="col-md-4">
                                                         <obs labelText="Number of Pills" id="160856" conceptId="160856"/>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12 duration">
+                                                    <div class="col-md-4 duration">
                                                         <label>Number of Days</label>
                                                         <obs id="159368" conceptId="159368"/>
                                                     </div>
@@ -2940,6 +3352,9 @@
                                                         <br/>
                                                         <obs conceptId="1282" answerConceptSetIds="165308"
                                                              answerConceptIds="747" answerLabels="Fluconazole" style="radio" class="horizontal"/>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <obs class="drug-strength" conceptId="1444" labelText="Strength"/>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -2975,20 +3390,23 @@
                                                     <template>
                                                         <obsgroup groupingConceptId="160741">
                                                             <div class="row multi-drug" id="{id}-toggleContainer">
-                                                                <div class="col-md-3">
+                                                                <div class="col-md-2">
                                                                     <obs labelText="Drug" conceptId="1282" answerClasses="Drug" style="autocomplete" class="fullwidth"/>
                                                                 </div>
                                                                 <div class="col-md-2">
+                                                                    <obs class="drug-strength" conceptId="1444" labelText="Strength"/>
+                                                                </div>
+                                                                <div class="col-md-1">
                                                                     <obs labelText="Quantity" conceptId="160856"/>
                                                                 </div>
-                                                                <div class="col-md-3">
+                                                                <div class="col-md-2">
                                                                     <obs labelText="Qty unit" conceptId="165791" answerConceptSetIds="162402,162384"/>
                                                                 </div>
-                                                                <div class="col-md-2 duration">
+                                                                <div class="col-md-1 duration">
                                                                     <label>Duration</label>
                                                                     <obs conceptId="159368"/>
                                                                 </div>
-                                                                <div class="col-md-3">
+                                                                <div class="col-md-2">
                                                                     <obs conceptId="1732" labelText="Duration unit"/>
                                                                 </div>
                                                                 <div class="col-md-1">
