@@ -711,6 +711,7 @@
 											<div class="col-md-4 html-form-entry-disabled-field">
                                                 <label>Encounter Date</label>
                                                 <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
+                                                <enrollInProgram programId="9dc21a72-0971-11e7-8037-507b9dc4c741" stateIds="1"/>
                                             </div>
 											<div class="col-md-4">
 												<label>
