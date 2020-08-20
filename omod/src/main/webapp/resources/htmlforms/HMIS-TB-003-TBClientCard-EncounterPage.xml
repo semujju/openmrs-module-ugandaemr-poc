@@ -17,8 +17,52 @@
 
 		    jq(document).ready(function () {
 
-				//Block multiple encounter entries on the same date
-				blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
+                var visitDate        = '<lookup expression="visit.startDatetime"/>';
+                var patientUUID      = '<lookup complexExpression="$patient.uuid"/>';
+                var currentProgram   = null;
+                var previousPrograms = null;
+                var serverResponse   = [];
+
+                jq.ajax({
+                    type: "GET",
+                    url: '/' + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/programenrollment?v=full&amp;patient=" + patientUUID,
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        serverResponse = data.results;
+                    }
+                });
+
+                for (var i = 0; i &lt; serverResponse.length; i++) {
+                    var obj = serverResponse[i];
+                    if (obj.display === "TB Program" &amp;&amp; obj.dateCompleted === null) {
+                        currentProgram = obj;
+                    } else if (obj.display === "TB Program" &amp;&amp; obj.dateCompleted !== "" &amp;&amp; ((new Date(visitDate)) 
+                        &lt;= (new Date(obj.dateCompleted))) &amp;&amp; ((new Date(visitDate)) &gt;= (new Date(obj.dateEnrolled)))) {
+                        previousPrograms = obj;
+                    }
+                }
+
+                //Block encounter if there is no active program which ended before visit date//
+                /*
+                    * queryParameters -> handles the query string parameters
+                    * queryString -> the query string without the fist '?' character
+                    * re -> the regular expression
+                    * m -> holds the string matching the regular expression
+                */
+                var queryParameters = {}, queryString = location.search.substring(1),
+                re = /([^&amp;=]+)=([^&amp;]*)/g, m;
+                // Creates a map with the query string parameters
+                while (m = re.exec(queryString)) {
+                    queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+                } if (currentProgram === null &amp;&amp; previousPrograms === null) {
+                    alert('This Patient Has No Active TB Summary Page. You will be redirected to the patient Dashboard');
+                    location.href = window.location.protocol + "//" + window.location.host +
+                        '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='+ queryParameters['patientId'];
+                }
+
+                //Block multiple encounter entries on the same date
+                blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
 
                 //Validate MUAC
                 var age  = <lookup complexExpression="$patient.age" />; 
@@ -81,50 +125,6 @@
                         }
                     });
                 </ifMode>
-
-                var visitDate = '<lookup expression="visit.startDatetime"/>';
-                var patientUUID = '<lookup complexExpression="$patient.uuid"/>';
-                var currentProgram = null;
-                var previousPrograms = null;
-                var serverResponse = [];
-
-                jq.ajax({
-                    type: "GET",
-                    url: '/' + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/programenrollment?v=full&amp;patient=" + patientUUID,
-                    dataType: "json",
-                    async: false,
-                    success: function (data) {
-                        serverResponse = data.results;
-                    }
-                });
-
-                for (var i = 0; i &lt; serverResponse.length; i++) {
-                    var obj = serverResponse[i];
-                    if (obj.display === "TB Program" &amp;&amp; obj.dateCompleted === "") {
-                        currentProgram = obj;
-                    } else if (obj.display === "TB Program" &amp;&amp; obj.dateCompleted !== "" &amp;&amp; ((new Date(visitDate)) 
-                        &lt;= (new Date(obj.dateCompleted))) &amp;&amp; ((new Date(visitDate)) &gt;= (new Date(obj.dateEnrolled)))) {
-                        previousPrograms = obj;
-                    }
-                }
-
-                //Block encounter if there is no active program which ended before visit date//
-                /*
-                    * queryParameters -> handles the query string parameters
-                    * queryString -> the query string without the fist '?' character
-                    * re -> the regular expression
-                    * m -> holds the string matching the regular expression
-                */
-                var queryParameters = {}, queryString = location.search.substring(1),
-                    re = /([^&amp;=]+)=([^&amp;]*)/g, m;
-                    // Creates a map with the query string parameters
-                    while (m = re.exec(queryString)) {
-                        queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-                    } if (currentProgram === null &amp;&amp; previousPrograms === null) {
-                        alert('This Patient Has No Active TB Summary Page. You will be redirected to the patient Dashboard');
-                        location.href = window.location.protocol + "//" + window.location.host +
-                            '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='+ queryParameters['patientId'];
-                    }
 
 				//change results for a selected test
                 jq("#165844_1").change(function () {
