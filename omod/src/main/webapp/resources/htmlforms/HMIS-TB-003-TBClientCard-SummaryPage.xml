@@ -21,20 +21,20 @@
 				//Block Multiple encounter entry on same date
 				blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
 
-                
-                    disable_fields("165836"); //other Drug Susceptible Tb
-                    disable_fields("hiv-test-date"); //hiv test date
-                    disable_fields("99161"); // art initiation date
-                    disable_fields("99431"); //art number
-
                 <ifMode mode = "ENTER" >
-                    disable_fields("165844_1"); //test
+
+                    disable_fields("165836");        //other Drug Susceptible Tb
+                    disable_fields("hiv-test-date"); //hiv test date
+                    disable_fields("99161");         // art initiation date
+                    disable_fields("99431");         //art number
+
+                    disable_fields("165844_1");      //test
                     disable_fields("165844_2");
                     disable_fields("165844_3");
                     disable_fields("165844_4");
                     disable_fields("165844_5");
 
-                    disable_fields("165845_1"); //lab number
+                    disable_fields("165845_1");      //lab number
                     disable_fields("165845_2");
                     disable_fields("165845_3");
                     disable_fields("165845_4");
@@ -48,7 +48,7 @@
                     disable_fields("result2_3");
                     disable_fields("result2_4");
 
-                    disable_fields("99423"); //treatment outcome
+                    disable_fields("99423");        //treatment outcome
 
                     disable_fields("165855_1");
                     disable_fields("90211_1");
@@ -74,7 +74,24 @@
                     disable_fields("90211_5");
                     disable_fields("165853_5");
                     disable_fields("159635_5")
+
+                    var patientState = '<lookup expression="fn.currentProgramWorkflowStatus(1).state.concept.name" />';                
+                    if (patientState !== "" &amp;&amp; patientState !== null) {
+
+                        jq().toastmessage('showErrorToast', "Patient is still enrolled in TB program in the " + patientState + ". Complete the program current TB treatment program in order to start a new TB treatment Program.");                    
+                        var queryParameters = {}, queryString = location.search.substring(1),
+                            re = /([^&amp;=]+)=([^&amp;]*)/g, m;                    
+                            while (m = re.exec(queryString)) {
+                                queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+                        }
+                        location.href = window.location.protocol + "//" + window.location.host +
+                            '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='
+                            + queryParameters.patientId;
+                    }
+
                 </ifMode>
+
+
 
                 //enable/disable treatment outcome if date is provided
                 jq("#165872").change(function () {
