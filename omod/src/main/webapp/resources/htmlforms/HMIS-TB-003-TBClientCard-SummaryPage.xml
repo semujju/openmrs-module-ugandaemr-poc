@@ -725,18 +725,18 @@
 									<div class="card-header">Case Summary - Patient Type</div>
 									<div class="card-body">
 										<div class="row">
-											<div class="col-md-4 html-form-entry-disabled-field">
+											<div class="col-md-3 html-form-entry-disabled-field">
                                                 <label>Encounter Date</label>
                                                 <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
                                                 <enrollInProgram programId="9dc21a72-0971-11e7-8037-507b9dc4c741" stateIds="1"/>
                                             </div>
-											<div class="col-md-4">
+											<div class="col-md-3">
 												<label>
 													District TB No.
 												</label>
 												<obs conceptId="99031" />
 											</div>
-											<div class="col-md-4">
+											<div class="col-md-3">
 												<label>
 													Unit TB No.
 												</label>
@@ -744,28 +744,40 @@
 											</div>
 										</div>
 										<div class="row">
-											<div class="col-md-4">
-												<label>Treatment Supporter Name</label>
-												<obs conceptId="99142" />
+											<div class="col-md-3">
+												<label>Next of Kin Name</label>
+												<obs conceptId="162729" />
 											</div>
-											<div class="col-md-4">
-												<label>Treatment Supporter Type</label>
-												<obs conceptId="165828" answerConceptIds="5619,165827,99420" 
-													 answerLabels="Health Worker, Family Member, Community Volunteer"/>
+											<div class="col-md-3">
+												<label>Next of Kin Phone Number</label>
+												<obs conceptId="165052" />
 											</div>
+                                            <div class="col-md-3">
+                                                <label>Treatment Supporter Name</label>
+                                                <obs conceptId="99142" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Treatment Supporter Type</label>
+                                                <obs conceptId="165828" answerConceptIds="5619,165827,99420" 
+                                                     answerLabels="Health Worker, Family Member, Community Volunteer"/>
+                                            </div>
 										</div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">Disease Classification</div>
+                                    <div class="card-body">
 										<div class="row">
-											<div class="col-md-9">
-												<label>Disease Classification</label>
+											<div class="col-md-8">
 												<obs conceptId="99379" answerConceptIds="165829,165830,165831" answerLabels="Pulmonary Bacteriologically Comfirmed PTB, Pulmonary Clinically Diagnosed PTB, Extra Pulmonary PTB" class="horizontal" style="radio"/>
 											</div>
+                                        </div>
+                                        <div class="row">
 											<div class="col-md-3">
 												<label>Indicate Site</label>
 												<obs conceptId="165832" />
 											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-4">
+											<div class="col-md-3">
 												<label>Patient Type</label>
 												<obs conceptId="99386" answerConceptIds="99380,99381,165833,165834,165835" 
 													 answerLabels="New, Relapse, Treament after lost to follow up, Treament after failure, Treament history unknown" style="checkbox"/>
@@ -892,7 +904,8 @@
 										</div>
 										<div class="row">
 											<obs conceptId="165169" answerConceptId="159674" answerLabel="Fisher Folk" style="checkbox" class="col-md-2" />
-											<obs conceptId="165169" answerConceptId="99338" answerLabel="Miner" style="checkbox" class="col-md-2" /> <!-- get concept -->
+                                            <obs conceptId="165169" answerConceptId="99339" answerLabel="Diabetic Patient" style="checkbox" class="col-md-2" /> <!-- get concept -->
+											<obs conceptId="165169" answerConceptId="165883" answerLabel="Miner" style="checkbox" class="col-md-2" />
 											<obs conceptId="165169" answerConceptId="1455" answerLabel="Tobacco User" style="checkbox" class="col-md-2" />
 											<obs conceptId="165169" answerConceptId="134337" answerLabel="Mentally Ill" style="checkbox" class="col-md-2" />
 	                                	</div>
@@ -911,7 +924,7 @@
                                                 <obsgroup groupingConceptId="99062">
                                                     <span class="row add-remove-section">
                                                         <div class="col-md-3">
-                                                            <label>Date Test Done</label>
+                                                            <label>Date Sample Taken</label>
                                                             <obs conceptId="164431" allowTime="false" id="164431_{n}"/>
                                                         </div>
                                                         <div class="col-md-2">
@@ -964,7 +977,7 @@
 												<obsgroup groupingConceptId="99062">
 													<span class="row add-remove-section">
 														<div class="col-md-3">
-															<label>Date Test Done</label>
+															<label>Date Sample Taken</label>
 															<obs conceptId="164431" id="test-date2_{n}"/>
 														</div>
 														<div class="col-md-3">
