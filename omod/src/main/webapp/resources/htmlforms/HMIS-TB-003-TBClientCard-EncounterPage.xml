@@ -276,17 +276,9 @@
                     disable_fields("165845_5");
 
                     disable_fields("99423");    //treatment outcome
+                    disable_fields("165872");   //outcome date
 
                 </ifMode>
-
-                //enable health facility if the outcome is transfered out
-                jq("#99423").change(function () {
-                    if(jq(this).find("select").find(":selected").val() == "90306") {
-                        enable_fields("90211");
-                    } else {
-                        enable_fields("90211");
-                    }
-                });
 
                 //enable district if health facility is provided/entered
                 jq("#90211").change(function () {
@@ -450,12 +442,30 @@
                     }
                 });
 
-                //enable/disable treatment outcome if date is provided
-                jq("#165872").change(function () {
-                    if (getValue('165872.value') !== " ") {
+                //disable treatment outcome if next appointment date is provided
+                jq("#5096").change(function () {
+                    if (jq(this).find("input").val() !== " ") {
                         enable_fields("99423");
                     } else {
                         disable_fields("99423");
+                    }
+                });
+
+                //enable outcome date if outcome is provided
+                jq("#99423").change(function () {
+                    if(jq(this).find("select").find(":selected").val() !== "") {
+                        enable_fields("165872");
+                    } else {
+                        disable_fields("165872");
+                    }
+                });
+
+                //enable health facility if the outcome is transfered out
+                jq("#99423").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "90306") {
+                        enable_fields("90211");
+                    } else {
+                        enable_fields("90211");
                     }
                 });
 
@@ -808,7 +818,7 @@
                                                 <obsgroup groupingConceptId="99062">
                                                     <span class="row add-remove-section">
                                                         <div class="col-md-3">
-                                                            <label>Date Test Done</label>
+                                                            <label>Date Sample Taken</label>
                                                             <obs conceptId="164431" allowTime="false" id="164431_{n}"/>
                                                         </div>
                                                         <div class="col-md-2">
@@ -861,7 +871,7 @@
 										<div class="row">
 											<div class="col-md-4">   
 												<label>Next Date of Appointment</label>
-												<obs id="returndate" conceptId="5096" allowFutureDates="true"/>
+												<obs id="5096" conceptId="5096" allowFutureDates="true"/>
 											</div>
 										</div>
                                         <div class="row">
@@ -879,13 +889,13 @@
 									<div class="card-body">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <label>Date</label>
-                                                <obs conceptId="165872" allowTime="false" id="165872"/>
-                                            </div>
-                                            <div class="col-md-4">
                                                 <label>Outcome</label>
                                                 <obs conceptId="99423" answerConceptIds="159791,99421,159874,5240,160737,90306,160034" 
                                                      answerLabels="Cured, Treatment completed, Treatment failure, Lost to follow up, Not evaluated, Transfered Out, Died" id="99423"/>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Date</label>
+                                                <obs conceptId="165872" allowTime="false" id="165872" allowFutureDates="false"/>
                                             </div>
                                         </div>
 									</div>
