@@ -451,6 +451,7 @@
                  disable_fields("99413-target");
                  disable_fields("160856");
                  disable_fields("159368");
+                 disable_fields("tpt-status");
                 </ifMode>
 
                 <ifMode mode="EDIT">
@@ -641,7 +642,14 @@
                     }
                 });
 
-
+                //enable tpt treatment if patient is has no signs of TB
+                jq("#tb-status").change(function () {
+                    if (jq(this).find("select").find(":selected").val() == "90079") {
+                        enable_fields("tpt-status");
+                    } else {
+                        disable_fields("tpt-status");
+                    }
+                });
 
                 jq("#tpt-status").change(function () {
                     if (jq(this).find("select").find(":selected").val() == "90072") {
@@ -2937,7 +2945,7 @@
                                                                 <label>TPT Date Initiated</label>
                                                             </div>
                                                             <div class="col-md-7">
-                                                                <obs conceptId="165226"/>
+                                                                <obs id="tpt-initiation-date" conceptId="165226"/>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -2945,7 +2953,7 @@
                                                                 <label>TPT Date Completed</label>
                                                             </div>
                                                             <div class="col-md-7">
-                                                                <obs conceptId="165227"/>
+                                                                <obs id="tpt-completion-date" conceptId="165227"/>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -2953,7 +2961,7 @@
                                                                 <label>TPT Side Effects</label>
                                                             </div>
                                                             <div class="col-md-7">
-                                                                <obs conceptId="165792"/>
+                                                                <obs id="tpt-side-effects" conceptId="165792"/>
                                                             </div>
                                                         </div>
                                                     </div>
