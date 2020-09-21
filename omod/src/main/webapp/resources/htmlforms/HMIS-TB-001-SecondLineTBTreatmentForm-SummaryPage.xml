@@ -1,6 +1,6 @@
 <htmlform 
 	formName="HMIS TB 001: Second Line TB Treatment Card Summary Page" 
-	formDescription="This is a summary of the TB Treatment program" 
+	formDescription="This is a summary of the DR TB Treatment program" 
 	formEncounterType="334bf97e-28e2-4a27-8727-a5ce31c7cd66" 
 	formUuid="4929f668-f8d0-11ea-adc1-0242ac120002" 
 	formVersion="3.0.0" 
@@ -75,23 +75,7 @@
                     disable_fields("165853_5");
                     disable_fields("159635_5")
 
-                    <!-- var patientState = '<lookup expression="fn.currentProgramWorkflowStatus(1).state.concept.name" />';                
-                    if (patientState !== "" &amp;&amp; patientState !== null) {
-
-                        jq().toastmessage('showErrorToast', "Patient is still enrolled in TB program in the " + patientState + ". Complete the program current TB treatment program in order to start a new TB treatment Program.");                    
-                        var queryParameters = {}, queryString = location.search.substring(1),
-                            re = /([^&amp;=]+)=([^&amp;]*)/g, m;                    
-                            while (m = re.exec(queryString)) {
-                                queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-                        }
-                        location.href = window.location.protocol + "//" + window.location.host +
-                            '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='
-                            + queryParameters.patientId;
-                    } -->
-
                 </ifMode>
-
-
 
                 //enable/disable treatment outcome if date is provided
                 jq("#165872").change(function () {
@@ -461,7 +445,6 @@
                     }
                 });
 
-
                 //enable other test and other results
                 jq("#165844_1").change(function () {
                     if(jq(this).find("select").find(":selected").val() == "90002") {
@@ -474,126 +457,6 @@
                         jq("#results-div_1").removeClass('hidden');
                     }
                 });
-
-                <!-- jq("#165844_2").change(function () {vavar patientState = '<lookup expression="fn.currentProgramWorkflowStatus(1).state.concept.name" />';                
-                    if (patientState !== "" &amp;&amp; patientState !== null) {
-
-                        jq().toastmessage('showErrorToast', "Patient is still enrolled in TB program in the " + patientState + ". Complete the program current TB treatment program in order to start a new TB treatment Program.");                    
-                        var queryParameters = {}, queryString = location.search.substring(1),
-                            re = /([^&amp;=]+)=([^&amp;]*)/g, m;                    
-                            while (m = re.exec(queryString)) {
-                                queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-                        }
-                        location.href = window.location.protocol + "//" + window.location.host +
-                            '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='
-                            + queryParameters.patientId;
-                    }var patientState = '<lookup expression="fn.currentProgramWorkflowStatus(1).state.concept.name" />';                
-                    if (patientState !== "" &amp;&amp; patientState !== null) {
-
-                        jq().toastmessage('showErrorToast', "Patient is still enrolled in TB program in the " + patientState + ". Complete the program current TB treatment program in order to start a new TB treatment Program.");                    
-                        var queryParameters = {}, queryString = location.search.substring(1),
-                            re = /([^&amp;=]+)=([^&amp;]*)/g, m;                    
-                            while (m = re.exec(queryString)) {
-                                queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-                        }
-                        location.href = window.location.protocol + "//" + window.location.host +
-                            '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='
-                            + queryParameters.patientId;
-                    }var patientState = '<lookup expression="fn.currentProgramWorkflowStatus(1).state.concept.name" />';                
-                    if (patientState !== "" &amp;&amp; patientState !== null) {
-
-                        jq().toastmessage('showErrorToast', "Patient is still enrolled in TB program in the " + patientState + ". Complete the program current TB treatment program in order to start a new TB treatment Program.");                    
-                        var queryParameters = {}, queryString = location.search.substring(1),
-                            re = /([^&amp;=]+)=([^&amp;]*)/g, m;                    
-                            while (m = re.exec(queryString)) {
-                                queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-                        }
-                        location.href = window.location.protocol + "//" + window.location.host +
-                            '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='
-                            + queryParameters.patientId;
-                    }r patientState = '<lookup expression="fn.currentProgramWorkflowStatus(1).state.concept.name" />';                
-                    if (patientState !== "" &amp;&amp; patientState !== null) {
-
-                        jq().toastmessage('showErrorToast', "Patient is still enrolled in TB program in the " + patientState + ". Complete the program current TB treatment program in order to start a new TB treatment Program.");                    
-                        var queryParameters = {}, queryString = location.search.substring(1),
-                            re = /([^&amp;=]+)=([^&amp;]*)/g, m;                    
-                            while (m = re.exec(queryString)) {
-                                queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-                        }
-                        location.href = window.location.protocol + "//" + window.location.host +
-                            '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='
-                            + queryParameters.patientId;
-                    }
-                    if(jq(this).find("select").find(":selected").val() == "90002") {
-                        jq("#other-test-div_2").removeClass('hidden');
-                        jq("#other-results-div_2").removeClass('hidden');
-                        jq("#results-div_2").addClass('hidden');
-                    } else {
-                        jq("#other-test-div_2").addClass('hidden');
-                        jq("#other-results-div_2").addClass('hidden');
-                        jq("#results-div_2").removeClass('hidden');
-                    }
-                }); -->
-
-                <!-- jq("#165844_3").change(function () {
-                    if(jq(this).find("select").find(":selected").val() == "90002") {
-                        jq("#other-test-div_3").removeClass('hidden');
-                        jvar patientState = '<lookup expression="fn.currentProgramWorkflowStatus(1).state.concept.name" />';                
-                    if (patientState !== "" &amp;&amp; patientState !== null) {
-
-                        jq().toastmessage('showErrorToast', "Patient is still enrolled in TB program in the " + patientState + ". Complete the program current TB treatment program in order to start a new TB treatment Program.");                    
-                        var queryParameters = {}, queryString = location.search.substring(1),
-                            re = /([^&amp;=]+)=([^&amp;]*)/g, m;                    
-                            while (m = re.exec(queryString)) {
-                                queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-                        }
-                        location.href = window.location.protocol + "//" + window.location.host +
-                            '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='
-                            + queryParameters.patientId;
-                    }q("#other-results-div_3").removeClass('hidden');
-                        jq("#results-div_3").addClass('hidden');
-                    } else {
-                        jq("#other-test-div_3").addClass('hidden');
-                        jq("#other-results-div_3").addClass('hidden');
-                        jq("#results-div_3").removeClass('hidden');
-                    }
-                }); -->
-
-                <!-- jq("#165844_4").change(function () {
-                    if(jq(this).find("select").find(":selected").val() == "90002") {
-                        jq("#other-test-div_4").removeClass('hidden');
-                        jvar patientState = '<lookup expression="fn.currentProgramWorkflowStatus(1).state.concept.name" />';                
-                    if (patientState !== "" &amp;&amp; patientState !== null) {
-
-                        jq().toastmessage('showErrorToast', "Patient is still enrolled in TB program in the " + patientState + ". Complete the program current TB treatment program in order to start a new TB treatment Program.");                    
-                        var queryParameters = {}, queryString = location.search.substring(1),
-                            re = /([^&amp;=]+)=([^&amp;]*)/g, m;                    
-                            while (m = re.exec(queryString)) {
-                                queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-                        }
-                        location.href = window.location.protocol + "//" + window.location.host +
-                            '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='
-                            + queryParameters.patientId;
-                    }var patientState = '<lookup expression="fn.currentProgramWorkflowStatus(1).state.concept.name" />';                
-                    if (patientState !== "" &amp;&amp; patientState !== null) {
-
-                        jq().toastmessage('showErrorToast', "Patient is still enrolled in TB program in the " + patientState + ". Complete the program current TB treatment program in order to start a new TB treatment Program.");                    
-                        var queryParameters = {}, queryString = location.search.substring(1),
-                            re = /([^&amp;=]+)=([^&amp;]*)/g, m;                    
-                            while (m = re.exec(queryString)) {
-                                queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-                        }
-                        location.href = window.location.protocol + "//" + window.location.host +
-                            '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='
-                            + queryParameters.patientId;
-                    }q("#other-results-div_4").removeClass('hidden');
-                        jq("#results-div_4").addClass('hidden');
-                    } else {
-                        jq("#other-test-div_4").addClass('hidden');
-                        jq("#other-results-div_4").addClass('hidden');
-                        jq("#results-div_4").removeClass('hidden');
-                    }
-                }); -->
 
                 jq("#165844_5").change(function () {
                     if(jq(this).find("select").find(":selected").val() == "90002") {
@@ -833,51 +696,27 @@
                                                 <obs conceptId="165826" /> <!-- get concept -->
                                             </div>
 										</div>
-										<div class="row">
-											<div class="col-md-3">
-												<label>Next of Kin Name</label>
-												<obs conceptId="162729" />
-											</div>
-											<div class="col-md-3">
-												<label>Next of Kin Phone Number</label>
-												<obs conceptId="165052" />
-											</div>
-                                            <div class="col-md-3">
-                                                <label>Treatment Supporter Name</label>
-                                                <obs conceptId="99142" />
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Treatment Supporter Type</label>
-                                                <obs conceptId="165828" answerConceptIds="5619,165827,99420" 
-                                                     answerLabels="Health Worker, Family Member, Community Volunteer"/>
-                                            </div>
-										</div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header">Disease Classification</div>
-                                    <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-3">
                                                 <label>Treatement Initiation Facility</label>
                                                 <obs conceptId="162729" /> <!-- get concept -->
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-3">
                                                 <label>Date of Registration</label>
                                                 <obs conceptId="165052" /> <!-- get concept -->
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-3">
                                                 <label>Followup Health Facility</label>
                                                 <obs conceptId="99142" /> <!-- get concept -->
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-3">
                                                 <label>Date Transferred to this Facility </label> <!-- get concept -->
                                                 <obs conceptId="165828" answerConceptIds="5619,165827,99420" 
                                                      answerLabels="Health Worker, Family Member, Community Volunteer"/>
                                             </div>
                                         </div>
-									</div>
-								</div>
+                                    </div>
+                                </div>
 							</div>
 							<div class="tab-pane" id="care-giver-treatment-supporter-section">									
                                 <div class="card">
@@ -985,8 +824,6 @@
                                                 <label>Health Center Name</label>
                                                 <obs conceptId="165052" /> <!-- get concept -->
                                             </div>
-                                        </div>
-                                        <div class="row">
                                             <div class="col-md-3">
                                                 <label>Date of GeneXpert Test</label>
                                                 <obs conceptId="162729" /> <!-- get concept -->
@@ -1203,21 +1040,19 @@
                                                 <label>Use of 2nd Line Drug More Thann Once Previously</label> <!-- get concept -->
                                                 <obs conceptId="164431" id="hiv-test-date"/>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-2">
                                                 <label>DR TB No.</label> <!-- get concept -->
                                                 <obs conceptId="165396" answerConceptIds="90167,165397,165350,90001"
                                                      answerLabels="Negative, Newly Tested Positive, Known Positive, Unknown" 
                                                      class="long-value-select" id="165396"/>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label>Inpatient at Initiation</label> <!-- get concept -->
                                                 <obs conceptId="1358" answerConceptIds="1362,1367" 
                                                      answerLabels="Initiated on ART, Already on ART" 
                                                      class="long-value-select" id="1358"/>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label>Date of Admission</label> <!-- get concept -->
                                                 <obs conceptId="99161" id="99161" />
                                             </div>
@@ -1277,120 +1112,11 @@
                                 </div>
 								</div>
 							</div>
-
-							<!-- <div class="tab-pane" id="iec-referal-transfers-and-outcomes-section">
-								<div class="card">
-									<div class="card-header">
-	                                	IEC
-	                             	</div>
-									<div class="card-body">
-										<repeat>
-											<template>
-												<obsgroup groupingConceptId="99062">
-													<span class="row add-remove-section">
-														<div class="col-md-1">
-															<label>Date</label>
-														</div>
-														<obs conceptId="165858" allowTime="false" class="col-md-2"/>
-														<div class="col-md-8">
-															<div class="row">
-															<obs conceptId="165864" answerConceptId="165859" answerLabel="TB/HIV relationship" style="checkbox"     class="col-md-4" />
-															<obs conceptId="165864" answerConceptId="165862" answerLabel="TB transmission" style="checkbox" 
-																 class="col-md-4" /> 
-															<obs conceptId="165864" answerConceptId="165860" answerLabel="TB Prevention" style="checkbox" 
-																 class="col-md-4" />
-															<obs conceptId="165864" answerConceptId="6077" answerLabel="Treatment and Adherence" style="checkbox" class="col-md-2" />
-															<obs conceptId="165864" answerConceptId="165863" answerLabel="Importance of DOTS" style="checkbox"     class="col-md-4" />
-															<obs conceptId="165864" answerConceptId="165861" answerLabel="Pre-treatment counselling" 
-																 style="checkbox" class="col-md-6"/>
-															</div>
-														</div>
-														<div class="col-md-1">
-															<br/>
-                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
-                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
-                                                        </div>
-													</span>
-												</obsgroup>
-											</template>
-											<render n="1"/>
-                                            <render n="2"/>
-                                            <render n="3"/>
-                                            <render n="4"/>
-                                            <render n="5"/>
-										</repeat>
-									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-	                                	Referral and Transfer
-	                             	</div>
-									<div class="card-body">
-										<repeat>
-											<template>
-												<obsgroup groupingConceptId="99062">
-													<span class="row add-remove-section">
-															<div class="col-md-2">
-																<label>Date</label>
-																<obs conceptId="165854" allowTime="false" id="165854_{n}"/>
-															</div>
-															<div class="col-md-2">
-																<label>Referral Type</label>
-																<obs conceptId="165855" answerConceptIds="99764,99110,160036" answerLabels="Referred In, Transferred In, Transferred Out" id="165855_{n}"/>
-															</div>
-															<div class="col-md-2">
-																<label>Health Facility</label>
-																<obs conceptId="90211" id="90211_{n}"/>
-															</div>
-															<div class="col-md-2">
-							                                	<label>District</label>
-																<obs conceptId="165853" id="165853_{n}"/>
-															</div>
-															<div class="col-md-3">
-																<label>Phone no. of recieving Health Unit</label>
-																<obs conceptId="159635" id="159635_{n}"/>
-															</div>
-															<div class="col-md-1">
-																<br/>
-	                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
-	                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
-	                                                        </div>
-													</span>
-												</obsgroup>
-											</template>
-											<render n="1"/>
-                                            <render n="2"/>
-                                            <render n="3"/>
-                                            <render n="4"/>
-                                            <render n="5"/>
-										</repeat>
-									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-	                                	Treatment Outcome
-	                             	</div>
-									<div class="card-body">
-										<div class="row">
-											<div class="col-md-3">
-												<label>Date</label>
-												<obs conceptId="165872" allowTime="false"  id="165872"/>
-											</div>
-											<div class="col-md-3">
-												<label>Outcome</label>
-												<obs conceptId="99423" answerConceptIds="159791,99421,159874,5240,160737,160034" 
-													 answerLabels="Cured, Treatment completed, Treatment failure, Lost to follow up, Not evaluated, Died" 
-                                                     id="99423"/>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div> -->
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-    <postSubmissionAction class="org.openmrs.module.ugandaemrpoc.htmlformentry.TBSummaryPageSubmissionAction"/>
+    
 </htmlform>
