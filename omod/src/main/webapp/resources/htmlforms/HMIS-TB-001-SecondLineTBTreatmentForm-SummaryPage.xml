@@ -660,9 +660,6 @@
 							<li class="nav-item">
 								<a class="nav-link" data-toggle="tab" href="#baseline-examination-section">Baseline Examination/Diabetes Monitoring</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link" data-toggle="tab" href="#iec-referal-transfers-and-outcomes-section">IEC Referal Transfers and Outcome</a>
-							</li>
 						</ul>
 					</div>
 					<div class="card-body">
@@ -693,26 +690,25 @@
                                                 <label>
                                                     DR TB No.
                                                 </label>
-                                                <obs conceptId="165826" /> <!-- get concept -->
+                                                <obs conceptId="165843" /> 
                                             </div>
 										</div>
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <label>Treatement Initiation Facility</label>
-                                                <obs conceptId="162729" /> <!-- get concept -->
+                                                <obs conceptId="166061" />
                                             </div>
                                             <div class="col-md-3">
                                                 <label>Date of Registration</label>
-                                                <obs conceptId="165052" /> <!-- get concept -->
+                                                <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
                                             </div>
                                             <div class="col-md-3">
                                                 <label>Followup Health Facility</label>
-                                                <obs conceptId="99142" /> <!-- get concept -->
+                                                <obs conceptId="166062" />
                                             </div>
                                             <div class="col-md-3">
-                                                <label>Date Transferred to this Facility </label> <!-- get concept -->
-                                                <obs conceptId="165828" answerConceptIds="5619,165827,99420" 
-                                                     answerLabels="Health Worker, Family Member, Community Volunteer"/>
+                                                <label>Date Transferred to this Facility </label>
+                                                <obs conceptId="166063" />
                                             </div>
                                         </div>
                                     </div>
@@ -734,7 +730,6 @@
 										</div>
 										<div class="row">
 											<obs conceptId="165169" answerConceptId="159674" answerLabel="Fisher Folk" style="checkbox" class="col-md-2" />
-                                            <obs conceptId="165169" answerConceptId="99339" answerLabel="Diabetic Patient" style="checkbox" class="col-md-2" /> <!-- get concept -->
 											<obs conceptId="165169" answerConceptId="165883" answerLabel="Miner" style="checkbox" class="col-md-2" />
 											<obs conceptId="165169" answerConceptId="1455" answerLabel="Tobacco User" style="checkbox" class="col-md-2" />
 											<obs conceptId="165169" answerConceptId="134337" answerLabel="Mentally Ill" style="checkbox" class="col-md-2" />
@@ -746,16 +741,16 @@
                                         GIS Coordinates
                                     </div>
                                     <div class="card-body">
-                                        <div class="row">
+                                        <!-- <div class="row">
                                             <div class="col-md-3">
                                                 <label>Eastings</label>
-                                                <obs conceptId="162729" /> <!-- get concept -->
+                                                <obs conceptId="166056" answerConceptId="166054" answerLabel="Eastings"/> 
                                             </div>
                                             <div class="col-md-3">
                                                 <label>Nothings</label>
-                                                <obs conceptId="165052" /> <!-- get concept -->
+                                                <obs conceptId="166056" answerConceptId="166055" answerLabel="Northings"/> 
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                                 <div class="card">
@@ -804,33 +799,34 @@
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <label>Treatment Start Date</label>
-                                                <obs conceptId="162729" /> <!-- get concept -->
+                                                <obs conceptId="165841" />
                                             </div>
                                             <div class="col-md-3">
                                                 <label>Date of Prior TB Registration</label>
-                                                <obs conceptId="165052" /> <!-- get concept -->
+                                                <obs conceptId="166064" />
                                             </div>
                                             <div class="col-md-3">
                                                 <label>Reason for 2nd Line Treatment</label>
-                                                <obs conceptId="165052" /> <!-- get concept -->
+                                                <obs conceptId="166067" answerConceptIds="166066,166065" 
+                                                     answerLabels="Presumptive MDR/XDR/RR, Bacteriologically confirmed MDR/XDR/RR"/> 
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <label>Transfer In</label>
-                                                <obs conceptId="162729" /> <!-- get concept -->
+                                                <obs conceptId="99110" answerConceptIds="90003, 90004" answerLabels="Yes, No"/>
                                             </div>
                                             <div class="col-md-3">
                                                 <label>Health Center Name</label>
-                                                <obs conceptId="165052" /> <!-- get concept -->
+                                                <obs conceptId="99109" />
                                             </div>
                                             <div class="col-md-3">
                                                 <label>Date of GeneXpert Test</label>
-                                                <obs conceptId="162729" /> <!-- get concept -->
+                                                <obs conceptId="164431" />
                                             </div>
                                             <div class="col-md-3">
                                                 <label>Date of DST</label>
-                                                <obs conceptId="165052" /> <!-- get concept -->
+                                                <obs conceptId="164396" /> 
                                             </div>
                                         </div>
                                     </div>
@@ -844,21 +840,20 @@
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <label>Registration Group</label>
-                                                <obs conceptId="99142" /> <!-- get concept -->
+                                                <obs conceptId="99386" /> <!-- add options -->
                                             </div>
                                             <div class="col-md-3">
-                                                <label>Known MDR-TB Contact</label> <!-- get concept -->
-                                                <obs conceptId="165828" answerConceptIds="5619,165827,99420" 
-                                                     answerLabels="Health Worker, Family Member, Community Volunteer"/>
+                                                <label>Known MDR-TB Contact</label>
+                                                <obs conceptId="166068" answerConceptIds="1065,1066" 
+                                                     answerLabels="Yes, No"/>
                                             </div>
                                             <div class="col-md-3">
                                                 <label>Patient Name</label>
-                                                <obs conceptId="99142" /> <!-- get concept -->
+                                                <obs conceptId="99142" /> <!-- get concept from dictionary/check mockup-->
                                             </div>
                                             <div class="col-md-3">
                                                 <label>Date Initial Home Assessment Completed</label>
-                                                <obs conceptId="165828" answerConceptIds="5619,165827,99420" 
-                                                     answerLabels="Health Worker, Family Member, Community Volunteer"/>
+                                                <obs conceptId="166078" />
                                             </div>
                                         </div>
                                     </div>
@@ -874,8 +869,8 @@
 												<obsgroup groupingConceptId="99062">
 													<span class="row add-remove-section">
 														<div class="col-md-3">
-															<label>Date Sample Taken</label> <!-- confirm concept -->
-															<obs conceptId="164431" id="test-date2_{n}"/>
+															<label>Date Of Diagnosis</label>
+															<obs conceptId="159948" id="diagnosis-date2_{n}"/>
 														</div>
 														<div class="col-md-3">
 															<label>Type</label> <!-- get concept -->
@@ -995,8 +990,8 @@
                                                 <obsgroup groupingConceptId="99062">
                                                     <span class="row add-remove-section">
                                                             <div class="col-md-2">
-                                                                <label>TB Reg No</label>  <!-- get concept -->
-                                                                <obs conceptId="165854" allowTime="false" id="165854_{n}"/>
+                                                                <label>TB Reg No</label>
+                                                                <obs conceptId="165826" id="165826_{n}"/>
                                                             </div>
                                                             <div class="col-md-2">
                                                                 <label>Facility</label> <!-- get concept -->
@@ -1037,24 +1032,20 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <label>Use of 2nd Line Drug More Thann Once Previously</label> <!-- get concept -->
-                                                <obs conceptId="164431" id="hiv-test-date"/>
+                                                <label>Use of 2nd Line Drug More Than Once Previously</label> 
+                                                <obs conceptId="166071"/>
                                             </div>
                                             <div class="col-md-2">
-                                                <label>DR TB No.</label> <!-- get concept -->
-                                                <obs conceptId="165396" answerConceptIds="90167,165397,165350,90001"
-                                                     answerLabels="Negative, Newly Tested Positive, Known Positive, Unknown" 
-                                                     class="long-value-select" id="165396"/>
+                                                <label>DR TB No.</label>
+                                                <obs conceptId="165843" />
                                             </div>
                                             <div class="col-md-3">
-                                                <label>Inpatient at Initiation</label> <!-- get concept -->
-                                                <obs conceptId="1358" answerConceptIds="1362,1367" 
-                                                     answerLabels="Initiated on ART, Already on ART" 
-                                                     class="long-value-select" id="1358"/>
+                                                <label>Inpatient at tx Initiation</label>
+                                                <obs conceptId="166072" answerConceptIds="1065,1066" answerLabels="Yes, No"/> 
                                             </div>
                                             <div class="col-md-3">
-                                                <label>Date of Admission</label> <!-- get concept -->
-                                                <obs conceptId="99161" id="99161" />
+                                                <label>Date of Admission</label>
+                                                <obs conceptId="166073" />
                                             </div>
                                         </div>
                                     </div>
@@ -1066,45 +1057,43 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <label>Hiv Testing Done in the last 3 months</label> <!-- get concept -->
-                                                <obs conceptId="164431" id="hiv-test-date"/>
+                                                <label>Hiv Testing Done in the last 3 months</label>
+                                                <obs conceptId="99465" answerConceptIds="1065,1066" answerLabels="Yes, No"/>
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Date of Test</label> <!-- get concept -->
-                                                <obs conceptId="164431" id="hiv-test-date"/>
+                                                <label>Date of Test</label>
+                                                <obs conceptId="164400" id="hiv-test-date"/>
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Results</label> <!-- get concept for results not status-->
-                                                <obs conceptId="165396" answerConceptIds="90167,165397,165350,90001"
-                                                     answerLabels="Negative, Newly Tested Positive, Known Positive, Unknown" 
-                                                     class="long-value-select" id="165396"/> <!-- get concept -->
+                                                <label>Results</label>
+                                                <obs conceptId="99628" answerConceptIds="703, 664"
+                                                     answerLabels="Positive, Negative" />
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-4"> 
-                                                <label>Started on ART</label> <!-- get concept -->
-                                                <obs conceptId="1358" answerConceptIds="1362,1367" 
-                                                     answerLabels="Initiated on ART, Already on ART" 
-                                                     class="long-value-select" id="1358"/>
+                                                <label>Started on ART</label>
+                                                <obs conceptId="99415" answerConceptIds="1066" 
+                                                     answerLabels="No"/> <!-- add concept for yes -->
                                             </div>
                                             <div class="col-md-4">
-                                                <label>ART Start Date</label> <!-- get concept -->
+                                                <label>ART Start Date</label>
                                                 <obs conceptId="99161" id="99161" />
                                             </div>
                                             <div class="col-md-4">
-                                                <label>ART Regimen</label> <!-- get concept -->
-                                                <obs conceptId="99431" id="99431" />
+                                                <label>ART Regimen</label> <!-- use art regimens on clinical assessment -->
+                                                <obs conceptId="99061" answerConceptIds="1066" answerLabels="No"
+                                                    id="99061" />
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <label>CPT/Dapson</label> <!-- get concept -->
-                                                <!-- <obs conceptId="90171" answerConceptIds="1193,1263" 
-                                                     answerLabels="Initiated on CPT, Already on CPT" 
-                                                     class="long-value-select" id="90171"/> -->
+                                                <label>Started on CPT</label>
+                                                <obs conceptId="166070" answerConceptIds="1065,1066" 
+                                                     answerLabels="Yes, No" />
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Start Date</label> <!-- get dapson start date concept -->
+                                                <label>Start Date</label>
                                                 <obs conceptId="165881" />
                                             </div>
                                         </div>
