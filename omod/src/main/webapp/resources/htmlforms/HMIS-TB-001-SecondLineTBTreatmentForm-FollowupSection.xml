@@ -66,6 +66,7 @@
                                     <div class="card-header">Nutrition Assessment</div>
                                     <div class="card-body">
                                         <div class="row">
+                                            <encounterDate default="today" disallowMultipleEncountersOnDate="block" class="hidden"/>
                                             <div class="col-md-3">
                                                 <label>Weight (kg)</label>
                                                 <obs conceptId="CIEL:5089" id="weight"/>
