@@ -285,16 +285,20 @@
                                                 <obs conceptId="165169" answerConceptId="90194" answerLabel="Potassium" style="checkbox" class="col-md-3" />
                                                 <obs conceptId="165169" answerConceptId="655" answerLabel="T.bilirubin" style="checkbox" class="col-md-3" />
                                                 <obs conceptId="165169" answerConceptId="165822" answerLabel="LAM" style="checkbox" class="col-md-3"/> 
-                                                <obs conceptId="165169" answerConceptId="1035" answerLabel="Hep Serology" style="checkbox" class="col-md-3" />
-                                                <obs conceptId="165169" answerConceptId="1299" answerLabel="Lipase/Amylase" style="checkbox" class="col-md-3" />
                                             </div>
                                             <div class="row">
+                                                <obs conceptId="165169" answerConceptId="1035" answerLabel="Hep Serology" style="checkbox" class="col-md-3" />
+                                                <obs conceptId="165169" answerConceptId="1299" answerLabel="Lipase/Amylase" style="checkbox" class="col-md-3" />
                                                 <obs conceptId="165169" answerConceptId="159497" answerLabel="Calcium" style="checkbox" class="col-md-3" />
                                                 <obs conceptId="165169" answerConceptId="159982" answerLabel="Culture" style="checkbox" class="col-md-3" />
+                                            </div>
+                                            <div class="row">
                                                 <obs conceptId="165169" answerConceptId="90192" answerLabel="Creatinine" style="checkbox" class="col-md-3" />
                                                 <obs conceptId="165169" answerConceptId="161509" answerLabel="HCG" style="checkbox" class="col-md-3" />
                                                 <obs conceptId="165169" answerConceptId="99080" answerLabel="HIV Test" style="checkbox" class="col-md-3" />
                                                 <obs conceptId="165169" answerConceptId="887" answerLabel="Glucose" style="checkbox" class="col-md-3" />
+                                            </div>
+                                            <div class="row">
                                                 <obs conceptId="165169" answerConceptId="857" answerLabel="BUN" style="checkbox" class="col-md-3" />
                                                 <obs conceptId="165169" answerConceptId="848" answerLabel="Albumin" style="checkbox" class="col-md-3" />
                                                 <obs conceptId="165169" answerConceptId="21" answerLabel="Hbg/Hct" style="checkbox" class="col-md-3" />
