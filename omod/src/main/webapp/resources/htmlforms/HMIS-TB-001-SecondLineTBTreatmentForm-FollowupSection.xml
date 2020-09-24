@@ -61,7 +61,7 @@
 					</div>
 					<div class="card-body">
 						<div class="tab-content">
-							<div class="tab-pane active" id="medication-section">
+							<div class="tab-pane active" id="nutrition-monitoring-section">
                                 <div class="card">
                                     <div class="card-header">Nutrition Assessment</div>
                                     <div class="card-body">
@@ -189,7 +189,7 @@
 	                            </div>
                                 <div class="card">
                                     <div class="card-header">
-                                        Test Results
+                                        General Results
                                     </div>
                                     <div class="card-body">
                                         <repeat>
@@ -247,19 +247,18 @@
                                                     <span class="row add-remove-section">
                                                         <div class="col-md-3">
                                                             <label>Sample Collection Date</label>
-                                                            <obs conceptId="164431" allowTime="false" id="164431_{n}"/> <!-- get concept -->
+                                                            <obs conceptId="166137" allowTime="false" id="166137_{n}"/>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label>Test</label>
+                                                            <obs conceptId="159956" id="160021_{n}"/>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <label>Test</label>
-                                                            <obs conceptId="165844" answerConceptIds="90225,165413,165416,12,90002" 
-                                                                 answerLabels="Smear, GeneXpert, LAM, X-ray, Other" id="165844_{n}"/> <!-- add concepts and answers -->
-                                                        </div>
-                                                        <div class="col-md-2" id="results-div_{n}"> <!-- add concepts and answers -->
-                                                            <label>Results</label>
-                                                            <obs conceptId="90225"  id="smear-results_{n}" class="hidden" />
-                                                            <obs conceptId="162202" id="geneexper-results_{n}" class="long-value-select hidden" />
-                                                            <obs conceptId="165291" id="tblam-results_{n}" class="hidden" />
-                                                            <obs conceptId="12"     id="xray-results_{n}" class="hidden" />
+                                                            <label>Result</label>
+                                                            <obs conceptId="159984" answerConceptIds="159956,159958,159972,1138,159952" 
+                                                                    answerLabels="Resistant,Susceptible,Contaminated,Indeterminate,Unknown"
+                                                                    id="159984_{n}" /> <!-- ask if colonies works for unknown/create new -->
+                                                         
                                                         </div>
                                                         <div class="col-md-1">
                                                             <br/>
@@ -279,28 +278,84 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-header">
-                                        DST Results
+                                        X-ray Results
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <label>Date of X-ray</label>
-                                                <obs conceptId="99142" />
+                                                <obs conceptId="164431" />
                                             </div>
                                             <div class="col-md-3">
-                                                <label>Cavitary Disease</label>
-                                                <obs conceptId="165828" answerConceptIds="5619,165827,99420" 
-                                                     answerLabels="Health Worker, Family Member, Community Volunteer"/> <!-- get concepts and yes/no answers -->
+                                                <label>Cavitary Disease</label> <!-- attach concepts and yes/no and change data type from N/A -->
+                                                    <obs conceptId="166068" answerConceptIds="1065,1066" answerLabels="Yes, No" style="radio" class="horizontal"/>
                                             </div>
                                             <div class="col-md-3">
                                                 <label>TB Symptoms Resolved</label>
-                                                <obs conceptId="165828" answerConceptIds="5619,165827,99420" 
-                                                     answerLabels="Health Worker, Family Member, Community Volunteer"/> <!-- get concepts and yes/no answers -->
+                                                <obs conceptId="166068" answerConceptIds="1065,1066" answerLabels="Yes, No" style="radio" class="horizontal"/>
                                             </div>
                                             <div class="col-md-3">
                                                 <label>Primary Findings</label>
-                                                <obs conceptId="165828" answerConceptIds="5619,165827,99420" 
-                                                     answerLabels="Health Worker, Family Member, Community Volunteer"/> <!-- get concepts and comment answer -->
+                                                <obs conceptId="99061" answerConceptIds="99041,99015,99005,99039,99042,99016" 
+                                                     answerLabels="1 - Focal infiltrate/nodule(s), 2 - Multifocal infiltrates/nodule(s), 3 - Lymphadenopathy only, 4 - Fibrosis, 5 - Pleural effusion, 6 - Miliary disease"/> <!-- get concepts and comment answer -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        ECG
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Date of ECG</label>
+                                                <obs conceptId="164431" />
+                                            </div>
+                                            <!-- <div class="col-md-3">
+                                                <label>Cavitary Disease</label> --> <!-- created concepts have errors -->                                         
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        Sputum Smear Microscopy and TB Culture
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Date of Sample Taken</label>
+                                                <obs conceptId="166137" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Smear Taken</label> <!-- attach concepts and yes/no and change data type from N/A -->
+                                                    <obs conceptId="166068" answerConceptIds="1065,1066" answerLabels="Yes, No" style="radio" class="horizontal"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Smear Result</label>
+                                                <obs conceptId="90225" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Date Results Recieved</label> <!-- create as 166117 but with errors -->
+                                                <obs conceptId="164431" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Date of Sample Taken</label>
+                                                <obs conceptId="166137" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Culture Taken</label>
+                                                <obs conceptId="166068" answerConceptIds="1065,1066" answerLabels="Yes, No" style="radio" class="horizontal"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Culture Result</label>
+                                                <obs conceptId="90226" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Date Results Recieved</label> <!-- create as 166118 but with errors -->
+                                                <obs conceptId="164431" />
                                             </div>
                                         </div>
                                     </div>
@@ -312,18 +367,26 @@
                                     <div class="card-header">
                                         Adverse Event
                                     </div>
-                                    <div class="card-body">
+                                    <div class="card-body">  
                                         <repeat>
                                             <template>
                                                 <obsgroup groupingConceptId="99062">
                                                     <span class="row add-remove-section">
                                                         <div class="col-md-3">
-                                                            <label>Event</label> <!-- confirm concept -->
-                                                            <obs conceptId="164431" id="test-date2_{n}"/>
+                                                            <label>Event Date</label>
+                                                            <obs conceptId="166079" id="adverse-event-date_{n}"/>
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <label>Event Grade</label> <!-- get concept -->
-                                                            <obs conceptId="165851" answerConceptIds="165850, 165849" answerLabels="FBS, RBS" 
+                                                            <label>Event</label>
+                                                            <obs conceptId="166082" 
+                                                                    answerConceptIds="119242,159098,159347,166083,123188,131103,5953,821,134337,117321,166081,160179,119270,164923,155,119204" 
+                                                                    answerLabels="Gastrointestinal Disorder,Hepatotoxicity,Musculoskeletal pain,Renal toxicity,Vestibular,Ototoxicity,Vision Changes,Neuropathy,Psychiatric disorder,Hypothyroid,Dysglycemia,Dermatologic,Cardiovascular Disease,Hematological,New onset Seizure,Electrolyte Abnormality"  
+                                                                    id="t166082_{n}"/>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label>Event Grade</label>
+                                                            <obs conceptId="166080" answerConceptIds="90121,1498,1499,1500,1368" 
+                                                                 answerLabels="0 - No side effects,1 - Grade 1 (mild),2 - Grade 2 (moderate),3 - Grade 3 (severe),4 - Grade 4  life threatening)" 
                                                                  style="checkbox" class="horizontal" id="test2_{n}"/>
                                                         </div>
                                                         <div class="col-md-1">
@@ -353,19 +416,20 @@
                                                 <obsgroup groupingConceptId="99062">
                                                     <span class="row add-remove-section">
                                                         <div class="col-md-3">
-                                                            <label>Drug</label>
-                                                            <obs conceptId="164431" allowTime="false" id="164431_{n}"/> <!-- get concept -->
+                                                            <label>Drug</label> <!-- add missing drugs -->
+                                                            <obs conceptId="159956" allowTime="false" id="drug_{n}"/>
                                                         </div>
                                                         <div class="col-md-2">
                                                             <label>Strength</label>
-                                                            <obs conceptId="165844" answerConceptIds="90225,165413,165416,12,90002" 
-                                                                 answerLabels="Smear, GeneXpert, LAM, X-ray, Other" id="165844_{n}"/> <!-- add concepts and answers -->
+                                                            <obs conceptId="1444" />
                                                         </div>
-                                                        <div class="col-md-2" id="results-div_{n}"> <!-- add concepts and answers -->
+                                                        <div class="col-md-2" >
                                                             <label>No. Days</label>
+                                                            <obs conceptId="159368" id="159368_{n}" />
                                                         </div>
-                                                        <div class="col-md-2" id="results-div_{n}"> <!-- add concepts and answers -->
+                                                        <div class="col-md-2">
                                                             <label>No. Pills</label>
+                                                            <obs conceptId="160856" id="160856_{n}"/>
                                                         </div>
                                                         <div class="col-md-1">
                                                             <br/>
@@ -384,18 +448,18 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane active" id="clinical-review-outcome-section">
+                            <div class="tab-pane" id="clinical-review-outcome-section">
                                 <div class="card">
                                     <div class="card-header">Appointment</div>
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-3">
-                                                <label>On Scheduled Appointment</label>
-                                                <obs conceptId="99031" /> <!-- get concept -->
+                                                <label>On Scheduled Appointment</label> <!-- get concept -->
+                                                
                                             </div>
                                             <div class="col-md-3">
-                                                <label>Next Appointment Date</label> <!-- get concept -->
-                                                <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
+                                                <label>Next Appointment Date</label>
+                                                <obs conceptId="5096" allowFutureDates="true" />
                                             </div>
                                         </div>
                                     </div>
@@ -406,20 +470,19 @@
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <label>Total Doses for DR TB Missed</label>
-                                                <obs conceptId="162729" /> <!-- get concept -->
+                                                <obs conceptId="166129" /> <!-- get concept -->
                                             </div>
                                             <div class="col-md-3">
-                                                <label>Percentage Doses MDR-TB Drugs Missed</label>
-                                                <obs conceptId="165052" /> <!-- get concept -->
+                                                <label>Percentage Doses MDR-TB Drugs Missed</label> <!-- 166128 has error concept /NA -->
+                                                <obs conceptId="166129" />
                                             </div>
                                             <div class="col-md-3">
                                                 <label>Percentage Doses ARVs Missed</label>
-                                                <obs conceptId="99142" /> <!-- get concept -->
+                                                <obs conceptId="166129" /> <!-- get concept -->
                                             </div>
                                             <div class="col-md-3">
-                                                <label>Date Discharged </label> <!-- get concept -->
-                                                <obs conceptId="165828" answerConceptIds="5619,165827,99420" 
-                                                     answerLabels="Health Worker, Family Member, Community Volunteer"/>
+                                                <label>Date Discharged </label>
+                                                <obs conceptId="162958" />
                                             </div>
                                         </div>
                                     </div>
@@ -428,17 +491,17 @@
                                     <div class="card-header">Clinical Review Notes</div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label>Key Findings</label>
-                                                <obs conceptId="162729" /> <!-- get concept -->
+                                                <obs conceptId="166129" style="textarea"/>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label>Plan of Action</label>
-                                                <obs conceptId="165052" /> <!-- get concept -->
+                                                <obs conceptId="166130" style="textarea"/>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label>Provider</label>
-                                                <obs conceptId="99142" /> <!-- get concept -->
+                                                <encounterProvider role="Provider" style="autocomplete" id="provider"/>
                                             </div>
                                         </div>
                                     </div>
