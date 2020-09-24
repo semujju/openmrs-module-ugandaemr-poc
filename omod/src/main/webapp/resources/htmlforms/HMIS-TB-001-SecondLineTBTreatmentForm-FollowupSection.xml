@@ -1,7 +1,7 @@
 <htmlform 
 	formName="HMIS TB 001: Second Line TB Treatment Card Followup Section" 
-	formDescription="This form captures followup data of the DR TB Treatment program" 
-	formEncounterType="334bf97e-28e2-4a27-8727-a5ce31c7cd66" 
+	formDescription="This form captures return visit/followup data of the DR TB Treatment program" 
+	formEncounterType="41f8609d-e13b-4dff-8379-47ac5876512e" 
 	formUuid="5f69626e-fbe2-11ea-adc1-0242ac120002" 
 	formVersion="3.0.0" 
 	formAddMetadata="yes" 
@@ -14,16 +14,120 @@
     >
 
 	<script type="text/javascript">
-		if (jQuery) {
+        if (jQuery) {
 
-		    jq(document).ready(function () {
+            jq(document).ready(function () {
 
-				//Block Multiple encounter entry on same date
-				blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
+                //Block Multiple encounter entry on same date
+                blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
+
+                //Validate MUAC
+                var age  = <lookup complexExpression="$patient.age" />; 
+                getMUACCodeFromMUACScoreByAge(age, "muac-score", "muac-code");
+
+                var calculateBmi = function (wt, ht) {
+                var bmi = null
+                    if (wt &amp;&amp; ht) {
+                        bmi = wt / ((ht / 100) * (ht / 100));
+                    }
+                    return bmi;
+                }
+
+                <ifMode mode = "ENTER" >
+
+                    //functions to handle updating the bmi when in ENTER mode
+                    var updateBmi = function () {
+                        var wt = htmlForm.getValueIfLegal('weight.value');
+                        var ht = htmlForm.getValueIfLegal('height.value');
+
+                        var bmi = calculateBmi(wt, ht);
+
+                        if (bmi == null || isNaN(bmi)) {
+                            jq('#calculated-bmi-wrapper').hide();
+                        } else {
+                            jq('#no-calculated-bmi').hide();
+                            jq('#calculated-bmi-wrapper').show();
+                            jq('#calculated-bmi').html(bmi.toFixed(1));
+                            jq('#hidden-calculated-bmi').val(bmi.toFixed(1));
+                        }
+                    };
+
+                    jq(function () {
+                        jq('#calculated-bmi-wrapper').hide();
+                        getField('weight.value').change(updateBmi)
+                        getField('height.value').change(updateBmi);
+                        updateBmi();
+                    });
+
+                </ifMode>
+
+                <ifMode mode = "VIEW" >
+                    // handle displaying the bmi when in VIEW mode
+                    // we have to iterate through in case there are multiple vitals forms
+                    // displayed on a single page
+
+                    jq('htmlform').each(function (index, form) {
+                        jq(form).find('#calculated-bmi-continue').hide();
+                        jq(form).find('#no-calculated-bmi').hide();
+
+                        var wt = jq(form).find('#weight').find('.value').text();
+                        var ht = jq(form).find('#height').find('.value').text();
+
+                        var bmi = calculateBmi(wt, ht);
+
+                        if (bmi != null &amp;&amp; !isNaN(bmi)) {
+                            jq(form).find('#calculated-bmi-wrapper').show();
+                            jq(form).find('#calculated-bmi').html(bmi.toFixed(1));
+                            jq(form).find('#hidden-calculated-bmi').val(bmi.toFixed(1));
+                        }
+                    });
+                </ifMode>
+
+                var $otherRows,
+                    $firstRow,
+                    $thisRow,
+                    $nextRow,
+                    $lastVisibleRow;
+                var showAddButtonForLastVisibleRow = function($container) {
+                    $lastVisibleRow = $container.find('span.add-remove-section:visible:last');
+                    $lastVisibleRow.find('.add').show();
+                };
+
+                $firstRow = jq('span.add-remove-section:first-of-type');
+                $otherRows = jq('span.add-remove-section:not(:first-of-type)');
+
+                jq('.add').click(function(e) { //Handle add button event
+                    e.preventDefault();
+                    $thisRow = jq(this).parents('span.add-remove-section:first');
+                    $nextRow = $thisRow.next();
+
+                    if ($nextRow.length &gt; 0) {
+                        $nextRow.show('slow');
+                        $thisRow.find('.add').hide();
+                    }
+                });
+
+                jq('.remove').click(function(e) { //Handle remove button event
+                    e.preventDefault();
+                    $thisRow = jq(this).parents('span.add-remove-section:first');
+                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
+                        $thisRow = jq(this).parents('span.add-remove-section:first');
+                        $lastRow = jq(this).parents('span.add-remove-section:last');
+                        $lastVisibleRow = $lastRow.prev();
+
+                        $thisRow.hide('slow', function() {
+                            fieldHelper.clearAllFields($thisRow);
+                            $lastVisibleRow.find('.add').show();
+                        });
+                    }
+                });
+
+                $otherRows.hide(); //Hide all rows apart from first row if adding new form
+                $firstRow.find('.remove').hide(); //Hide the remove button from the first row
                 
-			});
-		}
-	</script>
+            });
+        }
+    </script>
 
 	<div>
 		<div class="row">
@@ -66,16 +170,18 @@
                                     <div class="card-header">Nutrition Assessment</div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <encounterDate default="today" disallowMultipleEncountersOnDate="block" class="hidden"/>
-                                            <div class="col-md-3">
+                                            <span class="hidden">
+                                                <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
+                                            </span>
+                                            <div class="col-md-4">
                                                 <label>Weight (kg)</label>
                                                 <obs conceptId="CIEL:5089" id="weight"/>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label>Height (cm)</label>
                                                 <obs conceptId="CIEL:5090" id="height"/>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <!-- only show BMI if patient is more than 5 years old (on the encounterDate) -->
                                                 <includeIf
                                                         velocityTest="$patient.getAge($encounter.getEncounterDatetime()) > 5">
@@ -94,11 +200,11 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label>MUAC (Cm)</label>
                                                 <obs conceptId="CIEL:1343" id="muac-score" />
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <span class="muac">
                                                     <includeIf velocityTest="$patient.age &lt; 5">
                                                         <label>MUAC Code</label>
@@ -119,27 +225,29 @@
                                                 </span>
                                             </div>
                                             <excludeIf velocityTest="$patient.age &gt; 11">
-                                                <div class="col-md-2">
+                                                <div class="col-md-4">
                                                     <label>Z-Scores</label>
                                                     <obs conceptId="99800" answerConceptIds="99803,99804,99805,99806,99807" 
                                                          answerLabels="&#60;-3,-3_&#60;-1,-1_1,&#62;1_3,&#62;3" />
                                                 </div>
                                             </excludeIf>
-                                            <div class="col-md-2">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
                                                 <label>Nutrition Status</label>
                                                 <obs conceptId="165050" class="long-value-select"
                                                      answerConceptIds="1115, 99271, 99272, 99273, 5277"
                                                      answerLabels="N - Normal, MAM - Moderate Acute Malnutrition, SAM - Severe Acute Malnutrition,
                                                  SAMO - Severe Acute Malnutrition with Oedema, O - Overweight/Obese"/>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-4">
                                                 <label>Nutrition Support</label>
                                                 <obs conceptId="99054" class="long-value-select"
                                                      answerConceptIds="99053,99050,99051,99052"
                                                      answerLabels="TF - Therapeutic Feeding (F75 F100 RUTF), SF - Supplementary Feeding,
                                                  IYCF - Infant and Young Child Feeding Counselling ( &lt; 2yrs), NC - Nutrition Counselling only (if &gt; 2yrs)"/>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-4">
                                                 <label>INR No.</label>
                                                 <obs conceptId="99733"/>
                                             </div>
@@ -150,41 +258,76 @@
 							<div class="tab-pane" id="investigation-section">									
                                 <div class="card">
 	                                <div class="card-header">
-	                                    Lab
+	                                    Investigation
 	                                </div>
 	                                <div class="card-body">
 	                                    <div class="row">
-		                                    <!-- get conceptID -->
-											<obs conceptId="165169" answerConceptId="5619" answerLabel="Smear" style="checkbox" class="col-md-2"/> 
-											<obs conceptId="165169" answerConceptId="99339" answerLabel="ALT/SGPT" style="checkbox" class="col-md-2" /> <!-- get concept -->
-											<obs conceptId="165169" answerConceptId="162277" answerLabel="VL" style="checkbox" class="col-md-2" />
-											<obs conceptId="165169" answerConceptId="165127" answerLabel="Platelet ct" style="checkbox" class="col-md-2" />
-											<obs conceptId="165169" answerConceptId="165125" answerLabel="Uric Acid" style="checkbox" class="col-md-2" />
-											<obs conceptId="165169" answerConceptId="159674" answerLabel="GeneXpert" style="checkbox" class="col-md-2" />
-										</div>
-										<div class="row">
-                                            <obs conceptId="165169" answerConceptId="99339" answerLabel="AST/SGOT" style="checkbox" class="col-md-2" /> <!-- get concept -->
-											<obs conceptId="165169" answerConceptId="165883" answerLabel="Cholesterol" style="checkbox" class="col-md-2" />
-											<obs conceptId="165169" answerConceptId="1455" answerLabel="TSH" style="checkbox" class="col-md-2" />
-											<obs conceptId="165169" answerConceptId="134337" answerLabel="Potassium" style="checkbox" class="col-md-2" />
-                                            <obs conceptId="165169" answerConceptId="99339" answerLabel="T.bilirubin" style="checkbox" class="col-md-2" /> <!-- get concept -->
-                                            <obs conceptId="165169" answerConceptId="5619" answerLabel="LAM" style="checkbox" class="col-md-2"/> 
-	                                	</div>
-                                        <div class="row">
-                                            <!-- get conceptID -->
-                                            <obs conceptId="165169" answerConceptId="162277" answerLabel="Hep Serology" style="checkbox" class="col-md-2" />
-                                            <obs conceptId="165169" answerConceptId="165127" answerLabel="Lipase/Amylase" style="checkbox" class="col-md-2" />
-                                            <obs conceptId="165169" answerConceptId="165125" answerLabel="Calcium" style="checkbox" class="col-md-2" />
-                                            <obs conceptId="165169" answerConceptId="159674" answerLabel="Culture" style="checkbox" class="col-md-2" />
-                                            <obs conceptId="165169" answerConceptId="99339" answerLabel="Creatinine" style="checkbox" class="col-md-2" /> <!-- get concept -->
-                                            <obs conceptId="165169" answerConceptId="165883" answerLabel="HCG" style="checkbox" class="col-md-2" />
+                                            <div class="col-md-6">
+                                            <div class="card">
+                                            <div class="card-header">
+                                                Lab
+                                            </div>
+    										<div class="card-body">
+                                            <div class="row">
+                                                <obs conceptId="165169" answerConceptId="307" answerLabel="Smear" style="checkbox" class="col-md-3"/> 
+                                                <obs conceptId="165169" answerConceptId="90190" answerLabel="ALT/SGPT" style="checkbox" class="col-md-3" /> 
+                                                <obs conceptId="165169" answerConceptId="165412" answerLabel="VL" style="checkbox" class="col-md-3" />
+                                                <obs conceptId="165169" answerConceptId="729" answerLabel="Platelet ct" style="checkbox" class="col-md-3" />
+                                            </div>
+                                            <div class="row">
+                                                <obs conceptId="165169" answerConceptId="159825" answerLabel="Uric Acid" style="checkbox" class="col-md-3" />
+                                                <obs conceptId="165169" answerConceptId="165413" answerLabel="GeneXpert" style="checkbox" class="col-md-3" />
+                                                <obs conceptId="165169" answerConceptId="90191" answerLabel="AST/SGOT" style="checkbox" class="col-md-3" />
+                                                <obs conceptId="165169" answerConceptId="1006" answerLabel="Cholesterol" style="checkbox" class="col-md-3" />
+                                            </div>
+                                            <div class="row">
+                                                <obs conceptId="165169" answerConceptId="161505" answerLabel="TSH" style="checkbox" class="col-md-3" />
+                                                <obs conceptId="165169" answerConceptId="90194" answerLabel="Potassium" style="checkbox" class="col-md-3" />
+                                                <obs conceptId="165169" answerConceptId="655" answerLabel="T.bilirubin" style="checkbox" class="col-md-3" />
+                                                <obs conceptId="165169" answerConceptId="165822" answerLabel="LAM" style="checkbox" class="col-md-3"/> 
+                                                <obs conceptId="165169" answerConceptId="1035" answerLabel="Hep Serology" style="checkbox" class="col-md-3" />
+                                                <obs conceptId="165169" answerConceptId="1299" answerLabel="Lipase/Amylase" style="checkbox" class="col-md-3" />
+                                            </div>
+                                            <div class="row">
+                                                <obs conceptId="165169" answerConceptId="159497" answerLabel="Calcium" style="checkbox" class="col-md-3" />
+                                                <obs conceptId="165169" answerConceptId="159982" answerLabel="Culture" style="checkbox" class="col-md-3" />
+                                                <obs conceptId="165169" answerConceptId="90192" answerLabel="Creatinine" style="checkbox" class="col-md-3" />
+                                                <obs conceptId="165169" answerConceptId="161509" answerLabel="HCG" style="checkbox" class="col-md-3" />
+                                                <obs conceptId="165169" answerConceptId="99080" answerLabel="HIV Test" style="checkbox" class="col-md-3" />
+                                                <obs conceptId="165169" answerConceptId="887" answerLabel="Glucose" style="checkbox" class="col-md-3" />
+                                                <obs conceptId="165169" answerConceptId="857" answerLabel="BUN" style="checkbox" class="col-md-3" />
+                                                <obs conceptId="165169" answerConceptId="848" answerLabel="Albumin" style="checkbox" class="col-md-3" />
+                                                <obs conceptId="165169" answerConceptId="21" answerLabel="Hbg/Hct" style="checkbox" class="col-md-3" />
+                                                <obs conceptId="165169" answerConceptId="166115" answerLabel="ECG" style="checkbox" class="col-md-3" />
+                                            </div>
+                                            </div>
+                                            </div>
                                         </div>
-                                        <div class="row">
-                                            <obs conceptId="165169" answerConceptId="1455" answerLabel="HIV Test" style="checkbox" class="col-md-2" />
-                                            <obs conceptId="165169" answerConceptId="134337" answerLabel="Glucose" style="checkbox" class="col-md-2" />
-                                            <obs conceptId="165169" answerConceptId="159674" answerLabel="BUN" style="checkbox" class="col-md-2" />
-                                            <obs conceptId="165169" answerConceptId="99339" answerLabel="Albumin" style="checkbox" class="col-md-2" /> <!-- get concept -->
-                                            <obs conceptId="165169" answerConceptId="165883" answerLabel="Hbg/Hct" style="checkbox" class="col-md-2" />
+                                        <div class="col-md-3">
+                                            <div class="card">
+                                            <div class="card-header">
+                                                Radiology
+                                            </div>
+                                            <div class="card-body">
+                                            <div class="row">
+                                                <obs conceptId="165169" answerConceptId="12" answerLabel="X-ray" style="checkbox" class="col-md-6"/> 
+                                            </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="card">
+                                            <div class="card-header">
+                                                Drug Susceptible Testing
+                                            </div>
+                                            <div class="card-body">
+                                            <div class="row">
+                                                <obs conceptId="165169" answerConceptId="307" answerLabel="SL LPA" style="checkbox" class="col-md-6"/> <!-- missing concept -->
+                                                <obs conceptId="165169" answerConceptId="90190" answerLabel="FULL DST" style="checkbox" class="col-md-6" /> <!-- missing concept -->
+                                            </div>
+                                            </div>
+                                            </div>
+                                        </div>
                                         </div>
 	                                </div>
 	                            </div>
@@ -295,15 +438,29 @@
                                                 <label>TB Symptoms Resolved</label>
                                                 <obs conceptId="166068" answerConceptIds="1065,1066" answerLabels="Yes, No" style="radio" class="horizontal"/>
                                             </div>
+                                        </div>
+                                        <div class="row">
                                             <div class="col-md-3">
                                                 <label>Primary Findings</label>
-                                                <obs conceptId="99061" answerConceptIds="99041,99015,99005,99039,99042,99016" 
-                                                     answerLabels="1 - Focal infiltrate/nodule(s), 2 - Multifocal infiltrates/nodule(s), 3 - Lymphadenopathy only, 4 - Fibrosis, 5 - Pleural effusion, 6 - Miliary disease"/> <!-- get concepts and comment answer -->
-                                            </div>
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                                <obs conceptId="99061" answerConceptId="99041" answerLabel="1 - Focal infiltrate/nodule(s)"     style="checkbox" class="col-md-2"/> 
+                                                <obs conceptId="99061" answerConceptId="99015" answerLabel="2 - Multifocal infiltrates/nodule(s)"  style="checkbox" class="col-md-3" />
+                                                <obs conceptId="99061" answerConceptId="99005" answerLabel="3 - Lymphadenopathy only" 
+                                                         style="checkbox" class="col-md-2" />
+                                                <obs conceptId="99061" answerConceptId="99039" answerLabel="4 - Fibrosis" 
+                                                         style="checkbox" class="col-md-2" />
+                                                <obs conceptId="99061" answerConceptId="99042" answerLabel="5 - Pleural effusion" 
+                                                         style="checkbox" class="col-md-2" />
+                                        </div>
+                                        <div class="row">
+                                                <obs conceptId="99061" answerConceptId="99016" answerLabel="6 - Miliary disease" 
+                                                         style="checkbox" class="col-md-2" />
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card">
+                                <!-- <div class="card">
                                     <div class="card-header">
                                         ECG
                                     </div>
@@ -312,13 +469,13 @@
                                             <div class="col-md-3">
                                                 <label>Date of ECG</label>
                                                 <obs conceptId="164431" />
-                                            </div>
+                                            </div> -->
                                             <!-- <div class="col-md-3">
                                                 <label>Cavitary Disease</label> --> <!-- created concepts have errors -->                                         
-                                        </div>
+                                        <!-- </div>
                                     </div>
-                                </div>
-                                <div class="card">
+                                </div> -->
+                                <!-- <div class="card">
                                     <div class="card-header">
                                         Sputum Smear Microscopy and TB Culture
                                     </div>
@@ -329,16 +486,16 @@
                                                 <obs conceptId="166137" />
                                             </div>
                                             <div class="col-md-3">
-                                                <label>Smear Taken</label> <!-- attach concepts and yes/no and change data type from N/A -->
-                                                    <obs conceptId="166068" answerConceptIds="1065,1066" answerLabels="Yes, No" style="radio" class="horizontal"/>
+                                                <label>Smear Taken</label> --> <!-- attach concepts and yes/no and change data type from N/A -->
+                                                    <!-- <obs conceptId="166068" answerConceptIds="1065,1066" answerLabels="Yes, No" style="radio" class="horizontal"/>
                                             </div>
                                             <div class="col-md-3">
                                                 <label>Smear Result</label>
                                                 <obs conceptId="90225" />
                                             </div>
                                             <div class="col-md-3">
-                                                <label>Date Results Recieved</label> <!-- create as 166117 but with errors -->
-                                                <obs conceptId="164431" />
+                                                <label>Date Results Recieved</label> --> <!-- create as 166117 but with errors -->
+                                                <!-- <obs conceptId="164431" />
                                             </div>
                                         </div>
                                         <div class="row">
@@ -355,12 +512,12 @@
                                                 <obs conceptId="90226" />
                                             </div>
                                             <div class="col-md-3">
-                                                <label>Date Results Recieved</label> <!-- create as 166118 but with errors -->
-                                                <obs conceptId="164431" />
+                                                <label>Date Results Recieved</label> --> <!-- create as 166118 but with errors -->
+                                                <!-- <obs conceptId="164431" />
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 							</div>
 
 							<div class="tab-pane" role="tabpanel" aria-leballebdy="nav-profile-tab" id="adverse-events-section">
