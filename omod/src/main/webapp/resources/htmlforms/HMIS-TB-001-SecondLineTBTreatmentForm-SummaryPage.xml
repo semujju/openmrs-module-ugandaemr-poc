@@ -1,7 +1,7 @@
 <htmlform 
 	formName="HMIS TB 001: Second Line TB Treatment Card Summary Page" 
 	formDescription="This is a summary of the DR TB Treatment program" 
-	formEncounterType="334bf97e-28e2-4a27-8727-a5ce31c7cd66" 
+	formEncounterType="0271ee3d-f274-49d1-b376-c842f075413f" 
 	formUuid="4929f668-f8d0-11ea-adc1-0242ac120002" 
 	formVersion="3.0.0" 
 	formAddMetadata="yes" 
@@ -21,6 +21,109 @@
 				//Block Multiple encounter entry on same date
 				blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
 
+                //Validate MUAC
+                var age  = <lookup complexExpression="$patient.age" />; 
+                getMUACCodeFromMUACScoreByAge(age, "muac-score", "muac-code");
+
+                var calculateBmi = function (wt, ht) {
+                var bmi = null
+                    if (wt &amp;&amp; ht) {
+                        bmi = wt / ((ht / 100) * (ht / 100));
+                    }
+                    return bmi;
+                }
+
+                <ifMode mode = "ENTER" >
+
+                    //functions to handle updating the bmi when in ENTER mode
+                    var updateBmi = function () {
+                        var wt = htmlForm.getValueIfLegal('weight.value');
+                        var ht = htmlForm.getValueIfLegal('height.value');
+
+                        var bmi = calculateBmi(wt, ht);
+
+                        if (bmi == null || isNaN(bmi)) {
+                            jq('#calculated-bmi-wrapper').hide();
+                        } else {
+                            jq('#no-calculated-bmi').hide();
+                            jq('#calculated-bmi-wrapper').show();
+                            jq('#calculated-bmi').html(bmi.toFixed(1));
+                            jq('#hidden-calculated-bmi').val(bmi.toFixed(1));
+                        }
+                    };
+
+                    jq(function () {
+                        jq('#calculated-bmi-wrapper').hide();
+                        getField('weight.value').change(updateBmi)
+                        getField('height.value').change(updateBmi);
+                        updateBmi();
+                    });
+
+                </ifMode>
+
+                <ifMode mode = "VIEW" >
+                    // handle displaying the bmi when in VIEW mode
+                    // we have to iterate through in case there are multiple vitals forms
+                    // displayed on a single page
+
+                    jq('htmlform').each(function (index, form) {
+                        jq(form).find('#calculated-bmi-continue').hide();
+                        jq(form).find('#no-calculated-bmi').hide();
+
+                        var wt = jq(form).find('#weight').find('.value').text();
+                        var ht = jq(form).find('#height').find('.value').text();
+
+                        var bmi = calculateBmi(wt, ht);
+
+                        if (bmi != null &amp;&amp; !isNaN(bmi)) {
+                            jq(form).find('#calculated-bmi-wrapper').show();
+                            jq(form).find('#calculated-bmi').html(bmi.toFixed(1));
+                            jq(form).find('#hidden-calculated-bmi').val(bmi.toFixed(1));
+                        }
+                    });
+                </ifMode>
+
+                var $otherRows,
+                    $firstRow,
+                    $thisRow,
+                    $nextRow,
+                    $lastVisibleRow;
+                var showAddButtonForLastVisibleRow = function($container) {
+                    $lastVisibleRow = $container.find('span.add-remove-section:visible:last');
+                    $lastVisibleRow.find('.add').show();
+                };
+
+                $firstRow = jq('span.add-remove-section:first-of-type');
+                $otherRows = jq('span.add-remove-section:not(:first-of-type)');
+
+                jq('.add').click(function(e) { //Handle add button event
+                    e.preventDefault();
+                    $thisRow = jq(this).parents('span.add-remove-section:first');
+                    $nextRow = $thisRow.next();
+
+                    if ($nextRow.length &gt; 0) {
+                        $nextRow.show('slow');
+                        $thisRow.find('.add').hide();
+                    }
+                });
+
+                jq('.remove').click(function(e) { //Handle remove button event
+                    e.preventDefault();
+                    $thisRow = jq(this).parents('span.add-remove-section:first');
+                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
+                        $thisRow = jq(this).parents('span.add-remove-section:first');
+                        $lastRow = jq(this).parents('span.add-remove-section:last');
+                        $lastVisibleRow = $lastRow.prev();
+
+                        $thisRow.hide('slow', function() {
+                            fieldHelper.clearAllFields($thisRow);
+                            $lastVisibleRow.find('.add').show();
+                        });
+                    }
+                });
+
+                $otherRows.hide(); //Hide all rows apart from first row if adding new form
+                $firstRow.find('.remove').hide(); //Hide the remove button from the first row
                 
 			});
 		}
@@ -62,7 +165,7 @@
 									<div class="card-body">
 										<div class="row">
 											<div class="col-md-3 html-form-entry-disabled-field">
-                                                <label>Encounter Date</label>
+                                                <label>Date of Registration</label>
                                                 <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
                                                 <enrollInProgram programId="9dc21a72-0971-11e7-8037-507b9dc4c741" stateIds="1"/>
                                             </div>
@@ -91,10 +194,6 @@
                                                 <obs conceptId="166061" />
                                             </div>
                                             <div class="col-md-3">
-                                                <label>Date of Registration</label>
-                                                <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
-                                            </div>
-                                            <div class="col-md-3">
                                                 <label>Followup Health Facility</label>
                                                 <obs conceptId="166062" />
                                             </div>
@@ -113,17 +212,17 @@
 	                                </div>
 	                                <div class="card-body">
 	                                    <div class="row">
-		                                    <!-- get conceptID -->
-											<obs conceptId="165169" answerConceptId="5619" answerLabel="Health Worker" style="checkbox" class="col-md-2"/> 
-											<obs conceptId="165169" answerConceptId="99339" answerLabel="TB Contact" style="checkbox" class="col-md-2" /> <!-- get concept -->
+											<obs conceptId="165169" answerConceptId="5619"   answerLabel="Health Worker" style="checkbox" class="col-md-2"/> 
+											<obs conceptId="165169" answerConceptId="165882" answerLabel="TB Contact" style="checkbox" class="col-md-2" /> 
 											<obs conceptId="165169" answerConceptId="162277" answerLabel="Prisoner" style="checkbox" class="col-md-2" />
 											<obs conceptId="165169" answerConceptId="165127" answerLabel="Refugee" style="checkbox" class="col-md-2" />
 											<obs conceptId="165169" answerConceptId="165125" answerLabel="Uniformed/Armed Personnel" style="checkbox" class="col-md-3" />
 										</div>
 										<div class="row">
 											<obs conceptId="165169" answerConceptId="159674" answerLabel="Fisher Folk" style="checkbox" class="col-md-2" />
+                                            <obs conceptId="165169" answerConceptId="119481" answerLabel="Diabetic Patient" style="checkbox" class="col-md-2" />
 											<obs conceptId="165169" answerConceptId="165883" answerLabel="Miner" style="checkbox" class="col-md-2" />
-											<obs conceptId="165169" answerConceptId="1455" answerLabel="Tobacco User" style="checkbox" class="col-md-2" />
+											<obs conceptId="165169" answerConceptId="1455"   answerLabel="Tobacco User" style="checkbox" class="col-md-2" />
 											<obs conceptId="165169" answerConceptId="134337" answerLabel="Mentally Ill" style="checkbox" class="col-md-2" />
 	                                	</div>
 	                                </div>
@@ -133,16 +232,18 @@
                                         GIS Coordinates
                                     </div>
                                     <div class="card-body">
-                                        <!-- <div class="row">
-                                            <div class="col-md-3">
-                                                <label>Eastings</label>
-                                                <obs conceptId="166056" answerConceptId="166054" answerLabel="Eastings"/> 
+                                        <obsgroup groupingConceptId="166056">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Eastings</label>
+                                                    <obs conceptId="166054"/> 
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Nothings</label>
+                                                    <obs conceptId="166055"/> 
+                                                </div>
                                             </div>
-                                            <div class="col-md-3">
-                                                <label>Nothings</label>
-                                                <obs conceptId="166056" answerConceptId="166055" answerLabel="Northings"/> 
-                                            </div>
-                                        </div> -->
+                                        </obsgroup>
                                     </div>
                                 </div>
                                 <div class="card">
@@ -151,13 +252,31 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label>Next of Kin Name</label>
                                                 <obs conceptId="162729" />
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label>Next of Kin Phone Number</label>
                                                 <obs conceptId="165052" />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>District</label>
+                                                <obs conceptId="99135" /> <!-- create concept -->
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Sub County</label>
+                                                <obs conceptId="162729" /> <!-- create concept -->
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Parish</label>
+                                                <obs conceptId="99136" /> <!-- create concept -->
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Village</label>
+                                                <obs conceptId="99137" /> <!-- create concept -->
                                             </div>
                                         </div>
                                     </div>
@@ -168,330 +287,353 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label>Treatment Supporter Name</label>
                                                 <obs conceptId="99142" />
                                             </div>
-                                            <div class="col-md-3">
-                                                <label>Treatment Supporter Type</label>
-                                                <obs conceptId="165828" answerConceptIds="5619,165827,99420" 
-                                                     answerLabels="Health Worker, Family Member, Community Volunteer"/>
+                                            <div class="col-md-4">
+                                                <label>Supporter Phone Number</label> <!-- create concept -->
+                                                <obs conceptId="165052" />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>District</label>
+                                                <obs conceptId="99138" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Sub County</label>
+                                                <obs conceptId="99139" />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Parish</label>
+                                                <obs conceptId="165052" /> <!-- create concept -->
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Village</label>
+                                                <obs conceptId="99141" />
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-							</div>
-
+							    </div>
+                            </div>
 							<div class="tab-pane" role="tabpanel" aria-leballebdy="nav-profile-tab" id="baseline-examination-section">
-                                <div class="card">
-                                    <div class="card-header">
-                                        Baseline Treatment
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <label>Treatment Start Date</label>
-                                                <obs conceptId="165841" />
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Date of Prior TB Registration</label>
-                                                <obs conceptId="166064" />
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Reason for 2nd Line Treatment</label>
-                                                <obs conceptId="166067" answerConceptIds="166066,166065" 
-                                                     answerLabels="Presumptive MDR/XDR/RR, Bacteriologically confirmed MDR/XDR/RR"/> 
-                                            </div>
+                                <obsgroup groupingConceptId="166074">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Baseline Treatment
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <label>Transfer In</label>
-                                                <obs conceptId="99110" answerConceptIds="90003, 90004" answerLabels="Yes, No"/>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Treatment Start Date</label>
+                                                    <obs conceptId="165841" />
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Date of Prior TB Registration</label>
+                                                    <obs conceptId="166064" />
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Reason for 2nd Line Treatment</label>
+                                                    <obs conceptId="166067" answerConceptIds="166066,166065" 
+                                                         answerLabels="Presumptive MDR/XDR/RR, Bacteriologically confirmed MDR/XDR/RR"/> 
+                                                </div>
                                             </div>
-                                            <div class="col-md-3">
-                                                <label>Health Center Name</label>
-                                                <obs conceptId="99109" />
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Transfer In</label>
+                                                    <obs conceptId="99110" answerConceptIds="90003, 90004" answerLabels="Yes, No" style="radio" 
+                                                         class="horizontal"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Health Center Name</label>
+                                                    <obs conceptId="99109" />
+                                                </div>
                                             </div>
-                                            <div class="col-md-3">
-                                                <label>Date of GeneXpert Test</label>
-                                                <obs conceptId="164431" />
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Date of DST</label>
-                                                <obs conceptId="164396" /> 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card">
-                                    <div class="card-header">
-                                        Registration Group
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <label>Registration Group</label>
-                                                <obs conceptId="99386" /> <!-- add options -->
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Known MDR-TB Contact</label>
-                                                <obs conceptId="166068" answerConceptIds="1065,1066" 
-                                                     answerLabels="Yes, No"/>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Patient Name</label>
-                                                <obs conceptId="99142" /> <!-- get concept from dictionary/check mockup-->
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Date Initial Home Assessment Completed</label>
-                                                <obs conceptId="166078" />
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Date of GeneXpert Test</label>
+                                                    <obs conceptId="164431" />
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Date of DST</label>
+                                                    <obs conceptId="164396" /> 
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-								<div class="card">
-									<div class="card-header">
-                                    	Medication Diagnosis
-                                 	</div>
-									<div class="card-body">
-										<repeat>
-											<template>
-												<obsgroup groupingConceptId="99062">
-													<span class="row add-remove-section">
-														<div class="col-md-3">
-															<label>Date Of Diagnosis</label>
-															<obs conceptId="159948" id="diagnosis-date2_{n}"/>
-														</div>
-														<div class="col-md-3">
-															<label>Type</label> <!-- get concept -->
-															<obs conceptId="165851" answerConceptIds="165850, 165849" answerLabels="FBS, RBS" 
-																 style="checkbox" class="horizontal" id="test2_{n}"/>
-														</div>
-														<div class="col-md-3"> <!-- get concept -->
-															<label>Treatment Provided</label>
-															<obs conceptId="165852" answerConceptIds="165847, 165848" answerLabels="NDM, KDM" 
-																 style="checkbox" class="horizontal" id="result2_{n}"/>
-														</div>
-														<div class="col-md-1">
-															<br/>
-                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
-                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
-                                                        </div>
-													</span>
-												</obsgroup>
-											</template>
-											<render n="1"/>
-                                            <render n="2"/>
-                                            <render n="3"/>
-                                            <render n="4"/>
-										</repeat>
-									</div>
 
                                     <div class="card">
-                                    <div class="card-header">Nutrition Assessment</div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <label>Weight (kg)</label>
-                                                <obs conceptId="CIEL:5089" id="weight"/>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Height (cm)</label>
-                                                <obs conceptId="CIEL:5090" id="height"/>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <!-- only show BMI if patient is more than 5 years old (on the encounterDate) -->
-                                                <includeIf
-                                                        velocityTest="$patient.getAge($encounter.getEncounterDatetime()) > 5">
-                                                    <label>BMI (Calculated)</label>
-                                                    <span id="calculated-bmi-wrapper">
-                                                        <ifMode mode="VIEW" include="false">
-                                                            <span id='calculated-bmi'></span>
-                                                        </ifMode>
-                                                    </span>
-                                                    <p id="calculated-bmi-continue">
-                                                        <input type="hidden" name="focus-in-bmi-question"
-                                                               id="hidden-calculated-bmi"/>
-                                                    </p>
-
-                                                </includeIf>
-                                            </div>
+                                        <div class="card-header">
+                                            Registration Group
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <label>MUAC (Cm)</label>
-                                                <obs conceptId="CIEL:1343" id="muac-score" />
-                                            </div>
-                                            <div class="col-md-3">
-                                                <span class="muac">
-                                                    <includeIf velocityTest="$patient.age &lt; 5">
-                                                        <label>MUAC Code</label>
-                                                        <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 11.5cm, Yellow 11.5cm - &lt;12.5cm,Green &gt;= 12.5cm" />
-                                                    </includeIf>
-                                                    <includeIf velocityTest="$patient.age &lt; 10 &amp;&amp; $patient.age &gt;=5">
-                                                        <label>MUAC Code</label>
-                                                        <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 13.5cm,Yellow 13.5cm - &lt;14.5cm,Green &gt;=14.5cm" />
-                                                    </includeIf>
-                                                    <includeIf velocityTest="$patient.age &lt; 18 &amp;&amp; $patient.age &gt;=10">
-                                                        <label>MUAC Code</label>
-                                                        <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 16.5cm, Yellow 16.5cm - &lt;19.0cm,Green &gt;=19.0cm" />
-                                                    </includeIf>
-                                                    <includeIf velocityTest="$patient.age &gt;=18">
-                                                        <label>MUAC Code</label>
-                                                        <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt;19.0cm , Yellow 19.0cm - &lt;22.0cm,Green &gt;=22.0cm" />
-                                                    </includeIf>
-                                                </span>
-                                            </div>
-                                            <excludeIf velocityTest="$patient.age &gt; 11">
-                                                <div class="col-md-2">
-                                                    <label>Z-Scores</label>
-                                                    <obs conceptId="99800" answerConceptIds="99803,99804,99805,99806,99807" 
-                                                         answerLabels="&#60;-3,-3_&#60;-1,-1_1,&#62;1_3,&#62;3" />
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Registration Group</label>
+                                                    <obs conceptId="99386" answerConceptIds="99380,99381,99383,166075,166076,166077" answerLabels="N - New, RP - Relapse, RT - Return after loss to follow up, F1 - After failure of first treatment with first-line drugs, F2 - After failure of regimen with second-line drugs, O - Other (previously treated without known outcome)" class="long-value-select" />
                                                 </div>
-                                            </excludeIf>
-                                            <div class="col-md-2">
-                                                <label>Nutrition Status</label>
-                                                <obs conceptId="165050" class="long-value-select"
-                                                     answerConceptIds="1115, 99271, 99272, 99273, 5277"
-                                                     answerLabels="N - Normal, MAM - Moderate Acute Malnutrition, SAM - Severe Acute Malnutrition,
-                                                 SAMO - Severe Acute Malnutrition with Oedema, O - Overweight/Obese"/>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label>Nutrition Support</label>
-                                                <obs conceptId="99054" class="long-value-select"
-                                                     answerConceptIds="99053,99050,99051,99052"
-                                                     answerLabels="TF - Therapeutic Feeding (F75 F100 RUTF), SF - Supplementary Feeding,
-                                                 IYCF - Infant and Young Child Feeding Counselling ( &lt; 2yrs), NC - Nutrition Counselling only (if &gt; 2yrs)"/>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label>INR No.</label>
-                                                <obs conceptId="99733"/>
+                                                <div class="col-md-3">
+                                                    <label>Known MDR-TB Contact</label>
+                                                    <obs conceptId="166068" answerConceptIds="1065,1066" 
+                                                         answerLabels="Yes, No" style="radio" class="horizontal"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Patient Name</label>
+                                                    <obs conceptId="99142" /> <!-- get concept from dictionary/check mockup-->
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Date Initial Home Assessment Completed</label>
+                                                    <obs conceptId="166078" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header">
-                                        Previous TB Treatment
-                                    </div>
-                                    <div class="card-body">
-                                        <repeat>
-                                            <template>
-                                                <obsgroup groupingConceptId="99062">
-                                                    <span class="row add-remove-section">
-                                                            <div class="col-md-2">
-                                                                <label>TB Reg No</label>
-                                                                <obs conceptId="165826" id="165826_{n}"/>
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <label>Facility</label> <!-- get concept -->
-                                                                <obs conceptId="165855" answerConceptIds="99764,99110,160036" answerLabels="Referred In, Transferred In, Transferred Out" id="165855_{n}"/>
-                                                            </div>
-                                                            <div class="col-md-2"> <!-- get concept -->
-                                                                <label>Start Date</label>
-                                                                <obs conceptId="90211" id="90211_{n}"/>
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <label>Regimen</label> <!-- get concept -->
-                                                                <obs conceptId="165853" id="165853_{n}"/>
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <label>Outcome</label> <!-- get concept -->
-                                                                <obs conceptId="159635" id="159635_{n}"/>
-                                                            </div>
-                                                            <div class="col-md-1">
-                                                                <br/>
+
+    								<div class="card">
+    									<div class="card-header">
+                                        	Medication Diagnosis
+                                     	</div>
+    									<div class="card-body">
+    										<repeat>
+    											<template>
+    												<obsgroup groupingConceptId="99062">
+    													<span class="row add-remove-section">
+    														<div class="col-md-3">
+    															<label>Date of Diagnosis</label>
+    															<obs conceptId="159948" id="diagnosis-date_{n}"/>
+    														</div>
+    														<div class="col-md-3">
+    															<label>Type</label> <!-- create new concept --> 
+    															<obs conceptId="159394" answerConceptIds="119481, 134337, 68, 99095, 6033, 145131, 165238, 165939, 90001" answerLabels="Diabetes, Mental Illness, Malnutrition, Liver disease, Renal Disease, Viral Hepatitis, Substance abuse, Other, No known" 
+    																 style="checkbox"  id="test2_{n}"/>
+    														</div>
+    														<div class="col-md-3">
+    															<label>Treatment Provided</label>
+    															<obs conceptId="99692" id="result2_{n}"/>
+    														</div>
+    														<div class="col-md-1">
+    															<br/>
                                                                 <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
                                                                 <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
                                                             </div>
+    													</span>
+    												</obsgroup>
+    											</template>
+    											<render n="1"/>
+                                                <render n="2"/>
+                                                <render n="3"/>
+                                                <render n="4"/>
+    										</repeat>
+    									</div>
+
+                                        <div class="card">
+                                        <div class="card-header">Nutrition Assessment</div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>Weight (kg)</label>
+                                                    <obs conceptId="CIEL:5089" id="weight"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>Height (cm)</label>
+                                                    <obs conceptId="CIEL:5090" id="height"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <!-- only show BMI if patient is more than 5 years old (on the encounterDate) -->
+                                                    <includeIf
+                                                            velocityTest="$patient.getAge($encounter.getEncounterDatetime()) > 5">
+                                                        <label>BMI (Calculated)</label>
+                                                        <span id="calculated-bmi-wrapper">
+                                                            <ifMode mode="VIEW" include="false">
+                                                                <span id='calculated-bmi'></span>
+                                                            </ifMode>
+                                                        </span>
+                                                        <p id="calculated-bmi-continue">
+                                                            <input type="hidden" name="focus-in-bmi-question"
+                                                                   id="hidden-calculated-bmi"/>
+                                                        </p>
+
+                                                    </includeIf>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>MUAC (Cm)</label>
+                                                    <obs conceptId="CIEL:1343" id="muac-score" />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span class="muac">
+                                                        <includeIf velocityTest="$patient.age &lt; 5">
+                                                            <label>MUAC Code</label>
+                                                            <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 11.5cm, Yellow 11.5cm - &lt;12.5cm,Green &gt;= 12.5cm" />
+                                                        </includeIf>
+                                                        <includeIf velocityTest="$patient.age &lt; 10 &amp;&amp; $patient.age &gt;=5">
+                                                            <label>MUAC Code</label>
+                                                            <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 13.5cm,Yellow 13.5cm - &lt;14.5cm,Green &gt;=14.5cm" />
+                                                        </includeIf>
+                                                        <includeIf velocityTest="$patient.age &lt; 18 &amp;&amp; $patient.age &gt;=10">
+                                                            <label>MUAC Code</label>
+                                                            <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 16.5cm, Yellow 16.5cm - &lt;19.0cm,Green &gt;=19.0cm" />
+                                                        </includeIf>
+                                                        <includeIf velocityTest="$patient.age &gt;=18">
+                                                            <label>MUAC Code</label>
+                                                            <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt;19.0cm , Yellow 19.0cm - &lt;22.0cm,Green &gt;=22.0cm" />
+                                                        </includeIf>
                                                     </span>
-                                                </obsgroup>
-                                            </template>
-                                            <render n="1"/>
-                                            <render n="2"/>
-                                            <render n="3"/>
-                                            <render n="4"/>
-                                            <render n="5"/>
-                                        </repeat>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header">
-                                        Previous 2nd Line Drugs
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label>Use of 2nd Line Drug More Than Once Previously</label> 
-                                                <obs conceptId="166071"/>
+                                                </div>
+                                                <excludeIf velocityTest="$patient.age &gt; 11">
+                                                    <div class="col-md-4">
+                                                        <label>Z-Scores</label>
+                                                        <obs conceptId="99800" answerConceptIds="99803,99804,99805,99806,99807" 
+                                                             answerLabels="&#60;-3,-3_&#60;-1,-1_1,&#62;1_3,&#62;3" />
+                                                    </div>
+                                                </excludeIf>
                                             </div>
-                                            <div class="col-md-2">
-                                                <label>DR TB No.</label>
-                                                <obs conceptId="165843" />
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Inpatient at tx Initiation</label>
-                                                <obs conceptId="166072" answerConceptIds="1065,1066" answerLabels="Yes, No"/> 
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Date of Admission</label>
-                                                <obs conceptId="166073" />
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>Nutrition Status</label>
+                                                    <obs conceptId="165050" class="long-value-select"
+                                                         answerConceptIds="1115, 99271, 99272, 99273, 5277"
+                                                         answerLabels="N - Normal, MAM - Moderate Acute Malnutrition, SAM - Severe Acute Malnutrition,
+                                                     SAMO - Severe Acute Malnutrition with Oedema, O - Overweight/Obese"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>Nutrition Support</label>
+                                                    <obs conceptId="99054" class="long-value-select"
+                                                         answerConceptIds="99053,99050,99051,99052"
+                                                         answerLabels="TF - Therapeutic Feeding (F75 F100 RUTF), SF - Supplementary Feeding,
+                                                     IYCF - Infant and Young Child Feeding Counselling ( &lt; 2yrs), NC - Nutrition Counselling only (if &gt; 2yrs)"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>INR No.</label>
+                                                    <obs conceptId="99733"/>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header">
-                                        HIV Information
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label>Hiv Testing Done in the last 3 months</label>
-                                                <obs conceptId="99465" answerConceptIds="1065,1066" answerLabels="Yes, No"/>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>Date of Test</label>
-                                                <obs conceptId="164400" id="hiv-test-date"/>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>Results</label>
-                                                <obs conceptId="99628" answerConceptIds="703, 664"
-                                                     answerLabels="Positive, Negative" />
-                                            </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Previous TB Treatment
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-4"> 
-                                                <label>Started on ART</label>
-                                                <obs conceptId="99415" answerConceptIds="1066" 
-                                                     answerLabels="No"/> <!-- add concept for yes -->
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>ART Start Date</label>
-                                                <obs conceptId="99161" id="99161" />
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>ART Regimen</label> <!-- use art regimens on clinical assessment -->
-                                                <obs conceptId="99061" answerConceptIds="1066" answerLabels="No"
-                                                    id="99061" />
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label>Started on CPT</label>
-                                                <obs conceptId="166070" answerConceptIds="1065,1066" 
-                                                     answerLabels="Yes, No" />
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>Start Date</label>
-                                                <obs conceptId="165881" />
-                                            </div>
+                                        <div class="card-body">
+                                            <repeat>
+                                                <template>
+                                                    <obsgroup groupingConceptId="99062">
+                                                        <span class="row add-remove-section">
+                                                                <div class="col-md-2">
+                                                                    <label>TB Reg No</label>
+                                                                    <obs conceptId="165826" id="165826_{n}"/>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <label>Facility</label> 
+                                                                    <obs conceptId="166061" id="165855_{n}"/>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <label>Start Date</label>
+                                                                    <obs conceptId="1113" id="90211_{n}"/>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <label>Regimen</label>
+                                                                    <obs conceptId="99374" id="165853_{n}"/>
+                                                                </div>                                                        
+                                                                <div class="col-md-3">
+                                                                    <label>Outcome</label>
+                                                                    <obs conceptId="99423" id="99423_{n}"/>
+                                                                </div>
+                                                                <div class="col-md-1">
+                                                                    <br/>
+                                                                    <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                                    <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
+                                                                </div>
+                                                        </span>
+                                                    </obsgroup>
+                                                </template>
+                                                <render n="1"/>
+                                                <render n="2"/>
+                                                <render n="3"/>
+                                                <render n="4"/>
+                                                <render n="5"/>
+                                            </repeat>
                                         </div>
                                     </div>
-                                </div>
-								</div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Previous 2nd Line Drugs
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>Use of 2nd Line Drug More Than Once Previously</label> 
+                                                    <obs conceptId="166071" class="horizontal" style="radio"/>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label>DR TB No.</label>
+                                                    <obs conceptId="165843" />
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Inpatient at tx Initiation</label>
+                                                    <obs conceptId="166072" answerConceptIds="1065,1066" answerLabels="Yes, No" class="horizontal" style="radio"/> 
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Date of Admission</label>
+                                                    <obs conceptId="166073" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            HIV Information
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>Hiv Testing Done in the last 3 months</label>
+                                                    <obs conceptId="99465" answerConceptIds="1065,1066" answerLabels="Yes, No"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>Date of Test</label>
+                                                    <obs conceptId="164400" id="hiv-test-date"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>Results</label>
+                                                    <obs conceptId="99628" answerConceptIds="703, 664"
+                                                         answerLabels="Positive, Negative" class="horizontal" style="radio"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4"> 
+                                                    <label>Started on ART</label>
+                                                    <obs conceptId="99415" answerConceptIds="1065, 1066" 
+                                                         answerLabels="Yes, No" class="horizontal" style="radio"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>ART Start Date</label>
+                                                    <obs conceptId="99161" id="99161" />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>ART Regimen</label>
+                                                    <obs id="art-regimen" conceptId="90315"                                                              answerConceptIds="99015,99016,99005,99006,164979,99039,99040,164977,99041,99042,99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99884,99885,164978,99888,163017,99887,165797,165796,165795,165808,165807,165806,165805,165804,165803,165802,
+                                                             165801,165800,165799,165798,90002"
+                                                             answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-3TC-DTG,TDF-FTC-NVP,TDF-FTC-EFV,ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,ZDV-ddI(250)-LPV/r,ZDV-ddI(400)-LPV/r,AZT-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,ZDV-ddI-LPV/r,AZT-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,ABC-3TC-NVP,ABC-3TC-EFV,ABC-3TC-DTG,ABC-3TC-ATV/r,ABC-3TC-LPV/r,TDF-3TC-ATV/r,AZT/3TC/RAL,ABC/3TC/AZT,TDF/3TC/AZT,DRV/RTV/RAL/ABC/3TC,DRV/RTV/ETV/ABC/3TC,DRV/RTV/RAL/TDF/3TC,DRV/RTV/RAL/AZT/3TC,DRV/RTV/RAL,DRV/RTV/ETV/TDF/3TC,DRV/RTV/ETV/AZT/3TC,DRV/RTV/ETV,DRV/RTV/DTG/TDF/3TC,DRV/RTV/DTG/AZT/3TC,DRV/RTV/DTG,Other"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>Started on CPT</label>
+                                                    <obs conceptId="166070" answerConceptIds="1065,1066" 
+                                                         answerLabels="Yes, No" />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>CPT Start Date</label>
+                                                    <obs conceptId="165881" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+    								</div>
+                                </obsgroup>
 							</div>
 						</div>
 					</div>
@@ -499,5 +641,4 @@
 			</div>
 		</div>
 	</div>
-    
 </htmlform>
