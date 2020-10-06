@@ -1,16 +1,16 @@
 <htmlform 
-	formName="HMIS TB 003: TB Client Card Summary Page" 
+	formName="DS TB: HMIS TB 003 - TB Client Card Summary Page" 
 	formDescription="This is a summary of the TB Treatment program" 
 	formEncounterType="334bf97e-28e2-4a27-8727-a5ce31c7cd66" 
 	formUuid="b00452b6-bb7c-11ea-b3de-0242ac130004" 
 	formVersion="3.0.0" 
 	formAddMetadata="yes" 
 	formUILocation="patientDashboard.visitActions" 
-	formOrder="8" 
+	formOrder="2" 
 	formIcon="icon-medkit" 
 	formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp;sessionLocation.uuid=='8ab22b55-9a17-4121-bf08-6134a9a2439f'" 
 	formDisplayStyle="Standard" 
-	formLabel="HMIS-TB-003-TB CLIENT CARD - SUMMARY PAGE" >
+	formLabel="DS TB: HMIS TB 003 - TB CLIENT CARD SUMMARY PAGE" >
 
 	<script type="text/javascript">
 		if (jQuery) {
@@ -733,7 +733,7 @@
 	<div>
 		<div class="row">
 			<div class="col-md-8">
-				<H1>HMIS TB 003: TB Client Card - Summary Page</H1>
+				<H1>DS TB: HMIS TB 003 TB Client Card - Summary Page</H1>
 			</div>
 			<div class="col-md-3"></div>
 			<div>
