@@ -620,8 +620,6 @@
                     }
                 });
 
-
-
                 //enable start date and district number if client is on TbRx
                 jq("#tb-status").change(function () {
                     if (jq(this).find("select").find(":selected").val() == "90071" || jq(this).find("select").find(":selected").val() == "165295" || jq(this).find("select").find(":selected").val() == "165296" || jq(this).find("select").find(":selected").val() == "165297" || jq(this).find("select").find(":selected").val() == "165298" || jq(this).find("select").find(":selected").val() == "165299" || jq(this).find("select").find(":selected").val() == "165300" ) {
@@ -645,11 +643,17 @@
                 //enable tpt treatment if patient is has no signs of TB
                 jq("#tb-status").change(function () {
                     if (jq(this).find("select").find(":selected").val() == "90079") {
-                        jq('.tpt-without-inh').hide();
-                        jq('.tpt-with-inh').show();
+                        jq("#tpt-status").find('select option:nth-child(3)').show();
                     } else {
-                        jq('.tpt-without-inh').show();
-                        jq('.tpt-with-inh').hide();
+                        jq("#tpt-status").find('select option:nth-child(3)').hide();
+                    }
+                });
+
+                jq("#tb-status").each(function () {
+                    if (jq(this).find("select").find(":selected").val() == "90079") {
+                        jq("#tpt-status").find('select option:nth-child(3)').show();
+                    } else {
+                        jq("#tpt-status").find('select option:nth-child(3)').hide();
                     }
                 });
 
@@ -1782,12 +1786,9 @@
                                                 <div class="row">
                                                     <div class="col-md-3">
                                                     <label>TPT Status</label>
-                                                    <obs id="tpt-status" class="tpt-with-inh" conceptId="165288"
-                                                         answerConceptIds="1090,90072,165307,90040,160035"
-                                                         answerLabels="H0-Never Initiated,H1-On INH,H2-Defaulted,H3-Taken off due to side effects,H4-Completed"/>
-                                                    <obs id="tpt-status" class="tpt-without-inh hidden" conceptId="165288"
-                                                         answerConceptIds="1090,90040,160035"
-                                                         answerLabels="H0-Never Initiated,H3-Taken off due to side effects,H4-Completed"/>
+                                                        <obs id="tpt-status" conceptId="165288"
+                                                             answerConceptIds="1090,90072,165307,90040,160035"
+                                                             answerLabels="H0-Never Initiated,H1-On INH,H2-Defaulted,H3-Taken off due to side effects,H4-Completed"/>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label>TPT Date Initiated</label>
@@ -2940,12 +2941,9 @@
                                                                 <label>TPT Status</label>
                                                             </div>
                                                             <div class="col-md-7">
-                                                                <obs id="tpt-status" class="tpt-with-inh" conceptId="165288"
+                                                                <obs id="tpt-status" conceptId="165288"
                                                                      answerConceptIds="1090,90072,165307,90040,160035"
                                                                      answerLabels="H0-Never Initiated,H1-On INH,H2-Defaulted,H3-Taken off due to side effects,H4-Completed"/>
-                                                                <obs id="tpt-status" class="tpt-without-inh hidden" conceptId="165288"
-                                                                     answerConceptIds="1090,90040,160035"
-                                                                     answerLabels="H0-Never Initiated,H3-Taken off due to side effects,H4-Completed"/>
                                                             </div>
                                                         </div>
                                                         <div class="row">
