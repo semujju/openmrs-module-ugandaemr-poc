@@ -1,16 +1,16 @@
 <htmlform 
-    formName="HMIS TB 003: TB Client Card Encounter Page" 
+    formName="DS TB: HMIS TB 003 - TB Client Card Encounter Page" 
     formDescription="TB Encounter" 
     formEncounterType="455bad1f-5e97-4ee9-9558-ff1df8808732" 
     formUuid="0248cd00-bc53-11ea-b3de-0242ac130004" 
     formVersion="3.0.0" 
     formAddMetadata="yes" 
     formUILocation="patientDashboard.visitActions" 
-    formOrder="9" 
+    formOrder="2" 
     formIcon="icon-medkit" 
     formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; sessionLocation.uuid=='8ab22b55-9a17-4121-bf08-6134a9a2439f'" 
     formDisplayStyle="Standard" 
-    formLabel="HMIS-TB-003-TB CLIENT CARD - ENCOUNTER PAGE"> 
+    formLabel="DS TB: HMIS TB 003 - TB CLIENT CARD ENCOUNTER PAGE"> 
 
 	<script type="text/javascript">
 		if (jQuery) {
@@ -20,7 +20,7 @@
                 var visitDate        = '<lookup expression="visit.startDatetime"/>';
                 var patientUUID      = '<lookup complexExpression="$patient.uuid"/>';
                 var serverResponse   = [];
-                var messageNotInTbProgram="This Patient is not in an active TB Program. Enroll them by creating a DS TB Treatment Encounter. You will be redirected to the patient Dashboard";
+                var messageNotInTbProgram="This Patient is not in an active TB Program. Enroll them by creating a DS TB Treatment Program. You will be redirected to the patient Dashboard";
                 var messageWrongTBInfection="This Patient an active Drug Resistant TB Case. You can only enter DR TB Encounters. You will be redirected to the patient Dashboard";
                 var tbInfectionTypeUUID="aa7135e4-92f6-453e-bfea-923e08ec7052";
 
@@ -505,7 +505,7 @@
 	<div>
 		<div class="row">
 			<div class="col-md-8">
-				<H1>HMIS TB 003: TB Client Card - Encounter Page</H1>
+				<H1>DS TB: HMIS TB 003 TB Client Card - Encounter Page</H1>
 			</div>
 			<div class="col-md-3"></div>
 			<div>
@@ -531,9 +531,9 @@
 							<li class="nav-item">
 								<a class="nav-link" data-toggle="tab" href="#lab-xray-investigation-section">Lab and X-ray Investigations</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link" data-toggle="tab" href="#outcome-appointment-section">Outcome and Appointment</a>
-							</li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#iec-referal-transfers-and-outcomes-section">IEC, Referral, Transfers, Outcome and Appointment</a>
+                            </li>
 						</ul>
 					</div>
 					<div class="card-body">
@@ -848,31 +848,118 @@
                                     </div>
                                 </div>
 							</div>
-							<div class="tab-pane" id="outcome-appointment-section">
-								<div class="card">
-									<div class="card-header">
-	                                	Appointment
-	                             	</div>
-									<div class="card-body">
-										<div class="row">
-											<div class="col-md-4">   
-												<label>Next Date of Appointment</label>
-												<obs id="5096" conceptId="5096" allowFutureDates="true"/>
-											</div>
-										</div>
+                            <div class="tab-pane" id="iec-referal-transfers-and-outcomes-section">
+                                <div class="card">
+                                    <div class="card-header">
+                                        IEC
+                                    </div>
+                                    <div class="card-body">
+                                        <repeat>
+                                            <template>
+                                                <obsgroup groupingConceptId="99062">
+                                                    <span class="row add-remove-section">
+                                                        <div class="col-md-1">
+                                                            <label>Date</label>
+                                                        </div>
+                                                        <obs conceptId="165858" allowTime="false" class="col-md-2"/>
+                                                        <div class="col-md-8">
+                                                            <div class="row">
+                                                            <obs conceptId="165864" answerConceptId="165859" answerLabel="TB/HIV relationship" style="checkbox"     class="col-md-3" />
+                                                            <obs conceptId="165864" answerConceptId="165862" answerLabel="TB transmission" style="checkbox" 
+                                                                 class="col-md-3" /> 
+                                                            <obs conceptId="165864" answerConceptId="165860" answerLabel="TB Prevention" style="checkbox" 
+                                                                 class="col-md-3" />
+                                                            <obs conceptId="165864" answerConceptId="6077" answerLabel="Treatment and Adherence" style="checkbox" class="col-md-3" />
+                                                            <obs conceptId="165864" answerConceptId="165863" answerLabel="Importance of DOTS" style="checkbox"     class="col-md-3" />
+                                                            <obs conceptId="165864" answerConceptId="165861" answerLabel="Pre-treatment counselling" 
+                                                                 style="checkbox" class="col-md-3"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <br/>
+                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
+                                                        </div>
+                                                    </span>
+                                                </obsgroup>
+                                            </template>
+                                            <render n="1"/>
+                                            <render n="2"/>
+                                            <render n="3"/>
+                                            <render n="4"/>
+                                            <render n="5"/>
+                                        </repeat>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        Referral and Transfer
+                                    </div>
+                                    <div class="card-body">
+                                        <repeat>
+                                            <template>
+                                                <obsgroup groupingConceptId="99062">
+                                                    <span class="row add-remove-section">
+                                                            <div class="col-md-2">
+                                                                <label>Date</label>
+                                                                <obs conceptId="165854" allowTime="false" id="165854_{n}"/>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label>Referral Type</label>
+                                                                <obs conceptId="165855" answerConceptIds="99764,99110,160036" answerLabels="Referred In, Transferred In, Transferred Out" id="165855_{n}"/>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label>Health Facility</label>
+                                                                <obs conceptId="90211" id="90211_{n}"/>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label>District</label>
+                                                                <obs conceptId="165853" id="165853_{n}"/>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label>Phone no. of recieving Health Unit</label>
+                                                                <obs conceptId="159635" id="159635_{n}"/>
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                                <br/>
+                                                                <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                                <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
+                                                            </div>
+                                                    </span>
+                                                </obsgroup>
+                                            </template>
+                                            <render n="1"/>
+                                            <render n="2"/>
+                                            <render n="3"/>
+                                            <render n="4"/>
+                                            <render n="5"/>
+                                        </repeat>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        Appointment
+                                    </div>
+                                    <div class="card-body">
                                         <div class="row">
-    										<div class="col-md-10">
-    											<label>Comments</label>
-    											<obs conceptId="165873" class="commenttextarea" style="textarea"/>
-    										</div>
+                                            <div class="col-md-4">   
+                                                <label>Next Date of Appointment</label>
+                                                <obs id="5096" conceptId="5096" allowFutureDates="true"/>
+                                            </div>
                                         </div>
-									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-	                                	Treatment Outcome
-	                             	</div>
-									<div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <label>Comments</label>
+                                                <obs conceptId="165873" class="commenttextarea" style="textarea"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        Treatment Outcome
+                                    </div>
+                                    <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <label>Outcome</label>
@@ -884,30 +971,30 @@
                                                 <obs conceptId="165872" allowTime="false" id="165872" allowFutureDates="false"/>
                                             </div>
                                         </div>
-									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-	                                	Transfer Out
-	                             	</div>
-									<div class="card-body">
-										<div class="row">
-											<div class="col-md-4">
-												<label>Health Facility</label>
-												<obs conceptId="90211" id="90211"/>
-											</div>
-											<div class="col-md-4">
-												<label>District</label>
-												<obs conceptId="165853" id="165853"/>
-											</div>
-											<div class="col-md-4">
-												<label>Phone Contact of receiving Health Unit</label>
-												<obs conceptId="159635" id="159635"/>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        Transfer Out
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Health Facility</label>
+                                                <obs conceptId="90211" id="90211"/>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>District</label>
+                                                <obs conceptId="165853" id="165853"/>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Phone Contact of receiving Health Unit</label>
+                                                <obs conceptId="159635" id="159635"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 						</div>
 					</div>
 				</div>
