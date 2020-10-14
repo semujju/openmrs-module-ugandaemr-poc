@@ -6,7 +6,7 @@
 	formVersion="3.0.0" 
 	formAddMetadata="yes" 
 	formUILocation="patientDashboard.visitActions" 
-	formOrder="2" 
+	formOrder="3" 
 	formIcon="icon-medkit" 
 	formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp;sessionLocation.uuid=='8ab22b55-9a17-4121-bf08-6134a9a2439f'" 
 	formDisplayStyle="Standard" 
@@ -1043,6 +1043,51 @@
 										</repeat>
 									</div>
 								</div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        Referral and Transfer
+                                    </div>
+                                    <div class="card-body">
+                                        <repeat>
+                                            <template>
+                                                <obsgroup groupingConceptId="99062">
+                                                    <span class="row add-remove-section">
+                                                            <div class="col-md-2">
+                                                                <label>Date</label>
+                                                                <obs conceptId="165854" allowTime="false" id="165854_{n}"/>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label>Referral Type</label>
+                                                                <obs conceptId="165855" answerConceptIds="99764,99110,160036" answerLabels="Referred In, Transferred In, Transferred Out" id="165855_{n}"/>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label>Health Facility</label>
+                                                                <obs conceptId="90211" id="90211_{n}"/>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label>District</label>
+                                                                <obs conceptId="165853" id="165853_{n}"/>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label>Phone no. of recieving Health Unit</label>
+                                                                <obs conceptId="159635" id="159635_{n}"/>
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                                <br/>
+                                                                <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                                <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
+                                                            </div>
+                                                    </span>
+                                                </obsgroup>
+                                            </template>
+                                            <render n="1"/>
+                                            <render n="2"/>
+                                            <render n="3"/>
+                                            <render n="4"/>
+                                            <render n="5"/>
+                                        </repeat>
+                                    </div>
+                                </div>
 							</div>
 						</div>
 					</div>

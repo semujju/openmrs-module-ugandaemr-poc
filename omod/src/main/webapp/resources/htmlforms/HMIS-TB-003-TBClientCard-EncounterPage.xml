@@ -260,9 +260,9 @@
                     disable_fields("165845_3");
                     disable_fields("165845_4");
                     disable_fields("165845_5");
-
-                    disable_fields("99423");    //treatment outcome
                     disable_fields("165872");   //outcome date
+
+                    disable_fields("165854"); //health facility name
 
                 </ifMode>
 
@@ -318,7 +318,7 @@
 
                 //enable test and lab number if text date is provided
                 jq('#164431_1').change(function () {
-                    if (getValue('164431_1.value') !== " ") {
+                    if(jq(this).find("input[type$='text']").val()!= "") {
                         enable_fields("165844_1");
                         enable_fields("165845_1");
                     } else {
@@ -328,7 +328,7 @@
                 });
 
                 jq('#164431_2').change(function () {
-                    if (getValue('164431_2.value') !== " ") {
+                    if(jq(this).find("input[type$='text']").val()!= "") {
                         enable_fields("165844_2");
                         enable_fields("165845_2");
                     } else {
@@ -338,7 +338,7 @@
                 });
 
                 jq('#164431_3').change(function () {
-                    if (getValue('164431_3.value') !== " ") {
+                    if(jq(this).find("input[type$='text']").val()!= "") {
                         enable_fields("165844_3");
                         enable_fields("165845_3");
                     } else {
@@ -348,7 +348,7 @@
                 });
 
                 jq('#164431_4').change(function () {
-                    if (getValue('164431_4.value') !== " ") {
+                    if(jq(this).find("input[type$='text']").val()!= "") {
                         enable_fields("165844_4");
                         enable_fields("165845_4");
                     } else {
@@ -358,7 +358,7 @@
                 });
 
                 jq('#164431_5').change(function () {
-                    if (getValue('164431_5.value') !== " ") {
+                    if(jq(this).find("input[type$='text']").val()!= "") {
                         enable_fields("165844_5");
                         enable_fields("165845_5");
                     } else {
@@ -428,30 +428,30 @@
                     }
                 });
 
-                //disable treatment outcome if next appointment date is provided
-                jq("#5096").change(function () {
-                    if (jq(this).find("input").val() !== " ") {
-                        enable_fields("99423");
-                    } else {
-                        disable_fields("99423");
-                    }
-                });
-
                 //enable outcome date if outcome is provided
                 jq("#99423").change(function () {
-                    if(jq(this).find("select").find(":selected").val() !== "") {
+                    if(jq(this).find("select").find(":selected").val() != "") {
                         enable_fields("165872");
                     } else {
                         disable_fields("165872");
                     }
                 });
 
-                //enable health facility if the outcome is transfered out
+                //enable transfer date if the outcome is transfered out
                 jq("#99423").change(function () {
-                    if(jq(this).find("select").find(":selected").val() == "90306") {
+                    if(jq(this).find("select").find(":selected").val() == "90306") { 
+                        enable_fields("165854");
+                    } else {
+                        disable_fields("165854");
+                    }
+                });
+
+                //enable health facility name if transfer date is provided
+                jq("#165854").change(function () {
+                    if(jq(this).find("input[type$='text']").val()!= "") {
                         enable_fields("90211");
                     } else {
-                        enable_fields("90211");
+                        disable_fields("90211");
                     }
                 });
 
@@ -532,7 +532,7 @@
 								<a class="nav-link" data-toggle="tab" href="#lab-xray-investigation-section">Lab and X-ray Investigations</a>
 							</li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#iec-referal-transfers-and-outcomes-section">IEC, Referral, Transfers, Outcome and Appointment</a>
+                                <a class="nav-link" data-toggle="tab" href="#iec-referal-transfers-and-outcomes-section">IEC,Appointment,Outcome ,Transfers</a>
                             </li>
 						</ul>
 					</div>
@@ -854,86 +854,19 @@
                                         IEC
                                     </div>
                                     <div class="card-body">
-                                        <repeat>
-                                            <template>
-                                                <obsgroup groupingConceptId="99062">
-                                                    <span class="row add-remove-section">
-                                                        <div class="col-md-1">
-                                                            <label>Date</label>
-                                                        </div>
-                                                        <obs conceptId="165858" allowTime="false" class="col-md-2"/>
-                                                        <div class="col-md-8">
-                                                            <div class="row">
-                                                            <obs conceptId="165864" answerConceptId="165859" answerLabel="TB/HIV relationship" style="checkbox"     class="col-md-3" />
-                                                            <obs conceptId="165864" answerConceptId="165862" answerLabel="TB transmission" style="checkbox" 
-                                                                 class="col-md-3" /> 
-                                                            <obs conceptId="165864" answerConceptId="165860" answerLabel="TB Prevention" style="checkbox" 
-                                                                 class="col-md-3" />
-                                                            <obs conceptId="165864" answerConceptId="6077" answerLabel="Treatment and Adherence" style="checkbox" class="col-md-3" />
-                                                            <obs conceptId="165864" answerConceptId="165863" answerLabel="Importance of DOTS" style="checkbox"     class="col-md-3" />
-                                                            <obs conceptId="165864" answerConceptId="165861" answerLabel="Pre-treatment counselling" 
-                                                                 style="checkbox" class="col-md-3"/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-1">
-                                                            <br/>
-                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
-                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
-                                                        </div>
-                                                    </span>
-                                                </obsgroup>
-                                            </template>
-                                            <render n="1"/>
-                                            <render n="2"/>
-                                            <render n="3"/>
-                                            <render n="4"/>
-                                            <render n="5"/>
-                                        </repeat>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header">
-                                        Referral and Transfer
-                                    </div>
-                                    <div class="card-body">
-                                        <repeat>
-                                            <template>
-                                                <obsgroup groupingConceptId="99062">
-                                                    <span class="row add-remove-section">
-                                                            <div class="col-md-2">
-                                                                <label>Date</label>
-                                                                <obs conceptId="165854" allowTime="false" id="165854_{n}"/>
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <label>Referral Type</label>
-                                                                <obs conceptId="165855" answerConceptIds="99764,99110,160036" answerLabels="Referred In, Transferred In, Transferred Out" id="165855_{n}"/>
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <label>Health Facility</label>
-                                                                <obs conceptId="90211" id="90211_{n}"/>
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <label>District</label>
-                                                                <obs conceptId="165853" id="165853_{n}"/>
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <label>Phone no. of recieving Health Unit</label>
-                                                                <obs conceptId="159635" id="159635_{n}"/>
-                                                            </div>
-                                                            <div class="col-md-1">
-                                                                <br/>
-                                                                <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
-                                                                <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
-                                                            </div>
-                                                    </span>
-                                                </obsgroup>
-                                            </template>
-                                            <render n="1"/>
-                                            <render n="2"/>
-                                            <render n="3"/>
-                                            <render n="4"/>
-                                            <render n="5"/>
-                                        </repeat>
+                                        <div class="row">
+                                            <obs conceptId="165864" answerConceptId="165859" answerLabel="TB/HIV relationship" style="checkbox"     class="col-md-4" />
+                                            <obs conceptId="165864" answerConceptId="165862" answerLabel="TB transmission" style="checkbox" 
+                                                 class="col-md-4" /> 
+                                            <obs conceptId="165864" answerConceptId="165860" answerLabel="TB Prevention" style="checkbox" 
+                                                 class="col-md-4" />
+                                        </div>
+                                        <div class="row">
+                                            <obs conceptId="165864" answerConceptId="6077" answerLabel="Treatment and Adherence" style="checkbox" class="col-md-4" />
+                                            <obs conceptId="165864" answerConceptId="165863" answerLabel="Importance of DOTS" style="checkbox"     class="col-md-4" />
+                                            <obs conceptId="165864" answerConceptId="165861" answerLabel="Pre-treatment counselling" 
+                                                 style="checkbox" class="col-md-4"/>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="card">
@@ -979,16 +912,20 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
+                                                <label>Date</label>
+                                                <obs conceptId="165854" allowTime="false" id="165854"/>
+                                            </div>
+                                            <div class="col-md-3">
                                                 <label>Health Facility</label>
                                                 <obs conceptId="90211" id="90211"/>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label>District</label>
                                                 <obs conceptId="165853" id="165853"/>
                                             </div>
-                                            <div class="col-md-4">
-                                                <label>Phone Contact of receiving Health Unit</label>
+                                            <div class="col-md-3">
+                                                <label>Phone No. of receiving Health Unit</label>
                                                 <obs conceptId="159635" id="159635"/>
                                             </div>
                                         </div>
