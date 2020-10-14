@@ -441,6 +441,7 @@
         }
     </script>
 
+    <encounterLocation id="location_id" default="SessionAttribute:emrContext.sessionLocationId" class="hidden"/>
 	<div>
 		<div class="row">
 			<div class="col-md-8">
@@ -881,7 +882,10 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Provider</label>
-                                                <encounterProvider role="Provider" style="autocomplete" id="provider"/>
+                                                <encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" 
+                                                                          providerRoles="8d94f280-c2cc-11de-8d13-0010c6dffd0f" 
+                                                                          required="required" 
+                                                                          default="currentUser"/>
                                             </div>
                                         </div>
                                     </div>

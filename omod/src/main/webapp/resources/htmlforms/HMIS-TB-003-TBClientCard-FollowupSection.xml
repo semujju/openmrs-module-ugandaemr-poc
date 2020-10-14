@@ -1,5 +1,5 @@
 <htmlform 
-    formName="DS TB: HMIS TB 003 - TB Client Card Encounter Page" 
+    formName="DS TB: HMIS TB 003 - TB Client Card Followup Section" 
     formDescription="TB Encounter" 
     formEncounterType="455bad1f-5e97-4ee9-9558-ff1df8808732" 
     formUuid="0248cd00-bc53-11ea-b3de-0242ac130004" 
@@ -10,7 +10,7 @@
     formIcon="icon-medkit" 
     formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; sessionLocation.uuid=='8ab22b55-9a17-4121-bf08-6134a9a2439f'" 
     formDisplayStyle="Standard" 
-    formLabel="DS TB: HMIS TB 003 - TB CLIENT CARD ENCOUNTER PAGE"> 
+    formLabel="DS TB: HMIS TB 003 - TB CLIENT CARD FoLLOWUP SECTION"> 
 
 	<script type="text/javascript">
 		if (jQuery) {
@@ -502,10 +502,11 @@
 		}
 	</script>
 
+    <encounterLocation id="location_id" default="SessionAttribute:emrContext.sessionLocationId" class="hidden"/>
 	<div>
 		<div class="row">
 			<div class="col-md-8">
-				<H1>DS TB: HMIS TB 003 TB Client Card - Encounter Page</H1>
+				<H1>DS TB: HMIS TB 003 TB Client Card - Followup Section</H1>
 			</div>
 			<div class="col-md-3"></div>
 			<div>
@@ -518,7 +519,7 @@
 			<div class="col-md-12">
 				<div class="card">
 					<div class="card-header">
-						<ul class="nav nav-tabs card-header-tabs">
+						<ul class="nav nav-tabs nav-fill card-header-tabs">
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#treatmeant-phase-section">Treatment Phase</a>
                             </li>
@@ -543,14 +544,19 @@
                                     <div class="card-header">Treatment Phase</div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-6 html-form-entry-disabled-field">
+                                            <div class="col-md-4 html-form-entry-disabled-field">
                                                 <label>Encounter Date</label>
                                                 <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <workflowState workflowId="1" labelText="TB Treatment Phase" stateIds="1,2,3" 
                                                                stateLabels="Initial Phase,Continuation Phase, Retreatment Phase" 
                                                                style="radio" />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Provider</label>
+                                                <encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" 
+                                                                          required="required" default="currentUser"/>
                                             </div>
                                         </div>
                                     </div>
