@@ -795,7 +795,7 @@
                                     <div class="card-body">
                                         <repeat>
                                             <template>
-                                                <obsgroup groupingConceptId="99062">
+                                                <obsgroup groupingConceptId="165305">
                                                     <span class="row add-remove-section">
                                                         <div class="col-md-3">
                                                             <label>Drug</label>
@@ -804,11 +804,11 @@
                                                         </div>
                                                         <div class="col-md-3">
                                                             <label>Strength</label>
-                                                            <obs conceptId="1444_{n}" />
+                                                            <obs conceptId="1444" id="1444_{n}" />
                                                         </div>
                                                         <div class="col-md-2">
                                                             <label>No. Pills</label>
-                                                            <obs conceptId="160856" id="160856_{n}"/>
+                                                            <obs conceptId="160856" id="160856_{n}" />
                                                         </div>
                                                         <div class="col-md-2" >
                                                             <label>No. Days</label>
