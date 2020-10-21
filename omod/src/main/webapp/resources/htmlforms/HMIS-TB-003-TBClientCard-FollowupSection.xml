@@ -838,7 +838,7 @@
                                     <div class="card-body">
                                         <repeat>
                                             <template>
-                                                <obsgroup groupingConceptId="99062">
+                                                <obsgroup groupingConceptId="99292">
                                                     <span class="row add-remove-section">
                                                         <div class="col-md-3">
                                                             <label>Date Sample Taken</label>
