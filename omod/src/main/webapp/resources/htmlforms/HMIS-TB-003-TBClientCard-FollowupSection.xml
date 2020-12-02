@@ -725,8 +725,7 @@
                                                             <obs id="drug_{n}" conceptId="1282" 
                                                                  answerConceptIds="767,745,438,165730,1108,768,99127,1131,99128" 
                                                                  answerLabels="R - RIFAMPICIN, E - ETHAMBUTOL, S - STREPTOMYCIN,
-                                                                 RH - RIFAMPICIN AND ISONIAZID 
-                                                                 EH - ETHAMBUTOL AND ISONIZAID, RHZ - RIFAMPICIN ISONIAZID AND PYRAZINAMIDE,
+                                                                 RH - RIFAMPICIN AND ISONIAZID,                                                  EH - ETHAMBUTOL AND ISONIZAID, RHZ - RIFAMPICIN ISONIAZID AND PYRAZINAMIDE,
                                                                  RHE - RIFAMPICIN ISONIAZID AND ETHAMBUTOL, RHZE - RIFAMPICIN ISONIAZID PYRAZINAMIDE AND ETHAMBUTOL, RHZES - RIFAMPICIN ISONIAZID PYRAZINAMIDE ETHAMBUTOL AND STREPTOMYCIN" answerClasses="Drug" class="long-value-select"/>
                                                         </div>
                                                         <div class="col-md-2">
